@@ -1,0 +1,3 @@
+<?php
+
+$pathStudent = "public/student";
