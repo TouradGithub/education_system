@@ -37,14 +37,12 @@
                     @endforeach
                 </div>
             </li>
+            
 
             <li class="nav-item nav-profile dropdown">
                 <a class="nav-link dropdown-toggle" id="profileDropdown" href="#" data-toggle="dropdown" aria-expanded="true">
                     <div class="nav-profile-img">
-                        <img src="
-                        {{-- {{asset('storage/')}} --}}
-                        {{-- {{ Auth::user()->image }} --}}
-                        " alt="image" onerror="onErrorImage(event)">
+                        <img src="{{url(Auth::user()->image)}}" alt="image" onerror="onErrorImage(event)">
                     </div>
                     <div class="nav-profile-text">
                         <p class="mb-1 text-black">
@@ -53,23 +51,18 @@
                     </div>
                 </a>
                 <div class="dropdown-menu navbar-dropdown" aria-labelledby="profileDropdown">
-                    @can('update-admin-profile')
+                    {{-- @can('update-admin-profile') --}}
                     <a class="dropdown-item" href="
-                    {{-- {{ route('edit-profile') }} --}}
+                    {{ route('web.edit-profile') }}
                     ">
-                        <i class="fa fa-user mr-2"></i>{{ __('update_profile') }}</a>
+                        <i class="fa fa-user mr-2"></i>{{ __('genirale.update_profile') }}</a>
                     <div class="dropdown-divider"></div>
-                    @endcan
-                    <a class="dropdown-item" href="
-                    {{-- {{ route('resetpassword') }} --}}
-                    ">
-                        <i class="fa fa-refresh mr-2 text-success"></i>{{ __('change_password') }}</a>
+                    {{-- @endcan --}}
+                    <a class="dropdown-item" href="{{ route('web.resetpassword') }}">
+                        <i class="fa fa-refresh mr-2 text-success"></i>{{ __('genirale.change_password') }}</a>
                     <div class="dropdown-divider"></div>
-                    <a
-                        class="dropdown-item"
-                        href="{{ route('web.logout') }}"
-                    >
-                        <i class="fa fa-sign-out mr-2 text-primary"></i> {{ __('signout') }}
+                    <a class="dropdown-item" href="{{ route('web.logout') }}">
+                        <i class="fa fa-sign-out mr-2 text-primary"></i> {{ __('genirale.signout') }}
                     </a>
                 </div>
             </li>

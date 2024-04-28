@@ -32,6 +32,11 @@
 
                     <div style="border-radius: 15px;" class="col-lg-8 col-md-8 bg-white">
                         <div class="login-fancy pb-40 clearfix">
+                            @if(session('success'))
+                                <div class="alert alert-danger">
+                                    {{ session('success') }}
+                                </div>
+                            @endif
                             <h3 style="font-family: 'Cairo', sans-serif" class="mb-30">Select connection mode</h3>
                             <div class="form-inline">
 

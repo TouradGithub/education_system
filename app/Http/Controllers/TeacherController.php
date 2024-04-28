@@ -236,8 +236,8 @@ class TeacherController extends Controller
         try {
             $teacher=Teacher::find($request->id);
             if ($request->hasFile('image')) {
-                if (Storage::disk('teachers')->exists($request->image)) {
-                    Storage::disk('teachers')->delete($teacher->image);
+                if (Storage::exists($request->image)) {
+                    Storage::delete($teacher->image);
                 }
                 $image = $request->file('image');
                 // made file name with combination of current time

@@ -62,7 +62,6 @@
                             </a>
                         </li>
 
-
                         <li class="nav-item">
                             <a class="nav-link" href="{{ route('school.attendance.view') }}">
                                 {{ __('sidebar.view_attendance') }}
@@ -86,7 +85,7 @@
         </li>
 
 
-        <li class="nav-item">
+        <li class="nav-item" >
             <a class="nav-link" data-toggle="collapse" href="#student-menu" aria-expanded="false"
                 aria-controls="settings-menu"> <span class="menu-title">{{ __('sidebar.students') }}</span>
                  <i  class="fa fa-cog menu-icon"></i> </a>
@@ -126,13 +125,6 @@
             </li>
         @endcan
 
-        <li class="nav-item">
-            <a href="
-            {{ route('web.grades.index') }}
-            " class="nav-link"> <span
-                    class="menu-title">{{ __('sidebar.grades') }}</span> <i class="fa fa-calendar-o menu-icon"></i>
-            </a>
-        </li>
 
 
 
@@ -155,18 +147,7 @@
                                         {{ __('sidebar.general_settings') }}</a>
                                 </li>
                             {{-- @endcan --}}
-                            @can('school-create')
-                            <li class="nav-item">
-                                <a class="nav-link" href="{{ url('schools') }}">
-                                    {{ __('sidebar.schools') }}</a>
-                            </li>
-                        @endcan
-                        @can('management-create')
-                            <li class="nav-item">
-                                <a class="nav-link" href="{{ url('managements') }}">
-                                    {{ __('sidebar.acadimic') }}</a>
-                            </li>
-                        @endcan
+
 
                         <li class="nav-item">
                             <a class="nav-link" href="{{ route('school.user.index') }}">

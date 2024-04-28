@@ -2,6 +2,16 @@
 
 return [
 
+    "total_teachers"=>"Total Teachers",
+    "total_students"=> "Total Students",
+    "total_parents"=> "Total Parents",
+    "total_schools"=> "Total Schools",
+    "total_acadimic"=> "Total Acadimic",
+
+    "Boys"=>"Boys",
+    "Girls"=>"Girls",
+    "Youraccounthasbeentemporarilysuspended"=>"Your account has been temporarily suspended",
+
 //days
 "Monday"=>"Monday",
 "Tuesday"=>"Tuesday",

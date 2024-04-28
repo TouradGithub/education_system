@@ -3,6 +3,16 @@
     {{__('sidebar.dashboard')}}
 @endsection
 @section('content')
+@php
+    use App\Models\Student;
+    $student = Student::where('school_id',getSchool()->id,)->count();
+    $teachers =  App\Models\Teacher::where('school_id',getSchool()->id,)->get();
+    $boys_count = Student::where(['school_id'=>getSchool()->id,'gender'=>"male"])->count();
+
+    $girls_count = App\Models\Student::where(['school_id'=>getSchool()->id,'gender'=>"female"])->count();
+    $boys = round((($boys_count * 100) / $student), 2);
+    $girls = round((($girls_count * 100) / $student), 2);
+@endphp
     <div class="content-wrapper">
         <div class="page-header">
             <h3 class="page-title">
@@ -19,12 +29,12 @@
                     <div class="card bg-gradient-danger card-img-holder text-white">
                         <div class="card-body">
                             <img src="{{asset(config('global.CIRCLE_SVG')) }}" class="card-img-absolute" alt="circle-image"/>
-                            <h4 class="font-weight-normal mb-3">{{__('total_teachers')}}<i class="mdi mdi-chart-line mdi-24px float-right"></i>
+                            <h4 class="font-weight-normal mb-3">{{__('genirale.total_teachers')}}<i class="mdi mdi-chart-line mdi-24px float-right"></i>
                             </h4>
                             <h2 class="mb-5"
                             >
                             {{-- {{$teacher}} --}}
-                            34987
+                            {{App\Models\Teacher::where('school_id',getSchool()->id)->count()}}
                         </h2>
                             {{-- <h6 class="card-text">Increased by 60%</h6> --}}
                         </div>
@@ -37,11 +47,10 @@
                     <div class="card bg-gradient-info card-img-holder text-white">
                         <div class="card-body">
                             <img src="{{asset(config('global.CIRCLE_SVG')) }}" class="card-img-absolute" alt="circle-image"/>
-                            <h4 class="font-weight-normal mb-3">{{__('total_students')}}<i class="mdi mdi-bookmark-outline mdi-24px float-right"></i>
+                            <h4 class="font-weight-normal mb-3">{{__('genirale.total_students')}}<i class="mdi mdi-bookmark-outline mdi-24px float-right"></i>
                             </h4>
                             <h2 class="mb-5">
-                                {{-- {{$student}} --}}
-289
+                            {{App\Models\Student::where('school_id',getSchool()->id)->count()}}
                             </h2>
                         </div>
                     </div>
@@ -52,11 +61,12 @@
                     <div class="card bg-gradient-success card-img-holder text-white">
                         <div class="card-body">
                             <img src="{{asset(config('global.CIRCLE_SVG')) }}" class="card-img-absolute" alt="circle-image"/>
-                            <h4 class="font-weight-normal mb-3">{{__('total_parents')}}<i class="mdi mdi-diamond mdi-24px float-right"></i>
+                            <h4 class="font-weight-normal mb-3">{{__('genirale.total_parents')}}<i class="mdi mdi-diamond mdi-24px float-right"></i>
                             </h4>
                             <h2 class="mb-5">
                                 {{-- {{$parent}} --}}
-                                834
+
+                            {{App\Models\MyParent::where('school_id',getSchool()->id)->count()}}
                                 {{-- {{getSchool()}} --}}
                             </h2>
                         </div>
@@ -65,74 +75,41 @@
             {{-- @endif --}}
         </div>
         <div class="row">
-            {{-- @if(isset($teachers) && !empty($teachers)) --}}
+            @if(isset($teachers) && !empty($teachers))
                 <div class="col-md-7 grid-margin stretch-card">
                     <div class="card">
                         <div class="card-body v-scroll">
                             <h4 class="card-title">{{__('teacher.teacher')}}</h4>
-                            {{-- @foreach($teachers as $row) --}}
+                            @foreach($teachers as $row)
                             <div class="wrapper d-flex align-items-center py-2 border-bottom">
-                                <img class="img-sm rounded-circle" src="
-                                {{-- {{$row->user->image}} --}}
-                                " alt="profile" onerror="onErrorImage(event)">
+                                <img class="img-sm rounded-circle" src="{{Storage::url($row->image)}}" alt="profile" onerror="onErrorImage(event)">
                                 <div class="wrapper ml-3">
                                     <h6 class="ml-1 mb-1">
-                                        {{-- {{$row->user->first_name.' '.$row->user->last_name}} --}}
-                                        lkjrkljkl
+                                        {{$row->first_name.' '.$row->last_name}}
                                     </h6>
                                     <small class="text-muted mb-0">
                                         <i class="mdi mdi-map-marker-outline mr-1"></i>
-                                        lkrjkl
-                                        {{-- {{$row->qualification}} --}}
+                                        {{$row->qualification}}
                                     </small>
                                 </div>
+                                @foreach ($row->sectionTeachers as $item)
+
+
+                                <div class="wrapper ml-3">
+                                    <h6 class="ml-1 mb-1">
+                                        {{$item->section->name.' - '.$item->section->classe->name.' - '.$item->subject->name}}
+                                    </h6>
+                                </div>
+                                @endforeach
                                 <div class="badge badge-pill badge-success ml-auto px-1 py-1">
                                     <i class="mdi mdi-check"></i>
                                 </div>
                             </div>
-                            <div class="wrapper d-flex align-items-center py-2 border-bottom">
-                                <img class="img-sm rounded-circle" src="
-                                {{-- {{$row->user->image}} --}}
-                                " alt="profile" onerror="onErrorImage(event)">
-                                <div class="wrapper ml-3">
-                                    <h6 class="ml-1 mb-1">
-                                        {{-- {{$row->user->first_name.' '.$row->user->last_name}} --}}
-                                        lkjrkljkl
-                                    </h6>
-                                    <small class="text-muted mb-0">
-                                        <i class="mdi mdi-map-marker-outline mr-1"></i>
-                                    lkrjkl
-                                        {{-- {{$row->qualification}} --}}
-                                    </small>
-                                </div>
-                                <div class="badge badge-pill badge-success ml-auto px-1 py-1">
-                                    <i class="mdi mdi-check"></i>
-                                </div>
-                            </div>
-                              <div class="wrapper d-flex align-items-center py-2 border-bottom">
-                                    <img class="img-sm rounded-circle" src="
-                                    {{-- {{$row->user->image}} --}}
-                                    " alt="profile" onerror="onErrorImage(event)">
-                                    <div class="wrapper ml-3">
-                                        <h6 class="ml-1 mb-1">
-                                            {{-- {{$row->user->first_name.' '.$row->user->last_name}} --}}
-                                            lkjrkljkl
-                                        </h6>
-                                        <small class="text-muted mb-0">
-                                            <i class="mdi mdi-map-marker-outline mr-1"></i>
-                                        lkrjkl
-                                            {{-- {{$row->qualification}} --}}
-                                        </small>
-                                    </div>
-                                    <div class="badge badge-pill badge-success ml-auto px-1 py-1">
-                                        <i class="mdi mdi-check"></i>
-                                    </div>
-                                </div>
-                            {{-- @endforeach --}}
+                         @endforeach
                         </div>
                     </div>
                 </div>
-            {{-- @endif --}}
+            @endif
             {{-- @if($boys || $girls)--}}
                 <div class="col-md-5 grid-margin stretch-card">
                     <div class="card">
@@ -145,46 +122,11 @@
                 </div>
             {{-- @endif --}}
         </div>
-        {{-- @canany(['class-teacher'])
-            <div class="row classes">
-                @if($class_sections)
-                <div class="col-md-12 grid-margin stretch-card search-container">
-                    <div class="card">
-                        <div class="card-body">
-                            <h4 class="card-title">{{__('Class Teachers')}}</h4>
-                            <div class="d-flex flex-wrap">
-                                @php
-                                $colors = ['bg-gradient-danger', 'bg-gradient-success', 'bg-gradient-primary', 'bg-gradient-info', 'bg-gradient-secondary','bg-gradient-warning'];
-                                $colorIndex = 0;
-                                @endphp
+        {{-- @canany(['class-teacher']) --}}
 
-                                @foreach($class_sections as $class_section)
-                                    @php
-                                        $currentColor = $colors[$colorIndex];
-                                        $colorIndex = ($colorIndex + 1) % count($colors);
-                                    @endphp
+        {{-- @endcanany  --}}
 
-                                    <div class="col-md-2 stretch-card grid-margin">
-                                        <div class="card {{$currentColor}} card-img-holder text-white">
-                                            <div class="card-body">
-                                                <img src="{{asset(config('global.CIRCLE_SVG')) }}" class="card-img-absolute" alt="circle-image" />
-                                                <h6 class="mb-2">
-                                                    <h4>{{$class_section->class->name}}-{{$class_section->section->name}} {{$class_section->class->medium->name}} {{$class_section->class->streams->name ?? ''}}</h4>
-                                                </h6>
-                                            </div>
-                                        </div>
-                                    </div>
-                                @endforeach
-
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                @endif
-            </div>
-        @endcanany --}}
-
-        {{-- @if($announcement)
+        @if(Auth::user()->notifications)
             <div class="row">
                 <div class="col-md-12 grid-margin stretch-card search-container">
                     <div class="card">
@@ -194,21 +136,31 @@
                                 <table class="table">
                                     <thead>
                                     <tr>
-                                        <th> {{__('no.')}}</th>
+                                        <th> {{__('genirale.no.')}}</th>
                                         <th> {{__('title')}}</th>
-                                        <th> {{__('description')}}</th>
-                                        <th> {{__('date')}}</th>
+                                        <th> {{__('Type')}}</th>
+                                        <th> {{__('genirale.date')}}</th>
+                                        <th> {{__('Show')}}</th>
                                     </tr>
                                     </thead>
                                     <tbody>
-                                    @foreach($announcement as $key=>$row)
-                                        <tr>
-                                            <td>{{$key+1}}</td>
-                                            <td>{{$row->title}}</td>
-                                            <td>{{$row->description}}</td>
-                                            <td>{{$row->created_at->format($date_format)}}</td>
-                                        </tr>
-                                    @endforeach
+                                        @php
+                                            $i=0;
+                                        @endphp
+                                      @forelse (Auth::user()->notifications as $notification)
+                                      <tr>
+                                          <td>{{ ++$i }}</td>
+                                          <td>{{ $notification->data['title'] }}</td>
+                                          <td>{!! $notification->data['type'] !!}</td>
+                                          <td>{{ $notification->created_at }}</td>
+                                          <td><a href="{{ route('school.get-notification', $notification->id) }}"><i class="fa fa-eye"></i></a></td>
+                                      </tr>
+                                  @empty
+                                            <tr>
+                                                <td>No data</td>
+                                            </tr>
+                                        @endforelse
+
                                     </tbody>
                                 </table>
                             </div>
@@ -216,7 +168,7 @@
                     </div>
                 </div>
             </div>
-        @endif --}}
+        @endif
         {{-- @if ($class)
 
         @endif --}}
@@ -244,7 +196,7 @@
                         let trafficChartData = {
                             datasets: [{
 
-                                data: [55, 45],
+                                data: [{{$boys}}, {{$girls}}],
                                 backgroundColor: [
                                     gradientStrokeBlue,
                                     gradientStrokeRed
@@ -265,8 +217,8 @@
 
                             // These labels appear in the legend and in the tooltips when hovering different arcs
                             labels: [
-                                'Guarson',
-                                'filles',
+                                '{{__('genirale.Boys')}}',
+                                '{{__('genirale.Girls')}}',
                                 "{{__('boys')}}",
                                 "{{__('girls')}}"
                             ]

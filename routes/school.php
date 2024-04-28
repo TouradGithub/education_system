@@ -13,6 +13,8 @@ use App\Http\Controllers\ExamController;
 use App\Http\Controllers\Schools\UserSchoolController;
 use App\Http\Controllers\Schools\RoleSchoolControler;
 use App\Http\Controllers\Schools\SettingController;
+use App\Http\Controllers\Schools\HomeController;
+use App\Http\Controllers\Schools\AnnouncementController;
 
 Route::group(['middleware' => ['checkNotAuth']], function () {
 
@@ -24,7 +26,7 @@ Route::group(['middleware' => ['checkNotAuth']], function () {
 Route::group(
     [
         'prefix' => LaravelLocalization::setLocale().'/school',
-        'middleware' => ['localeSessionRedirect', 'localizationRedirect', 'localeViewPath', 'authSchool']
+        'middleware' => ['localeSessionRedirect', 'localizationRedirect', 'localeViewPath', 'authSchool','verifyUserActive']
     ], function () {
 
 
@@ -109,4 +111,13 @@ Route::group(
     Route::get('exam-student-list', [ExamController::class,'show']);
 
     Route::get('setting-index', [SettingController::class,'index'])->name('setting-index');
+
+    Route::get('edit-profile', [HomeController::class, 'editProfile'])->name('edit-profile');
+    Route::post('update-profile', [HomeController::class, 'updateProfile'])->name('update-profile');
+    Route::get('resetpassword', [HomeController::class, 'resetpassword'])->name('resetpassword');
+    Route::get('checkPassword', [HomeController::class, 'checkPassword']);
+    Route::post('changePassword', [HomeController::class, 'changePassword'])->name('changePassword');
+
+
+    Route::get('get-notification/{id}', [AnnouncementController::class,'show'])->name('get-notification');
 });

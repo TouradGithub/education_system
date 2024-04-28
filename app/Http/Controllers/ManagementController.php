@@ -33,7 +33,7 @@ class ManagementController extends Controller
      */
     public function create()
     {
-        $roles = Role::all()->pluck('name','name');
+        $roles = Role::where('model_id',null)->pluck('name','name');
         return view('managements.create',compact('roles'));
     }
 

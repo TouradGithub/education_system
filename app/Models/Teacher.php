@@ -26,10 +26,15 @@ class Teacher extends Authenticatable
     {
         return $this->hasMany(SubjectTeacher::class, 'teacher_id')->with('section')->with('subject');
     }
+    
     public function conversations()
     {
         return $this->hasMany(Conversation::class, 'sender_id')
-            ->orWhere('receiver_id', $this->id);
+            ->orWhere('receiver_id', $this->id) ->with(['messages' => function ($query) {
+                // Order messages by the most recent update or creation
+                $query->latest('updated_at');
+            }])
+            ->orderByDesc('updated_at')->latest();
             // ->whereNotDeleted();
     }
 
@@ -47,11 +52,13 @@ class Teacher extends Authenticatable
     {
         $userId = Auth::guard('teacher')->id();
 
-        // Count unread messages for the current user across all conversations
         return Message::where('receiver_id', $userId)
                       ->where('read_at', null)
                       ->get();
     }
 
-
+    public function receivesBroadcastNotificationsOn(): string
+    {
+        return 'teachers.'.$this->id;
+    }
 }

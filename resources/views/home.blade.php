@@ -3,6 +3,9 @@
     {{__('sidebar.dashboard')}}
 @endsection
 @section('content')
+@php
+$schools=App\Models\Schools::limit(5)->get();
+@endphp
     <div class="content-wrapper">
         <div class="page-header">
             <h3 class="page-title">
@@ -13,48 +16,53 @@
         </div>
         <div class="row">
             {{-- @if($teacher) --}}
-                <div class="col-md-4 stretch-card grid-margin">
+                <div class="col-md-3 stretch-card grid-margin">
                     <div class="card bg-gradient-danger card-img-holder text-white">
                         <div class="card-body">
                             <img src="{{asset(config('global.CIRCLE_SVG')) }}" class="card-img-absolute" alt="circle-image"/>
-                            <h4 class="font-weight-normal mb-3">{{__('teacher.teacher')}}<i class="mdi mdi-chart-line mdi-24px float-right"></i>
-                            </h4>
-                            <h2 class="mb-5"
-                            >
-                            {{-- {{$teacher}} --}}
-34987
-                        </h2>
-                            {{-- <h6 class="card-text">Increased by 60%</h6> --}}
-                        </div>
-                    </div>
-                </div>
-            {{-- @endif --}}
-
-            {{-- @if($student) --}}
-                <div class="col-md-4 stretch-card grid-margin">
-                    <div class="card bg-gradient-info card-img-holder text-white">
-                        <div class="card-body">
-                            <img src="{{asset(config('global.CIRCLE_SVG')) }}" class="card-img-absolute" alt="circle-image"/>
-                            <h4 class="font-weight-normal mb-3">{{__('sidebar.students')}}<i class="mdi mdi-bookmark-outline mdi-24px float-right"></i>
+                            <h4 class="font-weight-normal mb-3">{{__('genirale.total_schools')}}<i class="mdi mdi-chart-line mdi-24px float-right"></i>
                             </h4>
                             <h2 class="mb-5">
-                                {{-- {{$student}} --}}
-289
-                            </h2>
+                            {{App\Models\Schools::count()}}
+                        </h2>
                         </div>
                     </div>
                 </div>
+            <div class="col-md-3 stretch-card grid-margin">
+                <div class="card bg-gradient-info card-img-holder text-white">
+                    <div class="card-body">
+                        <img src="{{asset(config('global.CIRCLE_SVG')) }}" class="card-img-absolute" alt="circle-image"/>
+                        <h4 class="font-weight-normal mb-3">{{__('genirale.total_acadimic')}}<i class="mdi mdi-bookmark-outline mdi-24px float-right"></i>
+                        </h4>
+                        <h2 class="mb-5">
+                            {{App\Models\Acadimy::count()}}
+                        </h2>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-3 stretch-card grid-margin">
+                <div class="card bg-gradient-info card-img-holder text-white">
+                    <div class="card-body">
+                        <img src="{{asset(config('global.CIRCLE_SVG')) }}" class="card-img-absolute" alt="circle-image"/>
+                        <h4 class="font-weight-normal mb-3">{{__('genirale.total_students')}}<i class="mdi mdi-bookmark-outline mdi-24px float-right"></i>
+                        </h4>
+                        <h2 class="mb-5">
+                            {{App\Models\Student::count()}}
+                        </h2>
+                    </div>
+                </div>
+            </div>
             {{-- @endif --}}
             {{-- @if($parent) --}}
-                <div class="col-md-4 stretch-card grid-margin">
+                <div class="col-md-3 stretch-card grid-margin">
                     <div class="card bg-gradient-success card-img-holder text-white">
                         <div class="card-body">
                             <img src="{{asset(config('global.CIRCLE_SVG')) }}" class="card-img-absolute" alt="circle-image"/>
-                            <h4 class="font-weight-normal mb-3">{{__('student.Parent')}}<i class="mdi mdi-diamond mdi-24px float-right"></i>
+                            <h4 class="font-weight-normal mb-3">{{__('genirale.total_parents')}}<i class="mdi mdi-diamond mdi-24px float-right"></i>
                             </h4>
                             <h2 class="mb-5">
-                                {{-- {{$parent}} --}}
-                                834
+                                {{App\Models\MyParent::count()}}
                             </h2>
                         </div>
                     </div>
@@ -62,74 +70,39 @@
             {{-- @endif --}}
         </div>
         <div class="row">
-            {{-- @if(isset($teachers) && !empty($teachers)) --}}
+            @if(isset($schools) && !empty($schools))
                 <div class="col-md-7 grid-margin stretch-card">
                     <div class="card">
                         <div class="card-body v-scroll">
                             <h4 class="card-title">{{__('teacher.teacher')}}</h4>
-                            {{-- @foreach($teachers as $row) --}}
+                            @foreach($schools as $row)
                             <div class="wrapper d-flex align-items-center py-2 border-bottom">
-                                <img class="img-sm rounded-circle" src="
-                                {{-- {{$row->user->image}} --}}
-                                " alt="profile" onerror="onErrorImage(event)">
+                                <img class="img-sm rounded-circle" src="{{$row->name}}" alt="profile" onerror="onErrorImage(event)">
                                 <div class="wrapper ml-3">
                                     <h6 class="ml-1 mb-1">
-                                        {{-- {{$row->user->first_name.' '.$row->user->last_name}} --}}
-                                        lkjrkljkl
+                                        {{$row->name}}
                                     </h6>
                                     <small class="text-muted mb-0">
                                         <i class="mdi mdi-map-marker-outline mr-1"></i>
-                                    lkrjkl
-                                        {{-- {{$row->qualification}} --}}
+                                        {{$row->description}}
                                     </small>
+                                </div>
+
+                                <div class="wrapper ml-3">
+                                    <h6 class="ml-1 mb-1">
+                                        {{$row->academy->name}}
+                                    </h6>
+
                                 </div>
                                 <div class="badge badge-pill badge-success ml-auto px-1 py-1">
                                     <i class="mdi mdi-check"></i>
                                 </div>
                             </div>
-                            <div class="wrapper d-flex align-items-center py-2 border-bottom">
-                                <img class="img-sm rounded-circle" src="
-                                {{-- {{$row->user->image}} --}}
-                                " alt="profile" onerror="onErrorImage(event)">
-                                <div class="wrapper ml-3">
-                                    <h6 class="ml-1 mb-1">
-                                        {{-- {{$row->user->first_name.' '.$row->user->last_name}} --}}
-                                        lkjrkljkl
-                                    </h6>
-                                    <small class="text-muted mb-0">
-                                        <i class="mdi mdi-map-marker-outline mr-1"></i>
-                                    lkrjkl
-                                        {{-- {{$row->qualification}} --}}
-                                    </small>
-                                </div>
-                                <div class="badge badge-pill badge-success ml-auto px-1 py-1">
-                                    <i class="mdi mdi-check"></i>
-                                </div>
-                            </div>
-                              <div class="wrapper d-flex align-items-center py-2 border-bottom">
-                                    <img class="img-sm rounded-circle" src="
-                                    {{-- {{$row->user->image}} --}}
-                                    " alt="profile" onerror="onErrorImage(event)">
-                                    <div class="wrapper ml-3">
-                                        <h6 class="ml-1 mb-1">
-                                            {{-- {{$row->user->first_name.' '.$row->user->last_name}} --}}
-                                            lkjrkljkl
-                                        </h6>
-                                        <small class="text-muted mb-0">
-                                            <i class="mdi mdi-map-marker-outline mr-1"></i>
-                                        lkrjkl
-                                            {{-- {{$row->qualification}} --}}
-                                        </small>
-                                    </div>
-                                    <div class="badge badge-pill badge-success ml-auto px-1 py-1">
-                                        <i class="mdi mdi-check"></i>
-                                    </div>
-                                </div>
-                            {{-- @endforeach --}}
+                          @endforeach
                         </div>
                     </div>
                 </div>
-            {{-- @endif --}}
+            @endif
             {{-- @if($boys || $girls)--}}
                 <div class="col-md-5 grid-margin stretch-card">
                     <div class="card">
@@ -181,7 +154,7 @@
             </div>
         @endcanany --}}
 
-        {{-- @if($announcement)
+        {{-- {{-- @if($announcement) --}}
             <div class="row">
                 <div class="col-md-12 grid-margin stretch-card search-container">
                     <div class="card">
@@ -191,21 +164,32 @@
                                 <table class="table">
                                     <thead>
                                     <tr>
-                                        <th> {{__('no.')}}</th>
+                                        <th> {{__('genirale.no.')}}</th>
                                         <th> {{__('title')}}</th>
-                                        <th> {{__('description')}}</th>
+                                        <th> {{__('Type')}}</th>
                                         <th> {{__('date')}}</th>
+                                        <th> {{__('Show')}}</th>
                                     </tr>
                                     </thead>
                                     <tbody>
-                                    @foreach($announcement as $key=>$row)
-                                        <tr>
-                                            <td>{{$key+1}}</td>
-                                            <td>{{$row->title}}</td>
-                                            <td>{{$row->description}}</td>
-                                            <td>{{$row->created_at->format($date_format)}}</td>
-                                        </tr>
-                                    @endforeach
+                                        @php
+                                            $i=0;
+                                            $notif=DB::table('notifications')->get();
+                                        @endphp
+                                        @forelse ($notif  as $item)
+                                            <tr>
+                                                <td>{{ ++$i}}</td>
+                                                <td>{{ json_decode($item->data)->title }}</td>
+                                                <td>{{ json_decode($item->data)->type }}</td>
+                                                <td>{{ $item->created_at }}</td>
+                                                <td><a href="{{route('web.announcement.show',$item->id)}}"><i class="fa fa-eye"></a></td>
+                                            </tr>
+                                        @empty
+                                            <tr>
+                                                <td>No data</td>
+                                            </tr>
+                                        @endforelse
+
                                     </tbody>
                                 </table>
                             </div>
@@ -213,7 +197,7 @@
                     </div>
                 </div>
             </div>
-        @endif --}}
+        {{-- @endif --}}
         {{-- @if ($class)
 
         @endif --}}

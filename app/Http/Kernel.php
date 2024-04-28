@@ -70,6 +70,8 @@ class Kernel extends HttpKernel
         'role_or_permission' => \Spatie\Permission\Middlewares\RoleOrPermissionMiddleware::class,
         'Role'=>\App\Http\Middleware\CheckRole::class,
 
+        'verifyUserActive' => \App\Http\Middleware\VerifyUserActive::class,
+        'authAdmin' => \App\Http\Middleware\AuthAdmin::class,
         'authSchool' => \App\Http\Middleware\authSchool::class,
         'checkNotAuth' => \App\Http\Middleware\CheckNotAuth::class,
         'teacherMiddleware' => \App\Http\Middleware\TeacherMiddleware::class,

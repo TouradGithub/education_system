@@ -3,7 +3,7 @@
     <ul class="nav">
         {{-- dashboard --}}
         <li class="nav-item">
-            <a  class="nav-link" href="{{ url('/') }}">
+            <a  class="nav-link" href="{{ url('/home') }}">
                 <span class="menu-title">{{ __('sidebar.dashboard') }}</span>
             <i class="fa fa-home menu-icon"></i> </a>
         </li>
@@ -16,11 +16,6 @@
                 </a>
             </li>
         @endcan
-        {{-- @can('teacher-create') --}}
-
-    {{-- @endcan --}}
-
-        {{-- @can('session-year-create') --}}
 
         <li class="nav-item">
             <a href="
@@ -30,13 +25,6 @@
             </a>
         </li>
 
-        <li class="nav-item">
-            <a href="
-            {{ route('web.sections.index') }}
-            " class="nav-link"> <span
-                    class="menu-title">{{ __('section.sections') }}</span> <i class="fa fa-calendar-o menu-icon"></i>
-            </a>
-        </li>
         <li class="nav-item">
             <a href="
             {{ route('web.classes.index') }}
@@ -67,8 +55,13 @@
             <a href="
             {{ route('web.trimesters.index') }}
             " class="nav-link"> <span
-                    class="menu-title">{{ __('sidebar.role_permission') }}</span> <i class="fa fa-calendar-o menu-icon"></i>
+                    class="menu-title">{{ __('trimester.trimesters') }}</span> <i class="fa fa-calendar-o menu-icon"></i>
             </a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" href="{{ route('web.announcement.index') }}">
+                <span class="menu-title">  {{ __('sidebar.announcement') }}</span>
+                <i class="fa fa-bell menu-icon"></i> </a>
         </li>
 
         {{-- @endcan --}}

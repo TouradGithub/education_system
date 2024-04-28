@@ -6,5 +6,6 @@ return [
     "sections" => "الأقسام",
     "add_section"=> "إضافة قسم ",
     "grade"=>"مرحلة دراسية",
+    
 
 ];

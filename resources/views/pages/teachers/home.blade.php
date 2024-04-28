@@ -21,13 +21,14 @@
                             </h4>
                             <h2 class="mb-5"
                             >
-{{auth('teacher')->user()->sectionTeachers->count()}}
+                            {{auth('teacher')->user()->sectionTeachers->count()}}
                         </h2>
                             <h6 class="card-text"></h6>
                         </div>
                     </div>
                 </div>
             {{-- @endif --}}
+
             <div class="col-lg-12 grid-margin stretch-card">
                 <div class="card">
                     <div class="card-body">
@@ -37,39 +38,85 @@
                         <div class="row">
                             <div class="col-12">
 
-           <table aria-describedby="mydesc" class='table' id='table_list' data-toggle="table" data-url="{{ url('teacher/teacher-get-list') }}" data-click-to-select="true" data-side-pagination="server" data-pagination="true" data-page-list="[5, 10, 20, 50, 100, 200]" data-search="true" data-toolbar="#toolbar" data-show-columns="true" data-show-refresh="true" data-fixed-columns="true" data-fixed-number="2" data-fixed-right-number="1" data-trim-on-search="false" data-mobile-responsive="true" data-sort-name="id" data-sort-order="desc" data-maintain-selected="true" data-export-types='["txt","excel"]' data-export-options='{ "fileName": "session-year-list-<?= date(' d-m-y') ?>
-                ","ignoreColumn": ["operate"]}'
-                data-query-params="studentQueryParams">
-                <thead>
-                    <tr>
+                    <table aria-describedby="mydesc" class='table' id='table_list' data-toggle="table" data-url="{{ url('teacher/teacher-get-list') }}" data-click-to-select="true" data-side-pagination="server" data-pagination="true" data-page-list="[5, 10, 20, 50, 100, 200]" data-search="true" data-toolbar="#toolbar" data-show-columns="true" data-show-refresh="true" data-fixed-columns="true" data-fixed-number="2" data-fixed-right-number="1" data-trim-on-search="false" data-mobile-responsive="true" data-sort-name="id" data-sort-order="desc" data-maintain-selected="true" data-export-types='["txt","excel"]' data-export-options='{ "fileName": "session-year-list-<?= date(' d-m-y') ?>
+                        ","ignoreColumn": ["operate"]}'
+                        data-query-params="studentQueryParams">
+                        <thead>
+                            <tr>
 
 
-                        <th scope="col" data-field="id" data-sortable="true" data-visible="false">
-                            {{ __('id') }}</th>
+                                <th scope="col" data-field="id" data-sortable="true" data-visible="false">
+                                    {{ __('id') }}</th>
 
-                        <th scope="col" data-field="first_name" data-sortable="true" >
-                                {{ __('genirale.first_name') }}</th>
+                                <th scope="col" data-field="first_name" data-sortable="true" >
+                                        {{ __('genirale.first_name') }}</th>
 
-                        <th scope="col" data-field="last_name" data-sortable="true" >
-                                    {{ __('genirale.last_name') }}</th>
+                                <th scope="col" data-field="last_name" data-sortable="true" >
+                                            {{ __('genirale.last_name') }}</th>
 
-                        <th scope="col" data-field="gender" data-sortable="false">{{ __('genirale.gender') }}
-                        </th>
+                                <th scope="col" data-field="gender" data-sortable="false">{{ __('genirale.gender') }}
+                                </th>
 
-                        <th scope="col" data-field="operate" data-sortable="false">{{ __('genirale.action') }}
-                        </th>
+                                <th scope="col" data-field="operate" data-sortable="false">{{ __('genirale.action') }}
+                                </th>
 
 
-                    </tr>
-                </thead>
+                            </tr>
+                        </thead>
 
-            </table>
+                    </table>
+                    </div>
+                        </div>
+                    </div>
+
+            </div>
+
+            </div>
         </div>
+        <div class="row classes">
+            {{-- @if($class_sections) --}}
+            <div class="col-md-12 grid-margin stretch-card search-container">
+                <div class="card">
+                    <div class="card-body">
+                        <h4 class="card-title">{{__('Class Teachers')}}</h4>
+                        <div class="d-flex flex-wrap">
+                            @php
+                            $colors = ['bg-gradient-danger', 'bg-gradient-success', 'bg-gradient-primary', 'bg-gradient-info', 'bg-gradient-secondary','bg-gradient-warning'];
+                            $colorIndex = 0;
+                            @endphp
 
+                            @foreach(Auth::guard('teacher')->user()->sectionTeachers as $item)
+                                @php
+                                    $currentColor = $colors[$colorIndex];
+                                    $colorIndex = ($colorIndex + 1) % count($colors);
+                                @endphp
 
+                                <div class="col-md-4 stretch-card grid-margin">
+                                    <div class="card {{$currentColor}} card-img-holder text-white">
+                                        <div class="card-body">
+                                            <img src="{{asset(config('global.CIRCLE_SVG')) }}" class="card-img-absolute" alt="circle-image" />
+                                            <h6 class="mb-2">
+                                                <h4>{{$item->section->classe->name.'-'.$item->section->name}}</h4>
+                                            </h6>
+                                            <h4 class="mb-5"
+                                            >
+                                            {{-- {{$teacher}} --}}
+                                            {{$item->subject->name}}
+                                        </h4>
+                                        </div>
+                                    </div>
+                                </div>
+                            @endforeach
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+            {{-- @endif --}}
         </div>
-
     </div>
+
+
 @endsection
 @section('script')
 <script type="text/javascript">

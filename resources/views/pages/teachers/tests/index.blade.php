@@ -2,7 +2,7 @@
 @php
         $teacher = auth('teacher')->user();
         $sections = $teacher->sectionTeachers;
-    $trimesters=App\Models\Trimester::select('id','name')->get();
+        $trimesters=App\Models\Trimester::select('id','name')->get();
 @endphp
 @section('title')
     {{ __('test.tests') }}

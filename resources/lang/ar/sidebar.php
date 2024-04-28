@@ -40,5 +40,7 @@ return [
 
     "schools"=> "المدارس",
     "users"=> "المستخدمون",
-    "acadimic"=> "أكاديمي"
+    "acadimic"=> "أكاديمي",
+
+    "announcement"=> "Announcement"
 ];

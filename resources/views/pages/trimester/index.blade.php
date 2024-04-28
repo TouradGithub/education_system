@@ -76,7 +76,7 @@
                                                 <th scope="col" data-field="id" data-sortable="true" data-visible="false">
                                                     {{ __('id') }}</th>
 
-                                             
+
                                                 <th scope="col" data-field="name" data-sortable="false"> {{trans('grade.name_ar')}}
                                                 </th>
                                                 <th scope="col" data-field="name_en" data-sortable="false"> {{trans('grade.name_en')}}

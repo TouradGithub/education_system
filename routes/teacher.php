@@ -10,6 +10,7 @@ use App\Http\Controllers\Teacher\AttendanceController;
 use App\Http\Controllers\Teacher\HomeController;
 use App\Http\Controllers\Teacher\TestController;
 use App\Http\Controllers\Teacher\ExamController;
+use App\Http\Controllers\Teacher\AnnouncementController;
 use App\Http\Controllers\Teacher\LessonController;
 
 Route::group(['middleware' => ['checkNotAuth']], function () {
@@ -57,7 +58,7 @@ Route::group(
     Route::resource('exams', ExamController::class);
     Route::get('exam-student-list', [ExamController::class,'show']);
     Route::get('get-subject-list', [ExamController::class,'getSubjectByTeacher']);
-    Route::get('get-subject-list', [ExamController::class,'getSubjectByTeacher']);
+    // Route::get('get-subject-list', [ExamController::class,'getSubjectByTeacher']);
     Route::get('chat', Index::class)->name('chat.index');
     Route::post('chat', [Index::class,'sendMessage'] )->name('sendMessage.chat');
     // Route::get('message/{id}', Index::class)->name('chat.message');
@@ -71,6 +72,11 @@ Route::group(
     Route::get('lesson-delete/{id}', [LessonController::class, 'destroy'])->name('lesson.lesson-delete');
     Route::post('lesson-edit/{id}', [LessonController::class, 'update'])->name('lesson.edit');
     Route::post('store', [LessonController::class, 'store'])->name('lesson.store');
+
+    Route::resource('announcement', AnnouncementController::class);
+    Route::get('announcement-list', [AnnouncementController::class, 'show']);
+    Route::get('getAssignData', [AnnouncementController::class, 'getAssignData']);
+
 
 
 

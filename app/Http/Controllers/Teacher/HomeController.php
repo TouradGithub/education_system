@@ -178,7 +178,7 @@ class HomeController extends Controller
             $tempRow['id'] = $row->id;
             $tempRow['first_name'] =$row->first_name;
             $tempRow['last_name'] =$row->last_name;
-            $operate .= '<a class="btn btn-primary" href="" title="">' . __('genirale.Message') . '</a>';
+            $operate .= '<a class="btn btn-primary" href="'.route('web.chat.system',$row->id).'" title="">' . __('genirale.Message') . '</a>';
             $tempRow['gender'] =$row->gender;
             $tempRow['operate'] =$operate;
             $rows[] = $tempRow;

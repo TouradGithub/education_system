@@ -45,19 +45,22 @@
                 </a>
                 <div class="dropdown-menu dropdown-menu-right navbar-dropdown preview-list" aria-labelledby="notificationDropdown">
                     <!-- Example notification items -->
-                 @foreach (Auth::guard('teacher')->user()->unreadMessages() as $item)
-                    <a class="dropdown-item preview-item" href="{{route('web.chat.system',$item->sender->id)}}">
-                        <div class="preview-thumbnail">
-                            <!-- You can include an image or icon for each notification if needed -->
-                            <!-- <img src="notification_image.jpg" alt="image" class="profile-pic"> -->
-                        </div>
-                        <div class="preview-item-content d-flex align-items-start flex-column justify-content-center">
-                            <h6 class="preview-subject ellipsis mb-1 font-weight-normal">{{$item->sender->first_name}} {{$item->sender->last_name}}</h6>
-                            <p class="text-gray mb-0">{{$item->body}}</p>
-                        </div>
-                    </a>
-                    <div class="dropdown-divider"></div>
-                 @endforeach
+                 @forelse(Auth::guard('teacher')->user()->unreadMessages() as $item)
+                 <a class="dropdown-item preview-item" href="{{route('web.chat.system',$item->sender->id)}}">
+                    <div class="preview-thumbnail">
+                    </div>
+                    <div class="preview-item-content d-flex align-items-start flex-column justify-content-center">
+                        <h6 class="preview-subject ellipsis mb-1 font-weight-normal">{{$item->sender->first_name}} {{$item->sender->last_name}}</h6>
+                        <p class="text-gray mb-0">{{$item->body}}</p>
+                    </div>
+                </a>
+                <div class="dropdown-divider"></div>
+                 @empty
+                 <div class="preview-item-content d-flex align-items-start flex-column justify-content-center">
+                    <h6 class="preview-subject ellipsis mb-1 font-weight-normal">No Notification</h6>
+                    <p class="text-gray mb-0"></p>
+                </div>
+                 @endforelse
 
                 </div>
             </li>
@@ -65,7 +68,7 @@
             <li class="nav-item nav-profile dropdown">
                 <a class="nav-link dropdown-toggle" id="profileDropdown" href="#" data-toggle="dropdown" aria-expanded="true">
                     <div class="nav-profile-img">
-                        <img src="{{asset('/storage/'.auth('teacher')->user()->image)}}" alt="image" onerror="onErrorImage(event)">
+                        <img src="{{url(Storage::url(auth('teacher')->user()->image))}}" alt="image" onerror="onErrorImage(event)">
                    </div>
                     <div class="nav-profile-text">
                         <p class="mb-1 text-black">

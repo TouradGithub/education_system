@@ -9,15 +9,25 @@ use Illuminate\Support\Facades\Auth;
 class ChatList extends Component
 {
     public $selectedConversation;
+    public $conversations;
     public $query;
 
-
+    protected $listeners=['refresh'=>'$refresh'];
 
 
     public function render()
+    {  $this-> loadConversations();
+        return view('livewire.chat.chat-list');
+    }
+
+    public function mount()
     {
-        $conversations = Conversation::all();
-        return view('livewire.chat.chat-list', ['conversations' => $conversations]);
+        $this->loadConversations();
+    }
+
+    public function loadConversations()
+    {
+        $this->conversations =Auth::guard('teacher')->user()->conversations;
     }
 
     public function selectConversation($conversationId)
@@ -26,8 +36,14 @@ class ChatList extends Component
 
         $this->dispatch('conversationSelected', $this->selectedConversation);
 
-        // $this->emit('conversationSelected', $conversationId);
     }
+
+    // #[On('updateLastMessageForConversation')]
+    // public function updateLastMessageForConversation()
+    // {
+    //     dd("tt");
+    //     $this->loadConversations();
+    // }
 
 
 }

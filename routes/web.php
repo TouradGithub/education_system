@@ -13,7 +13,9 @@ use App\Http\Controllers\GradeController;
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\Admin\SectionController;
 use App\Http\Controllers\Admin\ClassController;
+use App\Http\Controllers\Admin\TrimesterController;
 use App\Http\Controllers\Admin\SubjectController;
+use App\Http\Controllers\Admin\AnnouncementController;
 use App\Http\Controllers\TeacherController;
 
 // Route::group(['middleware' => ['checkNotAuth']], function () {
@@ -80,8 +82,19 @@ Route::group([ 'middleware' => ['auth','localeSessionRedirect', 'localizationRed
     Route::get('subjects-list', [SubjectController::class, 'show']);
 
     // Route::resource('teachers', TeacherController::class);
-    // Route::get('teacher_list', [TeacherController::class, 'show']);
+    Route::get('trimesters-list', [TrimesterController::class, 'show']);
+    Route::resource('trimesters', TrimesterController::class);
 
+
+    Route::get('edit-profile', [App\Http\Controllers\Admin\HomeController::class, 'editProfile'])->name('edit-profile');
+    Route::post('update-profile', [App\Http\Controllers\Admin\HomeController::class, 'updateProfile'])->name('update-profile');
+    Route::get('resetpassword', [App\Http\Controllers\Admin\HomeController::class, 'resetpassword'])->name('resetpassword');
+    Route::get('checkPassword', [App\Http\Controllers\Admin\HomeController::class, 'checkPassword']);
+    Route::post('changePassword', [App\Http\Controllers\Admin\HomeController::class, 'changePassword'])->name('changePassword');
+
+
+    Route::resource('announcement', AnnouncementController::class);
+    Route::get('get-notification/{id}', [AnnouncementController::class,'show'])->name('get-notification');
 });
 
 // Route::get('clear', function () {
@@ -94,4 +107,11 @@ Route::group([ 'middleware' => ['auth','localeSessionRedirect', 'localizationRed
 // Auth::routes();
 use App\Livewire\Chat\Index;
 
-Route::get('/chat/system/{id}', Index::class)->name('chat.system');
+// Route::middleware(['auth:teacher'])->group(function (){
+// });
+
+Route::group([ 'middleware' => ['auth:teacher']], function () {
+
+    Route::get('/chat/system/{query}', Index::class)->name('chat.system');
+
+});

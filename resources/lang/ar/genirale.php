@@ -1,5 +1,16 @@
 <?php
 return [
+    "total_teachers" => "عدد المعلمين",
+    "total_students" => "عدد الطلاب",
+    "total_parents" => "عدد الوكلاء",
+
+    "total_schools"=> " عدد المدارس",
+    "total_acadimic"=> "عدد المديريات ",
+
+    "Boys" => "أولاد",
+    "Girls" => "بنات",
+    "Youraccounthasbeentemporarilysuspended"=>"تم تعليق حسابك مؤقتًا",
+
 
     "Monday" => "الإثنين",
     "Tuesday" => "الثلاثاء",

@@ -31,20 +31,12 @@ class Conversation extends Model
 
     public function getReceiver()
     {
-        // dd($this->receiver_id);
+        return Teacher::find($this->receiver_id);
+    }
+    public function getSender()
+    {
 
-        // if ($this->sender_id == Auth::guard('teacher')->user()->id ) {
-            // dd(Teacher::find($this->receiver_id));
-
-            return Teacher::find($this->receiver_id);
-
-        // } else {
-        //    dd( Teacher::find($this->sender_id));
-
-        //     return Teacher::find($this->sender_id);
-        // }
-
-
+            return Teacher::find($this->sender_id);
     }
 
     public  function isLastMessageReadByUser() {
@@ -54,9 +46,12 @@ class Conversation extends Model
         $lastMessage= $this->messages()->latest()->first();
 
 
-        if($lastMessage && $lastMessage->read_at !=null && $lastMessage->sender_id == $user->id){
+        if($lastMessage){
             return   $lastMessage->body;
         }
+        // if($lastMessage && $lastMessage->read_at !=null && $lastMessage->sender_id == $user->id){
+        //     return   $lastMessage->body;
+        // }
         // return false;
     }
 

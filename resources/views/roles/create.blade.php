@@ -46,7 +46,7 @@
                                             <div class="form-group col-lg-3 col-sm-12 col-xs-12 col-md-3">
                                                 <div class="form-check">
                                                     <label class="form-check-label">
-                                                        {{ Form::checkbox('permission[]', $value->id, false, ['class' => 'name form-check-input']) }}
+                                                        {{ Form::checkbox('permission[]', $value->name, false, ['class' => 'name form-check-input']) }}
                                                         {{ $value->name }}
                                                     </label>
                                                 </div>

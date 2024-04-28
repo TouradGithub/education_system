@@ -14,7 +14,7 @@ class UserController extends Controller
 {
     public function index(Request $request)
     {
-        $data = User::orderBy('id','DESC')->paginate(5);
+        $data = User::where('model','App\\Models\\Admin')->orderBy('id','DESC')->paginate(5);
         return view('users.index',compact('data'))
             ->with('i', ($request->input('page', 1) - 1) * 5);
     }
@@ -26,7 +26,7 @@ class UserController extends Controller
      */
     public function create()
     {
-        $roles = Role::pluck('name','name')->all();
+        $roles = Role::where('model_id',null)->pluck('name','name')->all();
         return view('users.create',compact('roles'));
     }
 
@@ -38,10 +38,10 @@ class UserController extends Controller
      */
     public function store(Request $request)
     {
+        // return $request;
 
         $this->validate($request, [
             'name' => 'required',
-           
             'email' => 'required|email|unique:users,email',
             'password' => 'required|same:confirm-password',
             'roles' => 'required'
@@ -49,12 +49,22 @@ class UserController extends Controller
 
         $input = $request->all();
         $input['password'] = Hash::make($input['password']);
+        $roleName = Role::where('name',$input['roles'])->pluck('name','name')->first();
 
-        $user = User::create($input);
+        $user = User::create([
+            'name' => $input['name'],
+            'email' => $input['email'],
+            'phone' => $input['phone'],
+            'model' => "App\Models\Admin",
+            'model_id' => "0",
+            'password' => $input['password'],
+            'role' => $roleName
+
+        ]);
         $user->assignRole($request->input('roles'));
 
-        return redirect()->route('users.index')
-                    ->with('success',trans('data_store_successfully'));
+        return redirect()->route('web.users.index')
+                    ->with('success',trans('genirale.data_store_successfully'));
     }
 
     /**
@@ -78,7 +88,7 @@ class UserController extends Controller
     public function edit($id)
     {
         $user = User::find($id);
-        $roles = Role::pluck('name','name')->all();
+        $roles = Role::where('model','App\Models\Admin')->pluck('name','name')->all();
         $userRole = $user->roles->pluck('name','name')->all();
 
         return view('users.edit',compact('user','roles','userRole'));
@@ -113,8 +123,8 @@ class UserController extends Controller
 
         $user->assignRole($request->input('roles'));
 
-        return redirect()->route('users.index')
-                        ->with('success',trans('data_update_successfully'));
+        return redirect()->route('web.users.index')
+                        ->with('success',trans('genirale.data_update_successfully'));
     }
 
     /**
@@ -126,7 +136,7 @@ class UserController extends Controller
     public function destroy($id)
     {
         User::find($id)->delete();
-        return redirect()->route('users.index')
-                        ->with('success',trans('data_delete_successfully'));
+        return redirect()->route('web.users.index')
+                        ->with('success',trans('genirale.data_delete_successfully'));
     }
 }
