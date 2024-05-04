@@ -47,9 +47,6 @@ class SectionController extends Controller
             return response()->json($response);
         }
         try {
-            // $validated = $request->validated();
-            // return "KK";
-            // $section = new Section();
 
             ClassRoom::create([
                 "name" => ['en' => $request->name_en, 'ar' => $request->name],
@@ -59,12 +56,10 @@ class SectionController extends Controller
                 "notes" => $request->notes,
             ]);
 
-            // $section->save();
-
-          $response = [
-              'error' => false,
-              'message' => trans('genirale.data_store_successfully')
-          ];
+            $response = [
+                'error' => false,
+                'message' => trans('genirale.data_store_successfully')
+            ];
           }catch (\Exception $e){
               $response = [
                   'error' => true,

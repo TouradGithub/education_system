@@ -59,7 +59,7 @@ class AnnouncementController extends Controller
             'data.required' => 'The Field is Required'
         ]);
 
-        // try {
+        try {
             $users=[];
             if($request->type=="Students"){
             //    $users=Student::all();
@@ -87,13 +87,13 @@ class AnnouncementController extends Controller
                 'error' => false,
                 'message' => trans('genirale.data_store_successfully')
             );
-        // } catch (\Throwable $e) {
-        //     $response = array(
-        //         'error' => true,
-        //         'message' => trans('genirale.error_occurred')
-        //     );
-        // }
-        return redirect()->back();
+        } catch (\Throwable $e) {
+            $response = array(
+                'error' => true,
+                'message' => trans('genirale.error_occurred')
+            );
+        }
+        return redirect()->back()->with('success',trans('genirale.data_store_successfully'));
     }
 
 
