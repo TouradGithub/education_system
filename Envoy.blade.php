@@ -13,7 +13,7 @@ $env_file_name =".env.$branch";
 $env_path="$branch_path/$env_file_name";
 echo '{{$env_path}}';
 $keep = 1;
-$new_release_dir = "domains/edzayer.com/public_html/system_education";
+$new_release_dir = "/home/u334693063/domains/edzayer.com/public_html/system_education";
 @endsetup
 $server_dir=$branch;
 

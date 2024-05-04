@@ -25,17 +25,17 @@ class AddSuperAdminSeeder extends Seeder
     public function run() {
 
         //Add Super Admin User
-        // $super_admin_role = Role::where('name', 'Admin')->first();
-        // $user = User::updateOrCreate(['id' => 1], [
-        //     'name' => 'super',
-        //     'email' => 'superadmin@gmail.com',
-        //     'phone' => '85739488',
-        //     'model' => 'App\Models\Admin',
-        //     'model_id' => '1',
-        //     'password' => Hash::make('superadmin'),
-        //     'role'=>$super_admin_role->name,
-        // ]);
-        // $user->assignRole([$super_admin_role->id]);
+        $super_admin_role = Role::where('name', 'Admin')->first();
+        $user = User::updateOrCreate(['id' => 1], [
+            'name' => 'super',
+            'email' => 'superadmin@gmail.com',
+            'phone' => '85739488',
+            'model' => 'App\Models\Admin',
+            'model_id' => '1',
+            'password' => Hash::make('superadmin'),
+            'role'=>$super_admin_role->name,
+        ]);
+        $user->assignRole([$super_admin_role->id]);
 
         // Grade::factory(10)->create();
         // Classes::factory(10)->create();
