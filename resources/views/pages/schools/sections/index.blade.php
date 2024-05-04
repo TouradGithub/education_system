@@ -24,7 +24,7 @@
                         <h4 class="card-title">
                             {{ trans('section.add_section') }}
                         </h4>
-                        <form class="create-form pt-3" id="formdata" action="{{ route('school.sections.store')}}" method="POST" novalidate="novalidate">
+                        <form class="create-form pt-3"  action="{{ route('school.sections.store')}}" method="POST" novalidate="novalidate">
                             @csrf
                             <div class="row">
                                 <div class="form-group col-sm-12 col-md-6">

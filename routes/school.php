@@ -64,7 +64,7 @@ Route::group(
     Route::get('getSection-list/{id}', [SectionController::class, 'getSections']);
 
     Route::resource('subjects', SubjectController::class);
-    
+
     Route::get('subjects-list', [SubjectController::class, 'show']);
 
     Route::resource('subject-teachers', SubjectTeacherController::class);

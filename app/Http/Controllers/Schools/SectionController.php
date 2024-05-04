@@ -32,6 +32,7 @@ class SectionController extends Controller
      */
     public function store(Request  $request)
     {
+        // return $request;
 
         $validator = Validator::make($request->all(), [
             'name' => 'required',
@@ -47,14 +48,25 @@ class SectionController extends Controller
             return response()->json($response);
         }
         try {
+            $classRoomData = [
+                [
+                    'name' => json_encode(['en' => $request->name_en, 'ar' => $request->name]),
+                    'grade_id' => getSchool()->grade_id,
+                    'class_id' => $request->class_id,
+                    'school_id' => getSchool()->id,
+                    'notes' => $request->notes,
+                ]
+            ];
+            ClassRoom::insert($classRoomData);
 
-            ClassRoom::create([
-                "name" => ['en' => $request->name_en, 'ar' => $request->name],
-                "grade_id" => getSchool()->grade_id,
-                "class_id" => $request->class_id,
-                "school_id" => getSchool()->id,
-                "notes" => $request->notes,
-            ]);
+            // $ClassRoom= new  ClassRoom();
+            // $ClassRoom->name= ['en' => $request->name_en, 'ar' => $request->name];
+            // $ClassRoom->grade_id= getSchool()->grade_id;
+            // $ClassRoom->class_id=$request->class_id;
+            // $ClassRoom->school_id= getSchool()->id;
+            // $ClassRoom->notes=$request->notes;
+            // $ClassRoom->save();
+            // ]);
 
             $response = [
                 'error' => false,
@@ -65,6 +77,7 @@ class SectionController extends Controller
                   'error' => true,
                   'message' =>  $e->getMessage()
               ];
+              return $e->getMessage();
           }
           return response()->json($response);
 
@@ -146,7 +159,7 @@ class SectionController extends Controller
             $validator = Validator::make($request->all(), [
                 'name' => 'required',
                 'name_en' => 'required',
-                'grade_id' => 'required',
+                // 'grade_id' => 'required',
                 'class_id' => 'required',
             ]);
             if ($validator->fails()) {
