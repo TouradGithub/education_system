@@ -20,9 +20,9 @@ $server_dir=$branch;
 
 @story('deploy')
 clone_repository
-{{-- run_composer
+ run_composer
 setup_app
-clean
+{{--clean
 succeed --}}
 @endstory
 
@@ -50,7 +50,7 @@ pwd
 echo {{ $new_release_dir }}
 cd {{ $new_release_dir }}
 echo "moved succes".{{ $new_release_dir }}
-composer install
+composer update
 echo "composer installed  succefuly"
 {{-- php composer.phar update
 echo "composer.phar updated  succefuly"
@@ -77,6 +77,7 @@ echo " test migrate ok"
 php artisan optimize
 echo " test optimize ok"
 php artisan view:clear
+php artisan storage:link
 echo " test view ok"
 
 
