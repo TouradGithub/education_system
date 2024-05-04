@@ -4,12 +4,8 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-class Settings extends Model
+
+class FeesPaidClass extends Model
 {
     use HasFactory;
-    public function school()
-    {
-        return $this->belongsTo(Schools::class, 'school_id');
-    }
-
 }

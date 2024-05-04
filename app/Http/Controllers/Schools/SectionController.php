@@ -1,11 +1,12 @@
 <?php
 
-namespace App\Http\Controllers\Admin;
-use App\Http\Requests\StoreGrades;
+namespace App\Http\Controllers\Schools;
+// use App\Http\Requests\StoreGrades;
 use App\Models\Section;
 use App\Models\Classes;
 use Illuminate\Support\Facades\Validator;
 use App\Models\Grade;
+use App\Models\ClassRoom;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 class SectionController extends Controller
@@ -15,7 +16,7 @@ class SectionController extends Controller
      */
     public function index()
     {
-        return view('pages.sections.index');
+        return view('pages.schools.sections.index');
     }
 
     /**
@@ -29,12 +30,13 @@ class SectionController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(StoreGrades  $request)
+    public function store(Request  $request)
     {
+
         $validator = Validator::make($request->all(), [
             'name' => 'required',
             'name_en' => 'required',
-            'grade_id' => 'required',
+            // 'grade_id' => 'required',
             'class_id' => 'required',
         ]);
         if ($validator->fails()) {
@@ -45,19 +47,23 @@ class SectionController extends Controller
             return response()->json($response);
         }
         try {
-            $validated = $request->validated();
+            // $validated = $request->validated();
+            // return "KK";
+            // $section = new Section();
 
-            $section = new Section();
-            $section->name = ['en' => $request->name_en, 'ar' => $request->name];
-            $section->grade_id = $request->grade_id;
-            $section->class_id = $request->class_id;
-            $section->school_id = "1";
-            $section->notes = $request->notes;
-            $section->save();
+            ClassRoom::create([
+                "name" => ['en' => $request->name_en, 'ar' => $request->name],
+                "grade_id" => getSchool()->grade_id,
+                "class_id" => $request->class_id,
+                "school_id" => getSchool()->id,
+                "notes" => $request->notes,
+            ]);
+
+            // $section->save();
 
           $response = [
               'error' => false,
-              'message' => trans('data_store_successfully')
+              'message' => trans('genirale.data_store_successfully')
           ];
           }catch (\Exception $e){
               $response = [
@@ -66,6 +72,8 @@ class SectionController extends Controller
               ];
           }
           return response()->json($response);
+
+
     }
 
     /**
@@ -88,7 +96,7 @@ class SectionController extends Controller
         if (isset($_GET['order']))
         $order = $_GET['order'];
 
-        $sql = Section::where('id', '!=', 0);
+        $sql = ClassRoom::where('school_id',getSchool()->id);
         if (isset($_GET['search']) && !empty($_GET['search'])) {
             $search = $_GET['search'];
             $sql->where('id', 'LIKE', "%$search%")
@@ -107,7 +115,7 @@ class SectionController extends Controller
         foreach ($res as $row) {
             $operate = '';
             $operate .= '<a class="btn btn-xs btn-gradient-primary btn-rounded btn-icon editdata" data-id=' . $row->id . ' title="Edit" data-toggle="modal" data-target="#editModal"><i class="fa fa-edit"></i></a>&nbsp;&nbsp;';
-            $operate .= '<a class="btn btn-xs btn-gradient-danger btn-rounded btn-icon deletedata" data-id=' . $row->id . ' data-url=' . route('web.sections.destroy', $row->id) . ' title="Delete"><i class="fa fa-trash"></i></a>';
+            $operate .= '<a class="btn btn-xs btn-gradient-danger btn-rounded btn-icon deletedata" data-id=' . $row->id . ' data-url=' . route('school.sections.destroy', $row->id) . ' title="Delete"><i class="fa fa-trash"></i></a>';
 
             $tempRow['id'] = $row->id;
            $tempRow['name'] = $row->getTranslation('name', 'en');
@@ -139,6 +147,7 @@ class SectionController extends Controller
     public function update(Request $request)
     {
         try {
+            // return $request;
             $validator = Validator::make($request->all(), [
                 'name' => 'required',
                 'name_en' => 'required',
@@ -153,17 +162,17 @@ class SectionController extends Controller
                 return response()->json($response);
             }
 
-            $section =Section::find($request->id);
+            $section =ClassRoom::find($request->id);
 
             $section->name = ['en' => $request->name_en, 'ar' => $request->name];
-            $section->grade_id = $request->grade_id;
+            $section->grade_id = getSchool()->grade_id;
             $section->class_id = $request->class_id;
             $section->notes = $request->notes;
             $section->save();
 
             $response = [
                 'error' => false,
-                'message' => trans('data_store_successfully')
+                'message' => trans('genirale.data_store_successfully')
             ];
           }catch (\Exception $e){
               $response = [
@@ -180,7 +189,7 @@ class SectionController extends Controller
     public function destroy($id)
     {
         try {
-            Section::find($id)->delete();
+            ClassRoom::find($id)->delete();
             $response = array(
                 'error' => false,
                 'message' => trans('data_delete_successfully')

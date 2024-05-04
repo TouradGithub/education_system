@@ -28,7 +28,7 @@ class SubjectTeacherController extends Controller
 
         $subjects = Subject::orderBy('id', 'DESC')->get();
 
-        $classes= Classes::where('grade_id',getSchool()->grade_id)->get();
+        $classes  = Classes::where('grade_id',getSchool()->grade_id)->get();
 
         $teachers = Teacher::where('school_id',getSchool()->id)->get();
 
@@ -54,27 +54,28 @@ class SubjectTeacherController extends Controller
 
         }
 
-        $subjectTeacher=new SubjectTeacher();
-        $subjectTeacher->class_section_id=$request->class_section_id;
-        $subjectTeacher->subject_id=$request->subject_id;
-        $subjectTeacher->teacher_id=$request->teacher_id;
-        $subjectTeacher->school_id  = getSchool()->id;
-        $subjectTeacher->session_year=getYearNow()->id;
-        $subjectTeacher->status=1;
-        $subjectTeacher->save();
+
 
 
         try {
+            $subjectTeacher=new SubjectTeacher();
+            $subjectTeacher->class_section_id=$request->class_section_id;
+            $subjectTeacher->subject_id=$request->subject_id;
+            $subjectTeacher->teacher_id=$request->teacher_id;
+            $subjectTeacher->school_id  = getSchool()->id;
+            $subjectTeacher->session_year=getYearNow()->id;
+            $subjectTeacher->status=1;
+            $subjectTeacher->save();
 
 
             $response = [
                 'error' => false,
-                'message' => trans('data_store_successfully')
+                'message' => trans('genirale.data_store_successfully')
             ];
         } catch (Throwable $e) {
             $response = array(
                 'error' => true,
-                'message' => trans('error_occurred'),
+                'message' => trans('genirale.error_occurred'),
                 'data' => $e
             );
         }
@@ -84,13 +85,13 @@ class SubjectTeacherController extends Controller
     public function update(Request $request)
     {
 
-        if (!Auth::user()->can('subject-teacher-edit')) {
-            $response = array(
-                'error' => true,
-                'message' => trans('no_permission_message')
-            );
-            return response()->json($response);
-        }
+        // if (!Auth::user()->can('subject-teacher-edit')) {
+        //     $response = array(
+        //         'error' => true,
+        //         'message' => trans('no_permission_message')
+        //     );
+        //     return response()->json($response);
+        // }
         $request->validate([
             'class_section_id' => 'required|numeric',
             'subject_id' => 'required|numeric',
@@ -105,16 +106,16 @@ class SubjectTeacherController extends Controller
             $subject_teacher->save();
             $response = [
                 'error' => false,
-                'message' => trans('data_update_successfully')
+                'message' => trans('genirale.data_update_successfully')
             ];
         } catch (Throwable $e) {
             $response = array(
                 'error' => true,
-                'message' => trans('error_occurred'),
+                'message' => trans('genirale.error_occurred'),
                 'data' => $e
             );
         }
-        return response()->json($response);
+        return redirect()->back();
     }
 
     public function show()

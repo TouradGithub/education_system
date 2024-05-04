@@ -11,13 +11,10 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('fees', function (Blueprint $table) {
-            $table->uuid('id')->primary();
-            $table->string('name', 128);
-            $table->string('description', 1024)->nullable();
+        Schema::create('feesClasses', function (Blueprint $table) {
+            $table->id();
             $table->integer('class_section_id');
             $table->float('amount');
-            $table->date('due_date');
             $table->string('school_id');
             $table->integer('session_year_id');
             $table->timestamps();
@@ -25,11 +22,8 @@ return new class extends Migration
         });
     }
 
-    /**
-     * Reverse the migrations.
-     */
     public function down(): void
     {
-        Schema::dropIfExists('fees');
+        Schema::dropIfExists('feesClasses');
     }
 };

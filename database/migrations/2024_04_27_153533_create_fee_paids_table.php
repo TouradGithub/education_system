@@ -12,11 +12,15 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('fee_paids', function (Blueprint $table) {
-            $table->uuid('id')->primary();
-            $table->integer('fees_id');
+            $table->id();
+            $table->integer('fees_class_id');
             $table->integer('student_id');
-            $table->tinyInteger('status')->default(0)->comment('0=Not Paid,1=Paid');
-            $table->string('description', 1024)->nullable();
+            $table->tinyInteger('mode')->comment('0 - cash 1 - cheque 2 - online');
+            $table->string('payment_transaction_id')->nullable(true);
+            $table->tinyInteger('is_fully_paid')->comment('0 - no 1 - yes')->default(1);
+            $table->string('month');
+            $table->integer('amount');
+            $table->date('date');
             $table->string('school_id');
             $table->integer('session_year_id');
             $table->timestamps();

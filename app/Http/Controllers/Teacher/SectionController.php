@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers\Teacher;
 use App\Http\Requests\StoreGrades;
-use App\Models\Section;
+use App\Models\ClassRoom;
 use App\Models\Classes;
 use Illuminate\Support\Facades\Validator;
 use App\Models\Grade;

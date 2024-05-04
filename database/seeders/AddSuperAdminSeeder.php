@@ -14,6 +14,7 @@ use Spatie\Permission\Models\Role;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Faker\Generator as Faker;
+use App\Models\ClassRoom;
 class AddSuperAdminSeeder extends Seeder
 {
     /**
@@ -38,8 +39,14 @@ class AddSuperAdminSeeder extends Seeder
 
         // Grade::factory(10)->create();
         // Classes::factory(10)->create();
-        Teacher::factory(10)->create();
-
+        // Teacher::factory(10)->create();
+        ClassRoom::create([
+            "name" => ['en' => "Test en", 'ar' =>"sdlfjsldkj"],
+            "grade_id" => "1",
+            "class_id" => "1",
+            "school_id" => "1",
+            "notes" => "slkjdlfk note",
+        ]);
 
 
 

@@ -10,8 +10,11 @@
     $boys_count = Student::where(['school_id'=>getSchool()->id,'gender'=>"male"])->count();
 
     $girls_count = App\Models\Student::where(['school_id'=>getSchool()->id,'gender'=>"female"])->count();
-    $boys = round((($boys_count * 100) / $student), 2);
+    if($student>0){
+        $boys = round((($boys_count * 100) / $student), 2);
     $girls = round((($girls_count * 100) / $student), 2);
+    }
+
 @endphp
     <div class="content-wrapper">
         <div class="page-header">
@@ -110,7 +113,7 @@
                     </div>
                 </div>
             @endif
-            {{-- @if($boys || $girls)--}}
+            @if(isset($boys) || isset($girls))
                 <div class="col-md-5 grid-margin stretch-card">
                     <div class="card">
                         <div class="card-body">
@@ -120,7 +123,7 @@
                         </div>
                     </div>
                 </div>
-            {{-- @endif --}}
+            @endif
         </div>
         {{-- @canany(['class-teacher']) --}}
 
@@ -175,7 +178,7 @@
     </div>
 @endsection
 @section('script')
-    {{-- @if($boys || $girls)--}}
+    @if(isset($boys) || isset($girls))
         <script>
             (function ($) {
                 'use strict';
@@ -262,6 +265,6 @@
                 });
             })(jQuery);
         </script>
-    {{-- @endif --}}
+    @endif
 
 @endsection

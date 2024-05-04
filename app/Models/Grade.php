@@ -20,7 +20,7 @@ class Grade extends Model
     }
     public function sections()
     {
-        return $this->hasMany(Section::class, 'grade_id');
+        return $this->hasMany(ClassRoom::class, 'grade_id');
     }
 
     public function getArabicNameAttribute()

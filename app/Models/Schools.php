@@ -17,13 +17,24 @@ class Schools extends Model
     protected $table = 'info_schools';
 
     protected $hidden = ['created_at','updated_at','deleted_at'];
+    
     protected $fillable = [
         'name', 'description','image','adress','email','type','grade_id','academy_id'
     ];
+
+    public function setting()
+    {
+        return $this->hasOne(Settings::class, 'school_id');
+    }
+
     public function academy()
     {
         return $this->belongsTo(Acadimy::class, 'academy_id');
 
+    }
+
+    public function sections(){
+        return $this->hasMany(ClassRoom::class ,'school_id');
     }
 
     // public function student() {

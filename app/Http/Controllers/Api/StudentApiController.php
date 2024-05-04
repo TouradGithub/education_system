@@ -8,6 +8,7 @@ use Illuminate\Support\Facades\Auth;
 use App\Models\Trimester;
 use App\Models\Schools;
 use App\Models\Student;
+use App\Models\StudentAcount;
 use App\Models\SubjectTeacher;
 class StudentApiController extends Controller
 {
@@ -306,7 +307,11 @@ class StudentApiController extends Controller
         if (Auth::guard('student')->attempt(['username' => $request->username, 'password' => $request->password])) {
 
             $auth = Auth::guard('student')->user();
+            // $auth->update(['token'=>$request->token]);
             $student_infos=  Student::find($auth->student_acount_id);
+            $userAuth=  StudentAcount::find($auth->id);
+            $userAuth->token=$request->token;
+            $userAuth->save();
             $token = $auth->createToken($auth->username)->plainTextToken;
             // $auth->tokens()->delete();
             $response = array(

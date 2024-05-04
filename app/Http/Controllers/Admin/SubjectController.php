@@ -90,7 +90,7 @@ class SubjectController extends Controller
         if (isset($_GET['order']))
         $order = $_GET['order'];
 
-        $sql = Subject::where('id', '!=', 0);
+        $sql = Subject::where('school_id', getSchool()->id);
         if (isset($_GET['search']) && !empty($_GET['search'])) {
             $search = $_GET['search'];
             $sql->where('id', 'LIKE', "%$search%")

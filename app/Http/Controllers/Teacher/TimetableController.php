@@ -41,7 +41,9 @@ class TimetableController extends Controller
 
         foreach( $sections as  $value){
             $day = Timetable::InTimetable()->select('day')
-            ->where('section_id', $value->class_section_id)->groupBy('day')->get();
+            ->where(['section_id'=>$value->class_section_id,
+            "subject_teacher_id"=>$value->id,
+            ])->groupBy('day')->get();
             $timetable = Timetable::InTimetable()->where([
                 "subject_teacher_id"=>$value->id,
                 'section_id'=> $value->class_section_id

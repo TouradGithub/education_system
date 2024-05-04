@@ -15,7 +15,7 @@ class lesson extends Model
     }
 
     public function section() {
-        return $this->belongsTo(Section::class)->with('classe');
+        return $this->belongsTo(ClassRoom::class)->with('classe');
     }
 
     protected static function boot() {

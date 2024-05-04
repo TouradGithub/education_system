@@ -9,7 +9,7 @@
         <h3 class="page-title">
             {{__('show_role')}}
         </h3>
-        <a class="btn btn-sm btn-theme" href="{{ route('web.roles.index') }}">{{__('back')}}</a>
+        <a class="btn btn-sm btn-theme" href="{{ route('school.role.index') }}">{{__('back')}}</a>
     </div>
     <div class="row grid-margin">
         <div class="col-lg-12">

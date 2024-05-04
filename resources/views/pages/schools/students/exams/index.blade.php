@@ -14,6 +14,7 @@
                 {{ __('genirale.manage') . ' ' . __('exam.exams') }}
             </h3>
         </div>
+        @can('school-exams-create')
         <div class="row">
             <div class="col-md-12 grid-margin stretch-card">
                 <div class="card">
@@ -100,6 +101,8 @@
                 </div>
             </div>
         </div>
+        @endcan
+
     </div>
 @endsection
 

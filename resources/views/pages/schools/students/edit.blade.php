@@ -34,7 +34,8 @@
                             {{ __('genirale.edit') . ' ' . __('sidebar.students') }}
                             {{$student->id}}
                         </h4>
-                        <form class="pt-3 student-registration-form" enctype="multipart/form-data" action="{{ route('school.studentts.update',$student->id) }}" method="POST" novalidate="novalidate">
+                         @can('school-students-edit')
+                         <form class="pt-3 student-registration-form" enctype="multipart/form-data" action="{{ route('school.studentts.update',$student->id) }}" method="POST" novalidate="novalidate">
                             @csrf
                             @method('PUT')
                             <div class="row">
@@ -72,20 +73,23 @@
                                         </div>
                                     </div>
                                 </div>
-                                <div class="form-group col-sm-12 col-md-4">
-                                    <label>{{ __('genirale.image') }}</label>
+                                <div class="form-group col-md-4 col-sm-12">
+                                    <label>{{ __('genirale.image') }} <span class="text-danger">*</span></label>
                                     <input type="file" name="image" class="file-upload-default"/>
                                     <div class="input-group col-xs-12">
-                                        <input type="text" class="form-control file-upload-info" disabled="" placeholder="{{ __('genirale.image') }}" />
+                                        <input type="text" class="form-control file-upload-info" disabled="" placeholder="{{ __('genirale.image') }}"/>
                                         <span class="input-group-append">
-                                            <button class="file-upload-browse btn btn-theme" type="button">{{ __('genirale.upload') }}</button>
+                                          <button class="file-upload-browse btn btn-theme" type="button">{{ __('upload') }}</button>
                                         </span>
+                                        <div class="col-md-12">
+                                            <img height="50px" src='{{ isset($setting->logo) ?url(Storage::url($setting->logo)) : '' }}'>
+                                        </div>
                                     </div>
                                 </div>
 
                                 <div class="form-group col-sm-12 col-md-4">
                                     <label>{{ __('teacher.dob') }} <span class="text-danger">*</span></label>
-                                    {!! Form::text('dob', $student->last_name, ['placeholder' => __('teacher.dob'), 'class' => 'datepicker-popup-no-future form-control']) !!}
+                                    {!! Form::text('dob', $student->date_birth, ['placeholder' => __('teacher.dob'), 'class' => 'datepicker-popup-no-future form-control']) !!}
                                     <span class="input-group-addon input-group-append">
                                     </span>
                                 </div>
@@ -145,6 +149,8 @@
 
                             <input class="btn btn-theme" type="submit" value={{ __('genirale.submit') }}>
                         </form>
+                         @endcan
+
                     </div>
                 </div>
             </div>

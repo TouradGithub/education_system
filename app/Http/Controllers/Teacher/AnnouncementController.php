@@ -4,7 +4,7 @@ namespace App\Http\Controllers\Teacher;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
 use App\Models\Announcement;
-use App\Models\Section;
+use App\Models\ClassRoom;
 use App\Models\File;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
@@ -77,7 +77,7 @@ class AnnouncementController extends Controller
                 $announcement->section_id = $request->class_section_id;
                 $announcement->subject_id = $request->subject_id;
                 if($request->has('class_section_id')){
-                    $class=Section::find( $request->class_section_id);
+                    $class=ClassRoom::find( $request->class_section_id);
                     $announcement->table()->associate($class);
                 }
 
@@ -246,19 +246,19 @@ class AnnouncementController extends Controller
             $tempRow['type'] = $row->table_type;
             if ($tempRow['type'] == "App\\Models\\Section") {
                 $assign = 'class_section';
-                // $section=Section::find($row->table->id);
-                $class =  $row->table->classe->name . ' - ' . $row->table->name;
-                $class1 = $class;
+
+                // $class =  $row->table->classe->name . ' - ' . $row->table->name;
+                // $class1 = $class;
             }
 
             if ($tempRow['type'] == "") {
                 $assign = 'general';
                 $class = trans("general");
-                $class1 = $class;
+                // $class1 = $class;
             }
-            $tempRow['assign'] = $assign;
-            $tempRow['assign_to'] = $class;
-            $tempRow['assignto'] = $class1;
+            // $tempRow['assign'] = $assign;
+            // $tempRow['assign_to'] = $class;
+            // $tempRow['assignto'] = $class1;
             $tempRow['get_data'] = $row->table_id;
             $tempRow['file'] = $row->file;
             $tempRow['operate'] = $operate;

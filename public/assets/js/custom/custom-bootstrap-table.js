@@ -598,45 +598,50 @@ window.FeesTypeActionEvents = {
 };
 window.feesClassEvents = {
     'click .edit-data': function (e, value, row, index) {
+        console.log("HHH");
         $('#edit_class_id').val(row.class_id);
         $('#class_id').val(row.class_id);
+        $('#base_amount_edit').val(parseFloat(row.base_amount))
+        $('#feesClass_id').val(row.feesClass)
 
-        if (row.fees_type.length) {
-            $('.edit-extra-fees-types').html('');
-            $.each(row.fees_type, function (key, value) {
-                let fees_type = $('.edit-fees-type-div:last').clone().show();
-                // Remove the error label from the main html so that duplicate error will not be show
-                fees_type.find('select').siblings('.error').remove();
+        // if (row.fees_type.length) {
+        //     $('.edit-extra-fees-types').html('');
+        //     $.each(row.fees_type, function (key, value) {
+        //         let fees_type = $('.edit-fees-type-div:last').clone().show();
+        //         // Remove the error label from the main html so that duplicate error will not be show
+        //         fees_type.find('select').siblings('.error').remove();
 
-                //Change the Name array attribute for jquery validation
-                //Add incremental name value
-                fees_type.find('.form-control').each(function (key, element) {
-                    this.name = this.name.replace(/\[(\d+)\]/, function (str, p1) {
-                        return '[' + (parseInt(p1, 10) + 1) + ']';
-                    });
-                    this.id = this.id.replace(/\_(\d+)/, function (str, p1) {
-                        return '_' + (parseInt(p1, 10) + 1);
-                    });
-                    $(element).attr('disabled', false);
-                })
-                //Fill the Values
-                fees_type.find('.remove-fees-type').attr('data-id', value.id);
-                fees_type.find('.edit-fees-type-id').val(value.id);
-                fees_type.find('select').find("option[value = '" + value.fees_type_id + "']").attr("selected", "selected");
-                fees_type.find('.edit_amount').val(value.amount);
-                if(value.choiceable){
-                    fees_type.find('#editChoiceableNo_'+(key+1)).removeAttr("checked");
-                    fees_type.find('#editChoiceableYes_'+(key+1)).attr("checked",true);
-                }else{
-                    fees_type.find('#editChoiceableYes_'+(key+1)).removeAttr("checked");
-                    fees_type.find('#editChoiceableNo_'+(key+1)).attr("checked",true);
-                }
-                fees_type.find('.edit_choiceable').val(value.choiceable).attr('checked',true);
-                $('.edit-extra-fees-types').append(fees_type);
-            })
-        } else {
-            $('.edit-extra-fees-types').html('');
-        }
+        //         //Change the Name array attribute for jquery validation
+        //         //Add incremental name value
+        //         fees_type.find('.form-control').each(function (key, element) {
+        //             this.name = this.name.replace(/\[(\d+)\]/, function (str, p1) {
+        //                 return '[' + (parseInt(p1, 10) + 1) + ']';
+        //             });
+        //             this.id = this.id.replace(/\_(\d+)/, function (str, p1) {
+        //                 return '_' + (parseInt(p1, 10) + 1);
+        //             });
+        //             $(element).attr('disabled', false);
+        //         })
+        //         //Fill the Values
+        //         fees_type.find('.remove-fees-type').attr('data-id', value.id);
+        //         fees_type.find('.edit-fees-type-id').val(value.id);
+        //         fees_type.find('select').find("option[value = '" + value.fees_type_id + "']").attr("selected", "selected");
+        //         fees_type.find('.edit_amount').val(value.amount);
+        //         if(value.choiceable){
+        //             fees_type.find('#editChoiceableNo_'+(key+1)).removeAttr("checked");
+        //             fees_type.find('#editChoiceableYes_'+(key+1)).attr("checked",true);
+        //         }else{
+        //             fees_type.find('#editChoiceableYes_'+(key+1)).removeAttr("checked");
+        //             fees_type.find('#editChoiceableNo_'+(key+1)).attr("checked",true);
+        //         }
+        //         fees_type.find('.edit_choiceable').val(value.choiceable).attr('checked',true);
+        //         $('.edit-extra-fees-types').append(fees_type);
+        //     })
+        // } else {
+        //     $('.edit-extra-fees-types').html('');
+        // }
+
+
     }
 };
 window.feesPaidEvents = {
@@ -844,9 +849,10 @@ window.feesPaidEvents = {
     },
     'click .optional-data': function (e, value, row, index) {
         // Disable PAY Button
-        $(document).find('.optional_fees_payment').prop('disabled', true);
+        // $(document).find('.optional_fees_payment').prop('disabled', true);
 
         // Add data in Modal
+        console.log(row.class_id);
         $('#optional_student_id').val(row.student_id);
         $('#optional_class_id').val(row.class_id);
         $('.student_name').html(row.student_name + ' - ' + row.class_name);
@@ -923,11 +929,11 @@ window.feesPaidEvents = {
                 }
 
                 // Check the Amount And Make PAY Button Clickable Or Not
-                if(choice_amount > 1){
-                    $(document).find('.optional_fees_payment').prop('disabled', false);
-                }else{
-                    $(document).find('.optional_fees_payment').prop('disabled', true);
-                }
+                // if(choice_amount > 1){
+                //     $(document).find('.optional_fees_payment').prop('disabled', false);
+                // }else{
+                //     $(document).find('.optional_fees_payment').prop('disabled', true);
+                // }
             });
         } else {
             $('.compulsory_div').hide();

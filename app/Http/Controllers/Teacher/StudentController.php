@@ -9,14 +9,14 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\DB;
-use App\Models\Section;
+use App\Models\ClassRoom;
 use App\Http\Requests\StoreStudentsRequest;
 class StudentController extends Controller
 {
 
     public function index($id){
 
-          $section=Section::find($id);
+          $section=ClassRoom::find($id);
         return  view('pages.teachers.students.index',compact('section'));
     }
 

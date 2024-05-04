@@ -15,7 +15,7 @@
         </div>
 
         <div class="row">
-            {{-- @if (Auth::user()->can('holiday-create')) --}}
+            @can('school-subject-create')
             <div class="col-lg-12 grid-margin stretch-card">
                 <div class="card">
                     <div class="card-body">
@@ -84,6 +84,8 @@
                     </div>
                 </div>
             </div>
+            @endcan
+            @can('school-subject-index')
                 <div class="col-lg-12 grid-margin stretch-card">
                     <div class="card">
                         <div class="card-body">
@@ -133,7 +135,8 @@
                         </div>
                     </div>
                 </div>
-            {{-- @endif --}}
+            @endcan
+
         </div>
     </div>
 

@@ -11,6 +11,7 @@
                 {{ __('genirale.manage').' '.__('sidebar.class_timetable') }}
             </h3>
         </div>
+        @can('school-class-timetable')
         <div class="row">
             <div class="col-md-12 grid-margin stretch-card search-container">
                 <div class="card">
@@ -45,6 +46,8 @@
             </div>
 
         </div>
+        @endcan
+
     </div>
 @endsection
 
@@ -123,8 +126,8 @@
                                         // + response['timetable'][j]['subject_teacher']['subject']['name'] + ' - ' + response['timetable'][j]['subject_id']
                                         + response['timetable'][j]['subject_teacher']['subject']['name'] + ' - ' + response['timetable'][j]['subject_teacher']['subject']['type']
                                         + '<br>' + response['timetable'][j]['subject_teacher']['teacher']['first_name'] + ' ' + response['timetable'][j]['subject_teacher']['teacher']['last_name']
-                                        + '<br>{{__('end timetable.start_time')}}: ' + response['timetable'][j]['start_time'] + '<br>{{__('end timetable.end_time')}}: '
-                                        + response['timetable'][j]['end_time'] + '</p><hr>';
+                                        + '<br>{{__('timetable.start_time')}}: ' + response['timetable'][j]['start_time'].slice(0, 5) + '<br>{{__('timetable.end_time')}}: '
+                                        + response['timetable'][j]['end_time'].slice(0, 5) + '</p><hr>';
 
                                 }
                             }

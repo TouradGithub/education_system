@@ -16,48 +16,18 @@ return new class extends Migration
     {
         Schema::create('settings', function (Blueprint $table) {
             $table->id();
-            $table->text('type');
-            $table->text('message');
+            $table->text('school_email')->nullable();
+            $table->text('school_name')->nullable();
+            $table->text('school_description')->nullable();
+            $table->text('school_mobile')->nullable();
+            $table->text('school_address')->nullable();
+            $table->text('school_logo')->nullable();
+            $table->string('school_id')->nullable();
+            $table->text('notes')->nullable();
+            $table->timestamps();
+            $table->softDeletes();
         });
 
-        DB::table('settings')->insert([
-            [
-                'type' => 'school_name',
-                'message' => 'e-School',
-            ],
-            [
-                'type' => 'school_email',
-                'message' => 'eschool@gmail.com',
-            ],
-            [
-                'type' => 'school_phone',
-                'message' => '9876543210',
-            ],
-            [
-                'type' => 'school_address',
-                'message' => 'Algeria',
-            ],
-            [
-                'type' => 'time_zone',
-                'message' => 'Asia/Kolkata',
-            ],
-            [
-                'type' => 'date_formate',
-                'message' => 'd-m-Y',
-            ],
-            [
-                'type' => 'time_formate',
-                'message' => 'h:i A',
-            ],
-            [
-                'type' => 'theme_color',
-                'message' => '#4C5EA6',
-            ],
-            [
-                'type' => 'update_warning_modal',
-                'message' => 1
-            ]
-        ]);
     }
 
     /**

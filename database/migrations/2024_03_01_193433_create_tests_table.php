@@ -20,7 +20,7 @@ return new class extends Migration
             $table->integer('subject_id');
             $table->integer('section_id');
             $table->integer('trimester_id');
-            $table->string('grade');
+            $table->string('grade')->nullable();
             $table->string('notes')->nullable();
             $table->integer('school_id');
             $table->integer('session_year');

@@ -5,56 +5,55 @@ use App\Models\User;
 
 function send_notification($user, $title, $body, $type)
 {
-    $FcmToken = User::where('fcm_id', '!=', '')->whereIn('id', $user)->get()->pluck('fcm_id');
+    // $token = $user->token;
 
-    $url = 'https://fcm.googleapis.com/fcm/send';
-    $serverKey = Settings::select('message')->where('type', 'fcm_server_key')->pluck('message')->first();
 
-    $notification_data1 = [
-        'click_action' => 'FLUTTER_NOTIFICATION_CLICK',
-        "title" => $title,
-        "body" => $body,
-        "type" => $type,
+    $SERVER_API_KEY = 'AAAAwG-Z0lQ:APA91bGlWG4ws_iGOwGYDlIlTqZE1rrMRFGtyH9EbN16FxJb0DtZ1bOrEY-q-tt-krukfNj6UJzAWaMh8tfnpOZ4RRJxETQ_WRjvucvBdgE1sautqroU4_Q7WL9W74hjQIDjXNz1BIuW';
 
-    ];
-    $notification_data2 = [
-        'click_action' => 'FLUTTER_NOTIFICATION_CLICK',
-        "type" => $type,
-
-    ];
+    // $token_1 = "dX-dmPoqQ6-ub_0Q60cj-B:APA91bHEpa1BGH60wYfA_nSgV8KDQdn4oI_QLcwbNwboe7GyuTNjYWKSqk9df5NlXq4CBENj4nRdxUa-q6DksJD2iaXwQcwnGEBxoz57P0I1UKj4P5Ooc5CiYMxtyyP9YLcvdEA3Lc7e";
+    $token_1 = $user->token;
 
     $data = [
-        "registration_ids" => $FcmToken,
-        "notification" => $notification_data1,
-        "data" => $notification_data2,
-        "priority" => "high"
+
+        "registration_ids" => [
+            $token_1
+        ],
+
+        "notification" => [
+
+            "title" => $title,
+
+            "body" =>$body,
+
+            "sound"=> "default" // required for sound on ios
+
+        ],
+
     ];
-    $encodedData = json_encode($data);
+
+    $dataString = json_encode($data);
 
     $headers = [
-        'Authorization:key=' . $serverKey,
+
+        'Authorization: key=' . $SERVER_API_KEY,
+
         'Content-Type: application/json',
+
     ];
 
     $ch = curl_init();
-    curl_setopt($ch, CURLOPT_URL, $url);
+
+    curl_setopt($ch, CURLOPT_URL, 'https://fcm.googleapis.com/fcm/send');
+
     curl_setopt($ch, CURLOPT_POST, true);
+
     curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
-    curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-    curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, 0);
-    curl_setopt($ch, CURLOPT_HTTP_VERSION, CURL_HTTP_VERSION_1_1);
 
-    // Disabling SSL Certificate support temporarly
     curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
-    curl_setopt($ch, CURLOPT_POSTFIELDS, $encodedData);
 
-    // Execute post
-    $result = curl_exec($ch);
-    if ($result == FALSE) {
-        die('Curl failed: ' . curl_error($ch));
-    }
-    // dd($result);
+    curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
 
-    // Close connection
-    curl_close($ch);
+    curl_setopt($ch, CURLOPT_POSTFIELDS, $dataString);
+
+    $response = curl_exec($ch);
 }

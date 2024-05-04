@@ -7,6 +7,7 @@ use App\Http\Requests\StoreSchool;
 use Illuminate\Support\Facades\Hash;
 use App\Models\Acadimy;
 use App\Models\User;
+use App\Models\Settings;
 use App\Models\SchoolManegment;
 use Illuminate\Support\Facades\DB;
 use Spatie\Permission\Models\Role;
@@ -23,7 +24,7 @@ class SchoolsController extends Controller
         $roles = Role::all()->pluck('name','name');
         return view('pages.schools.index',compact('grades','acadimy','roles'));
     }
-    
+
 
     /**
      * Show the form for creating a new resource.
@@ -39,6 +40,7 @@ class SchoolsController extends Controller
     public function store(StoreSchool $request)
     {
         try {
+
 
             DB::beginTransaction();
 
@@ -65,6 +67,9 @@ class SchoolsController extends Controller
                 'model_id' => $school->id,
                 'is_admin_school' => 1,
             ]);
+            $setting = new Settings();
+            $setting->school_id= $school->id;
+            $setting->save();
 
             $super_admin_role = Role::where('name', $request->input('roles'))->first();
 

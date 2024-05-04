@@ -17,6 +17,7 @@ class Timetable extends Model
     {
         return $query->where('session_year', getYearNow()->id)
                      ->where('school_id', getSchool()->id);
+                     
     }
 
     public function subject_teacher()
@@ -26,7 +27,7 @@ class Timetable extends Model
 
     public function section()
     {
-        return $this->belongsTo(Section::class,'section_id')->with('classe');
+        return $this->belongsTo(ClassRoom::class,'section_id')->with('classe');
     }
 
     // public function teacher()

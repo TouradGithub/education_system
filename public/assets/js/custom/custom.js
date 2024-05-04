@@ -2496,6 +2496,7 @@ $(document).on('click', '.remove-edit-fee-installment-content', function (e) {
     }
 });
 $('.pay_optional_fees_offline').on('submit', function (e) {
+    // console.log("IIII ok");
     e.preventDefault();
     let formElement = $(this);
     let submitButtonElement = $(this).find(':submit');

@@ -1,32 +1,35 @@
 @extends('layouts.masters.school-master')
 
 @section('title')
-    {{ __('fees') }} {{ __('classes') }}
+    {{-- {{ __('fees') }} --}}
+     {{ __('classes.classes') }}
 @endsection
 
 @section('content')
     <div class="content-wrapper">
         <div class="page-header">
             <h3 class="page-title">
-                {{ __('manage') }} {{ __('fees') }} {{ __('classes') }}
+                {{ __('genirale.manage') }}
+                {{-- {{ __('fees') }} --}}
+                {{ __('classes.classes') }}
             </h3>
         </div>
         <div class="row">
             <div class="col-md-12 grid-margin stretch-card">
                 <div class="card">
                     <div class="card-body">
-                        <div id="toolbar">
+                        {{-- <div id="toolbar">
                             <select name="filter_medium_id" id="filter_medium_id" class="form-control">
                                 <option value="">{{ __('all') }}</option>
-                                @foreach ($mediums as $medium)
+                                {{-- @foreach ($mediums as $medium)
                                     <option value="{{ $medium->id }}">
                                         {{ $medium->name }}
                                     </option>
                                 @endforeach
                             </select>
-                        </div>
+                        </div> --}}
                         <table aria-describedby="mydesc" class='table table-striped' id='table_list' data-toggle="table"
-                            data-url="{{ route('fees.class.list') }}" data-click-to-select="true"
+                            data-url="{{ route('school.fees.class.list') }}" data-click-to-select="true"
                             data-side-pagination="server" data-pagination="true"
                             data-page-list="[5, 10, 20, 50, 100, 200, All]" data-search="true" data-toolbar="#toolbar"
                             data-show-columns="true" data-show-refresh="true" data-fixed-columns="true"
@@ -40,15 +43,13 @@
                                 <tr>
                                     <th scope="col" data-field="class_id" data-sortable="true" data-visible="false">
                                         {{ __('id') }}</th>
+                                        <th scope="col" data-field="feesClass" data-sortable="true" data-visible="false">
+                                            {{ __('id') }}</th>
                                     <th scope="col" data-field="no" data-sortable="false">{{ __('no.') }}</th>
                                     <th scope="col" data-field="class_name" data-sortable="false">{{ __('class') }}</th>
-                                    <th scope="col" data-field="stream_name" data-sortable="false">{{ __('stream') }}</th>
-                                    <th scope="col" data-field="fees_type" data-sortable="false" data-align="left"
-                                        data-formatter="feesTypeFormatter">{{ __('fees') }} {{ __('type') }}</th>
                                     <th scope="col" data-field="base_amount" data-sortable="false" data-align="center">
                                         {{ __('base') }} {{ __('amount') }}</th>
-                                    <th scope="col" data-field="total_amount" data-sortable="false" data-align="center">
-                                        {{ __('total') }} {{ __('amount') }}</th>
+
                                     <th scope="col" data-field="created_at" data-sortable="true" data-visible="false">
                                         {{ __('created_at') }}</th>
                                     <th scope="col" data-field="updated_at" data-sortable="true" data-visible="false">
@@ -74,7 +75,6 @@
                                 <span aria-hidden="true">&times;</span>
                             </button>
                         </div>
-                        {{-- Template for old fees type --}}
                         <div class="row edit-fees-type-div" style="display: none;">
                             <div class="row col-12">
                                 <div class="form-group col-md-4">
@@ -84,11 +84,11 @@
                                         required="required">
                                         <option value="">{{ __('select') }} {{ __('fees') }}
                                             {{ __('type') }}</option>
-                                        @foreach ($fees_type_data as $fees_type)
+                                        {{-- @foreach ($fees_type_data as $fees_type)
                                             <option value="{{ $fees_type->id }}">
                                                 {{ $fees_type->name }}
                                             </option>
-                                        @endforeach
+                                        @endforeach --}}
                                     </select>
                                 </div>
                                 <div class="form-group col-md-4">
@@ -129,18 +129,17 @@
                         </div>
 
 
-                        {{-- Template for New fees type --}}
                         <div class="row template_fees_type" style="display: none; align">
                             <div class="row col-12">
                                 <div class="form-group col-md-4">
                                     <select name="fees_type[1][fees_type_id]" class="form-control" required="required">
                                         <option value="">{{ __('select') }} {{ __('fees') }}
                                             {{ __('type') }}</option>
-                                        @foreach ($fees_type_data as $fees_type)
+                                        {{-- @foreach ($fees_type_data as $fees_type)
                                             <option value="{{ $fees_type->id }}">
                                                 {{ $fees_type->name }}
                                             </option>
-                                        @endforeach
+                                        @endforeach --}}
                                     </select>
                                 </div>
 
@@ -181,7 +180,7 @@
                             </div>
 
                         </div>
-                        <form class="pt-3" id="fees-class-create-form" action="{{ url('class/fees-type') }}"
+                        <form class="pt-3" id="fees-class-create-form" method="POST" action="{{ route('school.class.fees.type.update') }}"
                             novalidate="novalidate">
                             @csrf
                             {{-- @method('PUT') --}}
@@ -189,13 +188,14 @@
                                 <div class="form-group">
                                     <label>{{ __('class') }} <span class="text-danger">*</span></label>
                                     <select name="class_id" id="edit_class_id" class="form-control" disabled>
-                                        <option value="">{{ __('select_class') }}</option>
-                                        @foreach ($classes as $class)
-                                            <option value="{{ $class->id }}" data-medium="{{ $class->medium_id }}">
-                                                {{ $class->name . ' - ' . $class->medium->name .' '.($class->streams->name ?? ' ')}}</option>
+                                        <option value="">{{ __('genirale.select') }}</option>
+                                        @foreach ($sections as $item)
+                                            <option value="{{ $item->id }}" >
+                                                {{ $item->name . ' - ' . $item->classe->name ?? ' '}}</option>
                                         @endforeach
                                     </select>
                                     <input type="hidden" name="class_id" id="class_id" value="" />
+                                    <input type="hidden" name="fees_id" id="feesClass_id" value="" />
                                 </div>
 
                                 <h4 class="mb-3">
@@ -204,7 +204,15 @@
                                 {{-- Dynamic New fees type will be added in this DIV --}}
                                 <div class="mt-3 edit-extra-fees-types"></div>
 
-                                <div>
+                                <div class="form-group col-md-12">
+                                    {!! Form::number('base_amount', null, [
+                                        'class' => 'form-control amount-text',
+                                        'id' => 'base_amount_edit',
+                                        'required' => 'required',
+                                        'placeholder' => __('enter') . ' ' . __('fees') . ' ' . __('amount'),
+                                    ]) !!}
+                                </div>
+                                {{-- <div>
                                     <div class="form-group pl-0 mt-4">
                                         <button type="button"
                                             class="col-md-3 btn btn-inverse-success add-new-fees-type amount choiceable"
@@ -212,7 +220,7 @@
                                             {{ __('fees') }} {{ __('type') }} <i class="fa fa-plus"></i>
                                         </button>
                                     </div>
-                                </div>
+                                </div> --}}
                             </div>
                             <div class="modal-footer">
                                 <button type="button" class="btn btn-secondary"

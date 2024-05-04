@@ -6,7 +6,7 @@ use App\Models\Exam;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use App\Models\Test;
-use App\Models\Section;
+use App\Models\ClassRoom;
 class ExamController extends Controller
 {
     /**
@@ -30,7 +30,7 @@ class ExamController extends Controller
      */
     public function store(Request $request)
     {
-        // if (!Auth::user()->can('attendance-create') || !Auth::user()->can('attendance-edit')) {
+        // if (!Auth::user()->can('school-attendance-create') || !Auth::user()->can('attendance-edit')) {
         //     $response = array(
         //         'error' => true,
         //         'message' => trans('no_permission_message')
@@ -53,31 +53,36 @@ class ExamController extends Controller
         }
         try {
 
-            $getid = Exam::select('id')
-                ->where([
-                    'subject_id'   =>  $request->subject_id,
-                    'section_id'   => $request->section_id,
-                    'trimester_id' => $request->trimester_id,
+
+
+            $exams = Exam::where([
+                'subject_id' =>  $request->subject_id,
+                'section_id' => $request->section_id,
+                'trimester_id' => $request->trimester_id,
                 ])->get();
 
-            for ($i = 0; $i < count($request->student_id); $i++) {
 
-                if (count($getid) > 0) {
-                    $attendance = Exam::find($getid[$i]['id']);
-                    $a = "grade" . $request->student_id[$i];
-                } else {
-                    $attendance = new Exam();
-                    $a = "grade" . $request->student_id[$i];
-                }
-                $attendance->student_id     = $request->student_id[$i];
-                $attendance->school_id      = getSchool()->id;
-                $attendance->session_year   = getYearNow()->id;
-                $attendance->section_id     = $request->section_id;
-                $attendance->subject_id     = $request->subject_id;
-                $attendance->trimester_id   = $request->trimester_id;
-                $attendance->grade          = $request->$a;
-                $attendance->save();
+        foreach ($request->student_id as $studentId) {
+            $exam = $exams->firstWhere('student_id', $studentId);
+
+            if (!$exam) {
+                // Create a new Test record
+                $exam = new Exam();
+                $exam->student_id = $studentId;
+                $exam->school_id = getSchool()->id;
+                $exam->session_year = getYearNow()->id;
+                $exam->section_id = $request->section_id;
+                $exam->subject_id = $request->subject_id;
+                $exam->trimester_id = $request->trimester_id;
+                // $test->grade = $request->$a;
             }
+            if($request->input('grade'.$studentId)){
+                $exam->grade = $request->input('grade'.$studentId);
+
+                // Save the Test record
+                $exam->save();
+            }
+        }
             $response = [
                 'error' => false,
                 'message' => trans('genirale.data_store_successfully')
@@ -121,46 +126,10 @@ class ExamController extends Controller
 
             ){
 
-                        $chkCount = Exam::InExam()->where(
-                            [
-                                'subject_id'              =>   $request->subject_id,
-                                'section_id'  => $request->section_id,
-                                'trimester_id'      => $request->trimester_id
-                            ])->count();
 
-
-
-
-                if ( $chkCount > 0) {
-
-                $sql2 = Exam::InExam()->with('student')->where(
-                [
-                    'subject_id'        => $request->subject_id,
-                    'section_id'        => $request->section_id,
-                    'trimester_id'      => $request->trimester_id
-                ]);
-                $total = $sql2->count();
-                $res = $sql2->get();
-                $bulkData = array();
-                $bulkData['total'] = $total;
-                $rows = array();
-                $tempRow = array();
-                $no = 1;
-                foreach ($res as $row) {
-
-                    $get_type = $row->type;
-                    $tempRow['grade'] =  '  <input type="text" oninput="validateGrade(this)" style="width: 100%;font-weight: bold;" name="grade'.$row->student_id.'" class="form-control"  value="'.$row->grade.'">';
-                    $tempRow['id'] = $row->id;
-                    $tempRow['student_id'] = "<input type='text' name='student_id[]' class='form-control' readonly value=" . $row->student_id . ">";
-                    $tempRow['roll_number'] = $row->student->roll_number;
-                    $tempRow['name'] = $row->student->first_name . ' ' . $row->student->last_name;
-
-                    $rows[] = $tempRow;
-                }
-            } else {
-
-                $section = Section::find($request->section_id);
+                $section = ClassRoom::find($request->section_id);
                 $sql =  $section->students;
+
 
                 $res = $sql;
                 $bulkData = array();
@@ -168,9 +137,20 @@ class ExamController extends Controller
                 $tempRow = array();
                 $no = 1;
                 foreach ($res as $row) {
+                    $test = Exam::InExam()->where(
+                        [
+                            'subject_id'              =>   $request->subject_id,
+                            'section_id'  => $request->section_id,
+                            'trimester_id'      => $request->trimester_id,
+                            'student_id'      => $row->id
+                        ])->first();
+                        if($test){
+                            $tempRow['grade'] =  '  <input type="text" oninput="validateGrade(this)" style="width: 100%;font-weight: bold;" name="grade'.$test->student_id.'" class="form-control"  value="'.$test->grade.'">';
 
-                    $tempRow['grade'] =  '  <input type="number" oninput="validateGrade(this)" style="width: 100%;font-weight: bold;" name="grade'.$row->id.'" class="form-control"  value="">';
+                        }else{
+                            $tempRow['grade'] =  '  <input type="number" oninput="validateGrade(this)" style="width: 100%;font-weight: bold;" name="grade'.$row->id.'" class="form-control"  value="">';
 
+                        }
 
                     $tempRow['id'] = $row->id;
                     $tempRow['student_id'] = "<input type='text' name='student_id[]' class='form-control' readonly value=" . $row->id. ">";
@@ -179,13 +159,12 @@ class ExamController extends Controller
                     $rows[] = $tempRow;
 
                 }
-            }
+            // }
 
             $bulkData['rows'] = $rows;
             }else{
                 $bulkData['rows']=[];
             }
-
 
         return response()->json($bulkData);
     }

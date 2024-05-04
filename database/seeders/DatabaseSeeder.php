@@ -14,7 +14,7 @@ class DatabaseSeeder extends Seeder
     {
         $this->call([
             // InstallationSeeder::class,
-            AddSuperAdminSeeder::class,
+            // AddSuperAdminSeeder::class,
         ]);
     }
 }

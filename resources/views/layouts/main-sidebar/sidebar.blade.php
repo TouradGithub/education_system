@@ -7,7 +7,7 @@
                 <span class="menu-title">{{ __('sidebar.dashboard') }}</span>
             <i class="fa fa-home menu-icon"></i> </a>
         </li>
-        @can('session-year-create')
+        {{-- @can('session-year-create') --}}
             <li class="nav-item">
                 <a href="
                 {{ route('web.session-years.index') }}
@@ -15,7 +15,7 @@
                         class="menu-title">{{ __('sidebar.session_years') }}</span> <i class="fa fa-calendar-o menu-icon"></i>
                 </a>
             </li>
-        @endcan
+        {{-- @endcan --}}
 
         <li class="nav-item">
             <a href="
@@ -33,7 +33,7 @@
             </a>
         </li>
 
-        @can('school-list',)
+        {{-- @can('school-list',) --}}
         <li class="nav-item">
             <a href="
             {{ route('web.schools.index') }}
@@ -41,7 +41,7 @@
                     class="menu-title">{{ __('sidebar.schools') }}</span> <i class="fa fa-calendar-o menu-icon"></i>
             </a>
         </li>
-        @endcan
+        {{-- @endcan --}}
         {{-- @can('school-list',) --}}
         <li class="nav-item">
             <a href="

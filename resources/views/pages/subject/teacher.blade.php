@@ -13,14 +13,14 @@
     </div>
 
     <div class="row">
-        {{-- @can('subject-teacher-create') --}}
+        @can('school-subject-teachers')
         <div class="col-lg-12 grid-margin stretch-card">
             <div class="card">
                 <div class="card-body">
                     <h4 class="card-title">
                         {{ __('sidebar.assign') . ' ' . __('subjects.subject') . ' ' . __('teacher.teacher') }}
                     </h4>
-                    <form class="assign_subject_teacher pt-3" action="{{ url('school/subject-teachers') }}" method="POST" novalidate="novalidate">
+                    <form class=" pt-3" action="{{ url('school/subject-teachers') }}" method="POST" novalidate="novalidate">
                         @csrf
                         <div class="row">
                             <div class="form-group col-sm-12 col-md-6">
@@ -56,14 +56,14 @@
                                 </select>
                             </div>
                         </div>
-                        <input class="btn btn-theme" type="submit" value={{ __('genirale.submit') }}>
+                        <button class="btn btn-theme" type="submit" value>{{ __('genirale.submit') }}</button>
                     </form>
                 </div>
             </div>
         </div>
-        {{-- @endcan --}}
+        @endcan
 
-        {{-- @can('subject-teacher-list') --}}
+        @can('school-subject-teacher-create')
         <div class="col-lg-12 grid-margin stretch-card">
             <div class="card">
                 <div class="card-body">
@@ -99,9 +99,9 @@
                                         <th scope="col" data-field="teacher_id" data-sortable="true" data-visible="false">{{ __('teacher_id') }}</th>
                                         <th scope="col" data-field="teacher_name" data-sortable="false">
                                             {{ __('teacher.teacher') . ' ' . __('genirale.name') }}</th>
-                                        {{-- @canany(['subject-teacher-edit', 'subject-teacher-delete']) --}}
+                                        @canany(['subject-teacher-edit', 'subject-teacher-delete'])
                                         <th data-events="actionEvents" scope="col" data-field="operate" data-sortable="false">{{ __('genirale.action') }}</th>
-                                        {{-- @endcanany --}}
+                                        @endcanany
                                     </tr>
                                 </thead>
                             </table>
@@ -110,7 +110,7 @@
                 </div>
             </div>
         </div>
-        {{-- @endcan --}}
+        @endcan
     </div>
 </div>
 
@@ -189,7 +189,7 @@
 });
     function getSectionsByClass(gradeId) {
         var xhr = new XMLHttpRequest();
-        xhr.open('GET', '/getSection-list/' + gradeId, true);
+        xhr.open('GET', '/school/getSection-list/' + gradeId, true);
         xhr.onload = function() {
             if (this.status === 200) {
                 var sections = JSON.parse(this.responseText);

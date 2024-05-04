@@ -4,14 +4,14 @@ namespace App\Http\Controllers\Teacher;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
-use App\Models\Section;
+use App\Models\ClassRoom;
 use App\Models\Lesson;
 use App\Models\File;
 use Illuminate\Support\Facades\Validator;
 class LessonController extends Controller
 {
     public function create($section){
-        $section = Section::find($section);
+        $section = ClassRoom::find($section);
         return view('pages.teachers.lessons.index',compact('section'));
 
     }

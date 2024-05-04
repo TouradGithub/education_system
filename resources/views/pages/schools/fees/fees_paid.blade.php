@@ -1,7 +1,7 @@
 @extends('layouts.masters.school-master')
 
 @section('title')
-    {{ __('manage') . ' ' . __('fees') }} {{ __('paid') }}
+    {{ __('genirale.manage') . ' ' . __('fees') }} {{ __('paid') }}
 @endsection
 
 @section('content')
@@ -18,13 +18,13 @@
                         <div id="toolbar" class="row">
                             <div class="col">
                                 <label for="filter_class_id" style="font-size: 0.89rem">
-                                    {{ __('classes') }}
+                                    {{ __('classes.classes') }}
                                 </label>
                                 <select name="filter_class_id" id="filter_class_id" class="form-control">
                                     <option value="">{{ __('all') }}</option>
-                                    @foreach ($classes as $class)
-                                        <option value="{{ $class->id }}">
-                                            {{ $class->name }} {{ $class->medium->name }}  {{$class->streams->name ?? ' '}}
+                                    @foreach (getSchool()->sections as $item)
+                                        <option value="{{ $item->id }}">
+                                            {{ $item->classe->name  ?? ' '}}      {{ $item->name }}
                                         </option>
                                     @endforeach
                                 </select>
@@ -35,11 +35,11 @@
                                 </label>
                                 <select name="filter_session_year_id" id="filter_session_year_id" class="form-control">
                                     <option value="">{{ __('all') }}</option>
-                                    @foreach ($session_year_all as $session_year)
+                                    {{-- @foreach ($session_year_all as $session_year)
                                         <option value="{{ $session_year->id }}">
                                             {{ $session_year->name }}
                                         </option>
-                                    @endforeach
+                                    @endforeach --}}
                                 </select>
                             </div>
                             <div class="col" style="font-size: 0.89rem">
@@ -54,7 +54,7 @@
                                 </select>
                             </div>
                         </div>
-                        <table aria-describedby="mydesc" class='table table-striped' id='table_list' data-toggle="table"data-url="{{ route('fees.paid.list', 1) }}" data-click-to-select="true"data-side-pagination="server" data-pagination="true" data-page-list="[5, 10, 20, 50, 100, 200]"data-search="true" data-toolbar="#toolbar" data-show-columns="true" data-show-refresh="true"data-fixed-columns="true" data-trim-on-search="false" data-mobile-responsive="true" data-sort-name="id"data-sort-order="desc" data-maintain-selected="true" data-export-types='["txt","excel"]'data-export-options='{ "fileName": "{{ __('fees') }}-{{ __('paid') }}-{{ __('list') }}-<?= date('d-m-y') ?>" ,"ignoreColumn":["operate"]}' data-show-export="true"data-query-params="feesPaidListQueryParams">
+                        <table aria-describedby="mydesc" class='table table-striped' id='table_list' data-toggle="table"data-url="{{ route('school.fees.paid.list', 1) }}" data-click-to-select="true"data-side-pagination="server" data-pagination="true" data-page-list="[5, 10, 20, 50, 100, 200]"data-search="true" data-toolbar="#toolbar" data-show-columns="true" data-show-refresh="true"data-fixed-columns="true" data-trim-on-search="false" data-mobile-responsive="true" data-sort-name="id"data-sort-order="desc" data-maintain-selected="true" data-export-types='["txt","excel"]'data-export-options='{ "fileName": "{{ __('fees') }}-{{ __('paid') }}-{{ __('list') }}-<?= date('d-m-y') ?>" ,"ignoreColumn":["operate"]}' data-show-export="true"data-query-params="feesPaidListQueryParams">
                             <thead>
                                 <tr>
 
@@ -63,12 +63,12 @@
                                     <th scope="col" data-field="no" data-sortable="false">{{ __('no.') }}</th>
                                     <th scope="col" data-field="student_name" data-sortable="false">{{ __('students') . ' ' . __('name') }}</th>
                                     <th scope="col" data-field="class_name" data-sortable="false">{{ __('class') }}</th>
-                                    <th scope="col" data-field="stream_name" data-sortable="false">{{ __('stream') }}</th>
+                                    {{-- <th scope="col" data-field="stream_name" data-sortable="false">{{ __('stream') }}</th> --}}
 
-                                    <th scope="col" data-field="total_fees" data-sortable="false" data-align="center">{{ __('total') }} {{ __('fees') }}</th>
-                                    <th scope="col" data-field="fees_status" data-sortable="false" data-formatter="feesPaidStatusFormatter" data-align="center">{{ __('fees') }} {{__('status')}}</th>
-                                    <th scope="col" data-field="date" data-sortable="false" data-align="center">{{ __('date') }}</th>
-                                    <th scope="col" data-field="session_year_name" data-sortable="false" data-align="center">{{ __('session_years') }}</th>
+                                    {{-- <th scope="col" data-field="total_fees" data-sortable="false" data-align="center">{{ __('total') }} {{ __('fees') }}</th> --}}
+                                    {{-- <th scope="col" data-field="fees_status" data-sortable="false" data-formatter="feesPaidStatusFormatter" data-align="center">{{ __('fees') }} {{__('status')}}</th> --}}
+                                    {{-- <th scope="col" data-field="date" data-sortable="false" data-align="center">{{ __('date') }}</th> --}}
+                                    <th scope="col" data-field="months" data-sortable="false" data-align="center">{{ __('months') }}</th>
                                     <th scope="col" data-field="created_at" data-sortable="true" data-visible="false">{{ __('created_at') }}</th>
                                     <th scope="col" data-field="updated_at" data-sortable="true" data-visible="false">{{ __('updated_at') }}</th>
                                     <th scope="col" data-field="operate" data-sortable="false" data-events="feesPaidEvents" data-align="center">{{ __('action') }}</th>
@@ -92,7 +92,9 @@
                                 <span aria-hidden="true">&times;</span>
                             </button>
                         </div>
-                        <form class="pt-3 pay_compulsory_fees_offline form-validation" method="post" action="{{ route('fees.compulsory-paid.store') }}" novalidate="novalidate">
+                        <form class="pt-3 pay_compulsory_fees_offline form-validatio" method="post" action="
+                        {{-- {{ route('school.fees.compulsory-paid.store') }} --}}
+                        " novalidate="novalidate">
                             <input type="hidden" name="student_id" id="student_id" value="" />
                             <input type="hidden" name="class_id" id="class_id" value="" />
                             <input type="hidden" name="installment_mode" id="installment_mode" value="0" />
@@ -163,7 +165,8 @@
                                 <span aria-hidden="true">&times;</span>
                             </button>
                         </div>
-                        <form class="pt-3 pay_optional_fees_offline form-validation" method="post" action="{{ route('fees.optional-paid.store') }}" novalidate="novalidate">
+                        <form class="pt-3 pay_optional_fees_offline form-validation" id="formdata" method="POST" action="{{ route('school.fees.optional-paid.store') }}" novalidate="novalidate">
+                        @csrf
                             <input type="hidden" name="student_id" id="optional_student_id" value="" />
                             <input type="hidden" name="class_id" id="optional_class_id" value="" />
                             <h4 class="ml-4">
@@ -174,6 +177,11 @@
                                     <label>{{ __('date') }} <span class="text-danger">*</span></label>
                                     <input type="text" name="date" class="datepicker-popup form-control current-date"
                                         placeholder="{{ __('date') }}" autocomplete="off" required>
+                                </div>
+
+                                <div class="form-group">
+                                    <label>{{ __('Months') }} <span class="text-danger">*</span></label>
+                                    {!! Form::select('months[]', getMonths(),[], array('class' => 'form-control','multiple')) !!}
                                 </div>
                                 <div class="optional_div" style="display: none">
                                     <hr>

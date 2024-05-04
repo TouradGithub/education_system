@@ -4,9 +4,11 @@ function errorPlacement(label, element) {
     label.addClass('mt-2 text-danger');
     if (element.is(":radio") || element.is(":checkbox")) {
         label.insertAfter(element.parent().parent().parent());
-    } else if (element.is(":file")) {
+    }
+    else if (element.is(":file")) {
         label.insertAfter(element.siblings('div'));
-    } else if (element.hasClass('color-picker')) {
+    }
+    else if (element.hasClass('color-picker')) {
         label.insertAfter(element.parent());
     } else {
         label.insertAfter(element);
@@ -232,7 +234,7 @@ $(".student-registration-form").validate({
         'first_name': "required",
         'last_name': "required",
         'mobile': "number",
-        'image': "required",
+        // 'image': "required",
         'dob': "required",
         'class_section_id': "required",
         'category_id': "required",
@@ -311,10 +313,10 @@ $(".edit-student-registration-form").validate({
         // 'caste': "required",
         // 'religion': "required",
         'admission_date': "required",
-        'blood_group': "required",
-        'height': "required",
-        'weight': "required",
-        'address': "required",
+        // 'blood_group': "required",
+        // 'height': "required",
+        // 'weight': "required",
+        // 'address': "required",
 
         'father_email': "required",
         'father_first_name': "required",

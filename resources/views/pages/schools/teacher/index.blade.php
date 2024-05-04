@@ -13,103 +13,107 @@
         </div>
 
         <div class="row">
-            <div class="col-lg-12 grid-margin stretch-card">
-                <div class="card">
-                    <div class="card-body">
-                        <h4 class="card-title">
-                            {{ __('teacher.create_teacher') }}
-                        </h4>
-                        <form class="create-form pt-3" id="formdata" action="{{ url('school/teachers') }}"
-                            enctype="multipart/form-data" method="POST" novalidate="novalidate">
-                            @csrf
-                            <div class="row">
-                                <div class="form-group col-sm-12 col-md-6">
-                                    <label>{{ __('genirale.first_name') }} <span class="text-danger">*</span></label>
-                                    {!! Form::text('first_name', null, ['required', 'placeholder' => __('genirale.first_name'), 'class' => 'form-control']) !!}
+            @can('school-teachers-create')
+                <div class="col-lg-12 grid-margin stretch-card">
+                    <div class="card">
+                        <div class="card-body">
+                            <h4 class="card-title">
+                                {{ __('teacher.create_teacher') }}
+                            </h4>
+                            <form class="create-form pt-3" id="formdata" action="{{ url('school/teachers') }}"
+                                enctype="multipart/form-data" method="POST" novalidate="novalidate">
+                                @csrf
+                                <div class="row">
+                                    <div class="form-group col-sm-12 col-md-6">
+                                        <label>{{ __('genirale.first_name') }} <span class="text-danger">*</span></label>
+                                        {!! Form::text('first_name', null, ['required', 'placeholder' => __('genirale.first_name'), 'class' => 'form-control']) !!}
 
+                                    </div>
+                                    <div class="form-group col-sm-12 col-md-6">
+                                        <label>{{ __('genirale.last_name') }} <span class="text-danger">*</span></label>
+                                        {!! Form::text('last_name', null, ['required', 'placeholder' => __('genirale.last_name'), 'class' => 'form-control']) !!}
+                                    </div>
                                 </div>
-                                <div class="form-group col-sm-12 col-md-6">
-                                    <label>{{ __('genirale.last_name') }} <span class="text-danger">*</span></label>
-                                    {!! Form::text('last_name', null, ['required', 'placeholder' => __('genirale.last_name'), 'class' => 'form-control']) !!}
-                                </div>
-                            </div>
-                            <div class="row">
-                                <div class="form-group col-sm-12 col-md-6">
-                                    <label>{{ __('genirale.gender') }} <span class="text-danger">*</span></label><br>
-                                    <div class="d-flex">
-                                        <div class="form-check form-check-inline">
-                                            <label class="form-check-label">
-                                                {!! Form::radio('gender', 'male') !!}
-                                                {{ __('genirale.male') }}
-                                            </label>
+                                <div class="row">
+                                    <div class="form-group col-sm-12 col-md-6">
+                                        <label>{{ __('genirale.gender') }} <span class="text-danger">*</span></label><br>
+                                        <div class="d-flex">
+                                            <div class="form-check form-check-inline">
+                                                <label class="form-check-label">
+                                                    {!! Form::radio('gender', 'male') !!}
+                                                    {{ __('genirale.male') }}
+                                                </label>
+                                            </div>
+                                            <div class="form-check form-check-inline">
+                                                <label class="form-check-label">
+                                                    {!! Form::radio('gender', 'female') !!}
+                                                    {{ __('genirale.female') }}
+                                                </label>
+                                            </div>
                                         </div>
-                                        <div class="form-check form-check-inline">
-                                            <label class="form-check-label">
-                                                {!! Form::radio('gender', 'female') !!}
-                                                {{ __('genirale.female') }}
-                                            </label>
+                                    </div>
+                                    <div class="form-group col-sm-12 col-md-6">
+                                        <label>{{ __('genirale.email') }} <span class="text-danger">*</span></label>
+                                        {!! Form::text('email', null, ['required', 'placeholder' => __('genirale.email'), 'class' => 'form-control']) !!}
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="form-group col-sm-12 col-md-6">
+                                        <label>{{ __('genirale.mobile') }} <span class="text-danger">*</span></label>
+                                        {!! Form::number('mobile', null, ['required', 'placeholder' => __('genirale.mobile'),'min' => 1 , 'class' => 'form-control']) !!}
+
+                                    </div>
+                                    <div class="form-group col-sm-12 col-md-6">
+
+                                        <label>{{ __('genirale.image') }}</label>
+                                        <input type="file" name="image" class="file-upload-default" accept="image/png,image/jpeg,image/jpg" />
+                                        <div class="input-group col-xs-12">
+                                            <input type="text" class="form-control file-upload-info" disabled=""
+                                                placeholder="{{ __('image') }}" />
+                                            <span class="input-group-append">
+                                                <button class="file-upload-browse btn btn-theme"
+                                                    type="button">{{ __('genirale.upload') }}</button>
+                                            </span>
                                         </div>
                                     </div>
                                 </div>
-                                <div class="form-group col-sm-12 col-md-6">
-                                    <label>{{ __('genirale.email') }} <span class="text-danger">*</span></label>
-                                    {!! Form::text('email', null, ['required', 'placeholder' => __('genirale.email'), 'class' => 'form-control']) !!}
-                                </div>
-                            </div>
-                            <div class="row">
-                                <div class="form-group col-sm-12 col-md-6">
-                                    <label>{{ __('genirale.mobile') }} <span class="text-danger">*</span></label>
-                                    {!! Form::number('mobile', null, ['required', 'placeholder' => __('genirale.mobile'),'min' => 1 , 'class' => 'form-control']) !!}
-
-                                </div>
-                                <div class="form-group col-sm-12 col-md-6">
-
-                                    <label>{{ __('genirale.image') }}</label>
-                                    <input type="file" name="image" class="file-upload-default" accept="image/png,image/jpeg,image/jpg" />
-                                    <div class="input-group col-xs-12">
-                                        <input type="text" class="form-control file-upload-info" disabled=""
-                                            placeholder="{{ __('image') }}" />
-                                        <span class="input-group-append">
-                                            <button class="file-upload-browse btn btn-theme"
-                                                type="button">{{ __('genirale.upload') }}</button>
+                                <div class="row">
+                                    <div class="form-group col-sm-12 col-md-6">
+                                        <label>{{ __('teacher.dob') }} <span class="text-danger">*</span></label>
+                                        {!! Form::text('dob', null, ['required', 'placeholder' => __('teacher.dob'), 'class' => 'datepicker-popup-no-future form-control']) !!}
+                                        <span class="input-group-addon input-group-append">
                                         </span>
                                     </div>
+                                    <div class="form-group col-sm-12 col-md-6">
+                                        <label>{{ __('teacher.qualification') }} <span class="text-danger">*</span></label>
+                                        {!! Form::textarea('qualification', null, ['required', 'placeholder' => __('teacher.qualification'), 'class' => 'form-control', 'rows' => 3]) !!}
+                                    </div>
                                 </div>
-                            </div>
-                            <div class="row">
-                                <div class="form-group col-sm-12 col-md-6">
-                                    <label>{{ __('teacher.dob') }} <span class="text-danger">*</span></label>
-                                    {!! Form::text('dob', null, ['required', 'placeholder' => __('teacher.dob'), 'class' => 'datepicker-popup-no-future form-control']) !!}
-                                    <span class="input-group-addon input-group-append">
-                                    </span>
+                                <div class="row">
+                                    <div class="form-group col-sm-12 col-md-6">
+                                        <label>{{ __('teacher.current_address') }} <span class="text-danger">*</span></label>
+                                        {!! Form::textarea('current_address', null, ['required', 'placeholder' => __('teacher.current_address'), 'class' => 'form-control', 'rows' => 3]) !!}
+                                    </div>
+                                    <div class="form-group col-sm-12 col-md-6">
+                                        <label>{{ __('teacher.permanent_address') }} <span class="text-danger">*</span></label>
+                                        {!! Form::textarea('permanent_address', null, ['required', 'placeholder' => __('teacher.permanent_address'), 'class' => 'form-control', 'rows' => 3]) !!}
+                                    </div>
                                 </div>
-                                <div class="form-group col-sm-12 col-md-6">
-                                    <label>{{ __('teacher.qualification') }} <span class="text-danger">*</span></label>
-                                    {!! Form::textarea('qualification', null, ['required', 'placeholder' => __('teacher.qualification'), 'class' => 'form-control', 'rows' => 3]) !!}
-                                </div>
-                            </div>
-                            <div class="row">
-                                <div class="form-group col-sm-12 col-md-6">
-                                    <label>{{ __('teacher.current_address') }} <span class="text-danger">*</span></label>
-                                    {!! Form::textarea('current_address', null, ['required', 'placeholder' => __('teacher.current_address'), 'class' => 'form-control', 'rows' => 3]) !!}
-                                </div>
-                                <div class="form-group col-sm-12 col-md-6">
-                                    <label>{{ __('teacher.permanent_address') }} <span class="text-danger">*</span></label>
-                                    {!! Form::textarea('permanent_address', null, ['required', 'placeholder' => __('teacher.permanent_address'), 'class' => 'form-control', 'rows' => 3]) !!}
-                                </div>
-                            </div>
 
-                            <input class="btn btn-theme" type="submit" value={{ __('genirale.submit') }}>
-                        </form>
+                                <input class="btn btn-theme" type="submit" value={{ __('genirale.submit') }}>
+                            </form>
+                        </div>
                     </div>
                 </div>
-            </div>
+            @endcan
+            @can('school-teachers-index')
             <div class="col-lg-12 grid-margin stretch-card">
                 <div class="card">
                     <div class="card-body">
                         <h4 class="card-title">
                             {{ __('teacher.list_teacher') }}
                         </h4>
+
                         <div class="row">
                             <div class="col-12">
                                 <table aria-describedby="mydesc" class='table' id='table_list' data-toggle="table"
@@ -159,6 +163,9 @@
                     </div>
                 </div>
             </div>
+            @endcan
+
+
         </div>
     </div>
 

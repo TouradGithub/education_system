@@ -16,11 +16,16 @@
         <div class="row mt-4">
             <div class="col-12">
                 <div class="text-center">
-                    <i><img style="height: 5rem;width: 5rem;"  src="{{$logo}}" alt="logo"></i>
+                    <i><img style="height: 5rem;width: 5rem;"  src="{{Storage::url(getSchool()->setting->school_logo)}}" alt="logo"></i>
                     <br>
-                    <span class="text-default-d3" style="font-size:1.5rem"><strong>{{$school_name}}</strong></span>
+                    <span class="text-default-d3" style="font-size:1.5rem"><strong>School Name
+                        {{-- {{$school_name}} --}}
+                    </strong></span>
                     <br>
-                    <span class="text-default-d3" style="font-size:1rem">{{$school_address}}</span>
+                    <span class="text-default-d3" style="font-size:1rem">
+
+                       School Adresse
+                    </span>
                     <hr height="2px" width="100%" style="background-color: black">
                     <h4>
                         Fee Receipt
@@ -32,8 +37,8 @@
             <div class="col-md-6 col-sm-12 col-12">
                 <div class="text-grey-m2">
                     <p><strong><u>Invoice</u></strong><br>
-                        <strong>Fee Receipt</strong> :- {{isset($fees_paid) ? $fees_paid->id : '-'}}<br>
-                        <strong>Payment Date :- </strong> {{isset($fees_paid) ? date('d-m-Y',strtotime($fees_paid->date)) : '-'}}
+                        <strong>Fee Receipt</strong> :- 78678687<br>
+                        <strong>Payment Date :- </strong> 12-12-2900: '-'}}
                     </p>
                 </div>
             </div>
@@ -41,9 +46,9 @@
             <div class="col-md-6 col-sm-12 col-12 justify-content-end d-flex">
                 <div class="text-black">
                     <p><strong><u>Student Details :- </u></strong><br>
-                    <strong>Name</strong> :- {{isset($fees_paid) ? $fees_paid->student->user->first_name.' '.$fees_paid->student->user->last_name : '-'}} <br>
-                    <strong>Session</strong> :- {{isset($fees_paid) ? $fees_paid->session_year->name : '-'}} <br>
-                    <strong>Class</strong> :- {{isset($fees_paid) ? $fees_paid->class->name.' - '.$fees_paid->class->medium->name : '-'}}<br>
+                    <strong>Name</strong> :- Tourad Med lemin <br>
+                    <strong>Session</strong> :- 2022<br>
+                    <strong>Class</strong> :- First Classe A1<br>
                 </div>
             </div>
         </div>
@@ -57,29 +62,28 @@
                         <th scope="col" class="text-right">Amount</th>
                         </tr>
                     </thead>
-                    @php
+                    {{-- @php
                         $no = 1;
                         $amount = 0;
-                    @endphp
+                    @endphp --}}
                     <tbody>
-                        @if($fees_paid->is_fully_paid)
+                        {{-- @if($fees_paid->is_fully_paid)
                             @if(isset($paid_installment) && !empty($paid_installment->toArray()))
-                                @foreach ($paid_installment as $data)
+                                @foreach ($paid_installment as $data) --}}
                                     <tr>
-                                        <th scope="row" class="text-left">{{$no++}}</th>
-                                        <td colspan="2" class="text-left">{{$data->installment_fee->name}}<br><small>(PAID ON :- {{date('d-m-Y',strtotime($data->date))}}) </small></td>
-                                        <td class="text-right">{{$data->amount}} {{$currency_symbol}}</td>
+                                        <th scope="row" class="text-left">1</th>
+                                        <td colspan="2" class="text-left">Test<br><small>PAID ON :- 12-12-2000 </small></td>
+                                        <td class="text-right">2000 DZ</td>
                                     </tr>
-                                    @if($data->due_charges)
+                                    {{-- @if($data->due_charges) --}}
                                         <tr>
-                                            <th scope="row" class="text-left">{{$no++}}</th>
-                                            <td colspan="2" class="text-left">Due Charges
-                                                <br><small>{{$data->installment_fee->name}} :- </small></td>
-                                            <td class="text-right">{{$data->due_charges}} {{$currency_symbol}}</td>
+                                            <th scope="row" class="text-left">1</th>
+                                        <td colspan="2" class="text-left">Test<br><small>PAID ON :- 12-12-2000 </small></td>
+                                        <td class="text-right">2000 DZ</td>
                                         </tr>
-                                    @endif
-                                @endforeach
-                            @else
+                                    {{-- @endif --}}
+                                {{-- @endforeach --}}
+                            {{-- @else
                                 @if(isset($fees_class) && !empty($fees_class))
                                     @foreach ($fees_class as $data)
                                         <tr>
@@ -92,8 +96,8 @@
                                         </tr>
                                     @endforeach
                                 @endif
-                            @endif
-                        @else
+                            @endif --}}
+                        {{-- @else
                             @if(isset($paid_installment) && !empty($paid_installment->toArray()))
                                 @foreach ($paid_installment as $data)
                                     <tr>
@@ -112,8 +116,8 @@
                                     @endif
                                 @endforeach
                             @endif
-                        @endif
-                        @foreach ($fees_choiceable as $data)
+                        @endif --}}
+                        {{-- @foreach ($fees_choiceable as $data)
                             @if($data->is_due_charges == 0)
                                 <tr>
                                     <th scope="row" class="text-left">{{$no++}}</th>
@@ -133,11 +137,11 @@
                                     <td class="text-right">{{$data->total_amount}} {{$currency_symbol}}</td>
                                 </tr>
                             @endif
-                        @endforeach
+                        @endforeach --}}
                         <tr>
                             <th scope="row"></th>
                             <td colspan="2" class="text-left"><strong>Total Amount:-</strong></td>
-                            <td class="text-right">{{$fees_paid->total_amount}} {{$currency_symbol}}</td>
+                            <td class="text-right">798798789 Dz</td>
                         </tr>
                     </tbody>
                 </table>

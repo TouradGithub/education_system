@@ -29,49 +29,53 @@
                 <h4 class="card-title">
                     {{ trans('genirale.create_new_user') }}
                 </h4>
-{!! Form::open(array('route' => 'school.user.store','method'=>'POST')) !!}
-<div class="row">
-    <div class="col-xs-12 col-sm-12 col-md-6">
-        <div class="form-group">
-            <strong>{{ __('genirale.name')}}</strong>
-            {!! Form::text('name', null, array('placeholder' => __('genirale.name'),'class' => 'form-control')) !!}
-        </div>
-    </div>
-    <div class="col-xs-12 col-sm-12 col-md-6">
-        <div class="form-group">
-            <strong>{{ __('genirale.email')}}</strong>
-            {!! Form::text('email', null, array('placeholder' => __('genirale.email'),'class' => 'form-control')) !!}
-        </div>
-    </div>
-    <div class="col-xs-12 col-sm-12 col-md-6">
-        <div class="form-group">
-            <strong>{{__('genirale.mobile')}}</strong>
-            {!! Form::number('phone', null, array('placeholder' => __('genirale.mobile'),'class' => 'form-control')) !!}
-        </div>
-    </div>
+                @can('school-user-create')
 
-    <div class="col-xs-12 col-sm-12 col-md-6">
-        <div class="form-group">
-            <strong>{{__('genirale.role')}}</strong>
-            {!! Form::select('roles[]', $roles,[], array('class' => 'form-control','multiple')) !!}
+    {!! Form::open(array('route' => 'school.user.store','method'=>'POST')) !!}
+    <div class="row">
+        <div class="col-xs-12 col-sm-12 col-md-6">
+            <div class="form-group">
+                <strong>{{ __('genirale.name')}}</strong>
+                {!! Form::text('name', null, array('placeholder' => __('genirale.name'),'class' => 'form-control')) !!}
+            </div>
         </div>
-    </div>
-    <div class="col-xs-12 col-sm-12 col-md-6">
-        <div class="form-group">
-            <strong>{{ __('genirale.password')}}</strong>
-            {!! Form::password('password', array('placeholder' => __('genirale.password'),'class' => 'form-control')) !!}
+        <div class="col-xs-12 col-sm-12 col-md-6">
+            <div class="form-group">
+                <strong>{{ __('genirale.email')}}</strong>
+                {!! Form::text('email', null, array('placeholder' => __('genirale.email'),'class' => 'form-control')) !!}
+            </div>
         </div>
-    </div>
-    <div class="col-xs-12 col-sm-12 col-md-6">
-        <div class="form-group">
-            <strong>{{ __('genirale.confirm_password')}}</strong>
-            {!! Form::password('confirm-password', array('placeholder' => __('genirale.confirm_password'),'class' => 'form-control')) !!}
+        <div class="col-xs-12 col-sm-12 col-md-6">
+            <div class="form-group">
+                <strong>{{__('genirale.mobile')}}</strong>
+                {!! Form::number('phone', null, array('placeholder' => __('genirale.mobile'),'class' => 'form-control')) !!}
+            </div>
         </div>
-    </div>
-    <div class="col-xs-12 col-sm-12 col-md-12 text-center">
-        <input class="btn btn-theme" type="submit" value={{ __('genirale.submit') }}>
 
+        <div class="col-xs-12 col-sm-12 col-md-6">
+            <div class="form-group">
+                <strong>{{__('genirale.role')}}</strong>
+                {!! Form::select('roles[]', $roles,[], array('class' => 'form-control','multiple')) !!}
+            </div>
+        </div>
+        <div class="col-xs-12 col-sm-12 col-md-6">
+            <div class="form-group">
+                <strong>{{ __('genirale.password')}}</strong>
+                {!! Form::password('password', array('placeholder' => __('genirale.password'),'class' => 'form-control')) !!}
+            </div>
+        </div>
+        <div class="col-xs-12 col-sm-12 col-md-6">
+            <div class="form-group">
+                <strong>{{ __('genirale.confirm_password')}}</strong>
+                {!! Form::password('confirm-password', array('placeholder' => __('genirale.confirm_password'),'class' => 'form-control')) !!}
+            </div>
+        </div>
+        <div class="col-xs-12 col-sm-12 col-md-12 text-center">
+            <input class="btn btn-theme" type="submit" value={{ __('genirale.submit') }}>
+
+        </div>
     </div>
-</div>
-{!! Form::close() !!}
+    {!! Form::close() !!}
+
+    @endcan
 @endsection

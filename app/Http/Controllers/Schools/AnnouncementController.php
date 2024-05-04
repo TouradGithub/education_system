@@ -50,7 +50,12 @@ class AnnouncementController extends Controller
         // try {
             $users=[];
             if($request->type=="Students"){
-               $users=Student::all();
+               $users=StudentAcount::all();
+               foreach($users as $user){
+                if($user->token !=null){
+                    send_notification($user,$request->title,$request->title,$request->type);
+                }
+               }
             }
             if($request->type=="Teachers"){
                 $users=Teacher::all();

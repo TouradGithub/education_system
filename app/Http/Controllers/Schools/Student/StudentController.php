@@ -11,6 +11,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\DB;
 use App\Http\Requests\StoreStudentsRequest;
 use Illuminate\Support\Facades\Hash;
+use Barryvdh\DomPDF\Facade\Pdf;
 class StudentController extends Controller
 {
     public function create(){
@@ -95,8 +96,10 @@ class StudentController extends Controller
                 $studentAcount->save();
 
                 DB::commit();
-                toastr()->success( trans('genirale.data_delete_successfully'), 'Congrats');
-            return  redirect()->route('school.student.create');
+                toastr()->success( trans('genirale.data_store_successfully'), 'Congrats');
+                $pdf = Pdf::loadView('pages.schools.students.inscription');
+                return $pdf->stream('inscription.pdf');
+                // return  redirect()->route('school.student.create');
         } catch (\Exception $e) {
             // If an exception occurs, rollback the transaction
             DB::rollBack();
@@ -200,10 +203,11 @@ class StudentController extends Controller
             $operate = '';
             $operate .= '<a class="btn btn-xs btn-gradient-primary btn-rounded btn-icon "  title="Edit"  href='. route('school.student.edit', $row->id).'><i class="fa fa-edit"></i></a>&nbsp;&nbsp;';
             $operate .= '<a class="btn btn-xs btn-gradient-danger btn-rounded btn-icon deletedata" data-id=' . $row->id . ' data-url=' . route('school.studentts.destroy', $row->id). ' title="Delete"><i class="fa fa-trash"></i></a>';
+            $operate .= '<a href=' . route('school.inscription.pdf', $row->id) . ' class="btn btn-xs btn-gradient-info btn-rounded btn-icon generate-paid-fees-pdf" target="_blank" data-id= title="' . trans('generate_pdf') . ' ' . trans('fees') . '"><i class="fa fa-file-pdf-o"></i></a>&nbsp;&nbsp;';
 
            $tempRow['id'] = $row->id;
-           $tempRow['first_name'] =$row->first_name;
-           $tempRow['last_name'] =$row->last_name;
+           $tempRow['fullName'] =$row->first_name.' '.$row->last_name;
+        //    $tempRow['last_name'] =$row->last_name;
            $tempRow['gender'] =$row->gender;
            $tempRow['date_birth'] =$row->date_birth;
            $tempRow['roll_number'] =$row->roll_number;
@@ -242,8 +246,15 @@ class StudentController extends Controller
             'error' => true,
             'message' => trans('genirale.error_occurred')
         );
+        }
+        return response()->json($response);
     }
-    return response()->json($response);
+
+    public function getPdf($id){
+        $student =Student::find($id);
+
+        $pdf = Pdf::loadView('pages.schools.students.inscription',compact('student'));
+        return $pdf->stream('inscription.pdf');
     }
 
 }

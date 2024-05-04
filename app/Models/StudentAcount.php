@@ -13,8 +13,6 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 class StudentAcount extends Authenticatable
 {
     use HasApiTokens, HasFactory, Notifiable, HasRoles;
-
-    use HasFactory;
     protected $table ='student_acount';
     public function student()
     {

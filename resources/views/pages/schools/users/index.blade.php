@@ -14,7 +14,10 @@
                 <h2>Users Management</h2>
             </div>
             <div class="pull-right">
+                @can('school-user-create')
+
                 <a class="btn btn-success" href="{{ route('school.user.create') }}"> Create New User</a>
+                @endcan
             </div>
         </div>
     </div>
@@ -34,6 +37,8 @@
             <h4 class="card-title">
                 {{ __('genirale.list').' '.__('sidebar.users') }}
             </h4>
+            @can('school-user-index')
+
 <table class="table table-bordered">
  <tr>
    <th>No</th>
@@ -66,6 +71,7 @@
 
 
 {!! $schoolUsers->render() !!}
+@endcan
 
 
 @endsection

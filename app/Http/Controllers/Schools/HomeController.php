@@ -41,8 +41,8 @@ class HomeController extends Controller
             $user_db->email = $request->email;
 
             if (!empty($request->image)) {
-                if (Storage::disk('public')->exists($user_db->getRawOriginal('image'))) {
-                    Storage::disk('public')->delete($user_db->getRawOriginal('image'));
+                if (Storage::disk('public')->exists($user_db->image)) {
+                    Storage::disk('public')->delete($user_db->image);
                 }
                 $image = $request->image;
                 $file_name = time() . '-' . $image->getClientOriginalName();

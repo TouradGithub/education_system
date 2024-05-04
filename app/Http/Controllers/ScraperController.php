@@ -30,7 +30,7 @@ class ScraperController extends Controller
 
             if($response_status_code==200){
                 // dd($html);
-                $dom = HtmlDomParser::str_get_html( $html );
+                $dom = HtmlDomParser::str_get_html($html);
 
                 $song_items = $dom->find('div[class="panel"]');
 

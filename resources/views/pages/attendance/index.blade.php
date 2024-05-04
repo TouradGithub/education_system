@@ -13,6 +13,7 @@
                 {{ __('genirale.manage') . ' ' . __('sidebar.attendance') }}
             </h3>
         </div>
+        @can('school-attendance-create')
         <div class="row">
             <div class="col-md-12 grid-margin stretch-card">
                 <div class="card">
@@ -92,6 +93,8 @@
                 </div>
             </div>
         </div>
+        @endcan
+
     </div>
 @endsection
 

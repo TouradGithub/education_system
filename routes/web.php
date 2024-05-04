@@ -115,3 +115,15 @@ Route::group([ 'middleware' => ['auth:teacher']], function () {
     Route::get('/chat/system/{query}', Index::class)->name('chat.system');
 
 });
+
+Route::get('sendNotify',function(){
+
+
+    // $user =  App\Models\StudentAcount::where('username','05616489681')->first();
+
+
+    // dd($response);
+
+
+});
+

@@ -11,6 +11,7 @@
                 {{ __('genirale.create') . ' ' . __('sidebar.timetable') }}
             </h3>
         </div>
+        @can('school-timetable-create')
         <div class="row">
             <div class="col-md-12 grid-margin stretch-card search-container">
                 <div class="card">
@@ -158,6 +159,7 @@
                 </div>
             </div>
         </div>
+        @endcan
     </div>
 @endsection
 

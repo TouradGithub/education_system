@@ -157,7 +157,7 @@ class SettingController extends Controller
             $app_name = Settings::select('message')->where('type', 'school_name')->pluck('message')->first();
             $timezone = Settings::select('message')->where('type', 'time_zone')->pluck('message')->first();
 
-           
+
         } catch (Throwable $e) {
             $response = array(
                 'error' => true,

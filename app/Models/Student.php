@@ -17,11 +17,14 @@ class Student extends Model
     }
     public function section()
     {
-        return $this->belongsTo(Section::class);
+        return $this->belongsTo(ClassRoom::class);
     }
     public function tests()
     {
         return $this->hasMany(Test::class)->with('subject');
+    }
+    public function attendance(){
+        return $this->hasMany(Attendance::class)->where('session_year',getYearNow()->id);
     }
     public function exams()
     {
@@ -31,4 +34,12 @@ class Student extends Model
     {
         return $this->belongsTo(MyParent::class, 'parent_id');
     }
+
+    public function fees_paid() {
+        return $this->hasMany(FeesPaid::class, 'student_id')->with('section');
+    }
+    public function sessionyear() {
+        return $this->belongsTo(SessionYear::class,'academic_year');
+    }
+
 }

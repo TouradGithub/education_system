@@ -13,9 +13,12 @@ return new class extends Migration
     {
         Schema::create('classrooms', function (Blueprint $table) {
             $table->id();
-            $table->string('name_class');
-			$table->bigInteger('grade_id')->unsigned();
+            $table->string('name');
             $table->integer('status')->default('0');
+            $table->bigInteger('grade_id')->unsigned();
+            $table->bigInteger('class_id')->unsigned();
+            $table->string('school_id');
+            $table->text('notes')->nullable();
             $table->timestamps();
         });
     }

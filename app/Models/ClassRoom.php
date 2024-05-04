@@ -1,14 +1,19 @@
 <?php
 
 namespace App\Models;
+
 use App\Models\Classes;
 use Spatie\Translatable\HasTranslations;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Section extends Model
+class ClassRoom extends Model
 {
     use HasFactory;
+    use HasTranslations;
+
+    protected $table = 'classrooms';
+
     use HasTranslations;
     protected $hidden = ['created_at','updated_at'];
     public $translatable = ['name'];
@@ -22,6 +27,10 @@ class Section extends Model
     public function grade()
     {
         return $this->belongsTo(Grade::class);
+    }
+    public function students()
+    {
+        return $this->hasMany(Student::class, 'section_id')->where('school_id',getSchool()->id);
     }
 
 

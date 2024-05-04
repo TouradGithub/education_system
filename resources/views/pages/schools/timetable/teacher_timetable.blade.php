@@ -23,7 +23,7 @@
                                     <label>{{ __('teacher') }} <span class="text-danger">*</span></label>
                                     <select required name="class_section_id" id="teacher_timetable_teacher_id" class="form-control select2" style="width:100%;" tabindex="-1" aria-hidden="true">
                                         <option value="">{{ __('select') }}</option>
-                                        @foreach ($teacher as $teacher)
+                                        @foreach ($teachers as $teacher)
                                             <option value="{{ $teacher->id }}">
                                                 {{ $teacher->first_name . ' ' . $teacher->last_name }}
                                             </option>
@@ -38,10 +38,10 @@
                             @cannot('timetable-create')
                             <div class="row">
                                 <div class="form-group col-sm-12 col-md-6">
-                                    <label>{{ __('class') }} {{ __('section') }} <span class="text-danger">*</span></label>
+                                    <label>{{ __('classes.class') }} {{ __('section.section') }} <span class="text-danger">*</span></label>
                                     <select required name="class_section_id" id="teacher_timetable_class_section" class="form-control select2" style="width:100%;" tabindex="-1" aria-hidden="true">
                                         <option value="">{{__('select')}}</option>
-                                        <option value="0">{{__('all')}} {{__('class')}}</option>
+                                        <option value="0">{{__('all')}} {{__('classes.class')}}</option>
                                         @foreach($class_sections as $section)
                                             <option value="{{$section->id}}" data-class="{{$section->id}}" data-section="{{$section->id}}">{{$section->name}} </option>
                                         @endforeach

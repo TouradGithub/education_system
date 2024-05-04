@@ -6,7 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Attendance;
 use Illuminate\Http\Request;
 use App\Models\Grade;
-use App\Models\Section;
+use App\Models\ClassRoom;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
 class AttendanceController extends Controller
@@ -186,7 +186,7 @@ class AttendanceController extends Controller
                 }
             } else {
 
-                $section = Section::find($request->section_id);
+                $section = ClassRoom::find($request->section_id);
                 $sql =  $section->students;
                 // $sql = Students::where('class_section_id', $class_section_id);
                 // if (isset($_GET['search']) && !empty($_GET['search'])) {
@@ -241,7 +241,7 @@ class AttendanceController extends Controller
         //
     }
     function getStudentAttendance(Request $request){
-        $section=Section::find($request->section_id);
+        $section=ClassRoom::find($request->section_id);
         $students=$section->students;
         return response($students);
     }

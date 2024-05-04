@@ -13,8 +13,10 @@ use App\Http\Controllers\ExamController;
 use App\Http\Controllers\Schools\UserSchoolController;
 use App\Http\Controllers\Schools\RoleSchoolControler;
 use App\Http\Controllers\Schools\SettingController;
+use App\Http\Controllers\Schools\SectionController;
 use App\Http\Controllers\Schools\HomeController;
 use App\Http\Controllers\Schools\AnnouncementController;
+use App\Http\Controllers\Schools\FeesClassesController;
 
 Route::group(['middleware' => ['checkNotAuth']], function () {
 
@@ -40,6 +42,7 @@ Route::group(
         Route::get('edit/{id}', [StudentController::class, 'edit'])->name('student.edit');
         Route::post('store', [StudentController::class, 'store'])->name('student.store');
         Route::post('update/{id}', [StudentController::class, 'update'])->name('student.update');
+        Route::get('Inscription/{id}', [StudentController::class, 'getPdf'])->name('inscription.pdf');
 
     });
 
@@ -54,8 +57,14 @@ Route::group(
 
     });
 
+    //classes of school
+    Route::resource('sections', SectionController::class);
+    Route::get('getClassRoom-list', [SectionController::class, 'show']);
+    Route::put('update-section-list/{id}', [SectionController::class, 'update'])->name('admin.sections.update');
+    Route::get('getSection-list/{id}', [SectionController::class, 'getSections']);
 
     Route::resource('subjects', SubjectController::class);
+    
     Route::get('subjects-list', [SubjectController::class, 'show']);
 
     Route::resource('subject-teachers', SubjectTeacherController::class);
@@ -111,6 +120,7 @@ Route::group(
     Route::get('exam-student-list', [ExamController::class,'show']);
 
     Route::get('setting-index', [SettingController::class,'index'])->name('setting-index');
+    Route::post('setting-update', [SettingController::class,'update'])->name('setting-update');
 
     Route::get('edit-profile', [HomeController::class, 'editProfile'])->name('edit-profile');
     Route::post('update-profile', [HomeController::class, 'updateProfile'])->name('update-profile');
@@ -120,4 +130,25 @@ Route::group(
 
 
     Route::get('get-notification/{id}', [AnnouncementController::class,'show'])->name('get-notification');
+
+    Route::get('fees/classes', [FeesClassesController::class, 'index'])->name('fees.class.index');
+        // Route::post('fees/classes/update', [FeesTypeController::class, 'updateFeesClass'])->name('fees.class.update');
+    Route::get('fees/classes/list', [FeesClassesController::class, 'feesClassList'])->name('fees.class.list');
+    Route::post('class/fees-type', [FeesClassesController::class, 'updateFeesClass'])->name('class.fees.type.update');
+
+
+    Route::get('fees/paid', [FeesClassesController::class, 'feesPaidListIndex'])->name('fees.paid.index');
+    Route::get('fees/paid/list', [FeesClassesController::class, 'feesPaidList'])->name('fees.paid.list');
+    Route::post('fees/paid/store', [FeesClassesController::class, 'feesPaidStore'])->name('fees.paid.store');
+
+    Route::post('fees/optional-paid/store', [FeesClassesController::class, 'optionalFeesPaidStore'])->name('fees.optional-paid.store');
+
+
+});
+use Barryvdh\DomPDF\Facade\Pdf;
+use Illuminate\Support\Facades\Storage;
+Route::get("loadPdf", function () {
+    // return url(Storage::url(getSchool()->setting->school_logo));
+    $pdf = Pdf::loadView('pages.schools.students.inscription');
+    return $pdf->stream('inscription.pdf');
 });

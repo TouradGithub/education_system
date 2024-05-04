@@ -3,7 +3,9 @@
 @section('title')
     {{ __('sidebar.general_settings') }}
 @endsection
-
+@php
+    $setting=getSchool()->setting;
+@endphp
 
 @section('content')
     <div class="content-wrapper">
@@ -12,87 +14,68 @@
                 {{ __('sidebar.general_settings') }}
             </h3>
         </div>
-        <div class="row grid-margin">
-            <div class="col-lg-12">
-                <div class="card">
-                    <div class="card-body">
-                        <form id="frmData" class="general-setting" method="POST" action="{{ url('settings') }}" novalidate="novalidate" enctype="multipart/form-data">
-                            @csrf
-                            <div class="row">
-                                <div class="form-group col-md-6 col-sm-12">
-                                    <label>{{ __('genirale.name') }}</label>
-                                    <input name="school_name" value="{{ isset($settings['school_name']) ? $settings['school_name'] : '' }}" type="text" required placeholder="{{ __('school_name') }}" class="form-control"/>
-                                </div>
-                                <div class="form-group col-md-6 col-sm-12">
-                                    <label>{{ __('genirale.email') }}</label>
-                                    <input name="school_email" value="{{ isset($settings['school_email']) ? $settings['school_email'] : '' }}" type="email" required placeholder="{{ __('school_email') }}" class="form-control"/>
-                                </div>
+      @can('school-general_settings-create')
+      <div class="row grid-margin">
+        <div class="col-lg-12">
+            <div class="card">
+                <div class="card-body">
+                    <form id="frmData" class="general-setting" method="POST" action="{{ route('school.setting-update') }}" novalidate="novalidate" enctype="multipart/form-data">
+                        @csrf
+                        <div class="row">
+                            <div class="form-group col-md-6 col-sm-12">
+                                <label>{{ __('genirale.name') }}</label>
+                                <input name="school_name" value="{{ $setting->school_name??'' }}" type="text"  placeholder="{{ __('school_name') }}" class="form-control"/>
                             </div>
-                            <div class="row">
-                                <div class="form-group col-md-6 col-sm-12">
-                                    <label>{{ __('genirale.mobile') }}</label>
-                                    <input name="school_phone" value="{{ isset($settings['school_phone']) ? $settings['school_phone'] : '' }}" type="text" required placeholder="{{ __('school_phone') }}" class="form-control"/>
-                                </div>
-                                <div class="form-group col-md-6 col-sm-12">
-                                    <label>{{ __('school_tagline') }}</label>
-                                    <textarea name="school_tagline" required placeholder="{{ __('school_tagline') }}" class="form-control">{{ isset($settings['school_tagline']) ? $settings['school_tagline'] : '' }}</textarea>
-                                </div>
+                            <div class="form-group col-md-6 col-sm-12">
+                                <label>{{ __('genirale.email') }}</label>
+                                <input name="school_email" value="{{ $setting->school_email??'' }}" type="email"  placeholder="{{ __('school_email') }}" class="form-control"/>
                             </div>
-                            <div class="row">
-                                <div class="form-group col-md-6 col-sm-12">
-                                    <label>{{ __('teacher.current_address') }}</label>
-                                    <textarea name="school_address" required placeholder="{{ __('school_address') }}" class="form-control">{{ isset($settings['school_address']) ? $settings['school_address'] : '' }}</textarea>
-                                </div>
+                        </div>
+                        <div class="row">
+                            <div class="form-group col-md-6 col-sm-12">
+                                <label>{{ __('genirale.mobile') }}</label>
+                                <input name="school_mobile" value="{{ $setting->school_mobile??'' }}" type="text"  placeholder="{{ __('school_phone') }}" class="form-control"/>
                             </div>
 
-                            <div class="row">
-                                <div class="form-group col-md-4 col-sm-12">
-                                    <label>{{ __('favicon') }} <span class="text-danger">*</span></label>
-                                    <input type="file" name="favicon" class="file-upload-default"/>
-                                    <div class="input-group col-xs-12">
-                                        <input type="text" class="form-control file-upload-info" disabled="" placeholder="{{ __('favicon') }}"/>
-                                        <span class="input-group-append">
-                                          <button class="file-upload-browse btn btn-theme" type="button">{{ __('upload') }}</button>
-                                        </span>
-                                        <div class="col-md-12">
-                                            <img height="50px" src='{{ isset($settings['favicon']) ?url(Storage::url($settings['favicon'])) : '' }}'>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="form-group col-md-4 col-sm-12">
-                                    <label>{{ __('horizontal_logo') }} <span class="text-danger">*</span></label>
-                                    <input type="file" name="logo1" class="file-upload-default"/>
-                                    <div class="input-group col-xs-12">
-                                        <input type="text" class="form-control file-upload-info" disabled="" placeholder="{{ __('logo1') }}"/>
-                                        <span class="input-group-append">
-                                          <button class="file-upload-browse btn btn-theme" type="button">{{ __('upload') }}</button>
-                                        </span>
-                                        <div class="col-md-12">
-                                            <img height="50px" src='{{ isset($settings['logo1']) ? url(Storage::url($settings['logo1'])) : '' }}'>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="form-group col-md-4 col-sm-12">
-                                    <label>{{ __('vertical_logo') }} <span class="text-danger">*</span></label>
-                                    <input type="file" name="logo2" class="file-upload-default"/>
-                                    <div class="input-group col-xs-12">
-                                        <input type="text" class="form-control file-upload-info" disabled="" placeholder="{{ __('logo2') }}"/>
-                                        <span class="input-group-append">
-                                          <button class="file-upload-browse btn btn-theme" type="button">{{ __('upload') }}</button>
-                                        </span>
-                                        <div class="col-md-12">
-                                            <img height="50px" src='{{ isset($settings['logo2']) ?  url(Storage::url($settings['logo2'])) : '' }}'>
-                                        </div>
+                        </div>
+                        <div class="row">
+                            <div class="form-group col-md-6 col-sm-12">
+                                <label>{{ __('teacher.current_address') }}</label>
+                                <textarea name="school_address"  placeholder="{{ __('school_address') }}" class="form-control">{{ $setting->school_address??'' }}</textarea>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="form-group col-md-6 col-sm-12">
+                                <label>{{ __('Description') }}</label>
+                                <textarea name="school_description"  placeholder="{{ __('school_description') }}" class="form-control">{{ $setting->school_description??'' }}</textarea>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="form-group col-md-4 col-sm-12">
+                                <label>{{ __('Logo') }} <span class="text-danger">*</span></label>
+                                <input type="file" name="logo" class="file-upload-default"/>
+                                <div class="input-group col-xs-12">
+                                    <input type="text" class="form-control file-upload-info" disabled="" placeholder="{{ __('Logo') }}"/>
+                                    <span class="input-group-append">
+                                      <button class="file-upload-browse btn btn-theme" type="button">{{ __('upload') }}</button>
+                                    </span>
+                                    <div class="col-md-12">
+                                        <img height="50px" src='{{ isset($setting->logo) ?url(Storage::url($setting->logo)) : '' }}'>
                                     </div>
                                 </div>
                             </div>
 
-                            <input class="btn btn-theme" type="submit" value="{{__('genirale.submit')}}">
-                        </form>
-                    </div>
+
+                        </div>
+
+                        <input class="btn btn-theme" type="submit" value="{{__('genirale.submit')}}">
+                    </form>
                 </div>
             </div>
         </div>
+    </div>
+      @endcan
     </div>
 @endsection
 

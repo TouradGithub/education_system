@@ -11,6 +11,7 @@ use Illuminate\Support\Facades\DB;
 use App\Models\User;
 use App\Models\Teacher;
 use App\Models\Student;
+use App\Models\StudentAcount;
 use Illuminate\Http\Request;
 use App\Notifications\AnnouncementByAdmin;
 use Illuminate\Support\Facades\Notification;
@@ -61,7 +62,13 @@ class AnnouncementController extends Controller
         // try {
             $users=[];
             if($request->type=="Students"){
-               $users=Student::all();
+            //    $users=Student::all();
+               $users=StudentAcount::all();
+               foreach($users as $user){
+                if($user->token !=null){
+                    send_notification($user,$request->title,$request->title,$request->type);
+                }
+               }
             }
             if($request->type=="Teachers"){
                 $users=Teacher::all();

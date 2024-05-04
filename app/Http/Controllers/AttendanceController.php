@@ -6,7 +6,7 @@ use Carbon\Carbon;
 use App\Models\Attendance;
 use Illuminate\Http\Request;
 use App\Models\Grade;
-use App\Models\Section;
+use App\Models\ClassRoom;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
 class AttendanceController extends Controller
@@ -41,13 +41,8 @@ class AttendanceController extends Controller
      */
     public function store(Request $request)
     {
-        // if (!Auth::user()->can('attendance-create') || !Auth::user()->can('attendance-edit')) {
-        //     $response = array(
-        //         'error' => true,
-        //         'message' => trans('no_permission_message')
-        //     );
-        //     return response()->json($response);
-        // }
+
+
 
         $validator = Validator::make($request->all(), [
             'timetable_day'=>'required',
@@ -55,52 +50,80 @@ class AttendanceController extends Controller
             'student_id' => 'required',
             'date' => 'required',
         ]);
-        if ($validator->fails()) {
-            $response = array(
-                'error' => true,
-                'message' => $validator->errors()->first()
-            );
-            return response()->json($response);
-        }
-        try {
 
-            $getid = Attendance::select('id')->where([
-                'date' => Carbon::createFromFormat('d-m-Y', $request->date)->format('Y-m-d'),
-                'section_id' => $request->section_id,
-                'timetable_id' => $request->timetable_day,
-                ])->get();
 
-            for ($i = 0; $i < count($request->student_id); $i++) {
+        //   $getid = Attendance::select('id')->where([
+        //         'date' => Carbon::createFromFormat('d-m-Y', $request->date)->format('Y-m-d'),
+        //         'section_id' => $request->section_id,
+        //         'timetable_id' => $request->timetable_day,
+        //         ])->get();
 
-                if (count($getid) > 0) {
-                    $attendance = Attendance::find($getid[$i]['id']);
-                    $a = "type" . $request->student_id[$i];
-                } else {
-                    $attendance = new Attendance();
-                    $a = "type" . $request->student_id[$i];
-                }
-                $attendance->student_id = $request->student_id[$i];
+            // for ($i = 0; $i < count($request->student_id); $i++) {
+
+            //     if (count($getid) > 0) {
+            //         return $getid[$i]['id'];
+            //         $attendance = Attendance::find($getid[$i]['id']);
+            //         $a = "type" . $request->student_id[$i];
+
+            //     } else {
+            //         $attendance = new Attendance();
+            //         $a = "type" . $request->student_id[$i];
+            //         return "ok";
+            //     }
+            //     $attendance->student_id = $request->student_id[$i];
+            //     $attendance->school_id = getSchool()->id;
+            //     $attendance->session_year = getYearNow()->id;
+            //     $attendance->section_id = $request->section_id;
+            //     $attendance->timetable_id = $request->timetable_day;
+            //     $attendance->type = $request->$a;
+
+            //     $attendance->date = Carbon::createFromFormat('d-m-Y', $request->date)->format('Y-m-d'); // Updated line
+            //     $attendance->save();
+            // }
+            // $response = [
+            //     'error' => false,
+            //     'message' => trans('data_store_successfully')
+            // ];
+        // } catch (Exception $e) {
+        //     $response = array(
+        //         'error' => true,
+        //         'message' => trans('error_occurred'),
+        //         'data' => $e
+        //     );
+        // }
+        // return response()->json($response);
+        $attendances = Attendance::where([
+            'date' => Carbon::createFromFormat('d-m-Y', $request->date)->format('Y-m-d'),
+            'section_id' => $request->section_id,
+            'timetable_id' => $request->timetable_day,
+        ])->get();
+        // Loop through each student ID in the request
+        foreach ($request->student_id as $studentId) {
+            // Check if attendance record exists for the student on the given date, section, and timetable
+            $attendance = $attendances->firstWhere('student_id', $studentId);
+            // Create a new attendance record if it doesn't exist
+            if (!$attendance) {
+                $attendance = new Attendance();
+                $attendance->student_id = $studentId;
                 $attendance->school_id = getSchool()->id;
                 $attendance->session_year = getYearNow()->id;
                 $attendance->section_id = $request->section_id;
                 $attendance->timetable_id = $request->timetable_day;
-                $attendance->type = $request->$a;
-
-                $attendance->date = Carbon::createFromFormat('d-m-Y', $request->date)->format('Y-m-d'); // Updated line
-                $attendance->save();
+                $attendance->date = Carbon::createFromFormat('d-m-Y', $request->date)->format('Y-m-d');
             }
-            $response = [
-                'error' => false,
-                'message' => trans('data_store_successfully')
-            ];
-        } catch (Exception $e) {
-            $response = array(
-                'error' => true,
-                'message' => trans('error_occurred'),
-                'data' => $e
-            );
+            // Assign attendance type based on the request data
+            $attendance->type = $request->input('type' . $studentId);
+
+            // Save the attendance record
+            $attendance->save();
         }
-        return response()->json($response);
+
+        // Respond with success message
+        return response()->json([
+            'error' => false,
+            'message' => trans('genirale.data_store_successfully')
+        ]);
+
     }
 
     /**
@@ -124,110 +147,74 @@ class AttendanceController extends Controller
         if (isset($_GET['order']))
             $order = $_GET['order'];
 
-            if($request->has('section_id') && $request->section_id != null){
-                if(isset($request->date) && $request->date != ''){
-                        $chkCount = Attendance::with('student')->where(
-                            [
-                                'date'              =>  Carbon::createFromFormat('d-m-Y', $request->date)->format('Y-m-d'),
-                                'section_id'  => $request->section_id,
-                                'timetable_id'      => $request->timetable_id
-                            ])->count();
-                }else{
-                        $chkCount=0;
-                }
-
-
-
-                if (isset($request->date) && $request->date != '' && $chkCount > 0) {
-
-                $sql2 = Attendance::with('student')->where(
-                [
-                    'date'              =>  Carbon::createFromFormat('d-m-Y', $request->date)->format('Y-m-d'),
-                    'section_id'  => $request->section_id,
-                    'timetable_id'      => $request->timetable_id
-                ]);
-                $total = $sql2->count();
-                $res = $sql2->get();
-                $bulkData = array();
-                $bulkData['total'] = $total;
-                $rows = array();
-                $tempRow = array();
-                $no = 1;
-                foreach ($res as $row) {
-                    $get_type = $row->type;
-                    if ($get_type == 1) {
-                        $type = '<div class="d-flex"><div class="form-check-inline"><label class="form-check-label">
-                        <input required type="radio" class="type"  name="type' . $row->student_id . '" value="1" checked>Present
-                        </label></div>';
-                        $type .= '<div class="form-check-inline"><label class="form-check-label">
-                        <input type="radio" class="type"  name="type' . $row->student_id . '" value="0">Absent
-                        </label></div></div>';
-                    } else if ($get_type == 0) {
-                        $type = '<div class="d-flex"><div class="form-check-inline"><label class="form-check-label">
-                        <input required type="radio" class="type"  name="type' . $row->student_id . '" value="1">Present
-                        </label></div>';
-                        $type .= '<div class="form-check-inline"><label class="form-check-label">
-                        <input type="radio" class="type"  name="type' . $row->student_id . '" value="0" checked>Absent
-                        </label></div></div>';
-                    } else {
-                        $type = '<div class="d-flex"><div class="form-check-inline"><label class="form-check-label">
-                        <input required type="radio" class="type"  name="type' . $row->student_id . '" value="1">Present
-                        </label></div>';
-                        $type .= '<div class="form-check-inline"><label class="form-check-label">
-                        <input type="radio" class="type"  name="type' . $row->student_id . '" value="0">Absent
-                        </label></div></div>';
-                    }
-                    $tempRow['id'] = $row->id;
-                    $tempRow['student_id'] = "<input type='text' name='student_id[]' class='form-control' readonly value=" . $row->student_id . ">";
-                    $tempRow['roll_number'] = $row->student->roll_number;
-                    $tempRow['name'] = $row->student->first_name . ' ' . $row->student->last_name;
-                    $tempRow['type'] = $type;
-                    $rows[] = $tempRow;
-                }
-            } else {
-
-                $section = Section::find($request->section_id);
+            if($request->has('section_id') && $request->section_id != null
+            && isset($request->date) && $request->date != ''
+            && isset($request->timetable_id) && $request->timetable_id != ''
+            ){
+                $section = ClassRoom::find($request->section_id);
                 $sql =  $section->students;
-                // $sql = Students::where('class_section_id', $class_section_id);
-                // if (isset($_GET['search']) && !empty($_GET['search'])) {
-                //     $search = $_GET['search'];
-                //     $sql->where('id', 'LIKE', "%$search%")
-                //         ->orWhereHas('user', function ($q) use ($search) {
-                //             $q->whereRaw("concat(first_name,' ',last_name) LIKE '%" . $search . "%'")->orwhere('first_name', 'LIKE', "%$search%")->orwhere('last_name', 'LIKE', "%$search%");
-                //         });
-                // }
-                    $absent=__('student.absent');
-                    $prsent=__('student.present');
-                // $sql->orderBy($sort, $order)->skip($offset)->take($limit);
+                $absent=__('student.absent');
+                $prsent=__('student.present');
                 $res = $sql;
                 $bulkData = array();
                 $rows = array();
                 $tempRow = array();
                 $no = 1;
                 foreach ($res as $row) {
+                //  $test=   $row;
+                if(Attendance::where([
+                    'student_id'=>$row->id,
+                    'section_id'=>$request->section_id,
+                    'timetable_id'=>$request->timetable_id
+                    ])->first()){
 
+                    $attendance = Attendance::where([
+                    'student_id'=>$row->id,
+                    'section_id'=>$request->section_id,
+                    'timetable_id'=>$request->timetable_id
+                    ])->first();
+
+                    $get_type = $attendance->type;
+
+                 if ($get_type == 1) {
+                        $type = '<div class="d-flex"><div class="form-check-inline"><label class="form-check-label">
+                        <input required type="radio" class="type"  name="type' . $row->id . '" value="1" checked>Present
+                        </label></div>';
+                        $type .= '<div class="form-check-inline"><label class="form-check-label">
+                        <input type="radio" class="type"  name="type' . $row->id . '" value="0">Absent
+                        </label></div></div>';
+                    } else if ($get_type == 0) {
+                        $type = '<div class="d-flex"><div class="form-check-inline"><label class="form-check-label">
+                        <input required type="radio" class="type"  name="type' . $row->id . '" value="1">Present
+                        </label></div>';
+                        $type .= '<div class="form-check-inline"><label class="form-check-label">
+                        <input type="radio" class="type"  name="type' . $row->id . '" value="0" checked>Absent
+                        </label></div></div>';
+                    }
+                }else{
                     $type = '<div class="d-flex"><div class="form-check-inline"><label class="form-check-label">
-                    <input required type="radio" class="type"  name="type' .$row->id. '" value="1"> ' . $prsent . '</label></div>';
-
+                    <input required type="radio" class="type"  name="type' . $row->id . '" value="1">Present
+                    </label></div>';
                     $type .= '<div class="form-check-inline"><label class="form-check-label">
-                    <input type="radio" class="type"  name="type' .$row->id . '" value="0">  ' . $absent . '
+                    <input type="radio" class="type"  name="type' . $row->id . '" value="0">Absent
                     </label></div></div>';
+                }
 
-                    $tempRow['id'] = 3;
+
                     $tempRow['id'] = $row->id;
                     $tempRow['student_id'] = "<input type='text' name='student_id[]' class='form-control' readonly value=" . $row->id. ">";
                     $tempRow['roll_number'] = $row->roll_number;
                     $tempRow['name'] = $row->first_name . ' ' . $row->last_name;
                     $tempRow['type'] = $type;
                     $rows[] = $tempRow;
+            //     }
 
-                }
             }
 
             $bulkData['rows'] = $rows;
-            }else{
+        }else{
                 $bulkData['rows']=[];
-            }
+        }
 
 
         return response()->json($bulkData);
@@ -241,7 +228,7 @@ class AttendanceController extends Controller
         //
     }
     function getStudentAttendance(Request $request){
-        $section=Section::find($request->section_id);
+        $section=ClassRoom::find($request->section_id);
         $students=$section->students;
         return response($students);
     }
