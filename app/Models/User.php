@@ -28,6 +28,7 @@ class User extends Authenticatable
         'model',
         'model_id',
         'password',
+        'is_admin_school'
     ];
 
     /**
@@ -63,7 +64,7 @@ class User extends Authenticatable
     // public function teacher() {
     //     return $this->hasOne(Teacher::class, 'user_id', 'id');
     // }
-    
+
     public function school()
     {
         if ($this->mode == 'App\\Models\\Schools') {

@@ -17,7 +17,7 @@ class Schools extends Model
     protected $table = 'info_schools';
 
     protected $hidden = ['created_at','updated_at','deleted_at'];
-    
+
     protected $fillable = [
         'name', 'description','image','adress','email','type','grade_id','academy_id'
     ];

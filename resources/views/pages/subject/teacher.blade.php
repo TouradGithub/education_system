@@ -63,7 +63,7 @@
         </div>
         @endcan
 
-        @can('school-subject-teacher-create')
+        {{-- @can('school-subject-teacher-create') --}}
         <div class="col-lg-12 grid-margin stretch-card">
             <div class="card">
                 <div class="card-body">
@@ -110,7 +110,7 @@
                 </div>
             </div>
         </div>
-        @endcan
+        {{-- @endcan --}}
     </div>
 </div>
 

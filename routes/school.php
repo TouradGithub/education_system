@@ -34,7 +34,7 @@ Route::group(
 
     Route::get('/home', function () {
         return view('pages.schools.dashborad');
-    });
+    })->name('school.home');
 
     Route::prefix('students')->group(function () {
         Route::get('create', [StudentController::class, 'create'])->name('student.create');

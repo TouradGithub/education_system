@@ -40,6 +40,7 @@ class SchoolsController extends Controller
     public function store(StoreSchool $request)
     {
         try {
+            // return "OK";
 
 
             DB::beginTransaction();

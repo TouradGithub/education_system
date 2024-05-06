@@ -22,6 +22,7 @@ return new class extends Migration
             $table->text('role');
             $table->text('model');
             $table->text('model_id');
+            $table->text('is_admin_school');
             $table->tinyInteger('status')->default(1);
             $table->rememberToken();
             $table->timestamps();

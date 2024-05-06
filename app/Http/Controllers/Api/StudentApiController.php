@@ -10,6 +10,9 @@ use App\Models\Schools;
 use App\Models\Student;
 use App\Models\StudentAcount;
 use App\Models\SubjectTeacher;
+use App\Models\SessionYear;
+// use App\Models\Schools;
+
 class StudentApiController extends Controller
 {
 
@@ -203,17 +206,26 @@ class StudentApiController extends Controller
             return response()->json($response, 500);
         }
     }
+    public function getSchool(){
+        return  Schools::find(auth()->user()->student->school_id);
+    }
+    public function getYearNow(){
+        return  SessionYear::find(auth()->user()->student->academic_year);
+    }
     public function studentSubject(Request $request){
         try {
 
-
-        $section = auth()->user()->student->section->subject;
+            $subjects=   SubjectTeacher::where([
+                'class_section_id'=>auth()->user()->student->section->id,
+                'school_id'=>$this->getSchool()->id,
+            ])->with('subject')->get();
+        // $subjects = auth()->user()->student->section->subject;
 
         $response = array(
             'error'   => false,
             'code'    => 100,
             'data'=>[
-                'subjects' => $section,
+                'subjects' => $subjects,
             ]
         );
             return response()->json($response, 200);
