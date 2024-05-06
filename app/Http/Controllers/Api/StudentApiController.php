@@ -23,7 +23,6 @@ class StudentApiController extends Controller
 
         } catch (\Exception $e) {
             $response = array(
-                'error' => true,
                 'message' => trans('error_occurred'),
                 'code' => 103,
             );
@@ -35,7 +34,7 @@ class StudentApiController extends Controller
         $class = auth()->user()->student->section->classe;
                 $section = auth()->user()->student->section;
             $response = array(
-                'error'   => false,
+
                 'code'    => 100,
                 'data'=>[
                     'section' => $section,
@@ -56,7 +55,7 @@ class StudentApiController extends Controller
         $timeTable = auth()->user()->student->section->timeTable;
                 // $section = auth()->user()->student->section;
             $response = array(
-                'error'   => false,
+
                 'code'    => 100,
                 'data'=>[
                     'timeTable' => $timeTable,
@@ -76,7 +75,7 @@ class StudentApiController extends Controller
         try {
         $exams = auth()->user()->student->exams;
             $response = array(
-                'error'   => false,
+
                 'code'    => 100,
                 'data'=>[
                     'exams' => $exams,
@@ -99,7 +98,7 @@ class StudentApiController extends Controller
         $tests = auth()->user()->student->tests;
                 // $section = auth()->user()->student->section;
             $response = array(
-                'error'   => false,
+
                 'code'    => 100,
                 'data'=>[
 
@@ -123,7 +122,7 @@ class StudentApiController extends Controller
         $lessons = auth()->user()->student->section->lessons;
                 // $section = auth()->user()->student->section;
             $response = array(
-                'error'   => false,
+
                 'code'    => 100,
                 'data'=>[
 
@@ -146,7 +145,7 @@ class StudentApiController extends Controller
          $trimester=   Trimester::all();
                 // $section = auth()->user()->student->section;
             $response = array(
-                'error'   => false,
+                
                 'code'    => 100,
                 'data'=>[
 
@@ -169,7 +168,7 @@ class StudentApiController extends Controller
         $student = auth()->user()->student;
 
             $response = array(
-                'error'   => false,
+
                 'code'    => 100,
                 'data'=>[
                     'studentInfo' => $student,
@@ -190,7 +189,7 @@ class StudentApiController extends Controller
         $student = auth()->user();
 
             $response = array(
-                'error'   => false,
+
                 'code'    => 100,
                 'data'=>[
                     'studentAccount' => $student,
@@ -222,7 +221,7 @@ class StudentApiController extends Controller
         // $subjects = auth()->user()->student->section->subject;
 
         $response = array(
-            'error'   => false,
+
             'code'    => 100,
             'data'=>[
                 'subjects' => $subjects,
@@ -243,7 +242,7 @@ class StudentApiController extends Controller
         $student = auth()->user()->student;
 
             $response = array(
-                'error'   => false,
+
                 'code'    => 100,
                 'data'=>[
                     'studentParent' => $student->parent,
@@ -264,7 +263,7 @@ class StudentApiController extends Controller
         $section = auth()->user()->student;
         $school  = Schools::find($section->school_id);
             $response = array(
-                'error'   => false,
+
                 'code'    => 100,
                 'data'=>[
                     'school' => $school,
@@ -284,7 +283,7 @@ class StudentApiController extends Controller
         try {
         $acadimicYear = getYearNow();
             $response = array(
-                'error'   => false,
+
                 'code'    => 100,
                 'data'=>[
                     'acadimicYear' => $acadimicYear,
@@ -327,7 +326,6 @@ class StudentApiController extends Controller
             $token = $auth->createToken($auth->username)->plainTextToken;
             // $auth->tokens()->delete();
             $response = array(
-                'error' => false,
                 'message' => 'User logged-in!',
                 'token' => $token,
                 'data' => [
