@@ -169,24 +169,24 @@
 @section('script')
 <script>
     window.actionEvents = {
-        'click .editdata': function (e, value, row, index) {
-            $('#id').val(row.id);
-            $('#edit_class_section_id').val(row.class_section_id).trigger('change',row.subject_id);
-            setTimeout(() => {
-                $('#edit_subject_id').val(row.subject_id).trigger('change');
+            'click .editdata': function (e, value, row, index) {
+                $('#id').val(row.id);
+                $('#edit_class_section_id').val(row.class_section_id).trigger('change',row.subject_id);
                 setTimeout(() => {
-                    $('#edit_teacher_id').val(row.teacher_id).trigger('change');
-                }, 500);
-            }, 1000);
+                    $('#edit_subject_id').val(row.subject_id).trigger('change');
+                    setTimeout(() => {
+                        $('#edit_teacher_id').val(row.teacher_id).trigger('change');
+                    }, 500);
+                }, 1000);
+            }
+        };
+        document.getElementById('class_section_id').addEventListener('change', function() {
+        var gradeId = this.value;
+        if(gradeId){
+            getSectionsByClass(gradeId);
+            getSubjectByClass(gradeId);
         }
-    };
-    document.getElementById('class_section_id').addEventListener('change', function() {
-    var gradeId = this.value;
-    if(gradeId){
-        getSectionsByClass(gradeId);
-        getSubjectByClass(gradeId);
-    }
-});
+    });
     function getSectionsByClass(gradeId) {
         var xhr = new XMLHttpRequest();
         xhr.open('GET', '/school/getSection-list/' + gradeId, true);

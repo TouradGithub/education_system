@@ -56,10 +56,9 @@ class SubjectTeacherController extends Controller
 
 
 
-
         try {
             $subjectTeacher=new SubjectTeacher();
-            $subjectTeacher->class_section_id=$request->class_section_id;
+            $subjectTeacher->class_section_id=$request->section_id;
             $subjectTeacher->subject_id=$request->subject_id;
             $subjectTeacher->teacher_id=$request->teacher_id;
             $subjectTeacher->school_id  = getSchool()->id;
@@ -100,7 +99,7 @@ class SubjectTeacherController extends Controller
 
         try {
             $subject_teacher = SubjectTeacher::find($request->id);
-            $subject_teacher->class_section_id = $request->class_section_id;
+            $subject_teacher->class_section_id = $request->section_id;
             $subject_teacher->subject_id = $request->subject_id;
             $subject_teacher->teacher_id = $request->teacher_id;
             $subject_teacher->save();
@@ -232,7 +231,7 @@ class SubjectTeacherController extends Controller
         return response()->json($response);
     }
    public function  getSubjectByClass($id){
-    $subjects =Subject::where('class_id',$id)->get();
+    $subjects =Subject::where(['class_id'=>$id,'school_id'=>getSchool()->id])->get();
     return response($subjects);
    }
 }

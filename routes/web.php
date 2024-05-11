@@ -22,7 +22,7 @@ use App\Http\Controllers\TeacherController;
 
     Route::get('/', [HomeController::class,'getSection'])->name('section');
 
-    // Route::get('scraper', [App\Http\Controllers\ScraperController::class, 'scraper'])->name('scraper');
+    Route::get('scraper', [App\Http\Controllers\ScraperController::class, 'scraper'])->name('scraper');
 
     Route::get('Admin/login',[LoginController::class,'getLogin'])->name('weblogin');
     Route::post('Admin/login',[LoginController::class,'login'])->name('login');

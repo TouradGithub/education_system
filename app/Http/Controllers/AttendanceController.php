@@ -6,6 +6,8 @@ use Carbon\Carbon;
 use App\Models\Attendance;
 use Illuminate\Http\Request;
 use App\Models\Grade;
+use App\Models\Student;
+use App\Models\StudentAcount;
 use App\Models\ClassRoom;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
@@ -53,42 +55,7 @@ class AttendanceController extends Controller
 
 
         //   $getid = Attendance::select('id')->where([
-        //         'date' => Carbon::createFromFormat('d-m-Y', $request->date)->format('Y-m-d'),
-        //         'section_id' => $request->section_id,
-        //         'timetable_id' => $request->timetable_day,
-        //         ])->get();
 
-            // for ($i = 0; $i < count($request->student_id); $i++) {
-
-            //     if (count($getid) > 0) {
-            //         return $getid[$i]['id'];
-            //         $attendance = Attendance::find($getid[$i]['id']);
-            //         $a = "type" . $request->student_id[$i];
-
-            //     } else {
-            //         $attendance = new Attendance();
-            //         $a = "type" . $request->student_id[$i];
-            //         return "ok";
-            //     }
-            //     $attendance->student_id = $request->student_id[$i];
-            //     $attendance->school_id = getSchool()->id;
-            //     $attendance->session_year = getYearNow()->id;
-            //     $attendance->section_id = $request->section_id;
-            //     $attendance->timetable_id = $request->timetable_day;
-            //     $attendance->type = $request->$a;
-
-            //     $attendance->date = Carbon::createFromFormat('d-m-Y', $request->date)->format('Y-m-d'); // Updated line
-            //     $attendance->save();
-            // }
-            // $response = [
-            //     'error' => false,
-            //     'message' => trans('data_store_successfully')
-            // ];
-        // } catch (Exception $e) {
-        //     $response = array(
-        //         'error' => true,
-        //         'message' => trans('error_occurred'),
-        //         'data' => $e
         //     );
         // }
         // return response()->json($response);
@@ -112,6 +79,16 @@ class AttendanceController extends Controller
                 $attendance->date = Carbon::createFromFormat('d-m-Y', $request->date)->format('Y-m-d');
             }
             // Assign attendance type based on the request data
+            if($request->input('type' . $studentId)==0){
+                 $user = Student::find($studentId);
+                //   return response()->json([
+                //         'error' => false,
+                //         'message' =>$user->studentAccount->token
+                //     ]);
+                $message = "تم غياب هذا التلميذ تاريخ " . Carbon::createFromFormat('d-m-Y', $request->date)->format('Y-m-d');
+                send_notification($user->studentAccount, "غياب", $message, "announce");
+
+            }
             $attendance->type = $request->input('type' . $studentId);
 
             // Save the attendance record

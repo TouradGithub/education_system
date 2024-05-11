@@ -30,7 +30,7 @@ class ScraperController extends Controller
 
             if($response_status_code==200){
                 // dd($html);
-                $dom = HtmlDomParser::str_get_html($html);
+                     $dom = HtmlDomParser::str_get_html($html);
 
                 $song_items = $dom->find('div[class="panel"]');
 
@@ -39,12 +39,13 @@ class ScraperController extends Controller
                         $route = $url.''.trim($song_item->find('a[class="list-group-item"]',0)->getAttribute('href'));
                         $name = trim($song_item->find('a[class="list-group-item"]',0)->text());
 
-                        // $gradeScrape =new GradeScraping();
-                        // $gradeScrape->name=$name;
-                        // $gradeScrape->route=$route;
-                        // $gradeScrape->save();
+                        $gradeScrape =new GradeScraping();
+                        $gradeScrape->name=$name;
+                        $gradeScrape->grade_id=1;
+                        $gradeScrape->route=$route;
+                        $gradeScrape->save();
 
-                        // $this->primariGrade($route,$gradeScrape->id);
+                        $this->primariGrade($route,$gradeScrape->id);
                         $this->primariGrade($route,1);
 
 
@@ -92,14 +93,14 @@ class ScraperController extends Controller
                     $name = $song_item->find('button[class="btn btn-group-content"]')[0]->text();
                     $counter_data =trim($song_item->find('button[class="btn btn-group-count bg-1"]')[0]->text());
 
-                    // $classeScrape =new ClassScraping();
-                    // $classeScrape->name=$name;
-                    // $classeScrape->route='https://www.dzexams.com'.$routeClass;
-                    // $classeScrape->counter_data=$counter_data;
-                    // $classeScrape->scraper_grade_id=$scraper_grade_id;
+                    $classeScrape =new ClassScraping();
+                    $classeScrape->name=$name;
+                    $classeScrape->route='https://www.dzexams.com'.$routeClass;
+                    $classeScrape->counter_data=$counter_data;
+                    $classeScrape->scraper_grade_id=$scraper_grade_id;
 
-                    // $classeScrape->save();
-                    // $this->subjectByClass('https://www.dzexams.com'.$routeClass,$classeScrape->id);
+                    $classeScrape->save();
+                    $this->subjectByClass('https://www.dzexams.com'.$routeClass,$classeScrape->id);
                     $this->subjectByClass('https://www.dzexams.com'.$routeClass,1);
 
                 $count++;
@@ -127,19 +128,19 @@ class ScraperController extends Controller
             // dd($song_items);
             $count = 0;
             foreach ($song_items as $song_item){
-                // if($count==0){
+                if($count==0){
 
                     $routeClass = trim($song_item->getAttribute('href'));
                     $name = $song_item->find('button[class="btn btn-group-content"]')[0]->text();
                     $counter_data =trim($song_item->find('button[class="btn btn-group-count bg-1"]')[0]->text());                    $subjectScrape =new SubjectScraping();
-                    // $subjectScrape=new SubjectScraping();
-                    // $subjectScrape->name=$name;
-                    // $subjectScrape->route='https://www.dzexams.com'.$routeClass;
-                    // $subjectScrape->counter_data=$counter_data;
-                    // $subjectScrape->scraper_class_id=$scraper_class_id;
-                    // $subjectScrape->save();
+                    $subjectScrape=new SubjectScraping();
+                    $subjectScrape->name=$name;
+                    $subjectScrape->route='https://www.dzexams.com'.$routeClass;
+                    $subjectScrape->counter_data=$counter_data;
+                    $subjectScrape->scraper_class_id=$scraper_class_id;
+                    $subjectScrape->save();
                     $this->subjectData('https://www.dzexams.com'.$routeClass,1);
-                // }
+                }
                 $count++;
             }
         }
@@ -173,12 +174,12 @@ class ScraperController extends Controller
                     $routeSection = $song_item->find('a[class="btn btn-group-sol btn-item-sujet"]')[0];
                     $counter_data =trim($song_item->find('a[class="btn btn-group-content   btn-item-sujet"]')[0]->text());                    $subjectScrape =new SubjectScraping();
                     dd($routeSection);
-                    // $subjectScrape=new SubjectScraping();
-                    // $subjectScrape->name=$name;
-                    // $subjectScrape->route='https://www.dzexams.com'.$routeClass;
-                    // $subjectScrape->counter_data=$counter_data;
-                    // $subjectScrape->scraper_class_id=$scraper_class_id;
-                    // $subjectScrape->save();
+                    $subjectScrape=new SubjectScraping();
+                    $subjectScrape->name=$name;
+                    $subjectScrape->route='https://www.dzexams.com'.$routeClass;
+                    $subjectScrape->counter_data=$counter_data;
+                    $subjectScrape->scraper_class_id=$scraper_class_id;
+                    $subjectScrape->save();
                 }
                 $count++;
             }

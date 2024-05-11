@@ -10,8 +10,9 @@ use App\Models\Schools;
 use App\Models\Student;
 use App\Models\StudentAcount;
 use App\Models\SubjectTeacher;
+use Carbon\Carbon;
 use App\Models\SessionYear;
-// use App\Models\Schools;
+use App\Models\Attendance;
 
 class StudentApiController extends Controller
 {
@@ -145,7 +146,7 @@ class StudentApiController extends Controller
          $trimester=   Trimester::all();
                 // $section = auth()->user()->student->section;
             $response = array(
-                
+
                 'code'    => 100,
                 'data'=>[
 
@@ -287,6 +288,52 @@ class StudentApiController extends Controller
                 'code'    => 100,
                 'data'=>[
                     'acadimicYear' => $acadimicYear,
+                ]
+            );
+            return response()->json($response, 200);
+        } catch (\Exception $e) {
+            $response = array(
+                'error'   => true,
+                'message' => trans('error_occurred'),
+                'code'    => 103,
+            );
+            return response()->json($response, 500);
+        }
+    }
+    public function getAttandance(Request $request){
+        try {
+            // return $request;
+
+        $carbonDate = Carbon::parse($request->date);
+        $formattedDate = $carbonDate->format('Y-m-d');
+        $attendances =Attendance::where([
+            'date'=>  $formattedDate,
+            'student_id'=>auth()->user()->student->id,
+            'session_year'=>$this->getYearNow()->id,
+            'school_id'=>$this->getSchool()->id,
+            'type'=>0,
+        ])->get();
+        $totalPresent =Attendance::where([
+
+            'student_id'=>auth()->user()->student->id,
+            'session_year'=>$this->getYearNow()->id,
+            'school_id'=>$this->getSchool()->id,
+            'type'=>1,
+        ])->count();
+        $totalAbsent =Attendance::where([
+            'student_id'=>auth()->user()->student->id,
+            'session_year'=>$this->getYearNow()->id,
+            'school_id'=>$this->getSchool()->id,
+            'type'=>0,
+        ])->count();
+
+            $response = array(
+
+                'code'    => 100,
+                'data'=>[
+                    'attendances' => $attendances,
+                    'totalPresent' => $totalPresent,
+                    'totalAbsent' => $totalAbsent,
                 ]
             );
             return response()->json($response, 200);

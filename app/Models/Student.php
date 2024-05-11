@@ -10,6 +10,10 @@ class Student extends Model
     protected $hidden = ['created_at','deleted_at','updated_at'];
 
     use HasFactory;
+     public function studentAccount()
+    {
+        return $this->hasOne(StudentAcount::class, 'student_acount_id');
+    }
     public function scopeInStudent($query)
     {
         return $query->where('academic_year', getYearNow()->id)
