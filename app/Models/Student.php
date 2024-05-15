@@ -4,12 +4,12 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-
+use Illuminate\Notifications\Notifiable;
 class Student extends Model
 {
     protected $hidden = ['created_at','deleted_at','updated_at'];
 
-    use HasFactory;
+    use  HasFactory, Notifiable;
      public function studentAccount()
     {
         return $this->hasOne(StudentAcount::class, 'student_acount_id');

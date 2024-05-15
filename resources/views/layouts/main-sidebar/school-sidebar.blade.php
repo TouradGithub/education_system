@@ -17,6 +17,11 @@
             </a>
         </li>
         @endcan
+        <li class="nav-item">
+            <a class="nav-link" href="{{ route('school.announcement.index') }}">
+                <span class="menu-title">  {{ __('sidebar.announcement') }}</span>
+                <i class="fa fa-bell menu-icon"></i> </a>
+        </li>
         @can('school-sections-index')
         <li class="nav-item">
             <a href="{{ route('school.sections.index') }}" class="nav-link">

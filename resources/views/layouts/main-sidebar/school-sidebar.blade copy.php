@@ -16,6 +16,7 @@
             </a>
         </li>
 
+
         <li class="nav-item">
             <a class="nav-link" data-toggle="collapse" href="#timetable-menu" aria-expanded="false"
                 aria-controls="timetable-menu"> <span class="menu-title">{{ __('sidebar.timetable') }}</span>

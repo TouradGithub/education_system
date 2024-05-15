@@ -175,12 +175,12 @@ class SubjectTeacherController extends Controller
         foreach ($res as $row) {
 
             $operate = '<a class="btn btn-xs btn-gradient-primary btn-rounded btn-icon editdata" data-id=' . $row->id . ' data-url=' . url('subject-teachers') . ' title="Edit" data-toggle="modal" data-target="#editModal"><i class="fa fa-edit"></i></a>&nbsp;&nbsp;';
-            $operate .= '<a class="btn btn-xs btn-gradient-danger btn-rounded btn-icon deletedata" data-id=' . $row->id . ' data-url=' . url('subject-teachers', $row->id) . ' title="Delete"><i class="fa fa-trash"></i></a>';
+            $operate .= '<a class="btn btn-xs btn-gradient-danger btn-rounded btn-icon deletedata" data-id=' . $row->id . ' data-url=' . url('school/subject-teachers', $row->id) . ' title="Delete"><i class="fa fa-trash"></i></a>';
 
             $tempRow['id'] = $row->id;
             $tempRow['no'] = $no++;
             $tempRow['class_section_id'] = $row->class_section_id;
-            $tempRow['class_section_name'] = $row->clasroom->name ;
+            $tempRow['class_section_name'] = $row->id ;
             $tempRow['subject_id'] = $row->subject_id;
             $tempRow['subject_name'] = $row->subject->name . ' ( ' .$row->subject->type . ' ) ';
             $tempRow['teacher_id'] = $row->teacher_id;
@@ -201,13 +201,13 @@ class SubjectTeacherController extends Controller
 
     public function destroy($id)
     {
-        if (!Auth::user()->can('subject-teacher-delete')) {
-            $response = array(
-                'error' => true,
-                'message' => trans('no_permission_message')
-            );
-            return response()->json($response);
-        }
+        // if (!Auth::user()->can('subject-teacher-delete')) {
+        //     $response = array(
+        //         'error' => true,
+        //         'message' => trans('no_permission_message')
+        //     );
+        //     return response()->json($response);
+        // }
         try {
             $timetables = Timetable::where('subject_teacher_id',$id)->count();
             if($timetables){

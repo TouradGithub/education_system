@@ -1,6 +1,6 @@
 @extends('layouts.masters.school-master')
 
-@section('title') {{__('terms_condition')}} @endsection
+@section('title') {{__('Announcement')}} @endsection
 
 
 @section('content')
@@ -8,7 +8,7 @@
 <div class="content-wrapper">
   <div class="page-header">
     <h3 class="page-title">
-      {{__('terms_condition')}}
+      {{__('Announcement')}}
     </h3>
   </div>
   <div class="row grid-margin">
@@ -18,27 +18,25 @@
       <div class="card">
         <div class="card-body">
 
-          <form id="formdata" class="setting-form" action="" method="POST" novalidate="novalidate">
+          <form id="formdata" class="setting-form" action="{{route('school.announcement.store')}}" method="POST" novalidate="novalidate">
             <div class="form-group col-sm-12 col-md-12 show_class_section_id">
                 <label>&nbsp;</label>
                 <select name="type" id="type" class="type form-control" style="width:100%;" tabindex="-1" aria-hidden="true">
                     <option value="">{{ __('genirale.select') }}</option>
                     <option value="Students">{{__('sidebar.students') }}</option>
                     <option value="Teachers">{{  __('teacher.teacher') }}</option>
-                    <option value="Schools">{{  __('sidebar.schools') }}</option>
-                    <option value="Acadimy">{{ __('sidebar.acadimic') }}</option>
-
                 </select>
             </div>
-            <div class="form-group col-sm-12 col-md-6">
+            <div class="form-group col-sm-12 col-md-12">
                 <label>{{ __('title') }}</label>
                 {!! Form::textarea('title', null, ['rows' => '2', 'placeholder' => __('title'), 'class' => 'form-control']) !!}
             </div>
             @csrf
             <div class="row">
-
-              <div class="form-group col-md-12 col-sm-12">
-                <textarea id="tinymce_message" name="data" required placeholder="{{__('terms_condition')}}"></textarea>
+                <div class="form-group col-sm-12 col-md-12">
+                    <label>{{ __('Description') }}</label>
+                    {!! Form::textarea('description', null, ['rows' => '5', 'placeholder' => __('Description'), 'class' => 'form-control']) !!}
+                </div>
 
               </div>
             </div>

@@ -13,6 +13,7 @@ use App\Models\SubjectTeacher;
 use Carbon\Carbon;
 use App\Models\SessionYear;
 use App\Models\Attendance;
+use App\Models\SchoolAnnoucement;
 
 class StudentApiController extends Controller
 {
@@ -295,6 +296,51 @@ class StudentApiController extends Controller
             $response = array(
                 'error'   => true,
                 'message' => trans('error_occurred'),
+                'code'    => 103,
+            );
+            return response()->json($response, 500);
+        }
+    }
+    public function getSettings(Request $request){
+        try {
+            $settings=   $this->getSchool()->setting;
+
+            $response = array(
+
+                'code'    => 100,
+                'data'=>[
+                    'settings' => $settings,
+                ]
+            );
+            return response()->json($response, 200);
+
+        } catch (\Throwable $th) {
+            $response = array(
+                'error'   => true,
+                'message' => trans('genirale.error_occurred'),
+                'code'    => 103,
+            );
+            return response()->json($response, 500);
+        }
+    }
+    public function getAnnouncementSchool(Request $request){
+        try {
+
+            $school_announcement=   SchoolAnnoucement::where('school_id',$this->getSchool()->id)->get();
+
+            $response = array(
+
+                'code'    => 100,
+                'data'=>[
+                    'announcement' => $school_announcement,
+                ]
+            );
+            return response()->json($response, 200);
+
+        } catch (\Throwable $th) {
+            $response = array(
+                'error'   => true,
+                'message' => trans('genirale.error_occurred'),
                 'code'    => 103,
             );
             return response()->json($response, 500);

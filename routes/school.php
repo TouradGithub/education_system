@@ -17,6 +17,7 @@ use App\Http\Controllers\Schools\SectionController;
 use App\Http\Controllers\Schools\HomeController;
 use App\Http\Controllers\Schools\AnnouncementController;
 use App\Http\Controllers\Schools\FeesClassesController;
+use App\Http\Controllers\Schools\SchoolAnnoucementController;
 
 Route::group(['middleware' => ['checkNotAuth']], function () {
 
@@ -142,6 +143,13 @@ Route::group(
     Route::post('fees/paid/store', [FeesClassesController::class, 'feesPaidStore'])->name('fees.paid.store');
 
     Route::post('fees/optional-paid/store', [FeesClassesController::class, 'optionalFeesPaidStore'])->name('fees.optional-paid.store');
+
+
+
+    //Announcement
+
+    Route::get('index', [SchoolAnnoucementController::class, 'index'])->name('announcement.index');
+    Route::post('store', [SchoolAnnoucementController::class, 'store'])->name('announcement.store');
 
 
 });

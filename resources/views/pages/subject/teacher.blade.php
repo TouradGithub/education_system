@@ -99,9 +99,9 @@
                                         <th scope="col" data-field="teacher_id" data-sortable="true" data-visible="false">{{ __('teacher_id') }}</th>
                                         <th scope="col" data-field="teacher_name" data-sortable="false">
                                             {{ __('teacher.teacher') . ' ' . __('genirale.name') }}</th>
-                                        @canany(['subject-teacher-edit', 'subject-teacher-delete'])
+                                        {{-- @canany(['subject-teacher-edit', 'subject-teacher-delete']) --}}
                                         <th data-events="actionEvents" scope="col" data-field="operate" data-sortable="false">{{ __('genirale.action') }}</th>
-                                        @endcanany
+                                        {{-- @endcanany --}}
                                     </tr>
                                 </thead>
                             </table>

@@ -38,6 +38,8 @@ Route::group(['prefix' => 'student'], function () {
    Route::middleware('auth:sanctum')->get('getLessons', [StudentApiController::class, 'getLessons']);
 
    Route::middleware('auth:sanctum')->post('getAttandance', [StudentApiController::class, 'getAttandance']);
+   Route::middleware('auth:sanctum')->get('getSettings', [StudentApiController::class, 'getSettings']);
+   Route::middleware('auth:sanctum')->get('getAnnouncementSchool', [StudentApiController::class, 'getAnnouncementSchool']);
 
 });
 
