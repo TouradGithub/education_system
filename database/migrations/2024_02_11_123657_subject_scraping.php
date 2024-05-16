@@ -14,9 +14,9 @@ return new class extends Migration
         Schema::create('subjectscraping', function (Blueprint $table) {
             $table->id();
             $table->string('name');
-            $table->string('route');
-            $table->string('counter_data');
-            $table->string('scraper_class_id');
+            $table->string('class_id');
+            $table->string('icon');
+            $table->string('counter');
             $table->timestamps();
         });
     }

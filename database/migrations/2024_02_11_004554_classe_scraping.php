@@ -11,12 +11,10 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('classescraping', function (Blueprint $table) {
+        Schema::create('class_scraping', function (Blueprint $table) {
             $table->id();
             $table->string('name');
-            $table->string('route');
-            $table->string('counter_data');
-            $table->string('scraper_grade_id');
+            $table->string('grad_id');
             $table->timestamps();
         });
     }

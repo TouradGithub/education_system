@@ -16,176 +16,62 @@ class ScraperController extends Controller
 
     public function scraper(Request $request)
     {
-            //Init Guzzle
-            $client = new Client();
-            $url = 'https://www.dzexams.com';
-            //Get request
-            $response = $client->request(
-                'GET',
-                'https://www.dzexams.com/'
-            );
-
-            $response_status_code = $response->getStatusCode();
-            $html = $response->getBody()->getContents();
-
-            if($response_status_code==200){
-                // dd($html);
-                     $dom = HtmlDomParser::str_get_html($html);
-
-                $song_items = $dom->find('div[class="panel"]');
-
-                $count = 0;
-                foreach ($song_items as $song_item){
-                        $route = $url.''.trim($song_item->find('a[class="list-group-item"]',0)->getAttribute('href'));
-                        $name = trim($song_item->find('a[class="list-group-item"]',0)->text());
-
-                        $gradeScrape =new GradeScraping();
-                        $gradeScrape->name=$name;
-                        $gradeScrape->grade_id=1;
-                        $gradeScrape->route=$route;
-                        $gradeScrape->save();
-
-                        $this->primariGrade($route,$gradeScrape->id);
-                        $this->primariGrade($route,1);
 
 
-                    $count++;
-                }
-            }
-
-
+        // for($i=11;$i<=14;$i++){
+        //     $k=1;
+        //     $item=$k++;
+        //     $this->subjectData($i,$item);
+        // }
         // view('scrape.index', compact('data'));
     }
-    public function getGradeByName(String $name){
 
-        $grade = Grade::where(function($query) use ($name) {
+    public function subjectData($class_id,$t){
 
-            $query->whereRaw("name", [strtolower($name)]);
-        })->first();
 
-        return $grade->id;
 
-    }
-    public function primariGrade(String $route
-    ,int $scraper_grade_id
-    ){
-        // dd($route);
         $client = new Client();
+        $url = 'https://www.dzexams.com/ar/'.$t.'am';
+
+        // dd($url);
         $response = $client->request(
             'GET',
-            $route
+            'https://www.dzexams.com/ar/'.$t.'am'
+            // 'https://www.dzexams.com/ar/1as/mathematiques'
         );
 
         $response_status_code = $response->getStatusCode();
         $html = $response->getBody()->getContents();
 
         if($response_status_code==200){
-            // dd($html);
-            $dom = HtmlDomParser::str_get_html( $html );
-
-            $song_items = $dom->find('a[class="btn-group header item social-instagram -700 item-tablist"]');
-
-            $count = 0;
-            foreach ($song_items as $song_item){
-
-
-                    $routeClass = trim($song_item->getAttribute('href'));
-                    $name = $song_item->find('button[class="btn btn-group-content"]')[0]->text();
-                    $counter_data =trim($song_item->find('button[class="btn btn-group-count bg-1"]')[0]->text());
-
-                    $classeScrape =new ClassScraping();
-                    $classeScrape->name=$name;
-                    $classeScrape->route='https://www.dzexams.com'.$routeClass;
-                    $classeScrape->counter_data=$counter_data;
-                    $classeScrape->scraper_grade_id=$scraper_grade_id;
-
-                    $classeScrape->save();
-                    $this->subjectByClass('https://www.dzexams.com'.$routeClass,$classeScrape->id);
-                    $this->subjectByClass('https://www.dzexams.com'.$routeClass,1);
-
-                $count++;
-            }
-        }
-
-    }
-
-    public function subjectByClass(String $route,int $scraper_class_id){
-
-        $client = new Client();
-        $response = $client->request(
-            'GET',
-            $route
-        );
-
-        $response_status_code = $response->getStatusCode();
-        $html = $response->getBody()->getContents();
-
-        if($response_status_code==200){
-            // dd($html);
-            $dom = HtmlDomParser::str_get_html( $html );
+                 $dom = HtmlDomParser::str_get_html($html);
 
             $song_items = $dom->find('a[class="btn-group item btn-info"]');
-            // dd($song_items);
+           $song_items;
             $count = 0;
             foreach ($song_items as $song_item){
-                if($count==0){
+                $counter = $song_item->find('button[class="btn btn-group-count bg-1"]',0)->text();
+                $item_name = $song_item->find('button[class="btn btn-group-content"]',0)->text();
+                $icon = $song_item->find('img[class="caption-figure"]',0)->src;
+                // dd( $counter );
+                // if($class_id==3){
+                //     dd($items);
+                // }
 
-                    $routeClass = trim($song_item->getAttribute('href'));
-                    $name = $song_item->find('button[class="btn btn-group-content"]')[0]->text();
-                    $counter_data =trim($song_item->find('button[class="btn btn-group-count bg-1"]')[0]->text());                    $subjectScrape =new SubjectScraping();
-                    $subjectScrape=new SubjectScraping();
-                    $subjectScrape->name=$name;
-                    $subjectScrape->route='https://www.dzexams.com'.$routeClass;
-                    $subjectScrape->counter_data=$counter_data;
-                    $subjectScrape->scraper_class_id=$scraper_class_id;
-                    $subjectScrape->save();
-                    $this->subjectData('https://www.dzexams.com'.$routeClass,1);
-                }
+                    $gradeScrape =new SubjectScraping();
+                    $gradeScrape->name=$item_name;
+                    $gradeScrape->icon=$icon;
+                    $gradeScrape->counter=$counter;
+                    $gradeScrape->class_id=$class_id;
+                    $gradeScrape->save();
+
+
+
+
                 $count++;
-            }
+
         }
-
-
-    }
-
-    public function subjectData(String $route,int $scraper_class_id){
-        // dd($route);
-        $client = new Client();
-        $response = $client->request(
-            'GET',
-            $route
-        );
-
-        $response_status_code = $response->getStatusCode();
-        $html = $response->getBody()->getContents();
-
-        if($response_status_code==200){
-            // dd($html);
-            $dom = HtmlDomParser::str_get_html( $html );
-
-            $song_items = $dom->find('div[class="btn-group item"]');
-            // dd($song_items);
-            $count = 0;
-            foreach ($song_items as $song_item){
-                if($count==1){
-
-                    $routeClass = trim($song_item->getAttribute('href'));
-                    $yearsection = $song_item->find('a[class="btn btn-group-sol btn-item-sujet"]')[0]->text();
-                    $routeSection = $song_item->find('a[class="btn btn-group-sol btn-item-sujet"]')[0];
-                    $counter_data =trim($song_item->find('a[class="btn btn-group-content   btn-item-sujet"]')[0]->text());                    $subjectScrape =new SubjectScraping();
-                    dd($routeSection);
-                    $subjectScrape=new SubjectScraping();
-                    $subjectScrape->name=$name;
-                    $subjectScrape->route='https://www.dzexams.com'.$routeClass;
-                    $subjectScrape->counter_data=$counter_data;
-                    $subjectScrape->scraper_class_id=$scraper_class_id;
-                    $subjectScrape->save();
-                }
-                $count++;
-            }
         }
-
-
     }
 
 }

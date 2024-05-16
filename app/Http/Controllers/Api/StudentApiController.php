@@ -13,6 +13,7 @@ use App\Models\SubjectTeacher;
 use Carbon\Carbon;
 use App\Models\SessionYear;
 use App\Models\Attendance;
+use App\Models\ClassScraping;
 use App\Models\SchoolAnnoucement;
 
 class StudentApiController extends Controller
@@ -346,6 +347,34 @@ class StudentApiController extends Controller
             return response()->json($response, 500);
         }
     }
+    public function getRecommandation(Request $request){
+        try {
+
+            $sql=   ClassScraping::where('grad_id',$this->getSchool()->grade_id);
+            $classe = auth()->user()->student->section->classe;
+            $name=$classe->getTranslation('name', 'ar');
+            $class_scraper=  $sql->where('name', 'LIKE', "%$name%")->first();
+            $recommandations= $class_scraper->subjects;
+
+            $response = array(
+
+                'code'    => 100,
+                'data'=>[
+                    'recommandations' => $recommandations,
+                ]
+            );
+            return response()->json($response, 200);
+
+        } catch (\Throwable $th) {
+            $response = array(
+                'error'   => true,
+                'message' => trans('genirale.error_occurred'),
+                'code'    => 103,
+            );
+            return response()->json($response, 500);
+        }
+    }
+    
     public function getAttandance(Request $request){
         try {
             // return $request;
