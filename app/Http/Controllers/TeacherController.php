@@ -12,6 +12,7 @@ use Illuminate\Support\Facades\Hash;
 // use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Validator;
+use App\Models\SubjectTeacher;
 class TeacherController extends Controller
 {
 
@@ -266,12 +267,12 @@ class TeacherController extends Controller
 
             $response = [
                 'error' => false,
-                'message' => trans('data_update_successfully')
+                'message' => trans('genirale.data_update_successfully')
             ];
         } catch (Throwable $e) {
             $response = array(
                 'error' => true,
-                'message' => trans('error_occurred'),
+                'message' => trans('genirale.error_occurred'),
                 'data' => $e
             );
         }
@@ -294,8 +295,17 @@ class TeacherController extends Controller
     //     }
         try {
 
+            $timetables = SubjectTeacher::where(['teacher_id'=>$id,'school_id'=>getSchool()->id])->count();
+            if($timetables){
+                $response = array(
+                    'error' => true,
+                    'message' => trans('genirale.cannot_delete_beacuse_data_is_associated_with_other_data')
+                );
+            }else{
 
                 $teacher = Teacher::find($id);
+
+
                 if (Storage::disk('public')->exists($teacher->image)) {
                     Storage::disk('public')->delete($teacher->image);
                 }
@@ -303,8 +313,11 @@ class TeacherController extends Controller
 
                 $response = [
                     'error' => false,
-                    'message' => trans('data_delete_successfully')
+                    'message' => trans('genirale.data_delete_successfully')
                 ];
+            }
+
+
 
         } catch (Throwable $e) {
             $response = array(

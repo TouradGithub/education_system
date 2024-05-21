@@ -9,6 +9,7 @@ use App\Models\Grade;
 use App\Models\ClassRoom;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use App\Models\SubjectTeacher;
 class SectionController extends Controller
 {
     /**
@@ -32,20 +33,33 @@ class SectionController extends Controller
      */
     public function store(Request  $request)
     {
-        // return $request;
+
 
         $validator = Validator::make($request->all(), [
-            'name' => 'required',
-            'name_en' => 'required',
-            // 'grade_id' => 'required',
-            'class_id' => 'required',
+            'name' => [
+                'required',
+
+            ],
+            'name_en' => [
+                'required',
+            ],
+            'class_id' => [
+                'required',
+                'integer',
+            ],
+
         ]);
+
         if ($validator->fails()) {
-            $response = array(
+            $errors = $validator->errors()->all();
+            // Combine all error messages into a single string
+            $errorMessage = implode("\n", $errors);
+            $response = [
                 'error' => true,
-                'message' => $validator->errors()->first()
-            );
-            return response()->json($response);
+                'message' => $errorMessage,
+                'data' => $validator->errors()
+            ];
+            return redirect()->back()->with('error', $response['message']);
         }
         try {
             $classRoomData = [
@@ -58,15 +72,6 @@ class SectionController extends Controller
                 ]
             ];
             ClassRoom::insert($classRoomData);
-
-            // $ClassRoom= new  ClassRoom();
-            // $ClassRoom->name= ['en' => $request->name_en, 'ar' => $request->name];
-            // $ClassRoom->grade_id= getSchool()->grade_id;
-            // $ClassRoom->class_id=$request->class_id;
-            // $ClassRoom->school_id= getSchool()->id;
-            // $ClassRoom->notes=$request->notes;
-            // $ClassRoom->save();
-            // ]);
 
             $response = [
                 'error' => false,
@@ -197,11 +202,21 @@ class SectionController extends Controller
     public function destroy($id)
     {
         try {
-            ClassRoom::find($id)->delete();
-            $response = array(
-                'error' => false,
-                'message' => trans('data_delete_successfully')
-            );
+
+            $timetables = SubjectTeacher::where(['class_section_id'=>$id,'school_id'=>getSchool()->id])->count();
+            if($timetables){
+                $response = array(
+                    'error' => true,
+                    'message' => trans('genirale.cannot_delete_beacuse_data_is_associated_with_other_data')
+
+                );
+            }else{
+                ClassRoom::find($id)->delete();
+                $response = [
+                    'error' => false,
+                    'message' => trans('genirale.data_delete_successfully')
+                ];
+            }
         } catch (Throwable $e) {
 
             $response = array(
@@ -229,7 +244,7 @@ class SectionController extends Controller
 
             $response = array(
                 'error' => true,
-                'message' => trans('error_occurred')
+                'message' => trans('genirale.error_occurred')
             );
 
         }

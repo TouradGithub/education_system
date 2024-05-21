@@ -79,6 +79,8 @@ return [
     "data_store_successfully" => "تم حفظ البيانات بنجاح",
     "data_update_successfully" => "تم تحديث البيانات بنجاح",
     "data_delete_successfully" => "تم حذف البيانات بنجاح",
+    "cannot_delete_beacuse_data_is_associated_with_other_data"=>"لا يمكن الحذف لأن البيانات مقترنة ببيانات أخرى",
+
 
 
     "error_occurred" => "عذراً! حدث خطأ. الرجاء المحاولة مرة أخرى لاحقاً."

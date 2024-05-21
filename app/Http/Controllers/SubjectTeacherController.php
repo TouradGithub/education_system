@@ -38,20 +38,46 @@ class SubjectTeacherController extends Controller
 
     public function store(Request $request)
     {
+
         $validator = Validator::make($request->all(), [
-            'class_section_id' => 'required|integer',
-            'subject_id' => 'required|integer',
-            'teacher_id' => 'required|integer',
+            'section_id' => [
+                'required',
+                'integer',
+                'unique:subject_teachers,class_section_id,NULL,id,teacher_id,' . $request->input('teacher_id') . ',school_id,' . getSchool()->id,
+            ],
+            'subject_id' => [
+                'required',
+                'integer',
+                'unique:subject_teachers,subject_id,NULL,id,class_section_id,' . $request->input('section_id') . ',teacher_id,' . $request->input('teacher_id') . ',school_id,' . getSchool()->id,
+            ],
+            'teacher_id' => [
+                'required',
+                'integer',
+                'unique:subject_teachers,teacher_id,NULL,id,class_section_id,' . $request->input('section_id') . ',subject_id,' . $request->input('subject_id') . ',school_id,' . getSchool()->id,
+            ],
         ]);
+
         if ($validator->fails()) {
-            $response = array(
+            $response = [
                 'error' => true,
-                'message' => trans('error_occurred'),
-                'data' => $validator
-            );
+                'message' => trans('genirale.error_occurred'),
+                'data' => $validator->errors()
+            ];
+            return redirect()->back()->with('error', $response['message']);
+        }
 
-        return response()->json($response);
+        // If validation passes, continue with your logic
 
+        if ($validator->fails()) {
+            $errors = $validator->errors()->all();
+            // Combine all error messages into a single string
+            $errorMessage = implode("\n", $errors);
+            $response = [
+                'error' => true,
+                'message' => $errorMessage,
+                'data' => $validator->errors()
+            ];
+            return redirect()->back()->with('error', $response['message']);
         }
 
 
@@ -78,7 +104,7 @@ class SubjectTeacherController extends Controller
                 'data' => $e
             );
         }
-        return redirect()->back();
+        return redirect()->back()->with('success',$response['message']);
     }
 
     public function update(Request $request)
@@ -180,7 +206,7 @@ class SubjectTeacherController extends Controller
             $tempRow['id'] = $row->id;
             $tempRow['no'] = $no++;
             $tempRow['class_section_id'] = $row->class_section_id;
-            $tempRow['class_section_name'] = $row->id ;
+            $tempRow['class_section_name'] = $row->section->name ;
             $tempRow['subject_id'] = $row->subject_id;
             $tempRow['subject_name'] = $row->subject->name . ' ( ' .$row->subject->type . ' ) ';
             $tempRow['teacher_id'] = $row->teacher_id;
@@ -199,6 +225,7 @@ class SubjectTeacherController extends Controller
         return response($subject_teacher);
     }
 
+
     public function destroy($id)
     {
         // if (!Auth::user()->can('subject-teacher-delete')) {
@@ -208,30 +235,33 @@ class SubjectTeacherController extends Controller
         //     );
         //     return response()->json($response);
         // }
+
         try {
+
             $timetables = Timetable::where('subject_teacher_id',$id)->count();
             if($timetables){
                 $response = array(
                     'error' => true,
-                    'message' => trans('cannot_delete_beacuse_data_is_associated_with_other_data')
+                    'message' => trans('genirale.cannot_delete_beacuse_data_is_associated_with_other_data')
                 );
             }else{
                 SubjectTeacher::find($id)->delete();
                 $response = [
                     'error' => false,
-                    'message' => trans('data_delete_successfully')
+                    'message' => trans('genirale.data_delete_successfully')
                 ];
             }
         } catch (Throwable $e) {
             $response = array(
                 'error' => true,
-                'message' => trans('error_occurred')
+                'message' => trans('genirale.error_occurred')
             );
         }
         return response()->json($response);
     }
-   public function  getSubjectByClass($id){
-    $subjects =Subject::where(['class_id'=>$id,'school_id'=>getSchool()->id])->get();
-    return response($subjects);
-   }
+
+    public function  getSubjectByClass($id){
+        $subjects =Subject::where(['class_id' => $id,'school_id'=>getSchool()->id])->get();
+        return response($subjects);
+    }
 }

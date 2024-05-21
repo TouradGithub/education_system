@@ -70,6 +70,7 @@ return [
     "data_store_successfully"=> "Data Saved Successfully",
     "data_update_successfully"=> "Data Updated Successfully",
     "data_delete_successfully"=> "Data Deleted Successfully",
+    "cannot_delete_beacuse_data_is_associated_with_other_data"=>"Cannot delete beacuse data is associated with other data",
 
     "error_occurred"=> "Oops! Error occurred. Please Try again Later.",
     "show_student"=> "Show Student",
