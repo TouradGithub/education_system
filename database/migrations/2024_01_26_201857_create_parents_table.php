@@ -24,6 +24,7 @@ return new class extends Migration
             $table->string('school_id');
             $table->string('father_occupation');
             $table->string('image');
+            $table->string('token')->nullable();
             $table->string('cratedby');
             $table->string('status');
             $table->timestamps();

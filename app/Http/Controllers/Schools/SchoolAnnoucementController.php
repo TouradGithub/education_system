@@ -53,6 +53,7 @@ class SchoolAnnoucementController extends Controller
                foreach($users as $user){
                 if($user->studentAccount->token !=null){
                     send_notification($user->studentAccount,$request->title,$request->description,$request->type);
+                    send_parent_notification($user->parent,$request->title,$request->description,$request->type);
                 }
                }
             }

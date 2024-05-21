@@ -167,6 +167,7 @@ class AnnouncementController extends Controller
             $type = $request->set_data;
             $announcement->save();
             send_notification($user, $title, $body, $type);
+            send_parent_notification($user->parent,$request->title,$request->description,$request->type);
             if ($request->hasFile('file')) {
                 foreach ($request->file as $file_upload) {
                     $file = new File();

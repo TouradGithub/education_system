@@ -32,7 +32,7 @@ class StudentController extends Controller
           }else{
             $father_parent = new MyParent();
             $father_parent->username = $request->father_mobile;
-            $father_parent->password = str_replace('-', '',$request->father_dob);
+            $father_parent->password =Hash::make( str_replace('-', '',$request->father_dob));
             $father_parent->father_first_name = $request->father_last_name;
             $father_parent->father_last_name = $request->father_last_name;
             $father_parent->father_mobile = $request->father_mobile;

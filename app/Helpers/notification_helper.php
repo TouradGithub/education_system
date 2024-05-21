@@ -57,3 +57,57 @@ function send_notification($user, $title, $body, $type)
 
     $response = curl_exec($ch);
 }
+
+function send_parent_notification($user, $title, $body, $type)
+{
+    // $token = $user->token;
+
+
+    $SERVER_API_KEY = 'AAAAjcA0ITw:APA91bGJTZQCROu8oLftFNh6ovmZMV-rWTUo9MnVNk189beF-GI3Vud2dsBjdu1EeHluNe6XxPUQt4Zx7eNiKU1w00YDXLkX8U55FYyJZr3cYwSJ68QrHeY8L5Rhu4d9AyXsv_bqHCmk';
+
+    $token_1 = $user->token;
+
+    $data = [
+
+        "registration_ids" => [
+            $token_1
+        ],
+
+        "notification" => [
+
+            "title" => $title,
+
+            "body" =>$body,
+
+            "sound"=> "default" // required for sound on ios
+
+        ],
+
+    ];
+
+    $dataString = json_encode($data);
+
+    $headers = [
+
+        'Authorization: key=' . $SERVER_API_KEY,
+
+        'Content-Type: application/json',
+
+    ];
+
+    $ch = curl_init();
+
+    curl_setopt($ch, CURLOPT_URL, 'https://fcm.googleapis.com/fcm/send');
+
+    curl_setopt($ch, CURLOPT_POST, true);
+
+    curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
+
+    curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
+
+    curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+
+    curl_setopt($ch, CURLOPT_POSTFIELDS, $dataString);
+
+    $response = curl_exec($ch);
+}

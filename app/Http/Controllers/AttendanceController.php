@@ -87,6 +87,7 @@ class AttendanceController extends Controller
                 //     ]);
                 $message = "تم غياب هذا التلميذ تاريخ " . Carbon::createFromFormat('d-m-Y', $request->date)->format('Y-m-d');
                 send_notification($user->studentAccount, "غياب", $message, "announce");
+                send_parent_notification($user->parent, "غياب", $message, "announce");
 
             }
             $attendance->type = $request->input('type' . $studentId);

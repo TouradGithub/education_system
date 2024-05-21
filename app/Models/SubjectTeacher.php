@@ -27,7 +27,7 @@ class SubjectTeacher extends Model
 
     public function teacher()
     {
-        return $this->belongsTo(Teacher::class);
+        return $this->belongsTo(Teacher::class,'teacher_id');
     }
 
     public function scopeInSubjectTeacher($query)

@@ -49,6 +49,10 @@ return [
             'driver' => 'session',
             'provider' => 'student', // This should match the provider name in 'providers' section
         ],
+        'parent' => [
+            'driver' => 'session',
+            'provider' => 'parents', // This should match the provider name in 'providers' section
+        ],
     ],
 
     /*
@@ -81,11 +85,12 @@ return [
             'driver' => 'eloquent',
             'model' => App\Models\StudentAcount::class,
         ],
+        'parents' => [
+            'driver' => 'eloquent',
+            'model' => App\Models\MyParent::class,
+        ],
 
-        // 'users' => [
-        //     'driver' => 'database',
-        //     'table' => 'users',
-        // ],
+
     ],
 
     /*

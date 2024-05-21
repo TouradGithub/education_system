@@ -374,7 +374,7 @@ class StudentApiController extends Controller
             return response()->json($response, 500);
         }
     }
-    
+
     public function getAttandance(Request $request){
         try {
             // return $request;
@@ -386,7 +386,6 @@ class StudentApiController extends Controller
             'student_id'=>auth()->user()->student->id,
             'session_year'=>$this->getYearNow()->id,
             'school_id'=>$this->getSchool()->id,
-            'type'=>0,
         ])->get();
         $totalPresent =Attendance::where([
 
