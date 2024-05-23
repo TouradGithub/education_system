@@ -1,7 +1,7 @@
 @extends('layouts.masters.school-master')
 @php
-   $grades= App\Models\Grade::find(getSchool()->id);
-   $classeEtud= App\Models\Classes::find( $student->class_id);
+   $grades= App\Models\Grade::find(getSchool()->grade_id);
+   $classeEtud= App\Models\Classes::find($student->class_id);
    $classes=$grades->classes;
    $sections=$classeEtud->sections;
 @endphp

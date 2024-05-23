@@ -38,6 +38,8 @@ Route::group(
     })->name('school.home');
 
     Route::prefix('students')->group(function () {
+        Route::get('show/{id}', [StudentController::class, 'show'])->name('student.show');
+        Route::get('genratePassword/{id}', [StudentController::class, 'genratePassword'])->name('student.genratePassword');
         Route::get('create', [StudentController::class, 'create'])->name('student.create');
         Route::get('index', [StudentController::class, 'index'])->name('student.index');
         Route::get('edit/{id}', [StudentController::class, 'edit'])->name('student.edit');

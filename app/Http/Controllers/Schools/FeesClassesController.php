@@ -210,34 +210,6 @@ class FeesClassesController extends Controller
             });
         }
 
-        // if (isset($_GET['class_id']) && !empty($_GET['class_id'])) {
-        //     $class_id = $_GET['class_id'];
-        //     $class_section_id = ClassSection::where('class_id', $class_id)->pluck('id');
-        //     $sql->whereIn('class_section_id', $class_section_id)
-        //         ->with(['fees_paid' => function ($q) use ($session_year_id) {
-        //             $q->with('class', 'session_year', 'payment_transaction')
-        //                 ->where('session_year_id', $session_year_id);
-        //         }]);
-        // } else {
-        //     $sql->has('fees_paid');
-        // }
-
-        // if (isset($_GET['mode']) && ($_GET['mode'] == 0 || $_GET['mode'] == 1 || $_GET['mode'] == 2)) {
-        //     $sql->whereHas('fees_paid', function ($q) {
-        //         $q->where('mode', $_GET['mode']);
-        //     });
-        // }
-
-        // if (isset($_GET['search']) && !empty($_GET['search'])) {
-        //     $search = $_GET['search'];
-        //     $sql->where(function ($q) use ($search) {
-        //         $q->where('id', 'LIKE', "%$search%")
-        //             ->orWhereHas('user', function ($q) use ($search) {
-        //                 $q->where('first_name', 'LIKE', "%$search%")
-        //                     ->orWhere('last_name', 'LIKE', "%$search%");
-        //             });
-        //     });
-        // }
 
         $total = $sql->count();
         $sql->orderBy($sort, $order)->skip($offset)->take($limit);
@@ -249,37 +221,7 @@ class FeesClassesController extends Controller
         $tempRow = array();
         $no = 1;
         foreach ($res as $row) {
-        //     $operate = "";
-        //     $session_year = SessionYear::where('id',$session_year_id)->first();
-        //     $due_date = $session_year->fee_due_date;
 
-        //     $current_date = Carbon::now()->format('d-m-Y');
-        //     $due_charges = 0;
-        //     $base_amount_with_due_charges = 0;
-
-        //     $payment_transaction = null;
-
-        //     if($row->fees_paid){
-        //         $payment_transaction = PaymentTransaction::where(['student_id' => $row->id , 'class_id' => $row->class_section->class_id , 'session_year_id' => $session_year_id])->latest()->first();
-        //     }
-
-        //     // Base Amount
-        //     $base_amount = FeesClass::where(['class_id' => $row->class_section->class_id , 'choiceable' => 0])->selectRaw('SUM(amount) as base_amount')->first();
-        //     $base_amount = $base_amount['base_amount'];
-
-        //     // if due charges is applicable
-        //     if (strtotime($current_date) > strtotime($due_date)) {
-        //         $due_charges = $session_year->fee_due_charges;
-        //         $charges = (($due_charges) * ($base_amount) / 100);
-        //         $base_amount_with_due_charges = $base_amount + $charges;
-        //     }
-
-        //     // Get the fees data
-        //     $compulsory_fees = FeesClass::where(['class_id' => $row->class_section->class_id , 'choiceable' => 0])->with('fees_type')->get();
-        //     $choiceable_fees = FeesClass::where(['class_id' => $row->class_section->class_id , 'choiceable' => 1])->with('fees_type')->get();
-        //     $installment_data = InstallmentFee::where('session_year_id',$session_year_id)->get();
-
-        //     //Get Paid Fees
 
             $operate = "";
         //     // check that fees paid is not empty
@@ -292,18 +234,7 @@ class FeesClassesController extends Controller
                     $operate .= '</div></div>&nbsp;&nbsp;';
                     $operate .= '<a href=  class="btn btn-xs btn-gradient-danger btn-rounded btn-icon delete-form" title="'.trans('clear').'" data-id=><i class="fa fa-remove"></i></a>&nbsp;&nbsp;';
                     $operate .= '<a href= class="btn btn-xs btn-gradient-info btn-rounded btn-icon generate-paid-fees-pdf" target="_blank" data-id= title="' . trans('generate_pdf') . ' ' . trans('fees') . '"><i class="fa fa-file-pdf-o"></i></a>&nbsp;&nbsp;';
-        //         }else{
-        //             $operate .= '<a href=' . route('fees.paid.clear.data', $row->fees_paid->id) . ' class="btn btn-xs btn-gradient-danger btn-rounded btn-icon delete-form" title="'.trans('clear').'" data-id=' . $row->fees_paid->id . '><i class="fa fa-remove"></i></a>&nbsp;&nbsp;';
-        //             $operate .= '<a href=' . route('fees.paid.receipt.pdf', $row->fees_paid->id) . ' class="btn btn-xs btn-gradient-info btn-rounded btn-icon generate-paid-fees-pdf" target="_blank" data-id=' . $row->fees_paid->id . ' title="' . trans('generate_pdf') . ' ' . trans('fees') . '"><i class="fa fa-file-pdf-o"></i></a>&nbsp;&nbsp;';
-        //         }
-        //     }else{
-        //         $operate = '<div class="dropdown"><button class="btn btn-xs btn-gradient-success btn-rounded btn-icon dropdown-toggle" type="button" data-toggle="dropdown"><i class="fa fa-dollar"></i></button><div class="dropdown-menu">';
-        //         $operate .= '<a href="#"class="compulsory-data dropdown-item" data-id=' . $row->id . ' title="' . trans('compulsory') . ' ' . trans('fees') . '" data-toggle="modal" data-target="#compulsoryModal"><i class="fa fa-dollar text-success mr-2"></i>'.trans('compulsory').' '.trans('fees').'</a><div class="dropdown-divider"></div>';
-        //         $operate .= '<a href="#" class="optional-data dropdown-item" data-id=' . $row->id . ' title="' . trans('optional') . ' ' . trans('fees') . '" data-toggle="modal" data-target="#optionalModal"><i class="fa fa-dollar text-success mr-2"></i>'.trans('optional').' '.trans('fees').'</a>';
-        //         $operate .= '</div></div>&nbsp;&nbsp;';
-        //     }
 
-        //     $tempRow['id'] = null;
             $tempRow['student_id'] = $row->id;
             $tempRow['no'] = $no++;
             $tempRow['student_name'] = $row->first_name . ' ' . $row->last_name;
@@ -319,82 +250,6 @@ class FeesClassesController extends Controller
                 }
 
             }
-
-
-
-
-        //     if(isset($installment_data) && !empty($installment_data)) {
-        //         $tempRow['installment_data'] = array();
-        //         foreach ($installment_data as $data) {
-        //             // Paid Installment Data
-        //             $paid_installment = PaidInstallmentFee::where(['student_id' => $row->id, 'installment_fee_id' => $data->id])->first();
-
-        //             if(strtotime($current_date) >= strtotime($data->due_date)){
-        //                 $tempRow['installment_data'][] = array(
-        //                     'id' => $data->id,
-        //                     'name' => $data->name,
-        //                     'due_date' => $data->due_date,
-        //                     'due_charges' => $data->due_charges,
-        //                     'due_charges_applicable' => 1,
-        //                     'paid' => $paid_installment ? 1 : 0 ,
-        //                     'paid_id' => $paid_installment ? $paid_installment->id : '',
-        //                     'paid_on' => $paid_installment ? date('d-m-Y',strtotime($paid_installment->date)) : '',
-        //                 );
-        //             }else{
-        //                 $tempRow['installment_data'][] = array(
-        //                     'id' => $data->id,
-        //                     'name' => $data->name,
-        //                     'due_date' => $data->due_date,
-        //                     'due_charges' => $data->due_charges,
-        //                     'due_charges_applicable' => 0,
-        //                     'paid' => $paid_installment ? 1 : 0 ,
-        //                     'paid_id' => $paid_installment ? $paid_installment->id : '',
-        //                     'paid_on' => $paid_installment ? $paid_installment->date : '',
-        //                 );
-        //             }
-        //         }
-        //     }
-        //     if(isset($choiceable_fees) && !empty($choiceable_fees)) {
-        //         $tempRow['choiceable_fees'] = array();
-        //         $paid_choiceable_fees_query = FeesChoiceable::where(['class_id' => $row->class_section->class_id , 'student_id' => $row->id , 'session_year_id' => $session_year_id]);
-        //         foreach ($choiceable_fees as $data) {
-        //             //Clone the Query To Avoid Extra Addition of Where Fees Type ID
-        //             $paid_choiceable_data = (clone $paid_choiceable_fees_query)->where('fees_type_id', $data->fees_type_id);
-        //             if($paid_choiceable_data->count()){
-        //                 $tempRow['choiceable_fees'][] = array(
-        //                     'id' => $data->id,
-        //                     'name' => $data->fees_type->name,
-        //                     'class_id' => $data->class_id,
-        //                     'fees_type_id' => $data->fees_type_id,
-        //                     'choiceable' => $data->choiceable,
-        //                     'amount' => $data->amount,
-        //                     'is_paid' => 1,
-        //                     'paid_id' => $paid_choiceable_data->first()->id,
-        //                     'date' => $paid_choiceable_data->first()->date,
-        //                 );
-        //             }else{
-        //                 $tempRow['choiceable_fees'][] = array(
-        //                     'id' => $data->id,
-        //                     'name' => $data->fees_type->name,
-        //                     'class_id' => $data->class_id,
-        //                     'fees_type_id' => $data->fees_type_id,
-        //                     'choiceable' => $data->choiceable,
-        //                     'amount' => $data->amount,
-        //                     'is_paid' => 0,
-        //                 );
-        //             }
-        //         }
-        //     }
-            // $tempRow['base_amount'] = $base_amount;
-        //     $tempRow['base_amount_with_due_charges'] = $base_amount_with_due_charges;
-        //     $tempRow['due_charges'] = array(
-        //         'date' => date('d-m-Y',strtotime($due_date)),
-        //         'charges' => $charges ?? null,
-        //     );
-            // $tempRow['session_year_name'] = $row->fees_paid->session_year->name ?? null;
-            // $tempRow['mode'] = $payment_transaction->mode ?? null;
-            // $tempRow['type_of_fee'] = $payment_transaction->type_of_fee ?? null;
-            // $tempRow['cheque_no'] = $payment_transaction->cheque_no ?? null;
             $tempRow['created_at'] = $row->created_at;
             $tempRow['updated_at'] = $row->updated_at;
             $tempRow['operate'] = $operate;

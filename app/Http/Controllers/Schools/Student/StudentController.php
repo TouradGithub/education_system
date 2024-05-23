@@ -202,9 +202,13 @@ class StudentController extends Controller
         $no = 1;
         foreach ($res as $row) {
             $operate = '';
-            $operate .= '<a class="btn btn-xs btn-gradient-primary btn-rounded btn-icon "  title="Edit"  href='. route('school.student.edit', $row->id).'><i class="fa fa-edit"></i></a>&nbsp;&nbsp;';
+            $operate = '<div class="dropdown"><button class="btn btn-xs btn-gradient-success btn-rounded btn-icon dropdown-toggle" type="button" data-toggle="dropdown">Actions</button><div class="dropdown-menu">';
             $operate .= '<a class="btn btn-xs btn-gradient-danger btn-rounded btn-icon deletedata" data-id=' . $row->id . ' data-url=' . route('school.studentts.destroy', $row->id). ' title="Delete"><i class="fa fa-trash"></i></a>';
-            $operate .= '<a href=' . route('school.inscription.pdf', $row->id) . ' class="btn btn-xs btn-gradient-info btn-rounded btn-icon generate-paid-fees-pdf" target="_blank" data-id= title="' . trans('generate_pdf') . ' ' . trans('fees') . '"><i class="fa fa-file-pdf-o"></i></a>&nbsp;&nbsp;';
+            $operate .= '<a class="btn btn-xs btn-gradient-primary btn-rounded btn-icon "  title="Edit"  href='. route('school.student.edit', $row->id).'><i class="fa fa-edit"></i></a>&nbsp;&nbsp;';
+            $operate .= '<a class="btn btn-xs btn-gradient-info btn-rounded btn-icon" href='.route('school.student.show',$row->id). '><i class="fa fa-eye"></i></a>';
+            $operate .= '</div></div>&nbsp;&nbsp;';
+            $operate .= '<a href= class="btn btn-xs btn-gradient-info btn-rounded btn-icon generate-paid-fees-pdf" target="_blank" data-id= title="' . trans('generate_pdf') . ' ' . trans('fees') . '"><i class="fa fa-file-pdf-o"></i></a>&nbsp;&nbsp;';
+
 
            $tempRow['id'] = $row->id;
            $tempRow['fullName'] =$row->first_name.' '.$row->last_name;
@@ -213,9 +217,9 @@ class StudentController extends Controller
            $tempRow['date_birth'] =$row->date_birth;
            $tempRow['roll_number'] =$row->roll_number;
            $tempRow['blood_group'] = $row->blood_group;
-           $tempRow['parent_id'] = $row->parent->father_first_name.' '. $row->parent->father_last_name;
+           $tempRow['parent_id'] ="";
            $tempRow['operate'] =$operate;
-           $tempRow['section_id'] =$row->section->name;
+           $tempRow['section_id'] =$row->section->name??'';
            $rows[] = $tempRow;
         }
 
@@ -225,6 +229,12 @@ class StudentController extends Controller
     public function edit(Student $id){
         $student =Student::Instudent()->where('id',$id->id)->first();
         return view('pages.schools.students.edit',compact('student'));
+    }
+
+    public function show(Student $id){
+         $student =Student::find($id->id);
+        //  return $student->parent;
+        return view('pages.schools.students.show',compact('student'));
     }
     public function destroy($id){
 
@@ -258,4 +268,22 @@ class StudentController extends Controller
         return $pdf->stream('inscription.pdf');
     }
 
+    public function genratePassword($id){
+        try {
+            $student =Student::find($id);
+            $parent = MyParent::find($student->parent_id);
+            $parent->username = $parent->father_mobile;
+            $parent->password = Hash::make( str_replace('-', '',$parent->father_dob));
+            $parent->save();
+            toastr()->success( trans('genirale.data_store_successfully'), 'Congrats');
+            return back();
+        } catch (\Throwable $th) {
+            toastr()->error( trans('genirale.error_occurred'), 'Error');
+            return back();
+        }
+
+
+    }
+
 }
+

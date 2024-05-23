@@ -24,9 +24,6 @@ class AttendanceController extends Controller
         //     );
         //     return redirect(route('home'))->withErrors($response);
         // }
-        // $teacher_id = Auth::user()->teacher->id;
-        // $class_section_ids = ClassTeacher::where('class_teacher_id',$teacher_id)->pluck('class_section_id');
-        // $class_sections = ClassSection::with('class', 'section','classTeachers','class.streams')->whereIn('id',$class_section_ids)->get();
         return view('pages.attendance.index');
     }
 
@@ -54,21 +51,16 @@ class AttendanceController extends Controller
         ]);
 
 
-        //   $getid = Attendance::select('id')->where([
-
-        //     );
-        // }
-        // return response()->json($response);
         $attendances = Attendance::where([
             'date' => Carbon::createFromFormat('d-m-Y', $request->date)->format('Y-m-d'),
             'section_id' => $request->section_id,
             'timetable_id' => $request->timetable_day,
         ])->get();
-        // Loop through each student ID in the request
+
         foreach ($request->student_id as $studentId) {
-            // Check if attendance record exists for the student on the given date, section, and timetable
+
             $attendance = $attendances->firstWhere('student_id', $studentId);
-            // Create a new attendance record if it doesn't exist
+
             if (!$attendance) {
                 $attendance = new Attendance();
                 $attendance->student_id = $studentId;
@@ -78,13 +70,10 @@ class AttendanceController extends Controller
                 $attendance->timetable_id = $request->timetable_day;
                 $attendance->date = Carbon::createFromFormat('d-m-Y', $request->date)->format('Y-m-d');
             }
-            // Assign attendance type based on the request data
+
             if($request->input('type' . $studentId)==0){
                  $user = Student::find($studentId);
-                //   return response()->json([
-                //         'error' => false,
-                //         'message' =>$user->studentAccount->token
-                //     ]);
+
                 $message = "تم غياب هذا التلميذ تاريخ " . Carbon::createFromFormat('d-m-Y', $request->date)->format('Y-m-d');
                 send_notification($user->studentAccount, "غياب", $message, "announce");
                 send_parent_notification($user->parent, "غياب", $message, "announce");
@@ -92,11 +81,11 @@ class AttendanceController extends Controller
             }
             $attendance->type = $request->input('type' . $studentId);
 
-            // Save the attendance record
+
             $attendance->save();
         }
 
-        // Respond with success message
+
         return response()->json([
             'error' => false,
             'message' => trans('genirale.data_store_successfully')
