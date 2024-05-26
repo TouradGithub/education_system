@@ -38,7 +38,9 @@ Route::group(
     })->name('school.home');
 
     Route::prefix('students')->group(function () {
+        Route::get('announcement-student', [StudentController::class, 'getStudentAnnoucement'])->name('student.getStudentAnnoucement');
         Route::get('show/{id}', [StudentController::class, 'show'])->name('student.show');
+        Route::post('sendMessage', [StudentController::class, 'sendMessage'])->name('student.sendMessage');
         Route::get('genratePassword/{id}', [StudentController::class, 'genratePassword'])->name('student.genratePassword');
         Route::get('create', [StudentController::class, 'create'])->name('student.create');
         Route::get('index', [StudentController::class, 'index'])->name('student.index');
@@ -50,9 +52,7 @@ Route::group(
     });
 
     Route::get('getList', [StudentController::class, 'getList'])->name('student.getList');
-
     Route::resource('studentts', StudentController::class);
-
     Route::prefix('student/promotions')->group(function () {
         Route::get('create', [PromotionController::class, 'create'])->name('student.promotions.create');
         Route::post('store', [PromotionController::class, 'store'])->name('student.promotions.store');
@@ -143,6 +143,7 @@ Route::group(
     Route::get('fees/paid', [FeesClassesController::class, 'feesPaidListIndex'])->name('fees.paid.index');
     Route::get('fees/paid/list', [FeesClassesController::class, 'feesPaidList'])->name('fees.paid.list');
     Route::post('fees/paid/store', [FeesClassesController::class, 'feesPaidStore'])->name('fees.paid.store');
+    Route::delete('fees/paid/delete/{id}', [FeesClassesController::class, 'feesPaidDelete'])->name('fees.paid.delete');
 
     Route::post('fees/optional-paid/store', [FeesClassesController::class, 'optionalFeesPaidStore'])->name('fees.optional-paid.store');
 

@@ -27,10 +27,24 @@ class SubjectTeacherController extends Controller
         // }
 
         $subjects = Subject::orderBy('id', 'DESC')->get();
+        $subjectSchool = Subject::where('school_id',getSchool()->id)->count();
 
         $classes  = Classes::where('grade_id',getSchool()->grade_id)->get();
 
         $teachers = Teacher::where('school_id',getSchool()->id)->get();
+
+
+        if($subjectSchool==0){
+
+            return redirect()->route('school.subjects.index')->withError(['error' => 'You don"t have subject ']);
+
+        }
+
+        if(!$teachers){
+
+            return redirect()->route('school.teachers.index')->withError(['error' => "You don't have teachers "]);
+
+        }
 
         return view('pages.subject.teacher', compact('classes', 'teachers', 'subjects'));
     }

@@ -1768,6 +1768,8 @@ function feesPaidListQueryParams(p) {
         mode: $('#filter_mode').val(),
     };
 }
+
+
 function feesPaymentTransactionQueryParams(p) {
     return {
         limit: p.limit,

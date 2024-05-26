@@ -56,13 +56,14 @@ class FeesClassesController extends Controller
         );
         $validator = Validator::make($request->all(), $validation_rules);
 
-        // if ($validator->fails()) {
-        //     $response = array(
-        //         'error' => true,
-        //         'message' => $validator->errors()->first()
-        //     );
-        //     return response()->json($response);
-        // }
+        if ($validator->fails()) {
+            $response = array(
+                'error' => true,
+                'message' => $validator->errors()->first()
+            );
+            toastr()->error( trans('genirale.error_occurred'), 'Congrats');
+            return  redirect()->back();
+        }
         try {
             // //Update Fees Type For Class first
             if ($request->fees_id != "NULL") {
@@ -146,7 +147,7 @@ class FeesClassesController extends Controller
             $tempRow['class_id'] = $row->id;
             $tempRow['class_name'] =  $row->classe->name.' '. $row->name ;
             $tempRow['feesClass'] =  $row->fees_class->id ??'NULL' ;
-            $tempRow['base_amount'] = $row->fees_class->amount.'  DZ'??'-';
+            $tempRow['base_amount'] =isset($row->fees_class) ? $row->fees_class->amount . ' DZ' : '-';
             $tempRow['created_at'] = $row->created_at;
             $tempRow['updated_at'] = $row->updated_at;
             $tempRow['operate'] = $operate;
@@ -200,7 +201,7 @@ class FeesClassesController extends Controller
 
 
         //Fetching Students Data on Basis of Class Section ID with Realtion fees paid
-        $sql = Student::with(['fees_paid','section']);
+        $sql = Student::where('school_id',getSchool()->id)->with(['fees_paid','section']);
         // $session_year = getSettings('session_year');
         $session_year_id = getYearNow()->id;
 
@@ -308,39 +309,18 @@ class FeesClassesController extends Controller
             'date' => 'required|date',
             'mode' => 'required|in:0,1',
         ]);
-        // if ($validator->fails()) {
-        //     $response = array(
-        //         'error' => true,
-        //         'message' => $validator->errors()->first()
-        //     );
-        //     return response()->json($response);
-        // }
-        // try {
+        try {
+
+
+
             $feesClass =FeesClass::where(['class_section_id'=>$request->class_id,
                     'session_year_id'=>1,'school_id'=>getSchool()->id])->first();
             $date = date('Y-m-d H:i:s', strtotime($request->date));
             $session_year = getYearNow();
             $session_year_id = getYearNow()->id;
 
-            // Get the Father Id for Payment Transaction Table
-            // $father_id = Students::where('id',$request->student_id)->pluck('father_id')->first();
-
-            // Add Data in Payment Transaction Of Optional Payment Transaction
-            // $payment_transaction_store = new PaymentTransaction();
-            // $payment_transaction_store->student_id = $request->student_id;
-            // $payment_transaction_store->class_id = $request->class_id;
-            // $payment_transaction_store->parent_id = $father_id;
-            // $payment_transaction_store->mode = $request->mode;
-            // $payment_transaction_store->cheque_no = (isset($request->cheque_no) && !empty($request->cheque_no) && $request->mode == 1) ? $request->cheque_no : null;
-            // $payment_transaction_store->type_of_fee = 2;
-            // $payment_transaction_store->payment_status = 1;
-            // $payment_transaction_store->total_amount = $request->total_amount;
-            // $payment_transaction_store->session_year_id = $session_year_id;
-            // $payment_transaction_store->save();
 
 
-            // Add Data in Array of Optional Fees
-            // $optional_fees_store = array();
             foreach($request->months as $month){
 
                 $itExistOrNot =FeesPaid::where([
@@ -371,33 +351,44 @@ class FeesClassesController extends Controller
 
             }
 
-            // Add Data in Fees Choiceable Of Optional Payment
-            // FeesChoiceable::insert($optional_fees_store);
 
-            // Add Data in Fees Paid Of Optional Payment Transaction
-            // $update_fees_paid_query = FeesPaid::where(['student_id' => $request->student_id,'class_id' => $request->class_id,'session_year_id' => $session_year_id]);
 
-            // $fees_paid = $update_fees_paid_query->firstOrNew();
-            // $fees_paid->total_amount += $request->total_amount;
-            // $fees_paid->date = $date;
-            // if (!$fees_paid->exists) {
-            //     $fees_paid->student_id = $request->student_id;
-            //     $fees_paid->class_id = $request->class_id;
-            //     $fees_paid->is_fully_paid = 0;
-            //     $fees_paid->session_year_id = $session_year_id;
-            // }
-            // $fees_paid->save();
+
+            toastr()->success(trans('genirale.data_store_successfully'), 'Congrats');
+            return  redirect()->back();
+
+
+            } catch (\Throwable $th) {
+
+                toastr()->error( trans('genirale.error_occurred'), 'Error');
+                return  redirect()->back();
+            }
+    }
+
+    public function feesPaidDelete($id){
+
+        try {
+
+          $feesPaid = FeesPaid::find($id);
+          $feesPaid->delete();
+
 
             $response = array(
-                'error' => false,
-                'message' => trans('data_store_successfully')
+                    'error' => false,
+                    'message' => trans('genirale.data_store_successfully')
+                );
+
+            return response()->json($response);
+
+        } catch (\Throwable $th) {
+
+            $response = array(
+                'error' => true,
+                'message' => trans('genirale.error_occurred')
             );
-        // } catch (\Throwable $e) {
-        //     $response = array(
-        //         'error' => true,
-        //         'message' => trans('error_occurred')
-        //     );
-        // }
+
         return response()->json($response);
+
+        }
     }
 }

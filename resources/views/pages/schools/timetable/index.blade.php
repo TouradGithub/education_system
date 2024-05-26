@@ -217,7 +217,7 @@
 
             tab = $('#active_tab').val()
             $('#' + tab + ' input[name="class_section_id"').val($('#timetable_class_section').val());
-            var class_id = $('#timetable_class_section').find(':selected').attr('data-class');
+            var class_id =$('#s_section_id').val();
             $.ajax({
                 url: "{{ url('school/get-subject-by-class-section') }}",
                 type: "GET",

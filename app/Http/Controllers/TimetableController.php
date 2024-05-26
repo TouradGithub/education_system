@@ -130,6 +130,7 @@ class TimetableController extends Controller
 
     public function getteacherbysubject(Request $request)
     {
+        // return $request;
         $teacher = SubjectTeacher::where(['class_section_id' => $request->class_section_id, 'subject_id' => $request->subject_id])->with('teacher')->get();
         return response($teacher);
     }

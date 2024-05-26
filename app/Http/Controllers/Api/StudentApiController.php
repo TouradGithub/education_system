@@ -327,7 +327,13 @@ class StudentApiController extends Controller
     public function getAnnouncementSchool(Request $request){
         try {
 
-            $school_announcement=   SchoolAnnoucement::where('school_id',$this->getSchool()->id)->get();
+            $school_announcement=SchoolAnnoucement::where([
+                'model'=>'App\Models\Student',
+                'model_id'=> auth()->user()->student->id,
+            ]) ->orWhere([
+                'model'=>'App\Models\School',
+                'model_id'=>$this->getSchool()->id,
+            ])->get();
 
             $response = array(
 

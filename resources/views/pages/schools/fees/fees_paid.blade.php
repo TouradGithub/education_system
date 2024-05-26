@@ -63,15 +63,11 @@
                                     <th scope="col" data-field="no" data-sortable="false">{{ __('no.') }}</th>
                                     <th scope="col" data-field="student_name" data-sortable="false">{{ __('students') . ' ' . __('name') }}</th>
                                     <th scope="col" data-field="class_name" data-sortable="false">{{ __('class') }}</th>
-                                    {{-- <th scope="col" data-field="stream_name" data-sortable="false">{{ __('stream') }}</th> --}}
-
-                                    {{-- <th scope="col" data-field="total_fees" data-sortable="false" data-align="center">{{ __('total') }} {{ __('fees') }}</th> --}}
-                                    {{-- <th scope="col" data-field="fees_status" data-sortable="false" data-formatter="feesPaidStatusFormatter" data-align="center">{{ __('fees') }} {{__('status')}}</th> --}}
-                                    {{-- <th scope="col" data-field="date" data-sortable="false" data-align="center">{{ __('date') }}</th> --}}
                                     <th scope="col" data-field="months" data-sortable="false" data-align="center">{{ __('months') }}</th>
                                     <th scope="col" data-field="created_at" data-sortable="true" data-visible="false">{{ __('created_at') }}</th>
                                     <th scope="col" data-field="updated_at" data-sortable="true" data-visible="false">{{ __('updated_at') }}</th>
-                                    <th scope="col" data-field="operate" data-sortable="false" data-events="feesPaidEvents" data-align="center">{{ __('action') }}</th>
+                                    <th scope="col" data-field="operate" data-sortable="false"
+                                    data-events="feesPaidEvents" data-align="center">{{ __('action') }}</th>
                                 </tr>
                             </thead>
                         </table>

@@ -17,7 +17,7 @@ use App\Http\Controllers\Admin\TrimesterController;
 use App\Http\Controllers\Admin\SubjectController;
 use App\Http\Controllers\Admin\AnnouncementController;
 use App\Http\Controllers\TeacherController;
-
+use App\Http\Controllers\ChargilyPayController;
 // Route::group(['middleware' => ['checkNotAuth']], function () {
 
     Route::get('/', [HomeController::class,'getSection'])->name('section');
@@ -95,6 +95,12 @@ Route::group([ 'middleware' => ['auth','localeSessionRedirect', 'localizationRed
 
     Route::resource('announcement', AnnouncementController::class);
     Route::get('get-notification/{id}', [AnnouncementController::class,'show'])->name('get-notification');
+
+
+    Route::post('chargilypay/redirect', [ChargilyPayController::class, "redirect"])->name("chargilypay.redirect");
+    Route::get('chargilypay/back', [ChargilyPayController::class, "back"])->name("chargilypay.back");
+    Route::post('chargilypay/webhook', [ChargilyPayController::class, "webhook"])->name("chargilypay.webhook_endpoint");
+
 });
 
 // Route::get('clear', function () {
@@ -116,14 +122,6 @@ Route::group([ 'middleware' => ['auth:teacher']], function () {
 
 });
 
-Route::get('sendNotify',function(){
 
 
-    // $user =  App\Models\StudentAcount::where('username','05616489681')->first();
-
-
-    // dd($response);
-
-
-});
 

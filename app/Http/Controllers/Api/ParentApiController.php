@@ -311,7 +311,13 @@ class ParentApiController extends Controller
         try {
             $student= Student::find($request->id);
 
-            $school_announcement=   SchoolAnnoucement::where('school_id',$student->school_id)->get();
+            $school_announcement=  $school_announcement=SchoolAnnoucement::where([
+                'model'=>'App\Models\Student',
+                'model_id'=>  $student->id,
+            ]) ->orWhere([
+                'model'=>'App\Models\School',
+                'model_id'=> $student->school_id,
+            ])->get();
 
             $response = array(
 

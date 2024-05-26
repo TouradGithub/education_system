@@ -5,14 +5,14 @@
     $grades=App\Models\Grade::all();
 @endphp
 @section('title')
-{{ trans('section.sections') }}
+List Students
 @endsection
 
 @section('content')
     <div class="content-wrapper">
         <div class="page-header">
             <h3 class="page-title">
-                {{ trans('section.sections') }}
+                List Students
             </h3>
         </div>
 
@@ -25,7 +25,25 @@
                             {{ __('genirale.list') . ' ' . __('section.sections') }}
                         </h4>
                         <div class="row">
+
                             <div class="col-12">
+                                <div id="toolbar" class="row">
+                                    <div class="col">
+                                        <label for="s_section_id" style="font-size: 0.89rem">
+                                            {{ __('classes.classes') }}
+                                        </label>
+                                        <select name="s_section_id" id="s_section_id" class="form-control">
+                                            <option value="">{{ __('all') }}</option>
+                                            @foreach (getSchool()->sections as $item)
+                                                <option value="{{ $item->id }}">
+                                                    {{ $item->classe->name  ?? ' '}}      {{ $item->name }}
+                                                </option>
+                                            @endforeach
+                                        </select>
+                                    </div>
+
+
+                                </div>
                                 <table aria-describedby="mydesc" class='table' id='table_list' data-toggle="table"
                                     data-url="{{ route('school.student.getList') }}" data-click-to-select="true"
                                     data-side-pagination="server" data-pagination="true"
@@ -35,8 +53,10 @@
                                     data-trim-on-search="false" data-mobile-responsive="true" data-sort-name="id"
                                     data-sort-order="desc" data-maintain-selected="true"
                                     data-export-types='["txt","excel"]'
-
-                                    data-query-params="queryParams">
+                                    data-events="studentQueryParams"
+                                    data-query-params="studentQueryParams"
+                                    data-show-export="true"
+                                    >
                                     <thead>
                                         <tr>
 
@@ -99,7 +119,8 @@
                 sort: p.sort,
                 order: p.order,
                 offset: p.offset,
-                search: p.search
+                search: p.search,
+                section_id: $('#s_section_id').val(),
             };
         }
     </script>

@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "27c9e2a31caf520e953b82c06b0255a4",
+    "content-hash": "cc8754bef1857539c5ef29f997f3e1bd",
     "packages": [
         {
             "name": "barryvdh/laravel-dompdf",
@@ -211,6 +211,71 @@
                 }
             ],
             "time": "2023-12-11T17:09:12+00:00"
+        },
+        {
+            "name": "chargily/chargily-pay",
+            "version": "2.0.4",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/Chargily/chargily-pay-php.git",
+                "reference": "a0cfaf20947aa5ff32e91e8451b1f138903d665c"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/Chargily/chargily-pay-php/zipball/a0cfaf20947aa5ff32e91e8451b1f138903d665c",
+                "reference": "a0cfaf20947aa5ff32e91e8451b1f138903d665c",
+                "shasum": ""
+            },
+            "require": {
+                "guzzlehttp/guzzle": "^7.0",
+                "illuminate/support": "^10.39",
+                "medboubazine/number_format": "^1.1",
+                "nesbot/carbon": "^2.72",
+                "php": ">=8.1.10",
+                "rakit/validation": "^1.4"
+            },
+            "require-dev": {
+                "phpunit/phpunit": "^10.5",
+                "symfony/var-dumper": "^6.4"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Chargily\\ChargilyPay\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "ChargilyDev",
+                    "role": "Developer"
+                },
+                {
+                    "name": "Boubazine mohammed",
+                    "email": "mohamedtorino161@gmail.com",
+                    "role": "Developer"
+                }
+            ],
+            "description": "PHP Library for Chargily Pay V2",
+            "keywords": [
+                "Chargily-Pay-Gateway",
+                "chargily",
+                "cib",
+                "cibweb",
+                "epaiment",
+                "pay",
+                "pay.chargily.com",
+                "php",
+                "satim"
+            ],
+            "support": {
+                "issues": "https://github.com/Chargily/chargily-pay-php/issues",
+                "source": "https://github.com/Chargily/chargily-pay-php/tree/2.0.4"
+            },
+            "time": "2024-03-20T22:38:04+00:00"
         },
         {
             "name": "dflydev/dot-access-data",
@@ -2395,6 +2460,53 @@
             "time": "2023-02-18T15:43:23+00:00"
         },
         {
+            "name": "medboubazine/number_format",
+            "version": "1.1.4",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/Medboubazine/php-numbers-format.git",
+                "reference": "ec76f57bd02ebddd775413770158383bbba973eb"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/Medboubazine/php-numbers-format/zipball/ec76f57bd02ebddd775413770158383bbba973eb",
+                "reference": "ec76f57bd02ebddd775413770158383bbba973eb",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=7.2.0"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Medboubazine\\NumberFormatter\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Boubazine mohammed",
+                    "email": "mohamedtorino161@gmail.com",
+                    "role": "Developer"
+                }
+            ],
+            "description": "Number Formatter",
+            "keywords": [
+                "format",
+                "number",
+                "number_format",
+                "php"
+            ],
+            "support": {
+                "issues": "https://github.com/Medboubazine/php-numbers-format/issues",
+                "source": "https://github.com/Medboubazine/php-numbers-format/tree/1.1.4"
+            },
+            "time": "2022-08-09T23:16:43+00:00"
+        },
+        {
             "name": "monolog/monolog",
             "version": "3.6.0",
             "source": {
@@ -3935,6 +4047,52 @@
                 "source": "https://github.com/pusher/pusher-http-php/tree/7.2.4"
             },
             "time": "2023-12-15T10:58:53+00:00"
+        },
+        {
+            "name": "rakit/validation",
+            "version": "v1.4.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/rakit/validation.git",
+                "reference": "ff003a35cdf5030a5f2482299f4c93f344a35b29"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/rakit/validation/zipball/ff003a35cdf5030a5f2482299f4c93f344a35b29",
+                "reference": "ff003a35cdf5030a5f2482299f4c93f344a35b29",
+                "shasum": ""
+            },
+            "require": {
+                "ext-mbstring": "*",
+                "php": ">=7.0"
+            },
+            "require-dev": {
+                "php-coveralls/php-coveralls": "^2.2",
+                "phpunit/phpunit": "^6.5",
+                "squizlabs/php_codesniffer": "^3"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Rakit\\Validation\\": "src"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Muhammad Syifa",
+                    "email": "emsifa@gmail.com"
+                }
+            ],
+            "description": "PHP Laravel like standalone validation library",
+            "support": {
+                "issues": "https://github.com/rakit/validation/issues",
+                "source": "https://github.com/rakit/validation/tree/v1.4.0"
+            },
+            "time": "2020-08-27T05:07:01+00:00"
         },
         {
             "name": "ralouphie/getallheaders",

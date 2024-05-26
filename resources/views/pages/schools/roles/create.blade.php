@@ -31,14 +31,14 @@
                             </div>
 
                             <div class="col-xs-12 col-sm-12 col-md-12">
-                                <label><strong>{{ __('permission') }}:</strong></label>
+                                <label><strong> Permissions :</strong></label>
                                 <div class="row">
                                     @foreach ($permission as $value)
                                         <div class="form-group col-lg-3 col-sm-12 col-xs-12 col-md-3">
                                             <div class="form-check">
                                                 <label class="form-check-label">
                                                     {{ Form::checkbox('permission[]', $value->name, false, ['class' => 'name form-check-input']) }}
-                                                    {{ $value->name }}
+                                                    {{ trans($value->name) }}
                                                 </label>
                                             </div>
                                         </div>

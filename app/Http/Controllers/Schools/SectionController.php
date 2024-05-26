@@ -130,7 +130,7 @@ class SectionController extends Controller
             $operate .= '<a class="btn btn-xs btn-gradient-primary btn-rounded btn-icon editdata" data-id=' . $row->id . ' title="Edit" data-toggle="modal" data-target="#editModal"><i class="fa fa-edit"></i></a>&nbsp;&nbsp;';
             $operate .= '<a class="btn btn-xs btn-gradient-danger btn-rounded btn-icon deletedata" data-id=' . $row->id . ' data-url=' . route('school.sections.destroy', $row->id) . ' title="Delete"><i class="fa fa-trash"></i></a>';
 
-            $tempRow['id'] = $row->id;
+           $tempRow['id'] = $row->id;
            $tempRow['name'] = $row->getTranslation('name', 'en');
            $tempRow['name_ar'] = $row->getTranslation('name', 'ar');
            $tempRow['grade'] =$row->grade->name;

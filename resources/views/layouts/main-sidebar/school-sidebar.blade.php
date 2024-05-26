@@ -1,5 +1,5 @@
 <!-- partial:../../partials/_sidebar.html -->
-<nav class="sidebar sidebar-offcanvas" id="sidebar" style="background: black;color: white" >
+<nav class="sidebar sidebar-offcanvas" id="sidebar" >
     <ul class="nav">
         {{-- dashboard --}}
         <li class="nav-item">
@@ -65,7 +65,7 @@
         @endcanany
 
         @if (getSchool()->type=="private")
-        @canany(['school-fees-class-index','school-fees-paid-index'])
+        {{-- @canany(['school-fees-class-index','school-fees-paid-index']) --}}
         <li class="nav-item">
             <a class="nav-link" data-toggle="collapse" href="#fees-menu" aria-expanded="false"
                 aria-controls="exam-menu">
@@ -74,25 +74,25 @@
             </a>
             <div class="collapse" id="fees-menu">
                 <ul class="nav flex-column sub-menu">
-                    @can('school-fees-class-index')
+                    {{-- @can('school-fees-class-index') --}}
                     <li class="nav-item">
                         <a class="nav-link" href="{{ route('school.fees.class.index') }}">{{ __('assign') }}
                             {{-- {{ __('fees') }} --}}Classes
                             {{-- {{ __('classes') }} --}}
                         </a>
                     </li>
-                    @endcan
-                    @can('school-fees-paid-index')
+                    {{-- @endcan --}}
+                    {{-- @can('school-fees-paid-index') --}}
                     <li class="nav-item">
                         <a class="nav-link" href="{{ route('school.fees.paid.index') }}"> {{ __('fees') }}
                             {{ __('paid') }}
                         </a>
                     </li>
-                    @endcan
+                    {{-- @endcan --}}
                 </ul>
             </div>
         </li>
-        @endcanany
+        {{-- @endcanany --}}
         @endif
 
 

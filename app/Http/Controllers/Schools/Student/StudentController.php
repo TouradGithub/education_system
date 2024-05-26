@@ -3,6 +3,9 @@
 namespace App\Http\Controllers\Schools\Student;
 use App\Models\MyParent;
 use App\Models\Student;
+use Illuminate\Support\Facades\Validator;
+
+
 use Illuminate\Support\Facades\Auth;
 use App\Models\StudentAcount;
 use Illuminate\Http\Request;
@@ -12,9 +15,15 @@ use Illuminate\Support\Facades\DB;
 use App\Http\Requests\StoreStudentsRequest;
 use Illuminate\Support\Facades\Hash;
 use Barryvdh\DomPDF\Facade\Pdf;
+use App\Models\ClassRoom;
+use App\Models\SchoolAnnoucement;
 class StudentController extends Controller
 {
     public function create(){
+        $sectionSchool = ClassRoom::where('school_id',getSchool()->id)->count();
+        if($sectionSchool==0){
+            return redirect()->route('school.sections.index')->with('Error',"No Sections Found");
+        }
         return view('pages.schools.students.create');
     }
     public function index(){
@@ -188,9 +197,19 @@ class StudentController extends Controller
 
         $sql = Student::InStudent()->where('school_id',getSchool()->id);
         if (isset($_GET['search']) && !empty($_GET['search'])) {
+
             $search = $_GET['search'];
             $sql->where('id', 'LIKE', "%$search%")
             ->orwhere('name', 'LIKE', "%$search%");
+        }
+
+        if (isset($_GET['section_id']) && !empty($_GET['section_id'])){
+
+            $sql->where('section_id', $_GET['section_id']);
+        }
+        
+        if (empty($_GET['section_id'])){
+            $limit=10;
         }
 
         $res = $sql->orderBy($sort, $order)->skip($offset)->take($limit)->get();
@@ -212,7 +231,6 @@ class StudentController extends Controller
 
            $tempRow['id'] = $row->id;
            $tempRow['fullName'] =$row->first_name.' '.$row->last_name;
-        //    $tempRow['last_name'] =$row->last_name;
            $tempRow['gender'] =$row->gender;
            $tempRow['date_birth'] =$row->date_birth;
            $tempRow['roll_number'] =$row->roll_number;
@@ -233,7 +251,6 @@ class StudentController extends Controller
 
     public function show(Student $id){
          $student =Student::find($id->id);
-        //  return $student->parent;
         return view('pages.schools.students.show',compact('student'));
     }
     public function destroy($id){
@@ -266,6 +283,50 @@ class StudentController extends Controller
 
         $pdf = Pdf::loadView('pages.schools.students.inscription',compact('student'));
         return $pdf->stream('inscription.pdf');
+    }
+
+    public function sendMessage(Request $request){
+        $validator = Validator::make($request->all(), [
+            'description' => 'required',
+            'title' => 'required',
+            'student_id' => 'required',
+        ],[
+            'description.required' => 'The Field is Required',
+            'student_id.required'  => 'The Field is Required',
+            'title.required'       => 'The Field is Required',
+        ]);
+        if ($validator->fails()) {
+            $response = array(
+                'error' => true,
+                'message' => $validator->errors()->first()
+            );
+            return response()->json($response);
+        }
+        try {
+            $student =Student::find($request->student_id);
+            SchoolAnnoucement::create([
+                'title' => $request->title,
+                'description' => $request->description,
+                'model'=>'App\Models\Student',
+                'model_id'=>$student->id,
+               'session_year'=>getYearNow()->id,
+               'school_id'=>getSchool()->id,
+            ]);
+            send_notification($student->studentAccount,$request->title,$request->description,"Announce");
+            send_parent_notification($student->parent,$request->title,$request->description,"Announce");
+
+            $response = [
+                'error' => false,
+                'message' => trans('genirale.data_store_successfully')
+            ];
+        } catch (\Throwable $th) {
+            $response = [
+                'error' => true,
+                'message' => trans('genirale.error_occurred')
+            ];
+        }
+        return response()->json($response);
+
     }
 
     public function genratePassword($id){

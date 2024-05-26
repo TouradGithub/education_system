@@ -1,6 +1,6 @@
 @extends('layouts.masters.master')
 
-@section('title') {{__('terms_condition')}} @endsection
+@section('title') {{__('Announcement')}} @endsection
 
 
 @section('content')
@@ -38,7 +38,7 @@
             <div class="row">
 
               <div class="form-group col-md-12 col-sm-12">
-                <textarea id="tinymce_message" name="data" required placeholder="{{__('terms_condition')}}"></textarea>
+                <textarea id="tinymce_message" name="data" required placeholder="{{__('data')}}"></textarea>
 
               </div>
             </div>

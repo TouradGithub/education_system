@@ -42,8 +42,8 @@ class SchoolAnnoucementController extends Controller
                 SchoolAnnoucement::create([
                     'title' => $request->title,
                     'description' => $request->description,
-                    'model'=>'App\Models\Student',
-                    'model_id'=>Auth::guard('web')->user()->id,
+                    'model'=>'App\Models\School',
+                    'model_id'=>getSchool()->id,
                    'session_year'=>getYearNow()->id,
                    'school_id'=>getSchool()->id,
                 ]);

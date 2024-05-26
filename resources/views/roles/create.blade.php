@@ -1,7 +1,7 @@
 @extends('layouts.masters.master')
 
 @section('title')
-    {{ __('create_new_role') }}
+    {{ __('genirale.create_new_role') }}
 @endsection
 
 @section('content')
@@ -40,7 +40,7 @@
 
                                 </div>
                                 <div class="col-xs-12 col-sm-12 col-md-12">
-                                    <label><strong>{{ __('permission') }}:</strong></label>
+                                    <label><strong>Permission:</strong></label>
                                     <div class="row">
                                         @foreach ($permission as $value)
                                             <div class="form-group col-lg-3 col-sm-12 col-xs-12 col-md-3">
@@ -55,7 +55,7 @@
                                     </div>
                                 </div>
                                 <div class="col-xs-12 col-sm-12 col-md-12">
-                                    <button type="submit" class="btn btn-primary">{{ __('submit') }}</button>
+                                    <button type="submit" class="btn btn-primary">{{ __('genirale.submit') }}</button>
                                 </div>
                             </div>
                             {!! Form::close() !!}
