@@ -14,7 +14,7 @@
                 {{ __('sidebar.general_settings') }}
             </h3>
         </div>
-      @can('school-general_settings-create')
+      @can('school-general_settings-update')
       <div class="row grid-margin">
         <div class="col-lg-12">
             <div class="card">
@@ -46,14 +46,14 @@
                         </div>
                         <div class="row">
                             <div class="form-group col-md-6 col-sm-12">
-                                <label>{{ __('Description') }}</label>
+                                <label>{{ __('genirale.description') }}</label>
                                 <textarea name="school_description"  placeholder="{{ __('school_description') }}" class="form-control">{{ $setting->school_description??'' }}</textarea>
                             </div>
                         </div>
 
                         <div class="row">
                             <div class="form-group col-md-4 col-sm-12">
-                                <label>{{ __('Logo') }} <span class="text-danger">*</span></label>
+                                <label>{{ __('genirale.image') }} <span class="text-danger">*</span></label>
                                 <input type="file" name="logo" class="file-upload-default"/>
                                 <div class="input-group col-xs-12">
                                     <input type="text" class="form-control file-upload-info" disabled="" placeholder="{{ __('Logo') }}"/>

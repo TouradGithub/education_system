@@ -21,29 +21,29 @@
                 <div class="card">
                     <div class="card-body">
                         <h4 class="card-title">
-                            {{ __('create') . ' ' . __('announcement') }}
+                            {{ __('genirale.create') . ' ' . __('sidebar.announcement') }}
                         </h4>
                         <form class="create-form pt-3" action="{{ route('teacher.announcement.store') }}" id="formdata" method="POST" novalidate="novalidate">
                             @csrf
                             <div class="row">
                                 <div class="form-group col-sm-12 col-md-6">
-                                    <label>{{ __('title') }} <span class="text-danger">*</span></label>
+                                    <label>{{ __('genirale.title') }} <span class="text-danger">*</span></label>
                                     {!! Form::text('title', null, ['required', 'placeholder' => __('title'), 'class' => 'form-control']) !!}
                                 </div>
                                 <div class="form-group col-sm-12 col-md-6">
-                                    <label>{{ __('description') }}</label>
+                                    <label>{{ __('genirale.description') }}</label>
                                     {!! Form::textarea('description', null, ['rows' => '2', 'placeholder' => __('description'), 'class' => 'form-control']) !!}
                                 </div>
                                 <div class="form-group col-sm-12 col-md-4">
-                                    <label>{{ __('files') }} </label>
+                                    <label>{{ __('lesson.files') }} </label>
                                     <input type="file" name="file[]" class="form-control" multiple/>
                                 </div>
                             </div>
                             <div class="row">
                                 <div class="form-group col-sm-12 col-md-3">
-                                    <label>{{ __('assign_to') }}</label>
+                                    <label>{{ __('sidebar.assign') }}</label>
                                     <select name="set_data" id="set_data" class="form-control select2">
-                                        <option value="">{{ __('select') . ' ' . __('assign_to') }}</option>
+                                        <option value="">{{ __('genirale.select') . ' ' . __('sidebar.assign') }}</option>
                                         {{-- @if(Auth::user()->hasRole('Teacher')) --}}
                                             <option value="class_section">{{ __('classes.class') . ' ' . __('section.section') }}</option>
                                         {{-- @else --}}
@@ -55,7 +55,7 @@
                                 <div class="form-group col-sm-12 col-md-3 show_class_section_id">
                                     <label>&nbsp;</label>
                                     <select name="class_section_id" id="class_section_id" class="class_section_id form-control" style="width:100%;" tabindex="-1" aria-hidden="true">
-                                        <option value="">{{ __('select') . ' ' . __('class_section') }}</option>
+                                        <option value="">{{ __('genirale.select') . ' ' . __('classes.add_class') }}</option>
                                         @foreach ($sections as $item)
                                             <option value="{{ $item->section->id }}" data-class="{{ $item->section->id }}">{{ $item->section->classe->name . ' ' . $item->section->name }}</option>
                                         @endforeach
@@ -66,7 +66,7 @@
                                     <select name="subject_id" id="get_data" class="subject_id form-control" style="width:100%; display: none"></select>
                                 </div>
                             </div>
-                            <input class="btn btn-theme" type="submit" value={{ __('submit') }}>
+                            <input class="btn btn-theme" type="submit" value={{ __('genirale.submit') }}>
                         </form>
                     </div>
                 </div>
@@ -75,7 +75,7 @@
                 <div class="card">
                     <div class="card-body">
                         <h4 class="card-title">
-                            {{ __('list') . ' ' . __('announcement') }}
+                            {{ __('genirale.list') . ' ' . __('sidebar.announcement') }}
                         </h4>
                         <div class="row">
                             <div class="col-12">
@@ -93,12 +93,12 @@
                                     <thead>
                                     <tr>
                                         <th scope="col" data-field="id" data-sortable="true" data-visible="false">{{ __('id') }}</th>
-                                        <th scope="col" data-field="no" data-sortable="false">{{ __('no.') }}</th>
-                                        <th scope="col" data-field="title" data-sortable="false">{{ __('title') }}</th>
-                                        <th scope="col" data-field="description" data-sortable="false">{{ __('description') }}</th>
-                                        <th scope="col" data-field="assignto" data-sortable="false">{{ __('assign_to') }}</th>
-                                        <th scope="col" data-field="file" data-sortable="false" data-formatter="fileFormatter">{{ __('files') }}</th>
-                                        <th data-events="announcementEvents" data-width="150" scope="col" data-field="operate" data-sortable="false">{{ __('action') }}</th>
+                                        <th scope="col" data-field="no" data-sortable="false">{{ __('genirale.no.') }}</th>
+                                        <th scope="col" data-field="title" data-sortable="false">{{ __('genirale.title') }}</th>
+                                        <th scope="col" data-field="description" data-sortable="false">{{ __('genirale.description') }}</th>
+                                        <th scope="col" data-field="assignto" data-sortable="false">{{ __('sidebar.assign') }}</th>
+                                        <th scope="col" data-field="file" data-sortable="false" data-formatter="fileFormatter">{{ __('lesson.files') }}</th>
+                                        <th data-events="announcementEvents" data-width="150" scope="col" data-field="operate" data-sortable="false">{{ __('genirale.action') }}</th>
                                     </tr>
                                     </thead>
                                 </table>
@@ -115,7 +115,7 @@
         <div class="modal-dialog" role="document">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel"> {{ __('edit') . ' ' . __('announcement') }}</h5>
+                    <h5 class="modal-title" id="exampleModalLabel"> {{ __('genirale.edit') . ' ' . __('sidebar.announcement') }}</h5>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true"><i class="fa fa-close"></i></span>
                     </button>

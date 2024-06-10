@@ -2,10 +2,13 @@
 
 return [
 
+    "dashboard"=>"Dashboard",
+    "noticeboard"=>"Noticeboard",
     "total_teachers"=>"Total Teachers",
     "total_students"=> "Total Students",
     "total_parents"=> "Total Parents",
     "total_schools"=> "Total Schools",
+    "add_schools"=> "Add School",
     "total_acadimic"=> "Total Acadimic",
 
     "Boys"=>"Boys",
@@ -24,11 +27,13 @@ return [
 "Sunday"=>"Sunday",
 //end days
 
-
+"guard_name"=>"Guard Name",
     "manage"=> "Manage",
     "create"=> "Create",
 
     "edit"=> "Edit",
+    "show"=>"Show",
+    "delete"=>"Delete",
     "list"=> "List",
     "action"=> "Action",
     "no."=> "No.",
@@ -57,7 +62,13 @@ return [
     "back"=>"Back",
 
     "image"=> "Image",
+    "title"=> "Title",
+    "description"=> "Description",
     "note"=> "Notes",
+    "price"=> "Price",
+    "start_date"=> "Start Date",
+    "end_date"=> "End Date",
+    "default"=> "Default",
 
     "select"=> "Select",
 
@@ -71,7 +82,7 @@ return [
     "data_update_successfully"=> "Data Updated Successfully",
     "data_delete_successfully"=> "Data Deleted Successfully",
     "cannot_delete_beacuse_data_is_associated_with_other_data"=>"Cannot delete beacuse data is associated with other data",
-
+    "no_permission_message"=>"You Don't have enough permissions.",
     "error_occurred"=> "Oops! Error occurred. Please Try again Later.",
     "show_student"=> "Show Student",
     "update_profile"=>"Update Profile",
@@ -86,5 +97,6 @@ return [
     "Message"=>"Message",
 
 
-
+    "fees"=> "Fees",
+    "paid"=>"Paid",
 ];

@@ -5,10 +5,18 @@ use Illuminate\Support\Facades\Validator;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Trimester;
+use Illuminate\Support\Facades\Auth;
 class TrimesterController extends Controller
 {
     public function index()
     {
+        if (!Auth::user()->can('trimester-create')) {
+            $response = array(
+                'message' => trans('genirale.no_permission_message')
+            );
+            return redirect()->back();
+
+        }
         return view('pages.trimester.index');
     }
 
@@ -25,6 +33,13 @@ class TrimesterController extends Controller
      */
     public function store(Request  $request)
     {
+        if (!Auth::user()->can('trimester-create')) {
+            $response = array(
+                'message' => trans('genirale.no_permission_message')
+            );
+            return  response()->json($response);
+
+        }
         $validator = Validator::make($request->all(), [
             'name' => 'required',
             'name_en' => 'required',
@@ -95,8 +110,16 @@ class TrimesterController extends Controller
         $no = 1;
         foreach ($res as $row) {
             $operate = '';
-            $operate .= '<a class="btn btn-xs btn-gradient-primary btn-rounded btn-icon editdata" data-id=' . $row->id . ' title="Edit" data-toggle="modal" data-target="#editModal"><i class="fa fa-edit"></i></a>&nbsp;&nbsp;';
-            $operate .= '<a class="btn btn-xs btn-gradient-danger btn-rounded btn-icon deletedata" data-id=' . $row->id . ' data-url=' . route('web.trimesters.destroy', $row->id) . ' title="Delete"><i class="fa fa-trash"></i></a>';
+            if (Auth::user()->can('trimester-edit')){
+                $operate .= '<a class="btn btn-xs btn-gradient-primary btn-rounded btn-icon editdata" data-id=' . $row->id . ' title="Edit" data-toggle="modal" data-target="#editModal"><i class="fa fa-edit"></i></a>&nbsp;&nbsp;';
+
+            }
+
+            if (Auth::user()->can('trimester-delete')){
+                $operate .= '<a class="btn btn-xs btn-gradient-danger btn-rounded btn-icon deletedata" data-id=' . $row->id . ' data-url=' . route('web.trimesters.destroy', $row->id) . ' title="Delete"><i class="fa fa-trash"></i></a>';
+
+            }
+
 
             $tempRow['id'] = $row->id;
            $tempRow['name'] = $row->getTranslation('name', 'ar');
@@ -125,6 +148,13 @@ class TrimesterController extends Controller
      */
     public function update(Request $request)
     {
+        if (!Auth::user()->can('trimester-edit')) {
+            $response = array(
+                'message' => trans('genirale.no_permission_message')
+            );
+            return response()->json($response);
+
+        }
         try {
             $validator = Validator::make($request->all(), [
                 'name' => 'required',
@@ -162,6 +192,13 @@ class TrimesterController extends Controller
      */
     public function destroy($id)
     {
+        if (!Auth::user()->can('trimester-delete')) {
+            $response = array(
+                'message' => trans('genirale.no_permission_message')
+            );
+            return response()->json($response);
+
+        }
         try {
             Trimester::find($id)->delete();
             $response = array(

@@ -13,19 +13,29 @@ use Illuminate\Support\Facades\Hash;
 class UserSchoolController extends Controller
 {
     public function create(){
-        getSchool();
+        if (!Auth::user()->can('school-user-create')) {
+            toastr()->error(  trans('genirale.no_permission_message'), 'Error');
+            return redirect()->back();
+        }
+
         $roles = Role::where('model',"App\Models\Schools")->where('model_id',getSchool()->id)->pluck('name','name');
         return view('pages.schools.users.create',compact('roles'));
     }
 
     public function index(){
-        // return getRoleAdminSchool();
+        if (!Auth::user()->can('school-user-index')) {
+            toastr()->error(  trans('genirale.no_permission_message'), 'Error');
+            return redirect()->back();
+        }
         $schoolUsers = User::where('model',"App\Models\Schools")->where('model_id',getSchool()->id)->paginate(10);
         return view('pages.schools.users.index',compact('schoolUsers'));
     }
 
     public function  store(Request $request){
-        // return $request;
+        if (!Auth::user()->can('school-user-create')) {
+            toastr()->error(  trans('genirale.no_permission_message'), 'Error');
+            return redirect()->back();
+        }
         $this->validate($request, [
             'name' => 'required',
             'phone' => 'required|unique:users,phone',
@@ -49,6 +59,10 @@ class UserSchoolController extends Controller
                         ->with('success',trans('genirale.data_store_successfully'));
     }
     public function  update(Request $request){
+        if (!Auth::user()->can('school-user-edit')) {
+            toastr()->error(  trans('genirale.no_permission_message'), 'Error');
+            return redirect()->back();
+        }
         $this->validate($request, [
             'name' => 'required',
             'phone' => 'required',
@@ -95,6 +109,10 @@ class UserSchoolController extends Controller
 
     public function edit($id)
     {
+        if (!Auth::user()->can('school-user-edit')) {
+            toastr()->error(  trans('genirale.no_permission_message'), 'Error');
+            return redirect()->back();
+        }
       $user=  User::find($id);
 // return $user;
         $roles = Role::where('name',getRoleAdminSchool())->pluck('name','name')->all();
@@ -105,6 +123,10 @@ class UserSchoolController extends Controller
 
     public function destroy($id)
     {
+        if (!Auth::user()->can('school-user-delete')) {
+            toastr()->error(  trans('genirale.no_permission_message'), 'Error');
+            return redirect()->back();
+        }
         User::find($id)->delete();
         return redirect()->route('school.user.index')
                         ->with('success',trans('genirale.data_delete_successfully'));

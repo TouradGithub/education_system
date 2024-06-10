@@ -13,13 +13,13 @@ class SessionYearController extends Controller
      */
     public function index()
     {
-        // if (!Auth::user()->can('session-year-list')) {
-        //     $response = array(
-        //         'message' => trans('no_permission_message')
-        //     );
-        //     return redirect(route('home'))->withErrors($response);
+        if (!Auth::user()->can('session-year-list')) {
+            $response = array(
+                'message' => trans('no_permission_message')
+            );
+            return redirect()->back();
 
-        // }
+        }
         return view('session_years.index');
     }
 
@@ -45,6 +45,7 @@ class SessionYearController extends Controller
         }
         $request->validate([
             'name' => 'required',
+            'price' => 'required',
             'start_date' => 'required|date',
             'end_date' => 'required|date|after_or_equal:start_date',
           ],[
@@ -54,22 +55,21 @@ class SessionYearController extends Controller
         try {
             $session_year = new SessionYear();
             $session_year->name = $request->name;
+            $session_year->price = $request->price;
             $session_year->start_date = date('Y-m-d',strtotime($request->start_date));
             $session_year->end_date = date('Y-m-d',strtotime($request->end_date));
             $session_year->save();
 
             $response = array(
                 'error' => false,
-                'message' => trans('data_store_successfully')
+                'message' => trans('genirale.data_store_successfully')
             );
+             return redirect()->back()->with('success',trans('genirale.data_store_successfully'));
         } catch (Throwable $e) {
-            $response = array(
-                'error' => true,
-                'message' => trans('error_occurred'),
-                'data' => $e
-            );
+
+             return redirect()->back()->with('success',trans('genirale.error_occurred'));
+
         }
-        return response()->json($response);
     }
 
     /**
@@ -77,7 +77,6 @@ class SessionYearController extends Controller
      */
     public function show()
     {
-        // ... Your existing code ...
 
         $sql = SessionYear::query(); // Start with a query builder
         if (isset($_GET['offset']))
@@ -112,6 +111,7 @@ class SessionYearController extends Controller
             $tempRow['id'] = $row->id;
             $tempRow['no'] = $no++;
             $tempRow['name'] = $row->name;
+            $tempRow['price'] = $row->price.' DZ';
             $tempRow['default'] = $row->default;
             $tempRow['start_date'] = date('d/m/Y' ,strtotime($row->start_date));
             $tempRow['end_date'] = date('d/m/Y' ,strtotime($row->end_date));
@@ -145,6 +145,6 @@ class SessionYearController extends Controller
      */
     public function destroy(SessionYear $sessionYear)
     {
-        //
+        
     }
 }

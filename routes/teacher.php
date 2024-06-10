@@ -69,8 +69,10 @@ Route::group(
 
     Route::get('create/{id}', [LessonController::class, 'create'])->name('lesson.create');
     Route::get('list-lessons', [LessonController::class, 'show'])->name('lesson.list-lesson');
-    Route::get('lesson-delete/{id}', [LessonController::class, 'destroy'])->name('lesson.lesson-delete');
-    Route::post('lesson-edit/{id}', [LessonController::class, 'update'])->name('lesson.edit');
+    Route::delete('lesson-delete/{id}', [LessonController::class, 'destroy'])->name('lesson.lesson-delete');
+    Route::put('lesson-edit/{id}', [LessonController::class, 'update'])->name('lesson.edit');
+    Route::delete('file/delete/{id}', [LessonController::class, 'deleteFile'])->name('file.delete');
+
     Route::post('store', [LessonController::class, 'store'])->name('lesson.store');
 
     Route::resource('announcement', AnnouncementController::class);

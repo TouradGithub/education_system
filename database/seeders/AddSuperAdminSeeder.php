@@ -37,16 +37,6 @@ class AddSuperAdminSeeder extends Seeder
         ]);
         $user->assignRole([$super_admin_role->id]);
 
-        // Grade::factory(10)->create();
-        // Classes::factory(10)->create();
-        // Teacher::factory(10)->create();
-        ClassRoom::create([
-            "name" => ['en' => "Test en", 'ar' =>"sdlfjsldkj"],
-            "grade_id" => "1",
-            "class_id" => "1",
-            "school_id" => "1",
-            "notes" => "slkjdlfk note",
-        ]);
 
 
 

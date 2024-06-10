@@ -5,7 +5,7 @@
 <div class="row">
     <div class="col-lg-12 margin-tb">
         <div class="pull-left">
-            <h2>Create New User</h2>
+            <h2>{{__('genirale.create_new_user')}}</h2>
         </div>
         <div class="pull-right">
             <a class="btn btn-primary" href="{{ route('web.users.index') }}"> Back</a>
@@ -31,14 +31,14 @@
 <div class="row">
     <div class="col-xs-12 col-sm-12 col-md-12">
         <div class="form-group">
-            <strong>Name:</strong>
+            <strong>{{__('genirale.name')}}:</strong>
             {!! Form::text('name', null, array('placeholder' => 'Name','class' => 'form-control')) !!}
         </div>
     </div>
 
     <div class="col-xs-12 col-sm-12 col-md-6">
         <div class="form-group">
-            <strong>Email:</strong>
+            <strong>{{__('genirale.email')}}:</strong>
             {!! Form::text('email', null, array('placeholder' => 'Email','class' => 'form-control')) !!}
         </div>
     </div>
@@ -52,24 +52,24 @@
 
     <div class="col-xs-12 col-sm-12 col-md-6">
         <div class="form-group">
-            <strong>Password:</strong>
+            <strong>{{__('genirale.password')}}:</strong>
             {!! Form::password('password', array('placeholder' => 'Password','class' => 'form-control')) !!}
         </div>
     </div>
     <div class="col-xs-12 col-sm-12 col-md-6">
         <div class="form-group">
-            <strong>Confirm Password:</strong>
+            <strong>{{__('genirale.confirm_password')}}:</strong>
             {!! Form::password('confirm-password', array('placeholder' => 'Confirm Password','class' => 'form-control')) !!}
         </div>
     </div>
     <div class="col-xs-12 col-sm-12 col-md-12">
         <div class="form-group">
-            <strong>Role:</strong>
+            <strong>{{__('genirale.role')}}:</strong>
             {!! Form::select('roles[]', $roles,[], array('class' => 'form-control')) !!}
         </div>
     </div>
     <div class="col-xs-12 col-sm-12 col-md-12 text-center">
-        <button type="submit" class="btn btn-primary">Submit</button>
+        <button type="submit" class="btn btn-primary">{{__('genirale.submit')}}</button>
     </div>
 </div>
 {!! Form::close() !!}

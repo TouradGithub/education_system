@@ -4,10 +4,16 @@ namespace App\Http\Controllers\Schools;
 use Spatie\Permission\Models\Permission;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+
+use Illuminate\Support\Facades\Auth;
 use Spatie\Permission\Models\Role;
 class RoleSchoolControler extends Controller
 {
     public function create(){
+        if (!Auth::user()->can('school-role-create')) {
+            toastr()->error(  trans('genirale.no_permission_message'), 'Error');
+            return redirect()->back();
+        }
         $adminSchool=getRoleAdminSchool();
         $role=Role::where('name',$adminSchool->role)->where('model',"App\Models\Schools")->first();
         $permission = $role->permissions;
@@ -17,6 +23,10 @@ class RoleSchoolControler extends Controller
     }
     public function index(Request $request)
     {
+        if (!Auth::user()->can('school-role-create')) {
+            toastr()->error(  trans('genirale.no_permission_message'), 'Error');
+            return redirect()->back();
+        }
 
         $roles = Role::where('model',"App\Models\Schools")->where('model_id',getSchool()->id)->orderBy('id','DESC')->paginate(5);
 
@@ -26,6 +36,10 @@ class RoleSchoolControler extends Controller
     }
     public function show($id)
     {
+        if (!Auth::user()->can('school-role-show')) {
+            toastr()->error(  trans('genirale.no_permission_message'), 'Error');
+            return redirect()->back();
+        }
         $role = Role::find($id);
         $rolePermissions = Permission::join("role_has_permissions","role_has_permissions.permission_id","=","permissions.id")
         ->where("role_has_permissions.role_id",$id)
@@ -36,6 +50,10 @@ class RoleSchoolControler extends Controller
 
     public function store(Request $request)
     {
+        if (!Auth::user()->can('school-role-create')) {
+            toastr()->error(  trans('genirale.no_permission_message'), 'Error');
+            return redirect()->back();
+        }
 
           $this->validate($request, [
             //   'name' => 'required|unique:roles,name',

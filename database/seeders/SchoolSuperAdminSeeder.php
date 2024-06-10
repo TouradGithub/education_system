@@ -46,10 +46,8 @@ class SchoolSuperAdminSeeder extends Seeder
     ['id' => 122, 'name' => 'school-teachers-index', 'type' => '2'],
     ['id' => 123, 'name' => 'school-teachers-store', 'type' => '2'],
     ['id' => 124, 'name' => 'school-subject-teachers', 'type' => '2'],
-    ['id' => 124, 'name' => 'school-subject-teacher-list', 'type' => '2'],
-    ['id' => 124, 'name' => 'school-subject-teacher-edit', 'type' => '2'],
-    ['id' => 124, 'name' => 'school-subject-teacher-create', 'type' => '2'],
-    ['id' => 124, 'name' => 'school-subject-teacher-delete', 'type' => '2'],
+
+
 
     ['id' => 125, 'name' => 'school-students-create', 'type' => '2'],
     ['id' => 126, 'name' => 'school-students-index', 'type' => '2'],
@@ -85,6 +83,36 @@ class SchoolSuperAdminSeeder extends Seeder
     ['id' => 150, 'name' => 'school-role-store', 'type' => '2'],
     ['id' => 151, 'name' => 'school-role-edit', 'type' => '2'],
     ['id' => 152, 'name' => 'school-role-update', 'type' => '2'],
+                //edit-------------------------------Start --------------------------------
+    ['id' => 153, 'name' => 'school-announcement-create', 'type' => '2'],
+    ['id' => 154, 'name' => 'school-announcement-index', 'type' => '2'],
+    ['id' => 155, 'name' => 'school-announcement-store', 'type' => '2'],
+    ['id' => 156, 'name' => 'school-announcement-edit', 'type' => '2'],
+    ['id' => 157, 'name' => 'school-announcement-update', 'type' => '2'],
+
+    ['id' => 158, 'name' => 'school-announcement-delete', 'type' => '2'],
+
+    ['id' => 159, 'name' => 'school-subject-delete', 'type' => '2'],
+    ['id' => 160, 'name' => 'school-sections-delete', 'type' => '2'],
+    ['id' => 161, 'name' => 'school-teachers-edit', 'type' => '2'],
+    ['id' => 162, 'name' => 'school-teachers-delete', 'type' => '2'],
+    ['id' => 163, 'name' => 'school-subject-teacher-list', 'type' => '2'],
+    ['id' => 164, 'name' => 'school-subject-teacher-edit', 'type' => '2'],
+    ['id' => 165, 'name' => 'school-subject-teacher-create', 'type' => '2'],
+    ['id' => 166, 'name' => 'school-subject-teacher-delete', 'type' => '2'],
+    ['id' => 167, 'name' => 'school-students-delete', 'type' => '2'],
+    ['id' => 168, 'name' => 'school-students-inscription', 'type' => '2'],
+    ['id' => 169, 'name' => 'school-students-show', 'type' => '2'],
+
+    ['id' => 170, 'name' => 'school-promotion-list', 'type' => '2'],
+    ['id' => 171, 'name' => 'school-promotion-create', 'type' => '2'],
+
+    ['id' => 172, 'name' => 'school-user-delete', 'type' => '2'],
+
+    ['id' => 173, 'name' => 'school-role-show', 'type' => '2'],
+
+    ['id' => 174, 'name' => 'school-fees-paid-create', 'type' => '2'],
+    ['id' => 175, 'name' => 'school-fees-paid-delete', 'type' => '2'],
 
 
         ];
@@ -110,10 +138,7 @@ class SchoolSuperAdminSeeder extends Seeder
                 'school-timetable-edit',
                 'school-class-timetable',
 
-                'school-fees-create',
-                'school-fees-index',
-                'school-fees-store',
-                'school-fees-paid',
+                
 
                 'school-attendance-create',
                 'school-attendance-index',
@@ -165,6 +190,30 @@ class SchoolSuperAdminSeeder extends Seeder
                 'school-role-store',
                 'school-role-edit',
                 'school-role-update',
+
+                'school-announcement-create',
+                'school-announcement-index',
+                'school-announcement-store',
+                'school-announcement-edit',
+                'school-announcement-update',
+                'school-announcement-delete',
+                'school-subject-delete',
+                'school-sections-delete',
+                'school-teachers-edit',
+                'school-teachers-delete',
+                'school-subject-teacher-list',
+                'school-subject-teacher-edit',
+                'school-subject-teacher-create',
+                'school-subject-teacher-delete',
+                'school-students-delete',
+                'school-students-inscription',
+                'school-students-show',
+                'school-promotion-list',
+                'school-promotion-create',
+                'school-user-delete',
+                'school-role-show',
+                'school-fees-paid-create',
+                'school-fees-paid-delete',
         ];
         $role->syncPermissions($permissions_list);
     }

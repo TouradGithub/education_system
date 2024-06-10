@@ -18,12 +18,12 @@ class AttendanceController extends Controller
      */
     public function index()
     {
-        // if (!Auth::user()->can('attendance-list')) {
-        //     $response = array(
-        //         'message' => trans('no_permission_message')
-        //     );
-        //     return redirect(route('home'))->withErrors($response);
-        // }
+        if (!Auth::user()->can('school-attendance-index')) {
+            $response = array(
+                'message' => trans('genirale.no_permission_message')
+            );
+            return redirect(route('school.school.home'))->withErrors($response);
+        }
         return view('pages.attendance.index');
     }
 
@@ -42,7 +42,13 @@ class AttendanceController extends Controller
     {
 
 
+        if (!Auth::user()->can('school-attendance-create')) {
 
+            return response()->json([
+                'error' => true,
+                'message' => trans('genirale.no_permission_message')
+            ]);
+        }
         $validator = Validator::make($request->all(), [
             'timetable_day'=>'required',
             'section_id' => 'required',

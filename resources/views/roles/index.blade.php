@@ -1,15 +1,17 @@
 @extends('layouts.masters.master')
 
-@section('title') {{__('role_management')}} @endsection
+@section('title')
+ {{__('genirale.role_management')}}
+@endsection
 
 @section('content')
 
 <div class="content-wrapper">
     <div class="page-header">
         <h3 class="page-title">
-             {{__('role_management')}}
+             {{__('genirale.role_management')}}
         </h3>
-        <a class="btn btn-primary" href="{{ route('web.roles.create') }}"> {{ __('create_new_role') }}</a>
+        <a class="btn btn-primary" href="{{ route('web.roles.create') }}"> {{ __('genirale.create_new_role') }}</a>
     </div>
     <div class="row grid-margin">
         <div class="col-lg-12">
@@ -17,9 +19,9 @@
               <div class="card-body">
                 <table class="table table-bordered">
                     <tr>
-                       <th>{{__('no')}}</th>
-                       <th>{{__('name')}}</th>
-                       <th width="280px">{{__('action')}}</th>
+                       <th>{{__('genirale.no.')}}</th>
+                       <th>{{__('genirale.name')}}</th>
+                       <th width="280px">{{__('genirale.action')}}</th>
                     </tr>
                       @foreach ($roles as $key => $role)
                       <tr>

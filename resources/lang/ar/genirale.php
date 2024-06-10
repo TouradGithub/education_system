@@ -1,10 +1,14 @@
 <?php
 return [
+    "dashboard"=>"الرئيسية",
+
+    "noticeboard"=>"لوحة الإعلانات",
     "total_teachers" => "عدد المعلمين",
     "total_students" => "عدد الطلاب",
     "total_parents" => "عدد الوكلاء",
 
     "total_schools"=> " عدد المدارس",
+    "add_schools"=> "إضافة مدرسة",
     "total_acadimic"=> "عدد المديريات ",
 
     "Boys" => "أولاد",
@@ -19,10 +23,13 @@ return [
     "Friday" => "الجمعة",
     "Saturday" => "السبت",
     "Sunday" => "الأحد",
-
+"guard_name"=>"نوع الاذن",
 "manage" => "إدارة",
 "create" => "إنشاء",
 "edit" => "تحرير",
+"show"=>"عرض",
+
+"delete"=>"حذف",
 "list" => "قائمة",
 "action" => "الإجراء",
 "no." => "رقم",
@@ -54,9 +61,14 @@ return [
 "numberofteachers" => "عدد المعلمين",
 "numberofSections" => "عدد الأقسام",
 "numberofStudents" => "عدد الطلاب",
+
 "Message"=>"إرسال رسالة",
-
-
+"title"=> "العنوان",
+    "description"=> "الوصف",
+    "price"=> "السعر",
+    "start_date"=> "تاريخ البداية ",
+    "end_date"=> "تاريخ النهاية ",
+    "default"=> "الافتراضي",
 
 
 
@@ -80,7 +92,7 @@ return [
     "data_update_successfully" => "تم تحديث البيانات بنجاح",
     "data_delete_successfully" => "تم حذف البيانات بنجاح",
     "cannot_delete_beacuse_data_is_associated_with_other_data"=>"لا يمكن الحذف لأن البيانات مقترنة ببيانات أخرى",
-
+    "no_permission_message"=>"ليس لديك أذونات كافية",
 
 
     "error_occurred" => "عذراً! حدث خطأ. الرجاء المحاولة مرة أخرى لاحقاً."

@@ -17,6 +17,7 @@ return new class extends Migration
             $table->enum("status", ["pending", "paid", "failed"])->default("pending");
             $table->string("currency");
             $table->string("amount");
+            $table->string("school_id");
             $table->timestamps();
         });
     }

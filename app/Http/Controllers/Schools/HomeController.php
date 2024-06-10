@@ -16,7 +16,7 @@ class HomeController extends Controller
     public function editProfile()
     {
         $admin_data = Auth::user();
-        return view('pages.teachers.update_profile', compact('admin_data'));
+        return view('pages.schools.update_profile', compact('admin_data'));
     }
     public function updateProfile(Request $request)
     {

@@ -24,6 +24,8 @@
                             {{ $section->classe->name . ' -  ' . $section->name  }}
 
                         </h4>
+                        <input type="hidden" route-id="{{route('teacher.file.delete','0')}}"  id="route_name_id" value="{{route('teacher.file.delete','0')}}" />
+
                         <form class="pt-3 add-lesson-form" id="create-form"
 
                             action="{{route('teacher.lesson.store')}}"
@@ -134,7 +136,7 @@
                                     </select>
                                 </div>
                                 <div class="col">
-                                    <select name="filter_class_section_id" id="filter_class_section_id"
+                                    <select name="filter_section_id" id="filter_section_id"
                                         class="form-control">
                                         <option value="">{{ __('all') }}</option>
                                         @foreach ($result as $item)
@@ -145,13 +147,13 @@
                                     </select>
                                 </div>
                                 <div class="col">
-                                    <select name="filter_lesson_id" id="filter_lesson_id" class="form-control">
+                                    <select name="filter_trimester_id" id="filter_trimester_id" class="form-control">
                                         <option value="">{{ __('all') }}</option>
-                                        {{-- @foreach ($lessons as $lesson)
-                                            <option value="{{ $lesson->id }}">
-                                                {{ $lesson->name }}
+                                        @foreach ($trimesters as $item)
+                                            <option value="{{ $item->id }}">
+                                                {{ $item->name }}
                                             </option>
-                                        @endforeach --}}
+                                        @endforeach
                                     </select>
                                 </div>
                             </div>
@@ -182,11 +184,13 @@
                                         {{ __('class_section') }}</th>
                                         <th scope="col" data-field="subject_name" data-sortable="true">
                                             {{ __('subject') }}</th>
-                                            <th scope="col" data-field="subject_id" data-sortable="true">
+                                            <th scope="col" data-field="subject_id"  data-visible="false">
                                                 {{ __('subject') }}</th>
                                         <th scope="col" data-field="file" data-formatter="fileFormatter"
                                         data-sortable="true">{{ __('file') }}</th>
                                         <th scope="col" data-field="class_section_id" data-visible="false"
+                                        data-sortable="true">{{ __('id') }}</th>
+                                        <th scope="col" data-field="trimester_id" data-visible="false"
                                         data-sortable="true">{{ __('id') }}</th>
                                     <th scope="col" data-field="created_at" data-sortable="true"
                                         data-visible="false"> {{ __('created_at') }}</th>
@@ -214,9 +218,9 @@
                                 <span aria-hidden="true">&times;</span>
                             </button>
                         </div>
-                        <form class="pt-3 edit-lesson-form" id="edit-form" action="{{ url('#') }}"
+                        <form class="pt-3 edit-lesson-form" id="edit-form" action="{{ url('teacher/lesson-edit') }}"
                             novalidate="novalidate">
-                            <input type="hidden" name="edit_id" id="edit_id" value="" />
+                            <input type="hidden" route-id="{{route('teacher.file.delete','0')}}" name="edit_id" id="edit_id" value="" />
                             <div class="modal-body">
                                 <div class="form-group">
                                     <label>{{  __('section.section') }} <span
@@ -240,6 +244,15 @@
                                         @foreach ($result as $item)
                                         <option value="{{$item->subject->id}}">{{$item->subject->name}}</option>
 
+                                        @endforeach
+                                    </select>
+                                </div>
+                                <div class="form-group">
+                                    <label>{{ __('trimester.trimester') }} <span class="text-danger">*</span></label>
+                                    <select name="edit_trimester_id" id="edit_trimester_id" class="trimester_id form-control">
+
+                                        @foreach ($trimesters as $item)
+                                        <option value="{{$item->id}}">{{ $item->name }}</option>
                                         @endforeach
                                     </select>
                                 </div>
@@ -284,7 +297,7 @@
                                         </div>
                                     </div>
                                     <div class="form-group col-md-3" id="file_div" style="display: none">
-                                        <label>{{ __('file_upload') }} <span class="text-danger">*</span></label>
+                                        <label>{{ __('lesson.file_upload') }} <span class="text-danger">*</span></label>
                                         <input type="file" name="edit_file[0][file]" class="file form-control"
                                             placeholder="">
                                         <a href="" target="_blank" id="file_preview" class="w-100"></a>
@@ -292,7 +305,7 @@
                                     <div class="form-group col-md-3" id="file_link_div" style="display: none">
                                         <label>{{ __('link') }} <span class="text-danger">*</span></label>
                                         <input type="text" name="edit_file[0][link]" class="file_link form-control"
-                                            placeholder="{{ __('link') }}" required>
+                                            placeholder="{{ __('lesson.link') }}" required>
                                     </div>
 
                                     <div class="form-group col-md-1 pl-0 mt-4">
@@ -313,7 +326,7 @@
                             <div class="modal-footer">
                                 <button type="button" class="btn btn-secondary"
                                     data-dismiss="modal">{{ __('close') }}</button>
-                                <input class="btn btn-theme" type="submit" value={{ __('edit') }} />
+                                <input class="btn btn-theme" type="submit" value={{ __('genirale.edit') }} />
                             </div>
                         </form>
                     </div>

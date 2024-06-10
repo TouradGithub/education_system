@@ -1,4 +1,4 @@
-{{-- <!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="fr" dir="rtl">
 
 <head>
@@ -8,10 +8,10 @@
     <meta name="description" content="Webmin - Modèle d'administration Bootstrap 4 & Angular 5" />
     <meta name="author" content="potenzaglobalsolutions.com" />
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
-    <title>Gestion Scolaire</title>
+    <title>System Education | Adross</title>
 
     <!-- Favicon -->
-    <link rel="shortcut icon" href="images/favicon.ico" />
+    <link rel="shortcut icon" href="{{URL::asset('images/logo.png')}}" />
 
     <!-- Police -->
     <link rel="stylesheet"
@@ -32,7 +32,7 @@
 
                     <div style="border-radius: 15px;" class="col-lg-8 col-md-8 bg-white">
                         <div class="login-fancy pb-40 clearfix">
-                            @if(session('success'))
+                            @if(session('error'))
                                 <div class="alert alert-danger">
                                     {{ session('success') }}
                                 </div>
@@ -40,23 +40,44 @@
                             <h3 style="font-family: 'Cairo', sans-serif" class="mb-30">Select connection mode</h3>
                             <div class="form-inline">
 
-                                <a class="btn btn-default col-lg-3" title="Acadimic" href="{{route('acadimic.login')}}">
+                                {{-- <a class="btn btn-default col-lg-3" title="Acadimic" href="{{route('acadimic.login')}}">
                                     <img alt="user-img" width="100px;" src="{{URL::asset('section/assets/images/teacher.png')}}">
                                     <div>Academic</div>
-                                </a>
-                                <a class="btn btn-default col-lg-3" title="School" href="{{url('loginSchool')}}">
+                                </a> --}}
+                                <a class="btn btn-default col-lg-4" title="School" href="{{url('loginSchool')}}">
                                     <img alt="user-img" width="100px;" src="{{URL::asset('section/assets/images/admin.png')}}">
                                     <div>School</div>
                                 </a>
-                                <a class="btn btn-default col-lg-3" title="Administrator" href="{{url('Admin/login')}}">
+                                <a class="btn btn-default col-lg-4" title="Administrator" href="{{url('Admin/login')}}">
                                     <img alt="user-img" width="100px;" src="{{URL::asset('section/assets/images/admin.png')}}">
                                     <div>Administratorr</div>
                                 </a>
-                                <a class="btn btn-default col-lg-3" title="Administrator" href="{{route('teacher.teacher.login')}}">
+                                <a class="btn btn-default col-lg-4" title="Administrator" href="{{route('teacher.teacher.login')}}">
                                     <img alt="user-img" width="100px;" src="{{URL::asset('section/assets/images/admin.png')}}">
                                     <div>Teacher</div>
                                 </a>
                             </div>
+
+                        </div>
+                    </div><br><br><br>
+
+                      <div style="border-radius: 15px; margin-top:20px; " class="col-lg-8 col-md-8 bg-white text-center">
+                        <div class="login-fancy pb-40 clearfix">
+
+                            <h3 style="font-family: 'Cairo', sans-serif" class="mb-30">Dounload Apps from this Url</h3>
+                            <div class="form-inline">
+
+                                <a class="btn btn-default col" title="Acadimic" target="_blank" href="https://drive.google.com/file/d/1JJCuKO5TeGyyFGChxNx_8e_ph9ycZC_6/view?usp=sharing">
+                                    <img alt="user-img" width="100px;" src="{{URL::asset('images/logo.png')}}">
+                                    <div style="font-weight: bold;">Student App</div>
+                                </a>
+                                <a class="btn btn-default col" title="School" target="_blank" href="https://drive.google.com/file/d/1zZrpJmTtj2win7Dgc1e9TJ9BvyCTvgkB/view?usp=sharing">
+                                    <img alt="user-img" width="100px;" src="{{URL::asset('images/logo.png')}}">
+                                    <div style="font-weight: bold;">Gradian App</div>
+                                </a>
+
+                            </div>
+
                         </div>
                     </div>
                 </div>
@@ -80,21 +101,4 @@
 
 </body>
 
-</html> --}}
-
-<!DOCTYPE html>
-<html lang="fr">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Document</title>
-</head>
-<body>
-    <form action="{{route('web.chargilypay.redirect')}}" method="post">
-        @csrf
-        <input type="submit" placeholder="OK">
-
-    </form>
-</body>
 </html>

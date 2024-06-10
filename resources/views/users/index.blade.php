@@ -5,10 +5,10 @@
 <div class="row">
     <div class="col-lg-12 margin-tb">
         <div class="pull-left">
-            <h2>Users Management</h2>
+            <h2>{{__('genirale.create_new_user')}}</h2>
         </div>
         <div class="pull-right">
-            <a class="btn btn-success" href="{{ route('web.users.create') }}"> Create New User</a>
+            <a class="btn btn-success" href="{{ route('web.users.create') }}">{{__('genirale.create_new_user')}}</a>
         </div>
     </div>
 </div>
@@ -23,11 +23,11 @@
 
 <table class="table table-bordered">
  <tr>
-   <th>No</th>
-   <th>Name</th>
-   <th>Email</th>
-   <th>Roles</th>
-   <th width="280px">Action</th>
+   <th>{{__('genirale.no.')}}</th>
+   <th>{{__('genirale.name')}}</th>
+   <th>{{__('genirale.email')}}</th>
+   <th>{{__('genirale.role')}}</th>
+   <th width="280px">{{__('genirale.action')}}</th>
  </tr>
  @foreach ($data as $key => $user)
   <tr>
@@ -42,10 +42,10 @@
       @endif
     </td>
     <td>
-       <a class="btn btn-info" href="{{ route('web.users.show',$user->id) }}">Show</a>
-       <a class="btn btn-primary" href="{{ route('web.users.edit',$user->id) }}">Edit</a>
+       <a class="btn btn-info" href="{{ route('web.users.show',$user->id) }}">{{__('genirale.show')}}</a>
+       <a class="btn btn-primary" href="{{ route('web.users.edit',$user->id) }}">{{__('genirale.edit')}}</a>
         {!! Form::open(['method' => 'DELETE','route' => ['web.users.destroy', $user->id],'style'=>'display:inline']) !!}
-            {!! Form::submit('Delete', ['class' => 'btn btn-danger']) !!}
+            {!! Form::submit(__('genirale.delete'), ['class' => 'btn btn-danger']) !!}
         {!! Form::close() !!}
     </td>
   </tr>

@@ -7,9 +7,15 @@ window.lessonEvents = {
         $('.edit_file_type_div').show();
         $('#edit_id').val(row.id);
         $('#edit_class_section_id').val(row.class_section_id).trigger('change');
+        console.log(row);
         setTimeout(() => {
+            $('#edit_trimester_id').val(row.trimester_id).trigger('change');
+
             $('#edit_subject_id').val(row.subject_id).trigger('change');
         }, 1000);
+
+
+
         $('#edit_name').val(row.name);
         $('#edit_description').val(row.description);
         if (row.file.length > 0) {
@@ -1692,9 +1698,9 @@ function CreateLessionQueryParams(p) {
         order: p.order,
         offset: p.offset,
         search: p.search,
-        subject_id: $('#filter_subject_id').val(),
-        class_id: $('#filter_class_section_id').val(),
-        lesson_id: $('#filter_lesson_id').val()
+        filter_subject_id: $('#filter_subject_id').val(),
+        filter_section_id: $('#filter_section_id').val(),
+        filter_trimester_id: $('#filter_trimester_id').val()
     };
 }
 

@@ -140,7 +140,7 @@
                         <div class="form-group">
                             <div class="form-check">
                                 <label class="form-check-label">
-                                    <input type="checkbox" name="exist_father" class="form-check-input" id="show-guardian-details">{{ __('guardian_details') }}
+                                    <input type="checkbox" name="exist_father" class="form-check-input" id="show-guardian-details">{{ __('student.parent_exist') }}
                                 </label>
                             </div>
                         </div>

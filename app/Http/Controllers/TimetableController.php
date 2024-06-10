@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Timetable;
 use Illuminate\Http\Request;
 use App\Models\Grade;
+use Illuminate\Support\Facades\Auth;
 use App\Models\SubjectTeacher;
 class TimetableController extends Controller
 {
@@ -14,12 +15,12 @@ class TimetableController extends Controller
     public function index()
     {
 
-        // if (!Auth::user()->can('timetable-list') || !Auth::user()->can('class-timetable')) {
-        //     $response = array(
-        //         'message' => trans('no_permission_message')
-        //     );
-        //     return redirect(route('home'))->withErrors($response);
-        // }
+        if (!Auth::user()->can('school-timetable-index') ) {
+            $response = array(
+                'message' => trans('genirale.no_permission_message')
+            );
+            return redirect(route('school.school.home'))->withErrors($response);
+        }
         $class_sections = Grade::find(getSchool()->grade_id)->classes;
         return view('pages.schools.timetable.index', compact('class_sections'));
     }
@@ -38,7 +39,12 @@ class TimetableController extends Controller
     public function store(Request $request)
     {
 
-
+        if (!Auth::user()->can('school-timetable-create') ) {
+            $response = array(
+                'message' => trans('genirale.no_permission_message')
+            );
+            return redirect(route('school.school.home'))->withErrors($response);
+        }
         $request->validate([
             'day' => 'required',
             'class_section_id' => 'required',
@@ -71,6 +77,10 @@ class TimetableController extends Controller
                 } else {
                     $timetable = new Timetable();
                 }
+                if( !$data['subject_id'] ||  !$data['teacher_id']){
+                    return redirect()->back()->with('error', trans('genirale.error_occurred'));
+
+                }
 
 
                 $subject_teacher_id = SubjectTeacher::where('subject_id', $data['subject_id'])
@@ -79,7 +89,6 @@ class TimetableController extends Controller
                 ->value('id');
 
                 $timetable->subject_teacher_id = ($subject_teacher_id) ?? 0;
-                // $timetable->subject_teacher_id = $class_section_id;
                 $timetable->section_id = $request->section_id;
                 $timetable->start_time = $data['start_time'];
                 $timetable->end_time = $data['end_time'];
@@ -91,14 +100,20 @@ class TimetableController extends Controller
             }
 
 
-            return redirect()->back()->with('success', trans('data_store_successfully'));
-        } catch (Throwable $e) {
-            return redirect()->back()->with('error', trans('error_occurred'));
+            return redirect()->back()->with('success', trans('genirale.data_store_successfully'));
+        } catch (Exception $e) {
+            return redirect()->back()->with('error', trans('genirale.error_occurred'));
         }
     }
 
     public function class_timetable()
     {
+        if (!Auth::user()->can('school-class-timetable') ) {
+            $response = array(
+                'message' => trans('genirale.no_permission_message')
+            );
+            return redirect(route('school.school.home'))->withErrors($response);
+        }
         $class_sections = Grade::find(getSchool()->grade_id)->classes;
         return view('pages.schools.timetable.class_timetable', compact('class_sections'));
     }

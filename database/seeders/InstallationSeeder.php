@@ -17,143 +17,141 @@ class InstallationSeeder extends Seeder
     public function run() {
 
         //Add Permissions
-        // $permissions = [
-        //     ['id' => 1, 'name' => 'role-list'],
-        //     ['id' => 2, 'name' => 'role-create'],
-        //     ['id' => 3, 'name' => 'role-edit'],
-        //     ['id' => 4, 'name' => 'role-delete'],
+        $permissions = [
+            ['id' => 1, 'name' => 'role-list'],
+            ['id' => 2, 'name' => 'role-create'],
+            ['id' => 3, 'name' => 'role-edit'],
+            ['id' => 45, 'name' => 'role-show'],
+            ['id' => 4, 'name' => 'role-delete'],
 
-        //     ['id' => 5, 'name' => 'school-list'],
-        //     ['id' => 6, 'name' => 'school-create'],
-        //     ['id' => 7, 'name' => 'school-edit'],
-        //     ['id' => 8, 'name' => 'school-delete'],
+            ['id' => 5, 'name' => 'school-list'],
+            ['id' => 6, 'name' => 'school-create'],
+            ['id' => 7, 'name' => 'school-edit'],
+            ['id' => 46, 'name' => 'school-show'],
+            ['id' => 8, 'name' => 'school-delete'],
 
-        //     ['id' => 9, 'name' => 'management-list'],
-        //     ['id' => 10, 'name'=> 'management-create'],
-        //     ['id' => 11, 'name'=> 'management-edit'],
-        //     ['id' => 12, 'name'=> 'management-delete'],
+            ['id' => 9, 'name' => 'acadimic-list'],
+            ['id' => 10, 'name'=> 'acadimic-create'],
+            ['id' => 11, 'name'=> 'acadimic-edit'],
+            ['id' => 47, 'name'=> 'acadimic-show'],
+            ['id' => 12, 'name'=> 'acadimic-delete'],
 
-        //     ['id' => 33, 'name'=> 'session-year-list'],
-        //     ['id' => 34, 'name'=> 'session-year-create'],
-        //     ['id' => 35, 'name'=> 'session-year-edit'],
-        //     ['id' => 36, 'name'=> 'session-year-delete'],
-        //     ['id' => 79, 'name' => 'setting-create'],
+            ['id' => 13, 'name' => 'grade-list'],
+            ['id' => 14, 'name'=> 'grade-create'],
+            ['id' => 15, 'name'=> 'grade-edit'],
+            ['id' => 16, 'name'=> 'grade-show'],
+            ['id' => 17, 'name'=> 'grade-delete'],
 
+            ['id' => 18, 'name' => 'classes-list'],
+            ['id' => 19, 'name'=> 'classes-create'],
+            ['id' => 20, 'name'=> 'classes-edit'],
+            ['id' => 21, 'name'=> 'classes-show'],
+            ['id' => 22, 'name'=> 'classes-delete'],
 
-        //     ['name' => 'school-subject-create','type'=>'2'],
-        //     [ 'name' => 'school-subject-index','type'=>'2'],
-        //     [ 'name' => 'school-subject-store','type'=>'2'],
-        //     [ 'name' => 'school-subject-edit','type'=>'2'],
+            ['id' => 23, 'name' => 'trimester-list'],
+            ['id' => 24, 'name'=> 'trimester-create'],
+            ['id' => 25, 'name'=> 'trimester-edit'],
+            ['id' => 26, 'name'=> 'trimester-show'],
+            ['id' => 27, 'name'=> 'trimester-delete'],
 
-        //     ['name' => 'school-sections-create','type'=>'2'],
-        //     [ 'name' => 'school-sections-index','type'=>'2'],
-        //     [ 'name' => 'school-sections-store','type'=>'2'],
-        //     [ 'name' => 'school-sections-edit','type'=>'2'],
+            ['id' => 28, 'name' => 'announcement-list'],
+            ['id' => 29, 'name'=> 'announcement-create'],
+            ['id' => 30, 'name'=> 'announcement-edit'],
+            ['id' => 31, 'name'=> 'announcement-show'],
+            ['id' => 32, 'name'=> 'announcement-delete'],
 
-        //     ['name' => 'school-timetable-create','type'=>'2'],
-        //     [ 'name' => 'school-timetable-index','type'=>'2'],
-        //     [ 'name' => 'school-timetable-store','type'=>'2'],
-        //     [ 'name' => 'school-timetable-edit','type'=>'2'],
-        //     [ 'name' => 'school-class-timetable','type'=>'2'],
+            ['id' => 33, 'name' => 'users-list'],
+            ['id' => 34, 'name'=> 'users-create'],
+            ['id' => 35, 'name'=> 'users-edit'],
+            ['id' => 36, 'name'=> 'users-show'],
+            ['id' => 37, 'name'=> 'users-delete'],
 
-        //     ['name' => 'school-fees-create','type'=>'2'],
-        //     [ 'name' => 'school-fees-index','type'=>'2'],
-        //     [ 'name' => 'school-fees-store','type'=>'2'],
-        //     [ 'name' => 'school-fees-paid','type'=>'2'],
+            ['id' => 38, 'name'=> 'statistic-gender'],
+            ['id' => 39, 'name'=> 'statistic-counter'],
 
-        //     ['name' => 'school-attendance-create','type'=>'2'],
-        //     [ 'name' => 'school-attendance-index','type'=>'2'],
-        //     [ 'name' => 'school-attendance-store','type'=>'2'],
-        //     [ 'name' => 'school-attendance-edit','type'=>'2'],
-
-        //     ['name' => 'school-teachers-create','type'=>'2'],
-        //     [ 'name' => 'school-teachers-index','type'=>'2'],
-        //     [ 'name' => 'school-teachers-store','type'=>'2'],
-        //     [ 'name' => 'school-subject-teachers','type'=>'2'],
-
-        //     ['name' => 'school-students-create','type'=>'2'],
-        //     [ 'name' => 'school-students-index','type'=>'2'],
-        //     [ 'name' => 'school-students-store','type'=>'2'],
-        //     [ 'name' => 'school-students-edit','type'=>'2'],
-        //     [ 'name' => 'school-students-update','type'=>'2'],
-
-        //     ['name' => 'school-students-create','type'=>'2'],
-        //     [ 'name' => 'school-students-index','type'=>'2'],
-        //     [ 'name' => 'school-students-store','type'=>'2'],
-        //     [ 'name' => 'school-students-edit','type'=>'2'],
-        //     [ 'name' => 'school-students-update','type'=>'2'],
-
-        //     ['name' => 'school-tests-create','type'=>'2'],
-        //     [ 'name' => 'school-tests-index','type'=>'2'],
-        //     [ 'name' => 'school-tests-store','type'=>'2'],
-        //     [ 'name' => 'school-tests-edit','type'=>'2'],
-        //     [ 'name' => 'school-tests-update','type'=>'2'],
-
-
-        //     ['name' => 'school-exams-create','type'=>'2'],
-        //     [ 'name' => 'school-exams-index','type'=>'2'],
-        //     [ 'name' => 'school-exams-store','type'=>'2'],
-        //     [ 'name' => 'school-exams-edit','type'=>'2'],
-        //     [ 'name' => 'school-exams-update','type'=>'2'],
-
-        //     [ 'name' => 'school-settings-create','type'=>'2'],
-
-        //     [ 'name' => 'school-general_settings-create','type'=>'2'],
-        //     [ 'name' => 'school-general_settings-update','type'=>'2'],
-
-
-        //     ['name' => 'school-user-create','type'=>'2'],
-        //     [ 'name' => 'school-user-index','type'=>'2'],
-        //     [ 'name' => 'school-user-store','type'=>'2'],
-        //     [ 'name' => 'school-user-edit','type'=>'2'],
-        //     [ 'name' => 'school-user-update','type'=>'2'],
-
-
-        //     ['name' => 'school-role-create','type'=>'2'],
-        //     [ 'name' => 'school-role-index','type'=>'2'],
-        //     [ 'name' => 'school-role-store','type'=>'2'],
-        //     [ 'name' => 'school-role-edit','type'=>'2'],
-        //     [ 'name' => 'school-role-update','type'=>'2'],
+            ['id' => 40, 'name'=> 'session-year-list'],
+            ['id' => 41, 'name'=> 'session-year-create'],
+            ['id' => 42, 'name'=> 'session-year-show'],
+            ['id' => 43, 'name'=> 'session-year-edit'],
+            ['id' => 44, 'name'=> 'session-year-delete'],
 
 
 
-        // ];
-        // foreach ($permissions as $permission) {
-        //     Permission::updateOrCreate(['id' => $permission['id']], $permission);
-        // }
+            ['id' => 79, 'name' => 'setting-create'],
 
+
+
+
+
+        ];
+
+        foreach ($permissions as $permission) {
+            Permission::updateOrCreate(['id' => $permission['id']], $permission);
+        }
 
         $role = Role::updateOrCreate(['name' => 'Admin']);
         $superadmin_permission_list = [
+
+            'session-year-list',
+            'session-year-create',
+            'session-year-show',
+            'session-year-edit',
+            'session-year-delete',
+
             'role-list',
             'role-create',
             'role-edit',
+            'role-show',
             'role-delete',
 
             'school-list',
             'school-create',
             'school-edit',
+            'school-show',
             'school-delete',
 
-            'management-list',
-            'management-create',
-            'management-edit',
-            'management-delete',
+            'acadimic-list',
+            'acadimic-create',
+            'acadimic-edit',
+            'acadimic-show',
+            'acadimic-delete',
 
-            'session-year-list',
-            'session-year-create',
-            'session-year-edit',
-            'session-year-delete',
+            'grade-list',
+            'grade-create',
+            'grade-edit',
+            'grade-show',
+            'grade-delete',
+
+            'classes-list',
+            'classes-create',
+            'classes-edit',
+            'classes-show',
+            'classes-delete',
+
+            'trimester-list',
+            'trimester-create',
+            'trimester-edit',
+            'trimester-show',
+            'trimester-delete',
+
+            'announcement-list',
+            'announcement-create',
+            'announcement-edit',
+            'announcement-show',
+            'announcement-delete',
+
+            'users-list',
+            'users-create',
+            'users-edit',
+            'users-show',
+            'users-delete',
+
+            'statistic-gender',
+            'statistic-counter',
+
             'setting-create',
-
         ];
         $role->syncPermissions($superadmin_permission_list);
-
- ;
-
-
-
-        //Change system version here
 
         //clear cache
         Artisan::call('view:clear');

@@ -217,7 +217,7 @@
                             </div>
                             <div class="form-group col-sm-12 col-md-6">
                                 <label>{{ __('genirale.email') }} <span class="text-danger">*</span></label>
-                                {!! Form::text('email', null, ['required', 'placeholder' => __('genirale.email'), 'class' => 'form-control', 'id' => 'email' ,'readonly' => true]) !!}
+                                {!! Form::text('email', null, ['required', 'placeholder' => __('genirale.email'), 'class' => 'form-control', 'id' => 'email' ]) !!}
                             </div>
                         </div>
                         <div class="row form-group">

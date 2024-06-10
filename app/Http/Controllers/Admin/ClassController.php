@@ -7,6 +7,7 @@ use App\Models\Grade;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Auth;
 class ClassController extends Controller
 {
     /**
@@ -14,6 +15,13 @@ class ClassController extends Controller
      */
     public function index()
     {
+        if (!Auth::user()->can('classes-list')) {
+            $response = array(
+                'message' => trans('genirale.no_permission_message')
+            );
+            return redirect()->back();
+
+        }
         return view('pages.classes.index');
     }
 
@@ -30,6 +38,13 @@ class ClassController extends Controller
      */
     public function store(StoreGrades  $request)
     {
+        if (!Auth::user()->can('classes-create')) {
+            $response = array(
+                'message' => trans('genirale.no_permission_message')
+            );
+            return redirect()->back();
+
+        }
         try {
             $validated = $request->validated();
             $classes = new Classes();
@@ -90,10 +105,15 @@ class ClassController extends Controller
         $no = 1;
         foreach ($res as $row) {
             $operate = '';
-            $operate .= '<a class="btn btn-xs btn-gradient-primary btn-rounded btn-icon editdata" data-id=' . $row->id . ' title="Edit" data-toggle="modal" data-target="#editModal"><i class="fa fa-edit"></i></a>&nbsp;&nbsp;';
-            $operate .= '<a class="btn btn-xs btn-gradient-danger btn-rounded btn-icon deletedata" data-id=' . $row->id . ' data-url=' . route('web.classes.destroy', $row->id) . ' title="Delete"><i class="fa fa-trash"></i></a>';
+            if (Auth::user()->can('classes-edit')){
+                $operate .= '<a class="btn btn-xs btn-gradient-primary btn-rounded btn-icon editdata" data-id=' . $row->id . ' title="Edit" data-toggle="modal" data-target="#editModal"><i class="fa fa-edit"></i></a>&nbsp;&nbsp;';
 
-           // $data = getSettings('date_formate');
+            }
+
+            if (Auth::user()->can('classes-delete')){
+                $operate .= '<a class="btn btn-xs btn-gradient-danger btn-rounded btn-icon deletedata" data-id=' . $row->id . ' data-url=' . route('web.classes.destroy', $row->id) . ' title="Delete"><i class="fa fa-trash"></i></a>';
+
+            }
 
            $tempRow['id'] = $row->id;
            $tempRow['no'] = $no++;
@@ -125,6 +145,13 @@ class ClassController extends Controller
      */
     public function update(Request $request, Classes $classes)
     {
+        if (!Auth::user()->can('classes-edit')) {
+            $response = array(
+                'message' => trans('genirale.no_permission_message')
+            );
+            return redirect()->back();
+
+        }
         $validator = Validator::make($request->all(), [
             'name' => 'required',
             'name_en' => 'required',
@@ -162,6 +189,13 @@ class ClassController extends Controller
      */
     public function destroy( $id)
     {
+        if (!Auth::user()->can('classes-delete')) {
+            $response = array(
+                'message' => trans('genirale.no_permission_message')
+            );
+            return redirect()->back();
+
+        }
         try {
             Classes::find($id)->delete();
             $response = array(

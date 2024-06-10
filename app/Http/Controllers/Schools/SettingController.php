@@ -6,36 +6,31 @@ use App\Models\Settings;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 use App\Http\Controllers\Controller;
-
+use Illuminate\Support\Facades\Auth;
 class SettingController extends Controller
 {
     public function index()
     {
-        // if (!Auth::user()->can('setting-create')) {
-        //     $response = array(
-        //         'message' => trans('no_permission_message')
-        //     );
-        //     return redirect(route('home'))->withErrors($response);
-        // }
+        if (!Auth::user()->can('school-general_settings-update')) {
+            $response = array(
+                'message' => trans('no_permission_message')
+            );
+            return redirect(route('school.school.home'))->withErrors($response);
+        }
 
         $settings = getSettings();
-        // $getDateFormat = getDateFormat();
-        // $getTimezoneList = getTimezoneList();
-        // $getTimeFormat = getTimeFormat();
 
-        $session_year = SessionYear::orderBy('id', 'desc')->get();
-        // $language = Language::select('id', 'name')->orderBy('id', 'desc')->get();
         return view('pages.schools.settings', compact('settings'));
     }
 
     public function update(Request $request)
     {
-        // if (!Auth::user()->can('setting-create')) {
-        //     $response = array(
-        //         'message' => trans('no_permission_message')
-        //     );
-        //     return redirect(route('home'))->withErrors($response);
-        // }
+        if (!Auth::user()->can('school-general_settings-update')) {
+            $response = array(
+                'message' => trans('no_permission_message')
+            );
+            return redirect(route('school.school.home'))->withErrors($response);
+        }
 
 
 
@@ -68,11 +63,11 @@ class SettingController extends Controller
         } catch (Throwable $e) {
             $response = array(
                 'error' => true,
-                'message' => trans('error_occurred'),
+                'message' => trans('genirale.error_occurred'),
                 'data' => $e
             );
         }
-       // return response()->json($response);
-         return redirect()->back()->with('success', trans('data_update_successfully'));
+        
+         return redirect()->back()->with('success', trans('genirale.data_update_successfully'));
     }
 }

@@ -15,7 +15,7 @@
         </div>
 
         <div class="row">
-            {{-- @if (Auth::user()->can('holiday-create')) --}}
+            @if (Auth::user()->can('trimester-create'))
             <div class="col-lg-12 grid-margin stretch-card">
                 <div class="card">
                     <div class="card-body">
@@ -50,8 +50,8 @@
                     </div>
                 </div>
             </div>
-            {{-- @endif --}}
-            {{-- @if (Auth::user()->can('holiday-list')) --}}
+            @endif
+            @if (Auth::user()->can('trimester-list'))
                 <div class="col-lg-12 grid-margin stretch-card">
                     <div class="card">
                         <div class="card-body">
@@ -98,7 +98,7 @@
                         </div>
                     </div>
                 </div>
-            {{-- @endif --}}
+            @endif
         </div>
     </div>
 

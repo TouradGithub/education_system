@@ -10,17 +10,17 @@
     <div class="content-wrapper">
         <div class="page-header">
             <h3 class="page-title">
-                {{ trans('main_trans.schools') }}
+                {{ trans('sidebar.schools') }}
             </h3>
         </div>
 
         <div class="row">
-            {{-- @if (Auth::user()->can('holiday-create')) --}}
+            @if (Auth::user()->can('school-create'))
             <div class="col-lg-12 grid-margin stretch-card">
                 <div class="card">
                     <div class="card-body">
                         <h4 class="card-title">
-                            {{ trans('schools_trans.add_Grade') }}
+                            {{ trans('genirale.add_schools') }}
                         </h4>
                         <form class="create-form pt-3" id="formdata" action="{{ route('web.schools.store')}}" method="POST" novalidate="novalidate">
                             @csrf
@@ -28,39 +28,39 @@
                                 <div class="row">
                                     <div class="col-xs-12 col-sm-12 col-md-6">
                                         <div class="form-group">
-                                            <label><strong>{{ __('name') }}:</strong></label>
+                                            <label><strong>{{ __('genirale.name') }}:</strong></label>
                                             {!! Form::text('name', null, ['placeholder' => 'Name', 'class' => 'form-control']) !!}
                                         </div>
                                     </div>
                                     <div class="col-xs-12 col-sm-12 col-md-6">
                                         <div class="form-group">
-                                            <label><strong>{{ __('email') }}:</strong></label>
+                                            <label><strong>{{ __('genirale.email') }}:</strong></label>
                                             {!! Form::text('email', null, ['placeholder' => 'Email', 'class' => 'form-control']) !!}
                                         </div>
                                     </div>
 
                                     <div class="col-xs-12 col-sm-12 col-md-6">
                                         <div class="form-group">
-                                            <label><strong>{{ __('password') }}:</strong></label>
+                                            <label><strong>{{ __('genirale.password') }}:</strong></label>
                                             {!! Form::text('password', null, ['placeholder' => 'Password', 'class' => 'form-control']) !!}
                                         </div>
                                     </div>
                                     <div class="col-xs-12 col-sm-12 col-md-6">
                                         <div class="form-group">
-                                            <label><strong>{{ __('phone') }}:</strong></label>
+                                            <label><strong>{{ __('genirale.mobile') }}:</strong></label>
                                             {!! Form::text('phone', null, ['placeholder' => 'phone', 'class' => 'form-control']) !!}
                                         </div>
                                     </div>
                                     <div class="col-xs-12 col-sm-12 col-md-12">
                                         <div class="form-group">
-                                            <strong>Role:</strong>
+                                            <strong>{{__('genirale.role')}}:</strong>
                                             {!! Form::select('roles[]', $roles,[], array('class' => 'form-control','multiple')) !!}
                                         </div>
                                     </div>
                                     <div class="form-group col-sm-12 col-md-6">
-                                        <label>{{   trans('main_trans.Grades') }} <span class="text-danger">*</span></label>
+                                        <label>{{   trans('section.grade') }} <span class="text-danger">*</span></label>
                                         <select name="grade_id" id="class_section" class="form-control select2">
-                                            <option value="">{{ __('select') . ' '. __('main_trans.Grades') }}
+                                            <option value="">{{ __('genirale.select') }}
                                             </option>
                                             @foreach ($grades as $grade)
                                             <option value="{{ $grade->id }}"> {{ $grade->name }}</option>
@@ -70,9 +70,9 @@
                                     </div>
 
                                     <div class="form-group col-sm-12 col-md-6">
-                                        <label>{{ __('Type') . ' ' . __('School') }} <span class="text-danger">*</span></label>
+                                        <label>{{ __('subjects.type') }} <span class="text-danger">*</span></label>
                                         <select name="type" id="class_section" class="form-control select2">
-                                            <option value="">{{ __('select') . ' ' . __('Type')  }}
+                                            <option value="">{{ __('genirale.select') . ' ' . __('subjects.type')  }}
                                             </option>
                                             <option value="public">Public</option>
                                             <option value="private">Private</option>
@@ -81,9 +81,9 @@
 
                                     </div>
                                     <div class="form-group col-sm-12 col-md-12">
-                                        <label>{{   trans('main_trans.Acadimy') }} <span class="text-danger">*</span></label>
+                                        <label>{{   trans('sidebar.acadimic') }} <span class="text-danger">*</span></label>
                                         <select name="academy_id" id="class_section" class="form-control select2">
-                                            <option value="">{{ __('select') . ' '. __('main_trans.Acadimy') }}
+                                            <option value="">{{ __('genirale.select')  }}
                                             </option>
                                             @foreach ($acadimy as $item)
                                             <option value="{{ $item->id }}"> {{ $item->name }}</option>
@@ -94,7 +94,7 @@
                                     <div class="row"></div>
 
                                     <div class="form-group col-md-12 col-sm-12">
-                                        <label>{{ __('horizontal_logo') }} <span class="text-danger">*</span></label>
+                                        <label>{{ __('genirale.image') }} <span class="text-danger">*</span></label>
                                         <input type="file" name="logo1" class="file-upload-default"/>
                                         <div class="input-group col-xs-12">
                                             <input type="text" class="form-control file-upload-info" name="image" disabled="" placeholder="{{ __('logo1') }}"/>
@@ -110,7 +110,7 @@
                                 <div class="row">
                                     <div class="col-xs-12 col-sm-12 col-md-12">
                                         <div class="form-group">
-                                            <label><strong>{{ __('description') }}:</strong></label>
+                                            <label><strong>{{ __('genirale.description') }}:</strong></label>
                                             {!! Form::text('description', null, ['placeholder' => 'Description', 'class' => 'form-control']) !!}
                                         </div>
                                     </div>
@@ -119,13 +119,13 @@
                                 <div class="row">
                                     <div class="col-xs-12 col-sm-12 col-md-12">
                                         <div class="form-group">
-                                            <label><strong>{{ __('adress') }}:</strong></label>
+                                            <label><strong>{{ __('teacher.permanent_address') }}:</strong></label>
                                             {!! Form::text('adress', null, ['placeholder' => 'adress', 'class' => 'form-control']) !!}
                                         </div>
                                     </div>
                                 </div>
                                     <div class="col-xs-12 col-sm-12 col-md-12">
-                                        <button type="submit" class="btn btn-primary">{{ __('submit') }}</button>
+                                        <button type="submit" class="btn btn-primary">{{ __('genirale.submit') }}</button>
                                     </div>
                                 </div>
                                 {!! Form::close() !!}
@@ -134,8 +134,8 @@
                     </div>
                 </div>
             </div>
-            {{-- @endif --}}
-            {{-- @if (Auth::user()->can('holiday-list')) --}}
+            @endif
+            @if (Auth::user()->can('school-list'))
                 <div class="col-lg-12 grid-margin stretch-card">
                     <div class="card">
                         <div class="card-body">
@@ -160,18 +160,18 @@
                                                 <th scope="col" data-field="id" data-sortable="true" data-visible="false">
                                                     {{ __('id') }}</th>
 
-                                                <th scope="col" data-field="no" data-sortable="false">{{ __('no.') }}
+                                                <th scope="col" data-field="no" data-sortable="false">{{ __('genirale.no.') }}
                                                 </th>
-                                                <th scope="col" data-field="name" data-sortable="false"> {{trans('schools_trans.stage_name_ar')}}
+                                                <th scope="col" data-field="name" data-sortable="false"> {{trans('genirale.name')}}
                                                 </th>
                                                 </th>
                                                 <th scope="col" data-field="notes" data-sortable="false">
-                                                  {{  trans('schools_trans.Notes')}}
+                                                  {{  trans('genirale.note')}}
                                                 </th>
 
                                                 {{-- @if (Auth::user()->can('holiday-edit') || Auth::user()->can('holiday-delete')) --}}
                                                     <th   data-events="actionEvents" data-width="150" scope="col" data-field="operate"
-                                                        data-sortable="false">{{ __('action') }}</th>
+                                                        data-sortable="false">{{ __('genirale.action') }}</th>
                                                 {{-- @endif --}}
                                             </tr>
                                         </thead>
@@ -181,7 +181,7 @@
                         </div>
                     </div>
                 </div>
-            {{-- @endif --}}
+            @endif
         </div>
     </div>
 

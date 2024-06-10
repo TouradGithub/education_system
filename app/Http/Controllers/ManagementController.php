@@ -16,13 +16,13 @@ class ManagementController extends Controller
      */
     public function index(Request $request)
     {
-        // if (!Auth::user()->can('school-list') || !Auth::guard('acadimy')->user()->can('school-list')) {
-        //     $response = array(
-        //         'message' => trans('no_permission_message')
-        //     );
-        //     return redirect(route('home'))->withErrors($response);
+        if (!Auth::user()->can('acadimic-list') ) {
+            $response = array(
+                'message' => trans('genirale.no_permission_message')
+            );
+            return redirect(route('home'))->withErrors($response);
 
-        // }
+        }
         $managements = Acadimy::orderBy('id')->paginate(5);
         return view('managements.index',compact('managements'))
             ->with('i', ($request->input('page', 1) - 1) * 5);
@@ -33,6 +33,13 @@ class ManagementController extends Controller
      */
     public function create()
     {
+        if (!Auth::user()->can('acadimic-create') ) {
+            $response = array(
+                'message' => trans('genirale.no_permission_message')
+            );
+            return redirect(route('home'))->withErrors($response);
+
+        }
         $roles = Role::where('model_id',null)->pluck('name','name');
         return view('managements.create',compact('roles'));
     }
@@ -42,22 +49,13 @@ class ManagementController extends Controller
      */
     public function store(Request $request)
     {
-       // return $request;
-        // if (!Auth::user()->can('session-year-create')) {
-        //     $response = array(
-        //         'error' => true,
-        //         'message' => trans('no_permission_message')
-        //     );
-        //     return response()->json($response);
-        // }
-        // $request->validate([
-        //     'name' => 'required',
-        //     'description' => 'required',
-            // 'email' => 'required|email|unique:info_acadimy,email',
-            // 'password' => 'required',
-        //   ],[
-        //     'name.u' => trans('name_is_required_at_row'),
-        // ]);
+        if (!Auth::user()->can('acadimic-create') ) {
+            $response = array(
+                'message' => trans('genirale.no_permission_message')
+            );
+            return redirect(route('home'))->withErrors($response);
+
+        }
 
         try {
 
@@ -107,7 +105,14 @@ class ManagementController extends Controller
      */
     public function show(Acadimy $management)
     {
-        return $management->schools;
+        if (!Auth::user()->can('acadimic-show') ) {
+            $response = array(
+                'message' => trans('genirale.no_permission_message')
+            );
+            return redirect(route('home'))->withErrors($response);
+
+        }
+        return " ";
     }
 
     /**
@@ -115,6 +120,13 @@ class ManagementController extends Controller
      */
     public function edit(AcademyManegment $id)
     {
+        if (!Auth::user()->can('acadimic-edit') ) {
+            $response = array(
+                'message' => trans('genirale.no_permission_message')
+            );
+            return redirect(route('home'))->withErrors($response);
+
+        }
         $management = AcademyManegment::find($id)->first();
         return view('managements.edit',compact('management'));
     }
@@ -132,6 +144,13 @@ class ManagementController extends Controller
      */
     public function destroy(management $id)
     {
-        return $id;
+        if (!Auth::user()->can('acadimic-delete') ) {
+            $response = array(
+                'message' => trans('genirale.no_permission_message')
+            );
+            return redirect(route('home'))->withErrors($response);
+
+        }
+        return " ";
     }
 }

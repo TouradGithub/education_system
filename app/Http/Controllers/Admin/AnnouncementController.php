@@ -19,13 +19,13 @@ use  App\Models\NotifiAnnouncement;
 class AnnouncementController extends Controller
 {
     public function index() {
-        // if (!Auth::user()->can('announcement-list')) {
-        //     $response = array(
-        //         'message' => trans('no_permission_message')
-        //     );
-        //     return redirect(route('home'))->withErrors($response);
-        // }
-        // $class_section = ClassSection::SubjectTeacher()->with('class.medium', 'section')->get();
+        if (!Auth::user()->can('announcement-list')) {
+            $response = array(
+                'message' => trans('genirale.no_permission_message')
+            );
+            return redirect(route('home'))->withErrors($response);
+        }
+        
         return view('Admin.announcement.index');
     }
 
@@ -50,7 +50,12 @@ class AnnouncementController extends Controller
      */
     public function store(Request $request) {
 
-
+        if (!Auth::user()->can('announcement-create')) {
+            $response = array(
+                'message' => trans('genirale.no_permission_message')
+            );
+            return redirect(route('home'))->withErrors($response);
+        }
         $validator = Validator::make($request->all(), [
             'type' => 'required',
             'data' => 'required',
@@ -107,6 +112,12 @@ class AnnouncementController extends Controller
      */
     public function show($id) {
         // return $id;
+        if (!Auth::user()->can('announcement-show')) {
+            $response = array(
+                'message' => trans('genirale.no_permission_message')
+            );
+            return redirect(route('home'))->withErrors($response);
+        }
         $notification= NotifiAnnouncement::find($id);
         DB::table('notifications')->where('id',$id)->update(['read_at'=>now()]);
         $data=json_decode($notification->data)->data;
@@ -114,23 +125,23 @@ class AnnouncementController extends Controller
     }
 
     public function destroy($id) {
-        // if (!Auth::user()->can('announcement-delete')) {
-        //     $response = array(
-        //         'error' => true,
-        //         'message' => trans('no_permission_message')
-        //     );
-        //     return response()->json($response);
-        // }
+        if (!Auth::user()->can('announcement-delete')) {
+            $response = array(
+                'error' => true,
+                'message' => trans('genirale.no_permission_message')
+            );
+            return response()->json($response);
+        }
         try {
             Announcement::find($id)->delete();
             $response = array(
                 'error' => false,
-                'message' => trans('data_delete_successfully')
+                'message' => trans('genirale.data_delete_successfully')
             );
         } catch (Throwable $e) {
             $response = array(
                 'error' => true,
-                'message' => trans('error_occurred')
+                'message' => trans('genirale.error_occurred')
             );
         }
         return response()->json($response);

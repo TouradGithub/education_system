@@ -1,4 +1,4 @@
-@extends('layouts.masters.school-master')
+@extends('layouts.masters.teacher-master')
 
 @section('title')
 {{ __('genirale.reset_password') }}

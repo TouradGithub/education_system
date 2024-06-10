@@ -14,6 +14,7 @@ return new class extends Migration
         Schema::create('session_years', function (Blueprint $table) {
             $table->id();
             $table->string('name', 255);
+            $table->string('price', 255);
             $table->tinyInteger('default')->default(0);
             $table->date('start_date');
             $table->date('end_date');

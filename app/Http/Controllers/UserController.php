@@ -9,11 +9,18 @@ use Spatie\Permission\Models\Role;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
-
+use Illuminate\Support\Facades\Auth;
 class UserController extends Controller
 {
     public function index(Request $request)
     {
+        if (!Auth::user()->can('users-list') ) {
+            $response = array(
+                'message' => trans('genirale.no_permission_message')
+            );
+            return redirect(route('home'))->withErrors($response);
+
+        }
         $data = User::where('model','App\\Models\\Admin')->orderBy('id','DESC')->paginate(5);
         return view('users.index',compact('data'))
             ->with('i', ($request->input('page', 1) - 1) * 5);
@@ -26,6 +33,13 @@ class UserController extends Controller
      */
     public function create()
     {
+        if (!Auth::user()->can('users-create') ) {
+            $response = array(
+                'message' => trans('genirale.no_permission_message')
+            );
+            return redirect(route('home'))->withErrors($response);
+
+        }
         $roles = Role::where('model_id',null)->pluck('name','name')->all();
         return view('users.create',compact('roles'));
     }
@@ -38,7 +52,13 @@ class UserController extends Controller
      */
     public function store(Request $request)
     {
-        // return $request;
+        if (!Auth::user()->can('users-create') ) {
+            $response = array(
+                'message' => trans('genirale.no_permission_message')
+            );
+            return redirect(route('home'))->withErrors($response);
+
+        }
 
         $this->validate($request, [
             'name' => 'required',
@@ -75,6 +95,13 @@ class UserController extends Controller
      */
     public function show($id)
     {
+        if (!Auth::user()->can('users-show') ) {
+            $response = array(
+                'message' => trans('genirale.no_permission_message')
+            );
+            return redirect(route('home'))->withErrors($response);
+
+        }
         $user = User::find($id);
         return view('users.show',compact('user'));
     }
@@ -87,6 +114,13 @@ class UserController extends Controller
      */
     public function edit($id)
     {
+        if (!Auth::user()->can('users-edit') ) {
+            $response = array(
+                'message' => trans('genirale.no_permission_message')
+            );
+            return redirect(route('home'))->withErrors($response);
+
+        }
         $user = User::find($id);
         $roles = Role::where('model','App\Models\Admin')->pluck('name','name')->all();
         $userRole = $user->roles->pluck('name','name')->all();
@@ -103,6 +137,13 @@ class UserController extends Controller
      */
     public function update(Request $request, $id)
     {
+        if (!Auth::user()->can('users-edit') ) {
+            $response = array(
+                'message' => trans('genirale.no_permission_message')
+            );
+            return redirect(route('home'))->withErrors($response);
+
+        }
         $this->validate($request, [
             'name' => 'required',
             'email' => 'required|email|unique:users,email,'.$id,
@@ -135,6 +176,13 @@ class UserController extends Controller
      */
     public function destroy($id)
     {
+        if (!Auth::user()->can('users-delete') ) {
+            $response = array(
+                'message' => trans('genirale.no_permission_message')
+            );
+            return redirect(route('home'))->withErrors($response);
+
+        }
         User::find($id)->delete();
         return redirect()->route('web.users.index')
                         ->with('success',trans('genirale.data_delete_successfully'));

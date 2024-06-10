@@ -8,9 +8,9 @@
     <div class="content-wrapper">
         <div class="page-header">
             <h3 class="page-title">
-                {{ __('create_new_role') }}
+                {{ __('genirale.create_new_role') }}
             </h3>
-            <a class="btn btn-primary" href="{{ route('web.roles.index') }}"> {{ __('back') }}</a>
+            <a class="btn btn-primary" href="{{ route('web.roles.index') }}"> {{ __('genirale.back') }}</a>
         </div>
         <div class="row grid-margin">
             <div class="col-lg-12">
@@ -21,14 +21,14 @@
                             <div class="row">
                                 <div class="col-xs-12 col-sm-12 col-md-6">
                                     <div class="form-group">
-                                        <label><strong>{{ __('name') }}:</strong></label>
+                                        <label><strong>{{ __('genirale.name') }}:</strong></label>
                                         {!! Form::text('name', null, ['placeholder' => 'Name', 'class' => 'form-control']) !!}
                                     </div>
                                 </div>
                                 <div class="form-group col-sm-12 col-md-6">
-                                    <label>{{   trans('main_trans.guard_name') }} <span class="text-danger">*</span></label>
+                                    <label>{{   trans('genirale.guard_name') }} <span class="text-danger">*</span></label>
                                     <select name="guard_name" id="class_section" class="form-control select2">
-                                        <option value="">{{ __('guard_name ') . ' '. __('main_trans.guard_name ') }}
+                                        <option value="">{{ __('genirale.select')  }}
                                         </option>
 
                                         <option value="web">    Admin</option>
@@ -40,14 +40,14 @@
 
                                 </div>
                                 <div class="col-xs-12 col-sm-12 col-md-12">
-                                    <label><strong>Permission:</strong></label>
+                                    {{-- <label><strong>{{__('permission')}}:</strong></label> --}}
                                     <div class="row">
                                         @foreach ($permission as $value)
                                             <div class="form-group col-lg-3 col-sm-12 col-xs-12 col-md-3">
                                                 <div class="form-check">
                                                     <label class="form-check-label">
                                                         {{ Form::checkbox('permission[]', $value->name, false, ['class' => 'name form-check-input']) }}
-                                                        {{ $value->name }}
+                                                        {{ __('permission.'.$value->name) }}
                                                     </label>
                                                 </div>
                                             </div>

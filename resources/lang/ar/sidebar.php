@@ -42,5 +42,5 @@ return [
     "users"=> "المستخدمون",
     "acadimic"=> "أكاديمي",
 
-    "announcement"=> "Announcement"
+    "announcement"=> "إشعارات"
 ];

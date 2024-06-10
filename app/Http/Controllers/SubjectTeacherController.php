@@ -19,12 +19,12 @@ class SubjectTeacherController extends Controller
 
     public function index()
     {
-        // if (!Auth::user()->can('subject-teacher-list')) {
-        //     $response = array(
-        //         'message' => trans('no_permission_message')
-        //     );
-        //     return redirect(route('home'))->withErrors($response);
-        // }
+        if (!Auth::user()->can('school-subject-teachers')) {
+            $response = array(
+                'message' => trans('genirale.no_permission_message')
+            );
+            return redirect(route('school.school.home'))->withErrors($response);
+        }
 
         $subjects = Subject::orderBy('id', 'DESC')->get();
         $subjectSchool = Subject::where('school_id',getSchool()->id)->count();
@@ -52,6 +52,12 @@ class SubjectTeacherController extends Controller
 
     public function store(Request $request)
     {
+        if (!Auth::user()->can('school-subject-teachers-create')) {
+            $response = array(
+                'message' => trans('genirale.no_permission_message')
+            );
+            return redirect(route('school.school.home'))->withErrors($response);
+        }
 
         $validator = Validator::make($request->all(), [
             'section_id' => [
@@ -123,14 +129,12 @@ class SubjectTeacherController extends Controller
 
     public function update(Request $request)
     {
-
-        // if (!Auth::user()->can('subject-teacher-edit')) {
-        //     $response = array(
-        //         'error' => true,
-        //         'message' => trans('no_permission_message')
-        //     );
-        //     return response()->json($response);
-        // }
+        if (!Auth::user()->can('school-subject-teachers-edit')) {
+            $response = array(
+                'message' => trans('genirale.no_permission_message')
+            );
+            return redirect(route('school.school.home'))->withErrors($response);
+        }
         $request->validate([
             'class_section_id' => 'required|numeric',
             'subject_id' => 'required|numeric',
@@ -159,13 +163,12 @@ class SubjectTeacherController extends Controller
 
     public function show()
     {
-        // if (!Auth::user()->can('subject-teacher-list')) {
-        //     $response = array(
-        //         'error' => true,
-        //         'message' => trans('no_permission_message')
-        //     );
-        //     return response()->json($response);
-        // }
+        if (!Auth::user()->can('school-subject-teachers-list')) {
+            $response = array(
+                'message' => trans('genirale.no_permission_message')
+            );
+            return redirect(route('school.school.home'))->withErrors($response);
+        }
         $offset = 0;
         $limit = 10;
         $sort = 'id';
@@ -213,10 +216,16 @@ class SubjectTeacherController extends Controller
         $tempRow = array();
         $no = 1;
         foreach ($res as $row) {
+            $operate = '';
 
-            $operate = '<a class="btn btn-xs btn-gradient-primary btn-rounded btn-icon editdata" data-id=' . $row->id . ' data-url=' . url('subject-teachers') . ' title="Edit" data-toggle="modal" data-target="#editModal"><i class="fa fa-edit"></i></a>&nbsp;&nbsp;';
-            $operate .= '<a class="btn btn-xs btn-gradient-danger btn-rounded btn-icon deletedata" data-id=' . $row->id . ' data-url=' . url('school/subject-teachers', $row->id) . ' title="Delete"><i class="fa fa-trash"></i></a>';
+            if (Auth::user()->can('school-subject-teachers-edit')) {
+                $operate = '<a class="btn btn-xs btn-gradient-primary btn-rounded btn-icon editdata" data-id=' . $row->id . ' data-url=' . url('subject-teachers') . ' title="Edit" data-toggle="modal" data-target="#editModal"><i class="fa fa-edit"></i></a>&nbsp;&nbsp;';
 
+            }
+            if (Auth::user()->can('school-subject-teachers-delete')) {
+                $operate .= '<a class="btn btn-xs btn-gradient-danger btn-rounded btn-icon deletedata" data-id=' . $row->id . ' data-url=' . url('school/subject-teachers', $row->id) . ' title="Delete"><i class="fa fa-trash"></i></a>';
+
+            }
             $tempRow['id'] = $row->id;
             $tempRow['no'] = $no++;
             $tempRow['class_section_id'] = $row->class_section_id;
@@ -242,13 +251,12 @@ class SubjectTeacherController extends Controller
 
     public function destroy($id)
     {
-        // if (!Auth::user()->can('subject-teacher-delete')) {
-        //     $response = array(
-        //         'error' => true,
-        //         'message' => trans('no_permission_message')
-        //     );
-        //     return response()->json($response);
-        // }
+        if (!Auth::user()->can('school-subject-teachers-delete')) {
+            $response = array(
+                'message' => trans('genirale.no_permission_message')
+            );
+            return redirect(route('school.school.home'))->withErrors($response);
+        }
 
         try {
 

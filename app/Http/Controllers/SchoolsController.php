@@ -19,6 +19,13 @@ class SchoolsController extends Controller
 
     public function index()
     {
+        if (!Auth::user()->can('school-list')) {
+            $response = array(
+                'message' => trans('genirale.no_permission_message')
+            );
+            return redirect()->back();
+
+        }
         $grades =Grade::all();
         $acadimy =Acadimy::all();
         $roles = Role::all()->pluck('name','name');
@@ -39,8 +46,14 @@ class SchoolsController extends Controller
      */
     public function store(StoreSchool $request)
     {
+        if (!Auth::user()->can('school-create')) {
+            $response = array(
+                'message' => trans('genirale.no_permission_message')
+            );
+            return response()->json($response);
+
+        }
         try {
-            // return "OK";
 
 
             DB::beginTransaction();
@@ -128,8 +141,14 @@ class SchoolsController extends Controller
         $no = 1;
         foreach ($res as $row) {
             $operate = '';
-            $operate .= '<a class="btn btn-xs btn-gradient-primary btn-rounded btn-icon editdata" data-id=' . $row->id . ' title="Edit" data-toggle="modal" data-target="#editModal"><i class="fa fa-edit"></i></a>&nbsp;&nbsp;';
-            $operate .= '<a class="btn btn-xs btn-gradient-danger btn-rounded btn-icon deletedata" data-id=' . $row->id . ' data-url=' . route('web.schools.destroy', $row->id) . ' title="Delete"><i class="fa fa-trash"></i></a>';
+            if (Auth::user()->can('school-edit')){
+                $operate .= '<a class="btn btn-xs btn-gradient-primary btn-rounded btn-icon editdata" data-id=' . $row->id . ' title="Edit" data-toggle="modal" data-target="#editModal"><i class="fa fa-edit"></i></a>&nbsp;&nbsp;';
+
+            }
+            if (Auth::user()->can('school-delete')){
+                $operate .= '<a class="btn btn-xs btn-gradient-danger btn-rounded btn-icon deletedata" data-id=' . $row->id . ' data-url=' . route('web.schools.destroy', $row->id) . ' title="Delete"><i class="fa fa-trash"></i></a>';
+
+            }
 
            // $data = getSettings('date_formate');
 
@@ -159,13 +178,13 @@ class SchoolsController extends Controller
      */
     public function update(Request $request)
     {
-        // if (!Auth::user()->can('holiday-edit')) {
-        //     $response = array(
-        //         'error' => true,
-        //         'message' => trans('no_permission_message')
-        //     );
-        //     return response()->json($response);
-        // }
+        if (!Auth::user()->can('school-edit')) {
+            $response = array(
+                'message' => trans('genirale.no_permission_message')
+            );
+            return response()->json($response);
+
+        }
         $validator = Validator::make($request->all(), [
             'name' => 'required',
             'name_en' => 'required',
@@ -187,7 +206,7 @@ class SchoolsController extends Controller
             $Schools->save();
             $response = array(
                 'error' => false,
-                'message' => trans('data_update_successfully')
+                'message' => trans('genirale.data_update_successfully')
             );
         } catch (\Throwable $e) {
             $response = array(
@@ -201,26 +220,25 @@ class SchoolsController extends Controller
 
     public function destroy($id)
     {
+        if (!Auth::user()->can('school-delete')) {
+            $response = array(
+                'message' => trans('genirale.no_permission_message')
+            );
+            return response()->json($response);
 
-        // if (!Auth::user()->can('holiday-delete')) {
-        //     $response = array(
-        //         'error' => true,
-        //         'message' => trans('no_permission_message')
-        //     );
-        //     return response()->json($response);
-        // }
+        }
 
         try {
             Schools::find($id)->delete();
             $response = array(
                 'error' => false,
-                'message' => trans('data_delete_successfully')
+                'message' => trans('genirale.data_delete_successfully')
             );
         } catch (Throwable $e) {
 
             $response = array(
                 'error' => true,
-                'message' => trans('error_occurred')
+                'message' => trans('genirale.error_occurred')
             );
 
         }

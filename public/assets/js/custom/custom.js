@@ -232,7 +232,7 @@ $('#edit-form,.editform').on('submit', function (e) {
             $('#editModal').modal('hide');
         }, 1000)
     }
-console.log(url);
+
     formAjaxRequest('POST', url, data, formElement, submitButtonElement, successCallback);
 })
 $('.editformclasses').on('submit', function (e) {
@@ -249,7 +249,7 @@ $('.editformclasses').on('submit', function (e) {
             $('#editModal').modal('hide');
         }, 1000)
     }
-console.log(data);
+
     formAjaxRequest('POST', url, data, formElement, submitButtonElement, successCallback);
 })
 
@@ -537,7 +537,11 @@ $(document).on('click', '.remove-lesson-file', function (e) {
     var $this = $(this);
     // If button has Data ID then Call ajax function to delete file
     if ($(this).data('id')) {
+       var route_url= $('#route_name_id').val();
+       route_url = route_url.replace("/0", "");
+
         var file_id = $(this).data('id');
+
 
         Swal.fire({
             title: 'Are you sure?',
@@ -549,7 +553,7 @@ $(document).on('click', '.remove-lesson-file', function (e) {
             confirmButtonText: 'Yes, delete it!'
         }).then((result) => {
             if (result.isConfirmed) {
-                let url = baseUrl + '/file/delete/' + file_id;
+                let url = route_url + '/' + file_id;
                 let data = null;
 
                 function successCallback(response) {
@@ -561,6 +565,7 @@ $(document).on('click', '.remove-lesson-file', function (e) {
                 function errorCallback(response) {
                     showErrorToast(response.message);
                 }
+
 
                 ajaxRequest('DELETE', url, data, null, successCallback, errorCallback);
             }
@@ -1038,7 +1043,7 @@ $(document).on('submit', '.setting-form', function (e) {
         url: url,
         data: { message: message, type: type },
         beforeSend: function () {
-            console.log(response);
+
             submitButtonElement.val('Please Wait...').attr('disabled', true);
         },
         success: function (response) {
@@ -1047,7 +1052,7 @@ $(document).on('submit', '.setting-form', function (e) {
                 showSuccessToast(response.message);
                 submitButtonElement.val(submitButtonText).attr('disabled', false);
             } else {
-                console.log(response);
+
                 showErrorToast(response.message);
             }
         }
@@ -1395,7 +1400,7 @@ $('.class_submit_button').on('submit', function (e) {
         // $('.select2-selection__rendered').html('');
         $('#table_list').bootstrapTable('refresh');
     }
-    console.log("PPPPPPPPPPPPPPPPP");
+
     formAjaxRequest('PUT', url, data, formElement, submitButtonElement, successCallback);
 });
 
@@ -2496,7 +2501,7 @@ $(document).on('click', '.remove-edit-fee-installment-content', function (e) {
     }
 });
 $('.pay_optional_fees_offline').on('submit', function (e) {
-    // console.log("IIII ok");
+    
     e.preventDefault();
     let formElement = $(this);
     let submitButtonElement = $(this).find(':submit');

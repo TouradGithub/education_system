@@ -15,7 +15,9 @@
         </div>
 
         <div class="row">
-            {{-- @if (Auth::user()->can('holiday-create')) --}}
+            @can('classes-create')
+
+
             <div class="col-lg-12 grid-margin stretch-card">
                 <div class="card">
                     <div class="card-body">
@@ -66,8 +68,8 @@
                     </div>
                 </div>
             </div>
-            {{-- @endif --}}
-            {{-- @if (Auth::user()->can('holiday-list')) --}}
+            @endcan
+            @can('classes-list')
                 <div class="col-lg-12 grid-margin stretch-card">
                     <div class="card">
                         <div class="card-body">
@@ -107,10 +109,10 @@
                                                     {{  trans('genirale.note')}}
                                                 </th>
 
-                                                {{-- @if (Auth::user()->can('holiday-edit') || Auth::user()->can('holiday-delete')) --}}
+                                                @if (Auth::user()->can('classes-edit') || Auth::user()->can('classes-delete'))
                                                     <th   data-events="actionEvents" data-width="150" scope="col" data-field="operate"
                                                         data-sortable="false">{{ __('genirale.action') }}</th>
-                                                {{-- @endif --}}
+                                                @endif
                                             </tr>
                                         </thead>
                                     </table>
@@ -119,12 +121,12 @@
                         </div>
                     </div>
                 </div>
-            {{-- @endif --}}
+           @endcan
         </div>
     </div>
 
-
-    <div class="modal fade" id="editModal" data-backdrop="static" tabindex="-1" role="dialog"
+    @can('classes-edit')
+        <div class="modal fade" id="editModal" data-backdrop="static" tabindex="-1" role="dialog"
         aria-labelledby="exampleModalLabel" aria-hidden="true">
         <div class="modal-dialog" role="document">
             <div class="modal-content">
@@ -176,7 +178,9 @@
                 </form>
             </div>
         </div>
-    </div>
+        </div>
+    @endcan
+
 @endsection
 
 @section('script')

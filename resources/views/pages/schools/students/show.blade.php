@@ -213,8 +213,8 @@ Student Profile
                                     <thead>
                                       <tr>
 
-                                        <th scope="col">Months</th>
-                                        <th scope="col">Amount</th>
+                                        <th scope="col">Title</th>
+                                        <th scope="col">Descrition</th>
                                         <th scope="col">Actions</th>
                                       </tr>
                                     </thead>

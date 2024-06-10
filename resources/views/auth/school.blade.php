@@ -61,13 +61,24 @@
                                     <button class="btn btn-block btn-success mt-2" id="superadmin_btn">Login </button>
                                 </div>
                             </div>
+
                         </form>
+
                         {{-- @if(env('DEMO_MODE')) --}}
+                        <br>
 
+                        <hr>
+                        <br>
 
+                        <div class="">
+                            <div class="col-md-12">
+                                <a href="{{route('school.login.subscribe')}}" class="btn btn-block btn-primary mt-2" id="superadmin_btn">Subscribtion </a>
+                            </div>
+                        </div>
 
                         {{-- @endif --}}
                     </div>
+
                 </div>
             </div>
         </div>

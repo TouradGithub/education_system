@@ -8,7 +8,7 @@
 <div class="content-wrapper">
   <div class="page-header">
     <h3 class="page-title">
-      {{__('Announcement')}}
+      {{__('sidebar.announcement')}}
     </h3>
   </div>
   <div class="row grid-margin">
@@ -28,19 +28,19 @@
                 </select>
             </div>
             <div class="form-group col-sm-12 col-md-12">
-                <label>{{ __('title') }}</label>
-                {!! Form::textarea('title', null, ['rows' => '2', 'placeholder' => __('title'), 'class' => 'form-control']) !!}
+                <label>{{ __('genirale.title') }}</label>
+                {!! Form::textarea('title', null, ['rows' => '2', 'placeholder' => __('genirale.title'), 'class' => 'form-control']) !!}
             </div>
             @csrf
             <div class="row">
                 <div class="form-group col-sm-12 col-md-12">
-                    <label>{{ __('Description') }}</label>
-                    {!! Form::textarea('description', null, ['rows' => '5', 'placeholder' => __('Description'), 'class' => 'form-control']) !!}
+                    <label>{{ __('genirale.description') }}</label>
+                    {!! Form::textarea('description', null, ['rows' => '5', 'placeholder' => __('genirale.description'), 'class' => 'form-control']) !!}
                 </div>
 
               </div>
             </div>
-            <input class="btn btn-theme" type="submit" value="Submit">
+            <input class="btn btn-theme" type="submit" value="{{__('genirale.submit')}}">
           </form>
         </div>
       </div>

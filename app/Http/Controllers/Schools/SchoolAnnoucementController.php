@@ -13,18 +13,22 @@ use App\Notifications\AnnouncementByAdmin;
 class SchoolAnnoucementController extends Controller
 {
     public function index() {
-        // if (!Auth::user()->can('announcement-list')) {
-        //     $response = array(
-        //         'message' => trans('no_permission_message')
-        //     );
-        //     return redirect(route('home'))->withErrors($response);
-        // }
-        // $class_section = ClassSection::SubjectTeacher()->with('class.medium', 'section')->get();
+        if (!Auth::user()->can('school-announcement-index')) {
+            $response = array(
+                'message' => trans('genirale.no_permission_message')
+            );
+            return redirect(route('school.school.home'))->withErrors($response);
+        }
         return view('pages.schools.announcement.index');
     }
 
     public function store(Request $request) {
-
+        if (!Auth::user()->can('school-announcement-create')) {
+            $response = array(
+                'message' => trans('genirale.no_permission_message')
+            );
+            return redirect(route('school.school.home'))->withErrors($response);
+        }
 
         $validator = Validator::make($request->all(), [
             'type' => 'required',

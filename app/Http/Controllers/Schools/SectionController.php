@@ -7,6 +7,7 @@ use App\Models\Classes;
 use Illuminate\Support\Facades\Validator;
 use App\Models\Grade;
 use App\Models\ClassRoom;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Models\SubjectTeacher;
@@ -17,6 +18,10 @@ class SectionController extends Controller
      */
     public function index()
     {
+        if (!Auth::user()->can('school-sections-index')) {
+            toastr()->error(  trans('genirale.no_permission_message'), 'Error');
+            return redirect()->back();
+        }
         return view('pages.schools.sections.index');
     }
 
@@ -33,6 +38,12 @@ class SectionController extends Controller
      */
     public function store(Request  $request)
     {
+        if (!Auth::user()->can('school-sections-create')) {
+            $response = array(
+                'message' => trans('genirale.no_permission_message')
+            );
+            return response()->json($response);
+        }
 
 
         $validator = Validator::make($request->all(), [
@@ -59,7 +70,7 @@ class SectionController extends Controller
                 'message' => $errorMessage,
                 'data' => $validator->errors()
             ];
-            return redirect()->back()->with('error', $response['message']);
+            return response()->json($response);
         }
         try {
             $classRoomData = [
@@ -127,8 +138,15 @@ class SectionController extends Controller
         $no = 1;
         foreach ($res as $row) {
             $operate = '';
-            $operate .= '<a class="btn btn-xs btn-gradient-primary btn-rounded btn-icon editdata" data-id=' . $row->id . ' title="Edit" data-toggle="modal" data-target="#editModal"><i class="fa fa-edit"></i></a>&nbsp;&nbsp;';
-            $operate .= '<a class="btn btn-xs btn-gradient-danger btn-rounded btn-icon deletedata" data-id=' . $row->id . ' data-url=' . route('school.sections.destroy', $row->id) . ' title="Delete"><i class="fa fa-trash"></i></a>';
+            if (Auth::user()->can('school-sections-edit')){
+                $operate .= '<a class="btn btn-xs btn-gradient-primary btn-rounded btn-icon editdata" data-id=' . $row->id . ' title="Edit" data-toggle="modal" data-target="#editModal"><i class="fa fa-edit"></i></a>&nbsp;&nbsp;';
+
+            }
+
+            if (Auth::user()->can('school-sections-delete')){
+                $operate .= '<a class="btn btn-xs btn-gradient-danger btn-rounded btn-icon deletedata" data-id=' . $row->id . ' data-url=' . route('school.sections.destroy', $row->id) . ' title="Delete"><i class="fa fa-trash"></i></a>';
+
+            }
 
            $tempRow['id'] = $row->id;
            $tempRow['name'] = $row->getTranslation('name', 'en');
@@ -160,7 +178,12 @@ class SectionController extends Controller
     public function update(Request $request)
     {
         try {
-            // return $request;
+            if (!Auth::user()->can('school-sections-edit')) {
+                $response = array(
+                    'message' => trans('genirale.no_permission_message')
+                );
+                return response()->json($response);
+            }
             $validator = Validator::make($request->all(), [
                 'name' => 'required',
                 'name_en' => 'required',
@@ -201,6 +224,12 @@ class SectionController extends Controller
      */
     public function destroy($id)
     {
+        if (!Auth::user()->can('school-sections-delete')) {
+            $response = array(
+                'message' => trans('genirale.no_permission_message')
+            );
+            return response()->json($response);
+        }
         try {
 
             $timetables = SubjectTeacher::where(['class_section_id'=>$id,'school_id'=>getSchool()->id])->count();

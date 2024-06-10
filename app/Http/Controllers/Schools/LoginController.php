@@ -14,8 +14,14 @@ class LoginController extends Controller
     }
 
     public function getLogin(){
-     
+
         return view('auth.school');
+
+    }
+
+    public function subscription(){
+
+        return view('auth.subscription');
 
     }
 

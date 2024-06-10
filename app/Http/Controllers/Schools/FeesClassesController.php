@@ -15,12 +15,10 @@ class FeesClassesController extends Controller
 {
     public function index()
     {
-        // if (!Auth::user()->can('fees-type')) {
-        //     $response = array(
-        //         'message' => trans('no_permission_message')
-        //     );
-        //     return redirect(route('home'))->withErrors($response);
-        // }
+        if (!Auth::user()->can('school-fees-class-index')) {
+            toastr()->error(  trans('genirale.no_permission_message'), 'Error');
+            return redirect()->back();
+        }
 
         $sections = ClassRoom::where('school_id',getSchool()->id)->get();
 
@@ -43,13 +41,10 @@ class FeesClassesController extends Controller
     }
     public function updateFeesClass(Request $request)
     {
-        // return $request;
-        // if (!Auth::user()->can('fees-classes')) {
-        //     $response = array(
-        //         'message' => trans('no_permission_message')
-        //     );
-        //     return redirect(route('home'))->withErrors($response);
-        // }
+        if (!Auth::user()->can('school-fees-create')) {
+            toastr()->error(  trans('genirale.no_permission_message'), 'Error');
+            return redirect()->back();
+        }
         $validation_rules = array(
             'class_id' => 'required',
             'base_amount' => 'required|numeric',
@@ -100,12 +95,10 @@ class FeesClassesController extends Controller
 
     public function feesClassList()
     {
-        // if (!Auth::user()->can('fees-classes')) {
-        //     $response = array(
-        //         'message' => trans('no_permission_message')
-        //     );
-        //     return redirect(route('home'))->withErrors($response);
-        // }
+        if (!Auth::user()->can('school-fees-class-index')) {
+            toastr()->error(  trans('genirale.no_permission_message'), 'Error');
+            return redirect()->back();
+        }
         $offset = 0;
         $limit = 10;
         $sort = 'id';
@@ -163,26 +156,19 @@ class FeesClassesController extends Controller
 
     public function feesPaidListIndex()
     {
-        // if (!Auth::user()->can('fees-paid')) {
-        //     $response = array(
-        //         'message' => trans('no_permission_message')
-        //     );
-        //     return redirect(route('home'))->withErrors($response);
-        // }
-        // $classes = ClassSchool::orderByRaw('CONVERT(name, SIGNED) asc')->with('medium', 'sections','streams')->get();
-        // $session_year_all = SessionYear::select('id', 'name', 'default')->get();
-        // $mediums = Mediums::orderBy('id', 'ASC')->get();
+        if (!Auth::user()->can('school-fees-paid-index')) {
+            toastr()->error(  trans('genirale.no_permission_message'), 'Error');
+            return redirect()->back();
+        }
         return response(view('pages.schools.fees.fees_paid'));
     }
 
     public function feesPaidList()
     {
-        // if (!Auth::user()->can('fees-paid')) {
-        //     $response = array(
-        //         'message' => trans('no_permission_message')
-        //     );
-        //     return redirect(route('home'))->withErrors($response);
-        // }
+        if (!Auth::user()->can('school-fees-paid-index')) {
+            toastr()->error(  trans('genirale.no_permission_message'), 'Error');
+            return redirect()->back();
+        }
         $offset = 0;
         $limit = 10;
         $sort = 'id';
@@ -262,49 +248,16 @@ class FeesClassesController extends Controller
 
     public function clearFeesPaidData($id)
     {
-        // if (!Auth::user()->can('fees-paid')) {
-        //     $response = array(
-        //         'message' => trans('no_permission_message')
-        //     );
-        //     return redirect(route('home'))->withErrors($response);
-        // }
-        // try {
-        //     $fees_paid_data = FeesPaid::find($id);
 
-        //     // get the ids from fees paid to remove the fees choiced data
-        //     $student_id = $fees_paid_data->student_id;
-        //     $class_id = $fees_paid_data->class_id;
-        //     $session_year_id = $fees_paid_data->session_year_id;
-
-        //     $fees_paid_data->delete();
-
-        //     FeesChoiceable::where(['student_id' => $student_id, 'class_id' => $class_id, 'session_year_id' => $session_year_id])->delete();
-        //     PaidInstallmentFee::where(['student_id' => $student_id, 'class_id' => $class_id, 'session_year_id' => $session_year_id])->delete();
-        //     PaymentTransaction::where(['student_id' => $student_id, 'class_id' => $class_id, 'session_year_id' => $session_year_id])->delete();
-
-        //     $response = array(
-        //         'error' => false,
-        //         'message' => trans('data_delete_successfully')
-        //     );
-        // } catch (\Throwable $e) {
-        //     $response = array(
-        //         'error' => true,
-        //         'message' => trans('error_occurred')
-        //     );
-        // }
-        // return response()->json($response);
     }
 
 
     public function optionalFeesPaidStore(Request $request)
     {
-        // return $request;
-        // if (!Auth::user()->can('fees-paid')) {
-        //     $response = array(
-        //         'message' => trans('no_permission_message')
-        //     );
-        //     return redirect(route('home'))->withErrors($response);
-        // }
+        if (!Auth::user()->can('school-fees-paid-create')) {
+            toastr()->error(  trans('genirale.no_permission_message'), 'Error');
+            return redirect()->back();
+        }
         $validator = Validator::make($request->all(), [
             'date' => 'required|date',
             'mode' => 'required|in:0,1',
@@ -366,6 +319,12 @@ class FeesClassesController extends Controller
     }
 
     public function feesPaidDelete($id){
+        if (!Auth::user()->can('school-fees-paid-delete')) {
+            $response = array(
+                'message' => trans('genirale.no_permission_message')
+            );
+            return response()->json($response);
+        }
 
         try {
 

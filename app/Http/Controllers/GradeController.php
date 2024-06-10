@@ -5,7 +5,7 @@ use App\Http\Requests\StoreGrades;
 use Illuminate\Support\Facades\Validator;
 use App\Models\Grade;
 use Illuminate\Http\Request;
-
+use Illuminate\Support\Facades\Auth;
 class GradeController extends Controller
 {
     /**
@@ -13,6 +13,13 @@ class GradeController extends Controller
      */
     public function index()
     {
+        if (!Auth::user()->can('grade-list')) {
+            $response = array(
+                'message' => trans('genirale.no_permission_message')
+            );
+            return redirect()->back();
+
+        }
 
         return view('pages.grades.index');
     }
@@ -30,6 +37,13 @@ class GradeController extends Controller
      */
     public function store(StoreGrades $request)
     {
+        if (!Auth::user()->can('grade-create')) {
+            $response = array(
+                'message' => trans('genirale.no_permission_message')
+            );
+            return response()->json($response);
+
+        }
 
         try {
         //   $validated = $request->validated();
@@ -88,8 +102,14 @@ class GradeController extends Controller
         $no = 1;
         foreach ($res as $row) {
             $operate = '';
-            $operate .= '<a class="btn btn-xs btn-gradient-primary btn-rounded btn-icon editdata" data-id=' . $row->id . ' title="Edit" data-toggle="modal" data-target="#editModal"><i class="fa fa-edit"></i></a>&nbsp;&nbsp;';
-            $operate .= '<a class="btn btn-xs btn-gradient-danger btn-rounded btn-icon deletedata" data-id=' . $row->id . ' data-url=' . route('web.grades.destroy', $row->id) . ' title="Delete"><i class="fa fa-trash"></i></a>';
+            if (Auth::user()->can('grade-edit')){
+                $operate .= '<a class="btn btn-xs btn-gradient-primary btn-rounded btn-icon editdata" data-id=' . $row->id . ' title="Edit" data-toggle="modal" data-target="#editModal"><i class="fa fa-edit"></i></a>&nbsp;&nbsp;';
+
+            }
+            if (Auth::user()->can('grade-delete')){
+                $operate .= '<a class="btn btn-xs btn-gradient-danger btn-rounded btn-icon deletedata" data-id=' . $row->id . ' data-url=' . route('web.grades.destroy', $row->id) . ' title="Delete"><i class="fa fa-trash"></i></a>';
+
+            }
 
            $tempRow['id'] = $row->id;
            $tempRow['no'] = $no++;
@@ -118,13 +138,13 @@ class GradeController extends Controller
      */
     public function update(Request $request)
     {
-        // if (!Auth::user()->can('holiday-edit')) {
-        //     $response = array(
-        //         'error' => true,
-        //         'message' => trans('no_permission_message')
-        //     );
-        //     return response()->json($response);
-        // }
+        if (!Auth::user()->can('grade-edit')) {
+            $response = array(
+                'message' => trans('genirale.no_permission_message')
+            );
+            return response()->json($response);
+
+        }
         $validator = Validator::make($request->all(), [
             'name' => 'required',
             'name_en' => 'required',
@@ -159,13 +179,13 @@ class GradeController extends Controller
     public function destroy($id)
     {
 
-        // if (!Auth::user()->can('holiday-delete')) {
-        //     $response = array(
-        //         'error' => true,
-        //         'message' => trans('no_permission_message')
-        //     );
-        //     return response()->json($response);
-        // }
+        if (!Auth::user()->can('grade-delete')) {
+            $response = array(
+                'message' => trans('genirale.no_permission_message')
+            );
+            return response()->json($response);
+
+        }
 
         try {
             Grade::find($id)->delete();

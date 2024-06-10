@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use App\Models\Test;
 use App\Models\ClassRoom;
+use Illuminate\Support\Facades\Auth;
 class ExamController extends Controller
 {
     /**
@@ -14,6 +15,11 @@ class ExamController extends Controller
      */
     public function index()
     {
+        if (!Auth::user()->can('school-exams-index')) {
+
+            return redirect()->back()->with('error',trans('genirale.no_permission_message'));
+
+        }
         return  view('pages.schools.students.exams.index');
     }
 
@@ -30,13 +36,11 @@ class ExamController extends Controller
      */
     public function store(Request $request)
     {
-        // if (!Auth::user()->can('school-attendance-create') || !Auth::user()->can('attendance-edit')) {
-        //     $response = array(
-        //         'error' => true,
-        //         'message' => trans('no_permission_message')
-        //     );
-        //     return response()->json($response);
-        // }
+        if (!Auth::user()->can('school-exams-create')) {
+
+            return redirect()->back()->with('error',trans('genirale.no_permission_message'));
+
+        }
 
         $validator = Validator::make($request->all(), [
             'trimester_id'=>'required',
@@ -54,7 +58,6 @@ class ExamController extends Controller
         try {
 
 
-
             $exams = Exam::where([
                 'subject_id' =>  $request->subject_id,
                 'section_id' => $request->section_id,
@@ -62,27 +65,27 @@ class ExamController extends Controller
                 ])->get();
 
 
-        foreach ($request->student_id as $studentId) {
-            $exam = $exams->firstWhere('student_id', $studentId);
+            foreach ($request->student_id as $studentId) {
+                $exam = $exams->firstWhere('student_id', $studentId);
 
-            if (!$exam) {
-                // Create a new Test record
-                $exam = new Exam();
-                $exam->student_id = $studentId;
-                $exam->school_id = getSchool()->id;
-                $exam->session_year = getYearNow()->id;
-                $exam->section_id = $request->section_id;
-                $exam->subject_id = $request->subject_id;
-                $exam->trimester_id = $request->trimester_id;
-                // $test->grade = $request->$a;
-            }
-            if($request->input('grade'.$studentId)){
-                $exam->grade = $request->input('grade'.$studentId);
+                if (!$exam) {
+                    // Create a new Test record
+                    $exam = new Exam();
+                    $exam->student_id = $studentId;
+                    $exam->school_id = getSchool()->id;
+                    $exam->session_year = getYearNow()->id;
+                    $exam->section_id = $request->section_id;
+                    $exam->subject_id = $request->subject_id;
+                    $exam->trimester_id = $request->trimester_id;
+                    // $test->grade = $request->$a;
+                }
+                if($request->input('grade'.$studentId)){
+                    $exam->grade = $request->input('grade'.$studentId);
 
-                // Save the Test record
-                $exam->save();
+                    // Save the Test record
+                    $exam->save();
+                }
             }
-        }
             $response = [
                 'error' => false,
                 'message' => trans('genirale.data_store_successfully')
@@ -145,10 +148,26 @@ class ExamController extends Controller
                             'student_id'      => $row->id
                         ])->first();
                         if($test){
-                            $tempRow['grade'] =  '  <input type="text" oninput="validateGrade(this)" style="width: 100%;font-weight: bold;" name="grade'.$test->student_id.'" class="form-control"  value="'.$test->grade.'">';
+                            if (!Auth::user()->can('school-exams-edit')) {
+
+                                $tempRow['grade'] =  '  <input type="text" oninput="validateGrade(this)" style="width: 100%;font-weight: bold;" name="grade'.$test->student_id.'" class="form-control"  value="'.$test->grade.'">';
+
+                            }else{
+
+                                $tempRow['grade'] =  '  <input type="text" readonly oninput="validateGrade(this)" style="width: 100%;font-weight: bold;" name="grade'.$test->student_id.'" class="form-control"  value="'.$test->grade.'">';
+
+                            }
 
                         }else{
-                            $tempRow['grade'] =  '  <input type="number" oninput="validateGrade(this)" style="width: 100%;font-weight: bold;" name="grade'.$row->id.'" class="form-control"  value="">';
+                            if (!Auth::user()->can('school-exams-edit')) {
+
+                                $tempRow['grade'] =  '  <input type="number" oninput="validateGrade(this)" style="width: 100%;font-weight: bold;" name="grade'.$row->id.'" class="form-control"  value="">';
+
+                            }else{
+
+                                $tempRow['grade'] =  '  <input type="number" readonly oninput="validateGrade(this)" style="width: 100%;font-weight: bold;" name="grade'.$row->id.'" class="form-control"  value="">';
+
+                            }
 
                         }
 
@@ -159,7 +178,7 @@ class ExamController extends Controller
                     $rows[] = $tempRow;
 
                 }
-            // }
+
 
             $bulkData['rows'] = $rows;
             }else{
@@ -169,17 +188,13 @@ class ExamController extends Controller
         return response()->json($bulkData);
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     */
+
     public function edit(Exam $exam)
     {
         //
     }
 
-    /**
-     * Update the specified resource in storage.
-     */
+
     public function update(Request $request, Exam $exam)
     {
         //

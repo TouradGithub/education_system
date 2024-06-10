@@ -6,6 +6,7 @@ return [
 
     "blood_group"=> "Blood Group",
     "parent_guardian_details"=> "Parent Guardian Details",
+    "parent_exist"=> "Parent Guardian exist ? ",
     "father"=>"Father",
     "occupation"=>"Occupation",
     "roll_number"=>"Roll Number",

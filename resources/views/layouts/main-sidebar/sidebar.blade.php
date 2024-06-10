@@ -7,7 +7,7 @@
                 <span class="menu-title">{{ __('sidebar.dashboard') }}</span>
             <i class="fa fa-home menu-icon"></i> </a>
         </li>
-        {{-- @can('session-year-create') --}}
+        @can('session-year-create')
             <li class="nav-item">
                 <a href="
                 {{ route('web.session-years.index') }}
@@ -15,7 +15,8 @@
                         class="menu-title">{{ __('sidebar.session_years') }}</span> <i class="fa fa-calendar-o menu-icon"></i>
                 </a>
             </li>
-        {{-- @endcan --}}
+        @endcan
+        @can('grade-list')
 
         <li class="nav-item">
             <a href="
@@ -24,6 +25,9 @@
                     class="menu-title">{{ __('sidebar.grades') }}</span> <i class="fa fa-calendar-o menu-icon"></i>
             </a>
         </li>
+        @endcan
+
+        @can('classes-list')
 
         <li class="nav-item">
             <a href="
@@ -32,8 +36,9 @@
                     class="menu-title">{{ __('classes.classes') }}</span> <i class="fa fa-calendar-o menu-icon"></i>
             </a>
         </li>
+        @endcan
 
-        {{-- @can('school-list',) --}}
+        @can('school-list',)
         <li class="nav-item">
             <a href="
             {{ route('web.schools.index') }}
@@ -41,8 +46,8 @@
                     class="menu-title">{{ __('sidebar.schools') }}</span> <i class="fa fa-calendar-o menu-icon"></i>
             </a>
         </li>
-        {{-- @endcan --}}
-        {{-- @can('school-list',) --}}
+        @endcan
+        @can('role-list')
         <li class="nav-item">
             <a href="
             {{ route('web.roles.index') }}
@@ -50,7 +55,8 @@
                     class="menu-title">{{ __('sidebar.role_permission') }}</span> <i class="fa fa-calendar-o menu-icon"></i>
             </a>
         </li>
-
+        @endcan
+        @can('trimester-list')
         <li class="nav-item">
             <a href="
             {{ route('web.trimesters.index') }}
@@ -58,23 +64,20 @@
                     class="menu-title">{{ __('trimester.trimesters') }}</span> <i class="fa fa-calendar-o menu-icon"></i>
             </a>
         </li>
+        @endcan
+        @can('announcement-list')
         <li class="nav-item">
             <a class="nav-link" href="{{ route('web.announcement.index') }}">
                 <span class="menu-title">  {{ __('sidebar.announcement') }}</span>
                 <i class="fa fa-bell menu-icon"></i> </a>
         </li>
+        @endcan
 
-        {{-- @endcan --}}
-    {{-- @endcan --}}
 
-        {{-- @hasrole('Super Admin') --}}
-            {{-- academics --}}
-            {{-- @canany(['medium-create', 'section-create', 'subject-create', 'class-create', 'subject-create',
-                'class-teacher-create', 'subject-teacher-list', 'subject-teachers-create', 'assign-class-to-new-student',
-                'promote-student-create']) --}}
+            @canany(['setting-create', 'acadimic-create', 'users-create'])
                 <li class="nav-item">
                     <a class="nav-link" data-toggle="collapse" href="#settings-menu" aria-expanded="false"
-                        aria-controls="settings-menu"> <span class="menu-title">{{ __('system_settings') }}</span> <i
+                        aria-controls="settings-menu"> <span class="menu-title">{{ __('sidebar.system_settings') }}</span> <i
                             class="fa fa-cog menu-icon"></i> </a>
                     <div class="collapse" id="settings-menu">
                         <ul class="nav flex-column sub-menu">
@@ -90,13 +93,8 @@
                                         {{ __('sidebar.general_settings') }}</a>
                                 </li>
                             @endcan
-                            @can('school-create')
-                            <li class="nav-item">
-                                <a class="nav-link" href="{{ url('schools') }}">
-                                    {{ __('sidebar.schools') }}</a>
-                            </li>
-                        @endcan
-                        @can('management-create')
+
+                        @can('acadimic-create')
                             <li class="nav-item">
                                 <a class="nav-link" href="{{ url('managements') }}">
                                     {{ __('sidebar.acadimic') }}</a>
@@ -104,34 +102,18 @@
                         @endcan
 
 
-                        {{-- @can('management-create') --}}
+                        @can('users-create')
                           <li class="nav-item">
                             <a class="nav-link" href="{{ url('users') }}">
                                 {{ __('sidebar.users') }}</a>
                         </li>
-
+                        @endcan
                         </ul>
                     </div>
                 </li>
-                <li class="nav-item">
-                    {{-- <a class="nav-link" data-toggle="collapse" href="#academics-menu" aria-expanded="false"
-                        aria-controls="academics-menu"> <span class="menu-title">{{ __('academics') }}</span> <i
-                            class="fa fa-university menu-icon"></i> </a> --}}
-                    <div class="collapse" id="academics-menu">
-                        <ul class="nav flex-column sub-menu">
 
-                            {{-- @can('promote-student-create') --}}
-                                <li class="nav-item">
-                                    <a class="nav-link" href="">
-                                        {{ __('sidebar.promote_student') }}
-                                    </a>
-                                </li>
-                            {{-- @endcan --}}
-                        </ul>
-                    </div>
-                </li>
-            {{-- @endcanany --}}
-        {{-- @endrole --}}
+            @endcanany
+
 
 
 

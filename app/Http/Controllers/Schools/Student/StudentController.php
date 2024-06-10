@@ -20,6 +20,10 @@ use App\Models\SchoolAnnoucement;
 class StudentController extends Controller
 {
     public function create(){
+        if (!Auth::user()->can('school-students-create')) {
+            toastr()->error(  trans('genirale.no_permission_message'), 'Error');
+            return redirect()->back();
+        }
         $sectionSchool = ClassRoom::where('school_id',getSchool()->id)->count();
         if($sectionSchool==0){
             return redirect()->route('school.sections.index')->with('Error',"No Sections Found");
@@ -27,10 +31,17 @@ class StudentController extends Controller
         return view('pages.schools.students.create');
     }
     public function index(){
+        if (!Auth::user()->can('school-students-index')) {
+            toastr()->error(  trans('genirale.no_permission_message'), 'Error');
+            return redirect()->back();
+        }
         return view('pages.schools.students.index');
     }
     public function store(StoreStudentsRequest $request){
-
+        if (!Auth::user()->can('school-students-create')) {
+            toastr()->error(  trans('genirale.no_permission_message'), 'Error');
+            return redirect()->back();
+        }
         try {
             DB::beginTransaction();
 
@@ -42,7 +53,7 @@ class StudentController extends Controller
             $father_parent = new MyParent();
             $father_parent->username = $request->father_mobile;
             $father_parent->password =Hash::make( str_replace('-', '',$request->father_dob));
-            $father_parent->father_first_name = $request->father_last_name;
+            $father_parent->father_first_name = $request->father_first_name;
             $father_parent->father_last_name = $request->father_last_name;
             $father_parent->father_mobile = $request->father_mobile;
             $father_parent->school_id = getSchool()->id;
@@ -119,6 +130,10 @@ class StudentController extends Controller
         }
     }
     public function update(Request $request){
+        if (!Auth::user()->can('school-students-edit')) {
+            toastr()->error(  trans('genirale.no_permission_message'), 'Error');
+            return redirect()->back();
+        }
          $request->validate([
             'first_name' => 'required',
             'last_name'  => 'required',
@@ -180,6 +195,10 @@ class StudentController extends Controller
         }
     }
     public function getList(){
+        if (!Auth::user()->can('school-students-index')) {
+            toastr()->error(  trans('genirale.no_permission_message'), 'Error');
+            return redirect()->back();
+        }
         $offset = 0;
         $limit = 10;
         $sort = 'id';
@@ -207,7 +226,7 @@ class StudentController extends Controller
 
             $sql->where('section_id', $_GET['section_id']);
         }
-        
+
         if (empty($_GET['section_id'])){
             $limit=10;
         }
@@ -222,12 +241,31 @@ class StudentController extends Controller
         foreach ($res as $row) {
             $operate = '';
             $operate = '<div class="dropdown"><button class="btn btn-xs btn-gradient-success btn-rounded btn-icon dropdown-toggle" type="button" data-toggle="dropdown">Actions</button><div class="dropdown-menu">';
-            $operate .= '<a class="btn btn-xs btn-gradient-danger btn-rounded btn-icon deletedata" data-id=' . $row->id . ' data-url=' . route('school.studentts.destroy', $row->id). ' title="Delete"><i class="fa fa-trash"></i></a>';
-            $operate .= '<a class="btn btn-xs btn-gradient-primary btn-rounded btn-icon "  title="Edit"  href='. route('school.student.edit', $row->id).'><i class="fa fa-edit"></i></a>&nbsp;&nbsp;';
-            $operate .= '<a class="btn btn-xs btn-gradient-info btn-rounded btn-icon" href='.route('school.student.show',$row->id). '><i class="fa fa-eye"></i></a>';
-            $operate .= '</div></div>&nbsp;&nbsp;';
-            $operate .= '<a href= class="btn btn-xs btn-gradient-info btn-rounded btn-icon generate-paid-fees-pdf" target="_blank" data-id= title="' . trans('generate_pdf') . ' ' . trans('fees') . '"><i class="fa fa-file-pdf-o"></i></a>&nbsp;&nbsp;';
 
+            if (Auth::user()->can('school-students-inscription')) {
+                $operate .= '<a href='.route('school.student.schow.inscription',$row->id).' class="btn btn-xs btn-gradient-info btn-rounded btn-icon generate-paid-fees-pdf" target="_blank" data-id= title="' . trans('generate_pdf') . ' ' . trans('fees') . '"><i class="fa fa-file-pdf-o"></i></a>&nbsp;&nbsp;';
+
+            }
+
+            if (Auth::user()->can('school-students-inscription') ) {
+                $operate .= '<a href='.route('school.student.schow.inscription',$row->id).' class="btn btn-xs btn-gradient-info btn-rounded btn-icon generate-paid-fees-pdf" target="_blank" data-id= title="' . trans('generate_pdf') . ' ' . trans('fees') . '"><i class="fa fa-file-pdf-o"></i></a>&nbsp;&nbsp;';
+
+            }
+                if (Auth::user()->can('school-students-delete') ) {
+                    $operate .= '<a class="btn btn-xs btn-gradient-danger btn-rounded btn-icon deletedata" data-id=' . $row->id . ' data-url=' . route('school.studentts.destroy', $row->id). ' title="Delete"><i class="fa fa-trash"></i></a>';
+
+                }
+                if (Auth::user()->can('school-students-edit') ) {
+                    $operate .= '<a class="btn btn-xs btn-gradient-primary btn-rounded btn-icon "  title="Edit"  href='. route('school.student.edit', $row->id).'><i class="fa fa-edit"></i></a>&nbsp;&nbsp;';
+
+                }
+                if (Auth::user()->can('school-students-show') ) {
+                    $operate .= '<a class="btn btn-xs btn-gradient-info btn-rounded btn-icon" href='.route('school.student.show',$row->id). '><i class="fa fa-eye"></i></a>';
+
+                }
+
+
+            $operate .= '</div></div>&nbsp;&nbsp;';
 
            $tempRow['id'] = $row->id;
            $tempRow['fullName'] =$row->first_name.' '.$row->last_name;
@@ -235,7 +273,7 @@ class StudentController extends Controller
            $tempRow['date_birth'] =$row->date_birth;
            $tempRow['roll_number'] =$row->roll_number;
            $tempRow['blood_group'] = $row->blood_group;
-           $tempRow['parent_id'] ="";
+           $tempRow['parent_id'] =isset($row->parent) &&$row->parent !=null? $row->parent->father_first_name.' ' . $row->parent->father_last_name:'';
            $tempRow['operate'] =$operate;
            $tempRow['section_id'] =$row->section->name??'';
            $rows[] = $tempRow;
@@ -245,16 +283,39 @@ class StudentController extends Controller
         return response()->json($bulkData);
     }
     public function edit(Student $id){
+        if (!Auth::user()->can('school-students-edit')) {
+            toastr()->error(  trans('genirale.no_permission_message'), 'Error');
+            return redirect()->back();
+        }
         $student =Student::Instudent()->where('id',$id->id)->first();
         return view('pages.schools.students.edit',compact('student'));
     }
 
     public function show(Student $id){
+        if (!Auth::user()->can('school-students-show')) {
+            toastr()->error(  trans('genirale.no_permission_message'), 'Error');
+            return redirect()->back();
+        }
          $student =Student::find($id->id);
         return view('pages.schools.students.show',compact('student'));
     }
+    public function inscription(Student $id){
+        if (!Auth::user()->can('school-students-inscription')) {
+            toastr()->error(  trans('genirale.no_permission_message'), 'Error');
+            return redirect()->back();
+        }
+
+        $student =Student::find($id->id);
+
+        $pdf = Pdf::loadView('pages.schools.students.inscription',compact('student'));
+        return $pdf->stream('inscription.pdf');
+    }
     public function destroy($id){
 
+        if (!Auth::user()->can('school-students-delete')) {
+            toastr()->error(  trans('genirale.no_permission_message'), 'Error');
+            return redirect()->back();
+        }
         try {
 
 

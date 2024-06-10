@@ -11,12 +11,12 @@
     <div class="row">
         <div class="col-lg-12 margin-tb">
             <div class="pull-left">
-                <h2>Users Management</h2>
+                <h2>{{__('sidebar.users')}}</h2>
             </div>
             <div class="pull-right">
                 @can('school-user-create')
 
-                <a class="btn btn-success" href="{{ route('school.user.create') }}"> Create New User</a>
+                <a class="btn btn-success" href="{{ route('school.user.create') }}"> {{__('genirale.create_new_user')}}</a>
                 @endcan
             </div>
         </div>
@@ -41,11 +41,11 @@
 
 <table class="table table-bordered">
  <tr>
-   <th>No</th>
-   <th>Name</th>
-   <th>Email</th>
-   <th>Roles</th>
-   <th width="280px">Action</th>
+   <th>{{__('genirale.no.')}}</th>
+   <th>{{__('genirale.name')}}</th>
+   <th>{{__('genirale.email')}}</th>
+   <th>{{__('genirale.role')}}</th>
+   <th width="280px">{{__('genirale.action')}}</th>
  </tr>
  @foreach ($schoolUsers as $key => $user)
   <tr>

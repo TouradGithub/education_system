@@ -4,17 +4,17 @@ namespace App\Http\Controllers;
 use App\Models\SessionYear;
 use App\Models\Settings;
 use Illuminate\Http\Request;
-
+use Illuminate\Support\Facades\Auth;
 class SettingController extends Controller
 {
     public function index()
     {
-        // if (!Auth::user()->can('setting-create')) {
-        //     $response = array(
-        //         'message' => trans('no_permission_message')
-        //     );
-        //     return redirect(route('home'))->withErrors($response);
-        // }
+        if (!Auth::user()->can('setting-create')) {
+            $response = array(
+                'message' => trans('genirale.no_permission_message')
+            );
+            return redirect(route('home'))->withErrors($response);
+        }
 
         $settings = getSettings();
         $getDateFormat = getDateFormat();
@@ -28,12 +28,12 @@ class SettingController extends Controller
 
     public function update(Request $request)
     {
-        // if (!Auth::user()->can('setting-create')) {
-        //     $response = array(
-        //         'message' => trans('no_permission_message')
-        //     );
-        //     return redirect(route('home'))->withErrors($response);
-        // }
+        if (!Auth::user()->can('setting-create')) {
+            $response = array(
+                'message' => trans('genirale.no_permission_message')
+            );
+            return redirect(route('home'))->withErrors($response);
+        }
 
         $request->validate([
             'school_name' => 'required|max:255',
@@ -161,11 +161,11 @@ class SettingController extends Controller
         } catch (Throwable $e) {
             $response = array(
                 'error' => true,
-                'message' => trans('error_occurred'),
+                'message' => trans('genirale.error_occurred'),
                 'data' => $e
             );
         }
        // return response()->json($response);
-         return redirect()->back()->with('success', trans('data_update_successfully'));
+         return redirect()->back()->with('success', trans('genirale.data_update_successfully'));
     }
 }

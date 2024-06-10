@@ -23,6 +23,8 @@ Route::group(['middleware' => ['checkNotAuth']], function () {
 
     Route::post('loginSchool',[App\Http\Controllers\Schools\LoginController::class,'login'])->name('login.school');
     Route::get('loginSchool',[App\Http\Controllers\Schools\LoginController::class,'getLogin'])->name('login.school');
+    Route::get('subscribe',[App\Http\Controllers\Schools\LoginController::class,'subscription'])->name('login.subscribe');
+
 
 });
 // .
@@ -45,6 +47,7 @@ Route::group(
         Route::get('create', [StudentController::class, 'create'])->name('student.create');
         Route::get('index', [StudentController::class, 'index'])->name('student.index');
         Route::get('edit/{id}', [StudentController::class, 'edit'])->name('student.edit');
+        Route::get('schow/inscription/{id}', [StudentController::class, 'inscription'])->name('student.schow.inscription');
         Route::post('store', [StudentController::class, 'store'])->name('student.store');
         Route::post('update/{id}', [StudentController::class, 'update'])->name('student.update');
         Route::get('Inscription/{id}', [StudentController::class, 'getPdf'])->name('inscription.pdf');
@@ -57,6 +60,7 @@ Route::group(
         Route::get('create', [PromotionController::class, 'create'])->name('student.promotions.create');
         Route::post('store', [PromotionController::class, 'store'])->name('student.promotions.store');
         Route::get('index', [PromotionController::class, 'index'])->name('student.promotions.index');
+        Route::get('show', [PromotionController::class, 'show'])->name('student.promotions.show');
 
     });
 

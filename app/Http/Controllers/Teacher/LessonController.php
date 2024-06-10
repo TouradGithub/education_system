@@ -1,7 +1,7 @@
 <?php
 
 namespace App\Http\Controllers\Teacher;
-
+use Illuminate\Support\Facades\Storage;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\ClassRoom;
@@ -51,6 +51,7 @@ class LessonController extends Controller
             return response()->json($response);
         }
         try {
+
             $lesson = new Lesson();
             $lesson->name = $request->name;
             $lesson->description = $request->description;
@@ -184,15 +185,21 @@ class LessonController extends Controller
                     $q->where('name', 'LIKE', "%$search%");
                 });
         }
-        if ($_GET['subject_id']) {
-            $sql = $sql->where('subject_id', $_GET['subject_id']);
+        // return $_GET['filter_trimester_id'];
+        if (isset($_GET['filter_subject_id']) && !empty($_GET['filter_subject_id'])){
+           
+            $sql->where('subject_id', $_GET['filter_subject_id']);
         }
-        // if ($_GET['class_id']) {
-        //     $sql = $sql->where('class_section_id', $_GET['class_id']);
-        // }
-        // if ($_GET['lesson_id']) {
-        //     $sql = $sql->where('id', $_GET['lesson_id']);
-        // }
+        if (isset($_GET['filter_section_id']) && !empty($_GET['filter_section_id'])){
+
+            $sql->where('section_id', $_GET['filter_section_id']);
+        }
+        if (isset($_GET['filter_trimester_id']) && !empty($_GET['filter_trimester_id'])){
+
+            $sql->where('trimester_id', $_GET['filter_trimester_id']);
+        }
+
+
         $total = $sql->count();
 
         $sql->orderBy($sort, $order)->skip($offset)->take($limit);
@@ -214,6 +221,7 @@ class LessonController extends Controller
             $tempRow['description'] = $row->description;
             $tempRow['class_section_id'] = $row->class_section_id;
             $tempRow['class_section_name'] = $row->section->classe->name . ' ' . $row->section->name . ' - ' . $row->section->classe->name;
+            $tempRow['trimester_id'] = $row->trimester_id;
             $tempRow['subject_id'] = $row->subject_id;
             $tempRow['class_section_id'] =$row->section->id;
             $tempRow['subject_name'] = $row->subject->name.' - '.$row->subject->type;
@@ -238,39 +246,32 @@ class LessonController extends Controller
         //     );
         //     return response()->json($response);
         // }
-        // try {
+        try {
 
-        //     $lesson_topics = LessonTopic::where('lesson_id',$id)->count();
-        //     if($lesson_topics){
-        //         $response = array(
-        //             'error' => true,
-        //             'message' => trans('cannot_delete_beacuse_data_is_associated_with_other_data')
-        //         );
-        //     }else{
 
-        //         $lesson = Lesson::find($id);
-        //         if ($lesson->file) {
-        //             foreach ($lesson->file as $file) {
-        //                 if (Storage::disk('public')->exists($file->file_url)) {
-        //                     Storage::disk('public')->delete($file->file_url);
-        //                 }
-        //             }
-        //         }
-        //         $lesson->file()->delete();
-        //         $lesson->delete();
+                $lesson = Lesson::find($id);
+                if ($lesson->file) {
+                    foreach ($lesson->file as $file) {
+                        if (Storage::disk('public')->exists($file->file_url)) {
+                            Storage::disk('public')->delete($file->file_url);
+                        }
+                    }
+                }
+                $lesson->file()->delete();
+                $lesson->delete();
 
-        //         $response = array(
-        //             'error' => false,
-        //             'message' => trans('data_delete_successfully')
-        //         );
-        //     }
-        //     } catch (\Throwable $e) {
-        //     $response = array(
-        //         'error' => true,
-        //         'message' => trans('error_occurred')
-        //     );
-        // }
-        // return response()->json($response);
+                $response = array(
+                    'error' => false,
+                    'message' => trans('genirale.data_delete_successfully')
+                );
+
+            } catch (\Throwable $e) {
+            $response = array(
+                'error' => true,
+                'message' => trans('genirale.error_occurred')
+            );
+        }
+        return response()->json($response);
     }
     public function update(Request $request, $id)
     {
@@ -281,219 +282,230 @@ class LessonController extends Controller
         //     );
         //     return response()->json($response);
         // }
-        // $validator = Validator::make(
-        //     $request->all(),
-        //     [
-        //         'edit_id' => 'required|numeric',
-        //         'name' => ['required',new uniqueLessonInClass($request->class_section_id,$request->subject_id,$request->edit_id)],
-        //         'description' => 'required',
-        //         'class_section_id' => 'required|numeric',
-        //         'subject_id' => 'required|numeric',
+        $validator = Validator::make(
+            $request->all(),
+            [
+                'edit_id' => 'required|numeric',
+                'name' => ['required'],
+                'description' => 'required',
+                'section_id' => 'required|numeric',
+                'subject_id' => 'required|numeric',
 
-        //         'edit_file' => 'nullable|array',
-        //         'edit_file.*.type' => 'nullable|in:file_upload,youtube_link,video_upload,other_link',
-        //         'edit_file.*.name' => 'nullable|required_with:edit_file.*.type',
-        //         'edit_file.*.link' => 'nullable|required_if:edit_file.*.type,youtube_link,other_link',
+                'file' => 'nullable|array',
+                'file.*.type' => 'nullable|in:file_upload,youtube_link,video_upload,other_link',
+                'file.*.name' => 'required_with:file.*.type',
+                'file.*.thumbnail' => 'required_if:file.*.type,youtube_link,video_upload,other_link',
+                'file.*.file' => 'required_if:file.*.type,file_upload,video_upload',
+            ],
+            [
+                'name.unique' => trans('lesson.lesson_alredy_exists')
+            ]
+        );
+        if ($validator->fails()) {
+            $response = array(
+                'error' => true,
+                'message' => $validator->errors()->first(),
+            );
+            return response()->json($response);
+        }
+        try {
+            // return $request;
+            $lesson = Lesson::find($request->edit_id);
+            $lesson->name = $request->name;
+            $lesson->description = $request->description;
+            $lesson->section_id = $request->section_id;
+            $lesson->subject_id = $request->subject_id;
+            $lesson->trimester_id = $request->edit_trimester_id;
+            $lesson->session_year = getYearNow()->id;
+            $lesson->school_id = getSchool()->id;
+            $lesson->save();
 
-        //         // for Youtube Link
-        //         'edit_file.*.link' => ['nullable|required_if:file.*.type,youtube_link',new YouTubeUrl, 'nullable'],
+            // Update the Old Files
+            foreach ($request->edit_file as $file) {
+                if ($file['type']) {
+                    $lesson_file = File::find($file['id']);
+                    $lesson_file->file_name = $file['name'];
 
-        //         'file' => 'nullable|array',
-        //         'file.*.type' => 'nullable|in:file_upload,youtube_link,video_upload,other_link',
-        //         'file.*.name' => 'nullable|required_with:file.*.type',
-        //         'file.*.thumbnail' => 'nullable|required_if:file.*.type,youtube_link,video_upload,other_link',
-        //         'file.*.file' => 'nullable|required_if:file.*.type,file_upload,video_upload',
-        //         'file.*.link' => 'nullable|required_if:file.*.type,youtube_link,other_link',
+                    if ($file['type'] == "file_upload") {
+                        $lesson_file->type = 1;
+                        if (!empty($file['file'])) {
+                            if (Storage::disk('public')->exists($lesson_file->getRawOriginal('file_url'))) {
+                                Storage::disk('public')->delete($lesson_file->getRawOriginal('file_url'));
+                            }
+                            $lesson_file->file_url = $file['file']->store('lessons', 'public');
+                        }
+                    } elseif ($file['type'] == "youtube_link") {
+                        $lesson_file->type = 2;
+                        if (!empty($file['thumbnail'])) {
+                            if (Storage::disk('public')->exists($lesson_file->getRawOriginal('file_thumbnail'))) {
+                                Storage::disk('public')->delete($lesson_file->getRawOriginal('file_thumbnail'));
+                            }
 
-        //         //Regex for Youtube Link
-        //         'file.*.link' => ['nullable|required_if:file.*.type,youtube_link',new YouTubeUrl],
-        //         //Regex for Other Link
-        //         // 'file.*.link'=>'required_if:file.*.type,other_link|url'
-        //     ],
-        //     [
-        //         'name.unique' => trans('lesson_alredy_exists')
-        //     ]
-        // );
-        // if ($validator->fails()) {
-        //     $response = array(
-        //         'error' => true,
-        //         'message' => $validator->errors()->first(),
-        //     );
-        //     return response()->json($response);
-        // }
-        // try {
-        //     $lesson = Lesson::find($request->edit_id);
-        //     $lesson->name = $request->name;
-        //     $lesson->description = $request->description;
-        //     $lesson->class_section_id = $request->class_section_id;
-        //     $lesson->subject_id = $request->subject_id;
-        //     $lesson->save();
+                            $image = $file['thumbnail'];
+                            // made file name with combination of current time
+                            $file_name = time() . '-' . $image->getClientOriginalName();
+                            //made file path to store in database
+                            $file_path = 'lessons/' . $file_name;
+                            //resized image
+                            resizeImage($image);
+                            //stored image to storage/public/lessons folder
+                            $destinationPath = storage_path('app/public/lessons');
+                            $image->move($destinationPath, $file_name);
 
-        //     // Update the Old Files
-        //     foreach ($request->edit_file as $file) {
-        //         if ($file['type']) {
-        //             $lesson_file = File::find($file['id']);
-        //             $lesson_file->file_name = $file['name'];
+                            $lesson_file->file_thumbnail = $file_path;
+                        }
 
-        //             if ($file['type'] == "file_upload") {
-        //                 $lesson_file->type = 1;
-        //                 if (!empty($file['file'])) {
-        //                     if (Storage::disk('public')->exists($lesson_file->getRawOriginal('file_url'))) {
-        //                         Storage::disk('public')->delete($lesson_file->getRawOriginal('file_url'));
-        //                     }
-        //                     $lesson_file->file_url = $file['file']->store('lessons', 'public');
-        //                 }
-        //             } elseif ($file['type'] == "youtube_link") {
-        //                 $lesson_file->type = 2;
-        //                 if (!empty($file['thumbnail'])) {
-        //                     if (Storage::disk('public')->exists($lesson_file->getRawOriginal('file_thumbnail'))) {
-        //                         Storage::disk('public')->delete($lesson_file->getRawOriginal('file_thumbnail'));
-        //                     }
+                        $lesson_file->file_url = $file['link'];
+                    } elseif ($file['type'] == "video_upload") {
+                        $lesson_file->type = 3;
+                        if (!empty($file['file'])) {
+                            if (Storage::disk('public')->exists($lesson_file->getRawOriginal('file_url'))) {
+                                Storage::disk('public')->delete($lesson_file->getRawOriginal('file_url'));
+                            }
+                            $lesson_file->file_url = $file['file']->store('lessons', 'public');
+                        }
 
-        //                     $image = $file['thumbnail'];
-        //                     // made file name with combination of current time
-        //                     $file_name = time() . '-' . $image->getClientOriginalName();
-        //                     //made file path to store in database
-        //                     $file_path = 'lessons/' . $file_name;
-        //                     //resized image
-        //                     resizeImage($image);
-        //                     //stored image to storage/public/lessons folder
-        //                     $destinationPath = storage_path('app/public/lessons');
-        //                     $image->move($destinationPath, $file_name);
+                        if (!empty($file['thumbnail'])) {
+                            if (Storage::disk('public')->exists($lesson_file->getRawOriginal('file_thumbnail'))) {
+                                Storage::disk('public')->delete($lesson_file->getRawOriginal('file_thumbnail'));
+                            }
 
-        //                     $lesson_file->file_thumbnail = $file_path;
-        //                 }
+                            $image = $file['thumbnail'];
+                            // made file name with combination of current time
+                            $file_name = time() . '-' . $image->getClientOriginalName();
+                            //made file path to store in database
+                            $file_path = 'lessons/' . $file_name;
+                            //resized image
+                            resizeImage($image);
+                            //stored image to storage/public/lessons folder
+                            $destinationPath = storage_path('app/public/lessons');
+                            $image->move($destinationPath, $file_name);
 
-        //                 $lesson_file->file_url = $file['link'];
-        //             } elseif ($file['type'] == "video_upload") {
-        //                 $lesson_file->type = 3;
-        //                 if (!empty($file['file'])) {
-        //                     if (Storage::disk('public')->exists($lesson_file->getRawOriginal('file_url'))) {
-        //                         Storage::disk('public')->delete($lesson_file->getRawOriginal('file_url'));
-        //                     }
-        //                     $lesson_file->file_url = $file['file']->store('lessons', 'public');
-        //                 }
+                            $lesson_file->file_thumbnail = $file_path;
+                        }
+                    } elseif ($file['type'] == "other_link") {
+                        $lesson_file->type = 4;
+                        if (!empty($file['thumbnail'])) {
+                            if (Storage::disk('public')->exists($lesson_file->getRawOriginal('file_thumbnail'))) {
+                                Storage::disk('public')->delete($lesson_file->getRawOriginal('file_thumbnail'));
+                            }
 
-        //                 if (!empty($file['thumbnail'])) {
-        //                     if (Storage::disk('public')->exists($lesson_file->getRawOriginal('file_thumbnail'))) {
-        //                         Storage::disk('public')->delete($lesson_file->getRawOriginal('file_thumbnail'));
-        //                     }
+                            $image = $file['thumbnail'];
+                            // made file name with combination of current time
+                            $file_name = time() . '-' . $image->getClientOriginalName();
+                            //made file path to store in database
+                            $file_path = 'lessons/' . $file_name;
+                            //resized image
+                            resizeImage($image);
+                            //stored image to storage/public/lessons folder
+                            $destinationPath = storage_path('app/public/lessons');
+                            $image->move($destinationPath, $file_name);
 
-        //                     $image = $file['thumbnail'];
-        //                     // made file name with combination of current time
-        //                     $file_name = time() . '-' . $image->getClientOriginalName();
-        //                     //made file path to store in database
-        //                     $file_path = 'lessons/' . $file_name;
-        //                     //resized image
-        //                     resizeImage($image);
-        //                     //stored image to storage/public/lessons folder
-        //                     $destinationPath = storage_path('app/public/lessons');
-        //                     $image->move($destinationPath, $file_name);
+                            $lesson_file->file_thumbnail = $file_path;
+                        }
+                        $lesson_file->file_url = $file['link'];
+                    }
 
-        //                     $lesson_file->file_thumbnail = $file_path;
-        //                 }
-        //             } elseif ($file['type'] == "other_link") {
-        //                 $lesson_file->type = 4;
-        //                 if (!empty($file['thumbnail'])) {
-        //                     if (Storage::disk('public')->exists($lesson_file->getRawOriginal('file_thumbnail'))) {
-        //                         Storage::disk('public')->delete($lesson_file->getRawOriginal('file_thumbnail'));
-        //                     }
+                    $lesson_file->save();
+                }
+            }
 
-        //                     $image = $file['thumbnail'];
-        //                     // made file name with combination of current time
-        //                     $file_name = time() . '-' . $image->getClientOriginalName();
-        //                     //made file path to store in database
-        //                     $file_path = 'lessons/' . $file_name;
-        //                     //resized image
-        //                     resizeImage($image);
-        //                     //stored image to storage/public/lessons folder
-        //                     $destinationPath = storage_path('app/public/lessons');
-        //                     $image->move($destinationPath, $file_name);
+            //Add the new Files
+            if ($request->file) {
+                foreach ($request->file as $key => $file) {
+                    if ($file['type']) {
+                        $lesson_file = new File();
+                        $lesson_file->file_name = $file['name'];
+                        $lesson_file->modal()->associate($lesson);
 
-        //                     $lesson_file->file_thumbnail = $file_path;
-        //                 }
-        //                 $lesson_file->file_url = $file['link'];
-        //             }
+                        if ($file['type'] == "file_upload") {
+                            $lesson_file->type = 1;
+                            $lesson_file->file_url = $file['file']->store('lessons', 'public');
+                        } elseif ($file['type'] == "youtube_link") {
+                            $lesson_file->type = 2;
 
-        //             $lesson_file->save();
-        //         }
-        //     }
+                            $image = $file['thumbnail'];
+                            // made file name with combination of current time
+                            $file_name = time() . '-' . $image->getClientOriginalName();
+                            //made file path to store in database
+                            $file_path = 'lessons/' . $file_name;
+                            //resized image
+                            resizeImage($image);
+                            //stored image to storage/public/lessons folder
+                            $destinationPath = storage_path('app/public/lessons');
+                            $image->move($destinationPath, $file_name);
 
-        //     //Add the new Files
-        //     if ($request->file) {
-        //         foreach ($request->file as $key => $file) {
-        //             if ($file['type']) {
-        //                 $lesson_file = new File();
-        //                 $lesson_file->file_name = $file['name'];
-        //                 $lesson_file->modal()->associate($lesson);
+                            $lesson_file->file_thumbnail = $file_path;
+                            $lesson_file->file_url = $file['link'];
+                        } elseif ($file['type'] == "video_upload") {
+                            $lesson_file->type = 3;
+                            $lesson_file->file_url = $file['file']->store('lessons', 'public');
 
-        //                 if ($file['type'] == "file_upload") {
-        //                     $lesson_file->type = 1;
-        //                     $lesson_file->file_url = $file['file']->store('lessons', 'public');
-        //                 } elseif ($file['type'] == "youtube_link") {
-        //                     $lesson_file->type = 2;
+                            $image = $file['thumbnail'];
+                            // made file name with combination of current time
+                            $file_name = time() . '-' . $image->getClientOriginalName();
+                            //made file path to store in database
+                            $file_path = 'lessons/' . $file_name;
+                            //resized image
+                            resizeImage($image);
+                            //stored image to storage/public/lessons folder
+                            $destinationPath = storage_path('app/public/lessons');
+                            $image->move($destinationPath, $file_name);
 
-        //                     $image = $file['thumbnail'];
-        //                     // made file name with combination of current time
-        //                     $file_name = time() . '-' . $image->getClientOriginalName();
-        //                     //made file path to store in database
-        //                     $file_path = 'lessons/' . $file_name;
-        //                     //resized image
-        //                     resizeImage($image);
-        //                     //stored image to storage/public/lessons folder
-        //                     $destinationPath = storage_path('app/public/lessons');
-        //                     $image->move($destinationPath, $file_name);
+                            $lesson_file->file_thumbnail = $file_path;
+                        } elseif ($file['type'] == "other_link") {
+                            $lesson_file->type = 4;
 
-        //                     $lesson_file->file_thumbnail = $file_path;
-        //                     $lesson_file->file_url = $file['link'];
-        //                 } elseif ($file['type'] == "video_upload") {
-        //                     $lesson_file->type = 3;
-        //                     $lesson_file->file_url = $file['file']->store('lessons', 'public');
+                            $image = $file['thumbnail'];
+                            // made file name with combination of current time
+                            $file_name = time() . '-' . $image->getClientOriginalName();
+                            //made file path to store in database
+                            $file_path = 'lessons/' . $file_name;
+                            //resized image
+                            resizeImage($image);
+                            //stored image to storage/public/lessons folder
+                            $destinationPath = storage_path('app/public/lessons');
+                            $image->move($destinationPath, $file_name);
 
-        //                     $image = $file['thumbnail'];
-        //                     // made file name with combination of current time
-        //                     $file_name = time() . '-' . $image->getClientOriginalName();
-        //                     //made file path to store in database
-        //                     $file_path = 'lessons/' . $file_name;
-        //                     //resized image
-        //                     resizeImage($image);
-        //                     //stored image to storage/public/lessons folder
-        //                     $destinationPath = storage_path('app/public/lessons');
-        //                     $image->move($destinationPath, $file_name);
+                            $lesson_file->file_thumbnail = $file_path;
+                            $lesson_file->file_url = $file['link'];
+                        }
+                        $lesson_file->save();
+                    }
+                }
+            }
+            $response = array(
+                'error' => false,
+                'message' => trans('genirale.data_store_successfully')
+            );
+        } catch (Throwable $e) {
+            $response = array(
+                'error' => true,
+                'message' => trans('genirale.error_occurred'),
+                'exception' => $e
+            );
+        }
+        return response()->json($response);
+    }
 
-        //                     $lesson_file->file_thumbnail = $file_path;
-        //                 } elseif ($file['type'] == "other_link") {
-        //                     $lesson_file->type = 4;
-
-        //                     $image = $file['thumbnail'];
-        //                     // made file name with combination of current time
-        //                     $file_name = time() . '-' . $image->getClientOriginalName();
-        //                     //made file path to store in database
-        //                     $file_path = 'lessons/' . $file_name;
-        //                     //resized image
-        //                     resizeImage($image);
-        //                     //stored image to storage/public/lessons folder
-        //                     $destinationPath = storage_path('app/public/lessons');
-        //                     $image->move($destinationPath, $file_name);
-
-        //                     $lesson_file->file_thumbnail = $file_path;
-        //                     $lesson_file->file_url = $file['link'];
-        //                 }
-        //                 $lesson_file->save();
-        //             }
-        //         }
-        //     }
-        //     $response = array(
-        //         'error' => false,
-        //         'message' => trans('data_store_successfully')
-        //     );
-        // } catch (Throwable $e) {
-        //     $response = array(
-        //         'error' => true,
-        //         'message' => trans('error_occurred'),
-        //         'exception' => $e
-        //     );
-        // }
-        // return response()->json($response);
+    public function deleteFile($id)
+    {
+        try {
+            $file = File::findOrFail($id);
+            if (Storage::disk('public')->exists($file->file_url)) {
+                Storage::disk('public')->delete($file->file_url);
+            }
+            $file->delete();
+            $response = array(
+                'error' => false,
+                'message' => trans('genirale.data_delete_successfully')
+            );
+        } catch (\Throwable $e) {
+            $response = array(
+                'error' => true,
+                'message' => trans('genirale.error_occurred')
+            );
+        }
+        return response()->json($response);
     }
 }

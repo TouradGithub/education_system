@@ -5,7 +5,7 @@ use Illuminate\Support\Facades\Validator;
 use App\Models\Test;
 use App\Models\ClassRoom;
 use Illuminate\Http\Request;
-
+use Illuminate\Support\Facades\Auth;
 class TestController extends Controller
 {
     /**
@@ -13,6 +13,11 @@ class TestController extends Controller
      */
     public function index()
     {
+        if (!Auth::user()->can('school-tests-index')) {
+
+            return redirect()->back()->with('error',trans('genirale.no_permission_message'));
+
+        }
         return view('pages.schools.students.tests.index');
     }
 
@@ -29,14 +34,11 @@ class TestController extends Controller
      */
     public function store(Request $request)
     {
-        // if (!Auth::user()->can('school-test-create') || !Auth::user()->can('test-edit')) {
-        //     $response = array(
-        //         'error' => true,
-        //         'message' => trans('no_permission_message')
-        //     );
-        //     return response()->json($response);
-        // }
-        // return $request;
+        if (!Auth::user()->can('school-tests-create')) {
+
+            return redirect()->back()->with('error',trans('genirale.no_permission_message'));
+
+        }
 
         $validator = Validator::make($request->all(), [
             'trimester_id'=>'required',

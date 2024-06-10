@@ -23,7 +23,7 @@
                 <i class="fa fa-home"></i>
 
             </span>
-            {{__('sidebar.dashboard')}}
+            {{__('genirale.dashboard')}}
             </h3>
         </div>
         <div class="row">
@@ -100,7 +100,7 @@
 
                                 <div class="wrapper ml-3">
                                     <h6 class="ml-1 mb-1">
-                                        {{$item->section->name.' - '.$item->section->classe->name.' - '.$item->subject->name}}
+                                        {{-- {{$item->section->name.' - '.$item->section->classe->name.' - '.$item->subject->name}} --}}
                                     </h6>
                                 </div>
                                 @endforeach
@@ -117,7 +117,7 @@
                 <div class="col-md-5 grid-margin stretch-card">
                     <div class="card">
                         <div class="card-body">
-                            <h4 class="card-title">{{__('gender')}}</h4>
+                            <h4 class="card-title">{{__('genirale.gender')}}</h4>
                             <canvas id="gender-ratio-chart"></canvas>
                             <div id="gender-ratio-chart-legend" class="rounded-legend legend-vertical legend-bottom-left pt-4"></div>
                         </div>
@@ -134,16 +134,16 @@
                 <div class="col-md-12 grid-margin stretch-card search-container">
                     <div class="card">
                         <div class="card-body">
-                            <h4 class="card-title">{{__('noticeboard')}}</h4>
+                            <h4 class="card-title">{{__('genirale.noticeboard')}}</h4>
                             <div class="table-responsive">
                                 <table class="table">
                                     <thead>
                                     <tr>
                                         <th> {{__('genirale.no.')}}</th>
-                                        <th> {{__('title')}}</th>
-                                        <th> {{__('Type')}}</th>
+                                        <th> {{__('genirale.title')}}</th>
+                                        <th> {{__('subjects.type')}}</th>
                                         <th> {{__('genirale.date')}}</th>
-                                        <th> {{__('Show')}}</th>
+                                        <th> {{__('genirale.show')}}</th>
                                     </tr>
                                     </thead>
                                     <tbody>

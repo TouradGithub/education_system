@@ -13,6 +13,14 @@ return new class extends Migration
     {
         Schema::create('promotions', function (Blueprint $table) {
             $table->id();
+            $table->unsignedBigInteger('student_id');
+            $table->unsignedBigInteger('school_id');
+            $table->unsignedBigInteger('from_section');
+            $table->unsignedBigInteger('to_section');
+            $table->string('academic_year');
+            $table->string('academic_year_new');
+            $table->string('decision')->nullable();
+            $table->string('status')->nullable();
             $table->timestamps();
         });
     }

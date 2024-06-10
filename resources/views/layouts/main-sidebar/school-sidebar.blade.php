@@ -17,11 +17,13 @@
             </a>
         </li>
         @endcan
+        @can('school-announcement-index')
         <li class="nav-item">
             <a class="nav-link" href="{{ route('school.announcement.index') }}">
                 <span class="menu-title">  {{ __('sidebar.announcement') }}</span>
                 <i class="fa fa-bell menu-icon"></i> </a>
         </li>
+        @endcan
         @can('school-sections-index')
         <li class="nav-item">
             <a href="{{ route('school.sections.index') }}" class="nav-link">
@@ -65,7 +67,7 @@
         @endcanany
 
         @if (getSchool()->type=="private")
-        {{-- @canany(['school-fees-class-index','school-fees-paid-index']) --}}
+        @canany(['school-fees-class-index','school-fees-paid-index'])
         <li class="nav-item">
             <a class="nav-link" data-toggle="collapse" href="#fees-menu" aria-expanded="false"
                 aria-controls="exam-menu">
@@ -74,25 +76,24 @@
             </a>
             <div class="collapse" id="fees-menu">
                 <ul class="nav flex-column sub-menu">
-                    {{-- @can('school-fees-class-index') --}}
+                    @can('school-fees-class-index')
                     <li class="nav-item">
-                        <a class="nav-link" href="{{ route('school.fees.class.index') }}">{{ __('assign') }}
-                            {{-- {{ __('fees') }} --}}Classes
-                            {{-- {{ __('classes') }} --}}
+                        <a class="nav-link" href="{{ route('school.fees.class.index') }}">{{ __('sidebar.assign') }}
+                            {{ __('classes.class') }}
                         </a>
                     </li>
-                    {{-- @endcan --}}
-                    {{-- @can('school-fees-paid-index') --}}
+                    @endcan
+                    @can('school-fees-paid-index')
                     <li class="nav-item">
-                        <a class="nav-link" href="{{ route('school.fees.paid.index') }}"> {{ __('fees') }}
+                        <a class="nav-link" href="{{ route('school.fees.paid.index') }}"> {{ __('genirale.fees') }}
                             {{ __('paid') }}
                         </a>
                     </li>
-                    {{-- @endcan --}}
+                    @endcan
                 </ul>
             </div>
         </li>
-        {{-- @endcanany --}}
+        @endcanany
         @endif
 
 
@@ -172,7 +173,34 @@
             </div>
         </li>
         @endcanany
-        @canany(['school-settings-create','school-general_settings-create','school-general_settings-update'
+
+        @canany(['school-promotion-create','school-promotion-index'])
+        <li class="nav-item" >
+            <a class="nav-link" data-toggle="collapse" href="#promotion-menu" aria-expanded="false"
+                aria-controls="settings-menu"> <span class="menu-title">{{__('promotion.promotions')}}</span>
+                 <i  class="fa fa-cog menu-icon"></i> </a>
+            <div class="collapse" id="promotion-menu">
+                <ul class="nav flex-column sub-menu">
+                    @can('school-promotion-create')
+                        <li class="nav-item">
+                            <a class="nav-link" href="{{ route('school.student.promotions.create') }}">
+                                {{ __('promotion.add_promotion') }}</a>
+                        </li>
+                    @endcan
+
+                    @can('school-promotion-index')
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ route('school.student.promotions.index') }}">
+                            {{ __('promotion.list_promotion') }}</a>
+                    </li>
+                    @endcan
+
+
+                </ul>
+            </div>
+        </li>
+        @endcanany
+        @canany(['school-settings-create','school-general_settings-update'
            ,'school-role-index','school-user-index'])
             <li class="nav-item">
                     <a class="nav-link" data-toggle="collapse" href="#settings-menu" aria-expanded="false"

@@ -8,7 +8,7 @@
     <div class="content-wrapper">
         <div class="page-header">
             <h3 class="page-title">
-                {{ __('create_new_role') }}
+                {{ __('genirale.create_new_role') }}
             </h3>
             @can('school-role-index')
             <a class="btn btn-primary" href="{{ route('school.role.index') }}"> {{ __('genirale.back') }}</a>
@@ -31,14 +31,14 @@
                             </div>
 
                             <div class="col-xs-12 col-sm-12 col-md-12">
-                                <label><strong> Permissions :</strong></label>
+                                <label><strong> {{__('sidebar.role_permission')}} :</strong></label>
                                 <div class="row">
                                     @foreach ($permission as $value)
                                         <div class="form-group col-lg-3 col-sm-12 col-xs-12 col-md-3">
                                             <div class="form-check">
                                                 <label class="form-check-label">
                                                     {{ Form::checkbox('permission[]', $value->name, false, ['class' => 'name form-check-input']) }}
-                                                    {{ trans($value->name) }}
+                                                    {{ trans('permission.'.$value->name) }}
                                                 </label>
                                             </div>
                                         </div>

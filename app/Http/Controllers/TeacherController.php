@@ -18,24 +18,24 @@ class TeacherController extends Controller
 
     public function index()
     {
-        // if (!Auth::user()->can('teacher-list')) {
-        //     $response = array(
-        //         'message' => trans('no_permission_message')
-        //     );
-        //     return redirect(route('home'))->withErrors($response);
-        // }
+        if (!Auth::user()->can('school-teachers-index') || !Auth::user()->can('school-teachers-create')) {
+            $response = array(
+                'message' => trans('genirale.no_permission_message')
+            );
+            return redirect(route('home'))->withErrors($response);
+        }
         return view('pages.schools.teacher.index');
     }
 
 
     public function store(Request $request)
     {
-        // if (!Auth::user()->can('teacher-create') || !Auth::user()->can('teacher-edit')) {
-        //     $response = array(
-        //         'message' => trans('no_permission_message')
-        //     );
-        //     return response()->json($response);
-        // }
+        if (!Auth::user()->can('school-teachers-create') ) {
+            $response = array(
+                'message' => trans('genirale.no_permission_message')
+            );
+            return response()->json($response);
+        }
         $validator = Validator::make($request->all(), [
             'first_name' => 'required',
             'last_name' => 'required',
@@ -117,12 +117,12 @@ class TeacherController extends Controller
      */
     public function show()
     {
-        // if (!Auth::user()->can('teacher-list')) {
-        //     $response = array(
-        //         'message' => trans('no_permission_message')
-        //     );
-        //     return response()->json($response);
-        // }
+        if (!Auth::user()->can('school-teachers-index')) {
+            $response = array(
+                'message' => trans('genirale.no_permission_message')
+            );
+            return response()->json($response);
+        }
         $offset = 0;
         $limit = 10;
         $sort = 'id';
@@ -164,8 +164,16 @@ class TeacherController extends Controller
         $tempRow = array();
         $no = 1;
         foreach ($res as $row) {
-            $operate = '<a class="btn btn-xs btn-gradient-primary btn-rounded btn-icon editdata" data-id=' . $row->id . ' data-url=' . url('school/teachers') . ' title="Edit" data-toggle="modal" data-target="#editModal"><i class="fa fa-edit"></i></a>&nbsp;&nbsp;';
-            $operate .= '<a class="btn btn-xs btn-gradient-danger btn-rounded btn-icon deletedata" data-id=' . $row->id . ' data-user_id=' . $row->id . ' data-url=' . url('school/teachers', $row->id) . ' title="Delete"><i class="fa fa-trash"></i></a>';
+            $operate = '';
+            if (Auth::user()->can('school-teachers-edit') ) {
+                $operate = '<a class="btn btn-xs btn-gradient-primary btn-rounded btn-icon editdata" data-id=' . $row->id . ' data-url=' . url('school/teachers') . ' title="Edit" data-toggle="modal" data-target="#editModal"><i class="fa fa-edit"></i></a>&nbsp;&nbsp;';
+
+            }
+
+            if (Auth::user()->can('school-teachers-delete') ) {
+                $operate .= '<a class="btn btn-xs btn-gradient-danger btn-rounded btn-icon deletedata" data-id=' . $row->id . ' data-user_id=' . $row->id . ' data-url=' . url('school/teachers', $row->id) . ' title="Delete"><i class="fa fa-trash"></i></a>';
+
+            }
 
 
             $tempRow['id'] = $row->id;
@@ -180,12 +188,6 @@ class TeacherController extends Controller
             $tempRow['mobile'] = $row->mobile;
             $tempRow['image'] = $row->image==null? asset('section/assets/images/team/01.jpg'): url(Storage::url($row->image));
             $tempRow['qualification'] = $row->qualification;
-
-            // if($row->user->can('student-create','student-list','student-edit','parents-create','parents-list','parents-edit')){
-            //     $tempRow['has_student_permissions'] = 1;
-            // }else{
-            //     $tempRow['has_student_permissions'] = 0;
-            // }
 
             $tempRow['operate'] = $operate;
             $rows[] = $tempRow;
@@ -210,12 +212,12 @@ class TeacherController extends Controller
 
     public function update(Request $request)
     {
-        // if (!Auth::user()->can('teacher-edit')) {
-        //     $response = array(
-        //         'message' => trans('no_permission_message')
-        //     );
-        //     return response()->json($response);
-        // }
+        if (!Auth::user()->can('school-teachers-edit')) {
+            $response = array(
+                'message' => trans('genirale.no_permission_message')
+            );
+            return response()->json($response);
+        }
         $validator = Validator::make($request->all(), [
             'first_name' => 'required',
             'last_name' => 'required',
@@ -287,12 +289,12 @@ class TeacherController extends Controller
      */
     public function destroy($id)
     {
-    //     if (!Auth::user()->can('teacher-delete')) {
-    //         $response = array(
-    //             'message' => trans('no_permission_message')
-    //         );
-    //         return response()->json($response);
-    //     }
+        if (!Auth::user()->can('school-teachers-delete')) {
+            $response = array(
+                'message' => trans('genirale.no_permission_message')
+            );
+            return response()->json($response);
+        }
         try {
 
             $timetables = SubjectTeacher::where(['teacher_id'=>$id,'school_id'=>getSchool()->id])->count();

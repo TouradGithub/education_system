@@ -7,24 +7,20 @@ use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\DB;
 use Spatie\Permission\Models\Role;
 use Spatie\Permission\Models\Permission;
-
+use Illuminate\Support\Facades\Auth;
 class RoleController extends Controller
 {
-    // function __construct()
-    // {
-    //     $this->middleware('permission:role-list|role-create|role-edit|role-delete', ['only' => ['index','store']]);
-    //     $this->middleware('permission:role-create', ['only' => ['create','store']]);
-    //     $this->middleware('permission:role-edit', ['only' => ['edit','update']]);
-    //     $this->middleware('permission:role-delete', ['only' => ['destroy']]);
-    // }
 
-    /**
-    * Display a listing of the resource.
-    *
-    * @return \Illuminate\Http\Response
-    */
+
     public function index(Request $request)
     {
+        if (!Auth::user()->can('role-list')) {
+            $response = array(
+                'message' => trans('genirale.no_permission_message')
+            );
+            return redirect()->back();
+
+        }
         $roles = Role::where('model','App\Models\Admin')->orderBy('id','DESC')->paginate(5);
         return view('roles.index',compact('roles'))
         ->with('i', ($request->input('page', 1) - 1) * 5);
@@ -37,6 +33,13 @@ class RoleController extends Controller
     */
     public function create()
     {
+        if (!Auth::user()->can('role-create')) {
+            $response = array(
+                'message' => trans('genirale.no_permission_message')
+            );
+            return redirect()->back();
+
+        }
         $permission = Permission::get();
         return view('roles.create',compact('permission'));
     }
@@ -49,6 +52,13 @@ class RoleController extends Controller
     */
     public function store(Request $request)
     {
+        if (!Auth::user()->can('role-create')) {
+            $response = array(
+                'message' => trans('genirale.no_permission_message')
+            );
+            return redirect()->back();
+
+        }
         // return $request;
         $this->validate($request, [
             'name' => 'required|unique:roles,name',
@@ -70,6 +80,13 @@ class RoleController extends Controller
     */
     public function show($id)
     {
+        if (!Auth::user()->can('role-show')) {
+            $response = array(
+                'message' => trans('genirale.no_permission_message')
+            );
+            return redirect()->back();
+
+        }
         $role = Role::find($id);
         $rolePermissions = Permission::join("role_has_permissions","role_has_permissions.permission_id","=","permissions.id")
         ->where("role_has_permissions.role_id",$id)
@@ -86,6 +103,13 @@ class RoleController extends Controller
     */
     public function edit($id)
     {
+        if (!Auth::user()->can('role-edit')) {
+            $response = array(
+                'message' => trans('genirale.no_permission_message')
+            );
+            return redirect()->back();
+
+        }
         $role = Role::find($id);
         $permission = Permission::get();
         $rolePermissions = DB::table("role_has_permissions")->where("role_has_permissions.role_id",$id)
@@ -104,6 +128,13 @@ class RoleController extends Controller
     */
     public function update(Request $request, $id)
     {
+        if (!Auth::user()->can('role-edit')) {
+            $response = array(
+                'message' => trans('genirale.no_permission_message')
+            );
+            return redirect()->back();
+
+        }
         $this->validate($request, [
             'name' => 'required',
             'permission' => 'required',
@@ -126,6 +157,13 @@ class RoleController extends Controller
     */
     public function destroy($id)
     {
+        if (!Auth::user()->can('role-delete')) {
+            $response = array(
+                'message' => trans('genirale.no_permission_message')
+            );
+            return redirect()->back();
+
+        }
         DB::table("roles")->where('id',$id)->delete();
         return redirect()->route('roles.index')
         ->with('success',trans('data_delete_successfully'));

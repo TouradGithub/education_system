@@ -8,35 +8,42 @@
 <div class="content-wrapper">
     <div class="page-header">
         <h3 class="page-title">
-            {{ __('manage').' '.__('session_years') }}
+            {{ __('genirale.manage').' '.__('sidebar.session_years') }}
         </h3>
     </div>
 
     <div class="row">
+        @can('session-year-create')
         <div class="col-lg-12 grid-margin stretch-card">
             <div class="card">
                 <div class="card-body">
                     <h4 class="card-title">
-                        {{ __('create').' '.__('session_years') }}
+                        {{ __('genirale.create').' '.__('sidebar.session_years') }}
                     </h4>
                     <form action="{{ url('session-years') }}" class="create-form-reload pt-3" id="formdata" method="POST" novalidate="novalidate">
                         @csrf
                         <div class="row">
                             <div class="form-group col-sm-12 col-md-12">
-                                <label>{{ __('name') }} <span class="text-danger">*</span></label>
-                                {!! Form::text('name', null, ['required', 'placeholder' => __('name'), 'class' => 'form-control']) !!}
+                                <label>{{ __('genirale.name') }} <span class="text-danger">*</span></label>
+                                {!! Form::text('name', null, ['required', 'placeholder' => __('genirale.name'), 'class' => 'form-control']) !!}
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="form-group col-sm-12 col-md-12">
+                                <label>{{__('genirale.price')}} <span class="text-danger">*</span></label>
+                                {!! Form::text('price', null, ['required', 'placeholder' => __('genirale.price'), 'class' => 'form-control']) !!}
                             </div>
                         </div>
                         <div class="row">
                             <div class="form-group col-sm-12 col-md-6">
-                                <label>{{ __('start_date') }} <span class="text-danger">*</span></label>
-                                {!! Form::text('start_date', null, ['required', 'placeholder' => __('start_date'), 'class' => 'datepicker-popup form-control']) !!}
+                                <label>{{ __('genirale.start_date') }} <span class="text-danger">*</span></label>
+                                {!! Form::text('start_date', null, ['required', 'placeholder' => __('genirale.start_date'), 'class' => 'datepicker-popup form-control']) !!}
                                 <span class="input-group-addon input-group-append">
                                 </span>
                             </div>
                             <div class="form-group col-sm-12 col-md-6">
-                                <label>{{ __('end_date') }} <span class="text-danger">*</span></label>
-                                {!! Form::text('end_date', null, ['required', 'placeholder' => __('end_date'), 'class' => 'datepicker-popup form-control']) !!}
+                                <label>{{ __('genirale.end_date') }} <span class="text-danger">*</span></label>
+                                {!! Form::text('end_date', null, ['required', 'placeholder' => __('genirale.end_date'), 'class' => 'datepicker-popup form-control']) !!}
                                 <span class="input-group-addon input-group-append">
                                 </span>
                             </div>
@@ -45,11 +52,11 @@
                         </div>
                         <hr>
                         <h4 class="card-title">
-                            {{ __('fees').' '.__('installment') }}
+                            {{-- {{ __('fees').' '.__('installment') }} --}}
                         </h4>
                         <div class="row mb-4 mt-4">
                             <div class="form-inline col-md-4">
-                                <label>{{__('include')}} {{__('fees')}} {{__('installment')}}</label> <span class="ml-1 text-danger">*</span>
+                                {{-- <label>{{__('include')}} {{__('fees')}} {{__('installment')}}</label> <span class="ml-1 text-danger">*</span> --}}
                                 <div class="ml-4 d-flex">
                                     <div class="form-check form-check-inline">
                                         <label class="form-check-label">
@@ -94,11 +101,13 @@
                 </div>
             </div>
         </div>
+        @endcan
+        @can('session-year-create')
         <div class="col-lg-12 grid-margin stretch-card">
             <div class="card">
                 <div class="card-body">
                     <h4 class="card-title">
-                        {{ __('list').' '.__('session_years') }}
+                        {{ __('genirale.list').' '.__('sidebar.session_years') }}
                     </h4>
                     <div class="row">
                         <div class="col-12">
@@ -115,12 +124,13 @@
                             <thead>
                                 <tr>
                                     <th scope="col" data-field="id" data-sortable="true" data-visible="false">{{__('id')}}</th>
-                                    <th scope="col" data-field="no" data-sortable="false">{{__('no.')}}</th>
-                                    <th scope="col" data-field="name" data-sortable="false">{{__('name')}}</th>
-                                    <th scope="col" data-field="start_date" data-sortable="true">{{__('start_date')}}</th>
-                                    <th scope="col" data-field="end_date" data-sortable="true">{{__('end_date')}}</th>
-                                    <th scope="col" data-field="default" data-sortable="true" data-visible="true" data-formatter="defaultYearFormatter">{{__('default')}}</th>
-                                    <th data-events="sessionYearEvents" scope="col" data-field="operate" data-sortable="false">{{__('action')}}</th>
+                                    <th scope="col" data-field="no" data-sortable="false">{{__('genirale.no.')}}</th>
+                                    <th scope="col" data-field="name" data-sortable="false">{{__('genirale.name')}}</th>
+                                    <th scope="col" data-field="price" data-sortable="false">{{__('genirale.price')}}</th>
+                                    <th scope="col" data-field="start_date" data-sortable="true">{{__('genirale.start_date')}}</th>
+                                    <th scope="col" data-field="end_date" data-sortable="true">{{__('genirale.end_date')}}</th>
+                                    <th scope="col" data-field="default" data-sortable="true" data-visible="true" data-formatter="defaultYearFormatter">{{__('genirale.default')}}</th>
+                                    <th data-events="sessionYearEvents" scope="col" data-field="operate" data-sortable="false">{{__('genirale.action')}}</th>
                                 </tr>
                             </thead>
                         </table>
@@ -128,6 +138,7 @@
                 </div>
             </div>
         </div>
+        @endcan
     </div>
 </div>
 </div>

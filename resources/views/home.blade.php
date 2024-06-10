@@ -11,23 +11,23 @@ $schools=App\Models\Schools::limit(5)->get();
             <h3 class="page-title">
             <span class="page-title-icon bg-theme text-white mr-2">
                 <i class="fa fa-home"></i>
-            </span> {{__('dashboard')}}
+            </span> {{__('genirale.dashboard')}}
             </h3>
         </div>
         <div class="row">
-            {{-- @if($teacher) --}}
-                <div class="col-md-3 stretch-card grid-margin">
-                    <div class="card bg-gradient-danger card-img-holder text-white">
-                        <div class="card-body">
-                            <img src="{{asset(config('global.CIRCLE_SVG')) }}" class="card-img-absolute" alt="circle-image"/>
-                            <h4 class="font-weight-normal mb-3">{{__('genirale.total_schools')}}<i class="mdi mdi-chart-line mdi-24px float-right"></i>
-                            </h4>
-                            <h2 class="mb-5">
-                            {{App\Models\Schools::count()}}
-                        </h2>
-                        </div>
+            @can('statistic-counter')
+            <div class="col-md-3 stretch-card grid-margin">
+                <div class="card bg-gradient-danger card-img-holder text-white">
+                    <div class="card-body">
+                        <img src="{{asset(config('global.CIRCLE_SVG')) }}" class="card-img-absolute" alt="circle-image"/>
+                        <h4 class="font-weight-normal mb-3">{{__('genirale.total_schools')}}<i class="mdi mdi-chart-line mdi-24px float-right"></i>
+                        </h4>
+                        <h2 class="mb-5">
+                        {{App\Models\Schools::count()}}
+                    </h2>
                     </div>
                 </div>
+            </div>
             <div class="col-md-3 stretch-card grid-margin">
                 <div class="card bg-gradient-info card-img-holder text-white">
                     <div class="card-body">
@@ -53,154 +53,120 @@ $schools=App\Models\Schools::limit(5)->get();
                     </div>
                 </div>
             </div>
-            {{-- @endif --}}
-            {{-- @if($parent) --}}
-                <div class="col-md-3 stretch-card grid-margin">
-                    <div class="card bg-gradient-success card-img-holder text-white">
-                        <div class="card-body">
-                            <img src="{{asset(config('global.CIRCLE_SVG')) }}" class="card-img-absolute" alt="circle-image"/>
-                            <h4 class="font-weight-normal mb-3">{{__('genirale.total_parents')}}<i class="mdi mdi-diamond mdi-24px float-right"></i>
-                            </h4>
-                            <h2 class="mb-5">
-                                {{App\Models\MyParent::count()}}
-                            </h2>
-                        </div>
+
+            <div class="col-md-3 stretch-card grid-margin">
+                <div class="card bg-gradient-success card-img-holder text-white">
+                    <div class="card-body">
+                        <img src="{{asset(config('global.CIRCLE_SVG')) }}" class="card-img-absolute" alt="circle-image"/>
+                        <h4 class="font-weight-normal mb-3">{{__('genirale.total_parents')}}<i class="mdi mdi-diamond mdi-24px float-right"></i>
+                        </h4>
+                        <h2 class="mb-5">
+                            {{App\Models\MyParent::count()}}
+                        </h2>
                     </div>
                 </div>
-            {{-- @endif --}}
+            </div>
+            @endcan
+
+
         </div>
         <div class="row">
+            @can('school-list')
             @if(isset($schools) && !empty($schools))
-                <div class="col-md-7 grid-margin stretch-card">
-                    <div class="card">
-                        <div class="card-body v-scroll">
-                            <h4 class="card-title">{{__('teacher.teacher')}}</h4>
-                            @foreach($schools as $row)
-                            <div class="wrapper d-flex align-items-center py-2 border-bottom">
-                                <img class="img-sm rounded-circle" src="{{$row->name}}" alt="profile" onerror="onErrorImage(event)">
-                                <div class="wrapper ml-3">
-                                    <h6 class="ml-1 mb-1">
-                                        {{$row->name}}
-                                    </h6>
-                                    <small class="text-muted mb-0">
-                                        <i class="mdi mdi-map-marker-outline mr-1"></i>
-                                        {{$row->description}}
-                                    </small>
-                                </div>
-
-                                <div class="wrapper ml-3">
-                                    <h6 class="ml-1 mb-1">
-                                        {{$row->academy->name}}
-                                    </h6>
-
-                                </div>
-                                <div class="badge badge-pill badge-success ml-auto px-1 py-1">
-                                    <i class="mdi mdi-check"></i>
-                                </div>
+            <div class="col-md-7 grid-margin stretch-card">
+                <div class="card">
+                    <div class="card-body v-scroll">
+                        <h4 class="card-title">{{__('sidebar.schools')}}</h4>
+                        @foreach($schools as $row)
+                        <div class="wrapper d-flex align-items-center py-2 border-bottom">
+                            <img class="img-sm rounded-circle" src="{{$row->name}}" alt="profile" onerror="onErrorImage(event)">
+                            <div class="wrapper ml-3">
+                                <h6 class="ml-1 mb-1">
+                                    {{$row->name}}
+                                </h6>
+                                <small class="text-muted mb-0">
+                                    <i class="mdi mdi-map-marker-outline mr-1"></i>
+                                    {{$row->description}}
+                                </small>
                             </div>
-                          @endforeach
+
+                            <div class="wrapper ml-3">
+                                <h6 class="ml-1 mb-1">
+                                    {{$row->academy->name}}
+                                </h6>
+
+                            </div>
+                            <div class="badge badge-pill badge-success ml-auto px-1 py-1">
+                                <i class="mdi mdi-check"></i>
+                            </div>
                         </div>
+                      @endforeach
                     </div>
                 </div>
-            @endif
-            {{-- @if($boys || $girls)--}}
-                <div class="col-md-5 grid-margin stretch-card">
-                    <div class="card">
-                        <div class="card-body">
-                            <h4 class="card-title">{{__('gender')}}</h4>
-                            <canvas id="gender-ratio-chart"></canvas>
-                            <div id="gender-ratio-chart-legend" class="rounded-legend legend-vertical legend-bottom-left pt-4"></div>
-                        </div>
+            </div>
+        @endif
+            @endcan
+
+            @can('statistic-gender')
+            <div class="col-md-5 grid-margin stretch-card">
+                <div class="card">
+                    <div class="card-body">
+                        <h4 class="card-title">{{__('gender')}}</h4>
+                        <canvas id="gender-ratio-chart"></canvas>
+                        <div id="gender-ratio-chart-legend" class="rounded-legend legend-vertical legend-bottom-left pt-4"></div>
                     </div>
                 </div>
-            {{-- @endif --}}
+            </div>
+            @endcan
+
+
         </div>
-        {{-- @canany(['class-teacher'])
-            <div class="row classes">
-                @if($class_sections)
-                <div class="col-md-12 grid-margin stretch-card search-container">
-                    <div class="card">
-                        <div class="card-body">
-                            <h4 class="card-title">{{__('Class Teachers')}}</h4>
-                            <div class="d-flex flex-wrap">
-                                @php
-                                $colors = ['bg-gradient-danger', 'bg-gradient-success', 'bg-gradient-primary', 'bg-gradient-info', 'bg-gradient-secondary','bg-gradient-warning'];
-                                $colorIndex = 0;
-                                @endphp
 
-                                @foreach($class_sections as $class_section)
+        @can('announcement-list')
+        <div class="row">
+            <div class="col-md-12 grid-margin stretch-card search-container">
+                <div class="card">
+                    <div class="card-body">
+                        <h4 class="card-title">{{__('genirale.noticeboard')}}</h4>
+                        <div class="table-responsive">
+                            <table class="table">
+                                <thead>
+                                <tr>
+                                    <th> {{__('genirale.no.')}}</th>
+                                    <th> {{__('title')}}</th>
+                                    <th> {{__('Type')}}</th>
+                                    <th> {{__('date')}}</th>
+                                    <th> {{__('Show')}}</th>
+                                </tr>
+                                </thead>
+                                <tbody>
                                     @php
-                                        $currentColor = $colors[$colorIndex];
-                                        $colorIndex = ($colorIndex + 1) % count($colors);
+                                        $i=0;
+                                        $notif=DB::table('notifications')->get();
                                     @endphp
+                                    @forelse ($notif  as $item)
+                                        <tr>
+                                            <td>{{ ++$i}}</td>
+                                            <td>{{ json_decode($item->data)->title }}</td>
+                                            <td>{{ json_decode($item->data)->type }}</td>
+                                            <td>{{ $item->created_at }}</td>
+                                            <td><a href="{{route('web.announcement.show',$item->id)}}"><i class="fa fa-eye"></a></td>
+                                        </tr>
+                                    @empty
+                                        <tr>
+                                            <td>No data</td>
+                                        </tr>
+                                    @endforelse
 
-                                    <div class="col-md-2 stretch-card grid-margin">
-                                        <div class="card {{$currentColor}} card-img-holder text-white">
-                                            <div class="card-body">
-                                                <img src="{{asset(config('global.CIRCLE_SVG')) }}" class="card-img-absolute" alt="circle-image" />
-                                                <h6 class="mb-2">
-                                                    <h4>{{$class_section->class->name}}-{{$class_section->section->name}} {{$class_section->class->medium->name}} {{$class_section->class->streams->name ?? ''}}</h4>
-                                                </h6>
-                                            </div>
-                                        </div>
-                                    </div>
-                                @endforeach
-
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                @endif
-            </div>
-        @endcanany --}}
-
-        {{-- {{-- @if($announcement) --}}
-            <div class="row">
-                <div class="col-md-12 grid-margin stretch-card search-container">
-                    <div class="card">
-                        <div class="card-body">
-                            <h4 class="card-title">{{__('noticeboard')}}</h4>
-                            <div class="table-responsive">
-                                <table class="table">
-                                    <thead>
-                                    <tr>
-                                        <th> {{__('genirale.no.')}}</th>
-                                        <th> {{__('title')}}</th>
-                                        <th> {{__('Type')}}</th>
-                                        <th> {{__('date')}}</th>
-                                        <th> {{__('Show')}}</th>
-                                    </tr>
-                                    </thead>
-                                    <tbody>
-                                        @php
-                                            $i=0;
-                                            $notif=DB::table('notifications')->get();
-                                        @endphp
-                                        @forelse ($notif  as $item)
-                                            <tr>
-                                                <td>{{ ++$i}}</td>
-                                                <td>{{ json_decode($item->data)->title }}</td>
-                                                <td>{{ json_decode($item->data)->type }}</td>
-                                                <td>{{ $item->created_at }}</td>
-                                                <td><a href="{{route('web.announcement.show',$item->id)}}"><i class="fa fa-eye"></a></td>
-                                            </tr>
-                                        @empty
-                                            <tr>
-                                                <td>No data</td>
-                                            </tr>
-                                        @endforelse
-
-                                    </tbody>
-                                </table>
-                            </div>
+                                </tbody>
+                            </table>
                         </div>
                     </div>
                 </div>
             </div>
-        {{-- @endif --}}
-        {{-- @if ($class)
+        </div>
+        @endcan
 
-        @endif --}}
     </div>
 @endsection
 @section('script')

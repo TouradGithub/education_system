@@ -6,12 +6,19 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Subject;
 use Illuminate\Support\Facades\Validator;
-
+use Illuminate\Support\Facades\Auth;
 class SubjectController extends Controller
 {
 
     public function index()
     {
+        if (!Auth::user()->can('school-subject-index')) {
+            $response = array(
+                'message' => trans('genirale.no_permission_message')
+            );
+            return redirect()->back()->withErrors($response);
+
+        }
 
         return view('pages.subject.index');
     }
@@ -25,6 +32,13 @@ class SubjectController extends Controller
 
     public function store(Request $request)
     {
+        if (!Auth::user()->can('school-subject-create')) {
+            $response = array(
+                'message' => trans('genirale.no_permission_message')
+            );
+            return response()->json($response);
+
+        }
 
         try {
             $messages = [
@@ -142,13 +156,13 @@ class SubjectController extends Controller
      */
     public function update(Request $request)
     {
-        // if (!Auth::user()->can('holiday-edit')) {
-        //     $response = array(
-        //         'error' => true,
-        //         'message' => trans('no_permission_message')
-        //     );
-        //     return response()->json($response);
-        // }
+        if (!Auth::user()->can('school-subject-edit')) {
+            $response = array(
+                'message' => trans('genirale.no_permission_message')
+            );
+            return response()->json($response);
+
+        }
         $validator = Validator::make($request->all(), [
             'name' => 'required',
             'code' => 'required',
@@ -187,13 +201,13 @@ class SubjectController extends Controller
     public function destroy($id)
     {
 
-        // if (!Auth::user()->can('holiday-delete')) {
-        //     $response = array(
-        //         'error' => true,
-        //         'message' => trans('no_permission_message')
-        //     );
-        //     return response()->json($response);
-        // }
+        if (!Auth::user()->can('school-subject-delete')) {
+            $response = array(
+                'message' => trans('genirale.no_permission_message')
+            );
+            return response()->json($response);
+
+        }
 
         try {
             Subject::find($id)->delete();

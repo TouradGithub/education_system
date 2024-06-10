@@ -97,11 +97,13 @@ Route::group([ 'middleware' => ['auth','localeSessionRedirect', 'localizationRed
     Route::get('get-notification/{id}', [AnnouncementController::class,'show'])->name('get-notification');
 
 
-    Route::post('chargilypay/redirect', [ChargilyPayController::class, "redirect"])->name("chargilypay.redirect");
-    Route::get('chargilypay/back', [ChargilyPayController::class, "back"])->name("chargilypay.back");
-    Route::post('chargilypay/webhook', [ChargilyPayController::class, "webhook"])->name("chargilypay.webhook_endpoint");
+
 
 });
+
+Route::post('chargilypay/redirect', [ChargilyPayController::class, "redirect"])->name("chargilypay.redirect");
+Route::get('chargilypay/back', [ChargilyPayController::class, "back"])->name("chargilypay.back");
+Route::post('chargilypay/webhook', [ChargilyPayController::class, "webhook"])->name("chargilypay.webhook_endpoint");
 
 // Route::get('clear', function () {
 //         Artisan::call('view:clear');
