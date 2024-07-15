@@ -20,10 +20,10 @@ $server_dir=$branch;
 
 @story('deploy')
 clone_repository
- {{-- run_composer
-setup_app --}}
-{{--clean
-succeed --}}
+ run_composer
+setup_app
+clean
+succeed
 @endstory
 
 
@@ -50,13 +50,13 @@ pwd
 echo {{ $new_release_dir }}
 cd {{ $new_release_dir }}
 echo "moved succes".{{ $new_release_dir }}
-{{-- composer update --}}
+composer update
 echo "composer installed  succefuly"
-{{-- php composer.phar update
+php composer.phar update
 echo "composer.phar updated  succefuly"
 php composer.phar install --no-interaction --prefer-dist --optimize-autoloader
 php composer.phar dumpautoload
-echo "composer installed  for ({{ $release }})" --}}
+echo "composer installed  for ({{ $release }})"
 @endtask
 
 

@@ -171,7 +171,7 @@
                             <div class="modal-body">
                                 <div class="form-group">
                                     <label>{{ __('date') }} <span class="text-danger">*</span></label>
-                                    <input type="text" name="date" class="datepicker-popup form-control current-date"
+                                    <input type="text" name="date"  class="datepicker-popup form-control current-date"
                                         placeholder="{{ __('date') }}" autocomplete="off" required>
                                 </div>
 

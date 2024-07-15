@@ -12,7 +12,7 @@ class Classes extends Model
     protected $hidden = ['created_at','updated_at'];
     protected $table = 'classes';
     public $translatable = ['name'];
-    protected $fillable=['name','grade_id','notes'];
+    protected $fillable=['name','grade_id','arrangement','notes'];
 
 
     public function grade()

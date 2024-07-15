@@ -21,7 +21,7 @@
         <li class="nav-item">
             <a class="nav-link" href="{{ route('school.announcement.index') }}">
                 <span class="menu-title">  {{ __('sidebar.announcement') }}</span>
-                <i class="fa fa-bell menu-icon"></i> </a>
+                <i class="fa fa-bullhorn menu-icon"></i> </a>
         </li>
         @endcan
         @can('school-sections-index')
@@ -72,7 +72,7 @@
             <a class="nav-link" data-toggle="collapse" href="#fees-menu" aria-expanded="false"
                 aria-controls="exam-menu">
                 <span class="menu-title">{{ __('fees') }}</span>
-                <i class="fa fa-dollar menu-icon"></i>
+                <i class="fa fa-money menu-icon"></i>
             </a>
             <div class="collapse" id="fees-menu">
                 <ul class="nav flex-column sub-menu">
@@ -140,7 +140,7 @@
         <li class="nav-item" >
             <a class="nav-link" data-toggle="collapse" href="#student-menu" aria-expanded="false"
                 aria-controls="settings-menu"> <span class="menu-title">{{ __('sidebar.students') }}</span>
-                 <i  class="fa fa-cog menu-icon"></i> </a>
+                 <i  class="fa fa-graduation-cap menu-icon"></i> </a>
             <div class="collapse" id="student-menu">
                 <ul class="nav flex-column sub-menu">
                     @can('school-students-create')
@@ -210,12 +210,18 @@
                         <ul class="nav flex-column sub-menu">
 
 
-                        @can('school-settings-create')
+                    @can('school-settings-create')
                             <li class="nav-item">
                                 <a class="nav-link" href="{{ route('school.setting-index') }}">
                                     {{ __('sidebar.general_settings') }}</a>
                             </li>
-                        @endcan
+                     @endcan
+                     @can('school-settings-create')
+                        <li class="nav-item">
+                            <a class="nav-link" href="{{ route('school.student-id-card-setting') }}">
+                             Student  Id Card Setting</a>
+                        </li>
+                    @endcan
 
 
                         @can('school-user-index')

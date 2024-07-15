@@ -14,7 +14,6 @@ class ClassRoom extends Model
 
     protected $table = 'classrooms';
 
-    use HasTranslations;
     protected $hidden = ['created_at','updated_at'];
     public $translatable = ['name'];
     protected $fillable = ['name','grade_id','class_id','school_id','notes'];

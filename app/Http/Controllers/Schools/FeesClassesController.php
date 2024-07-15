@@ -1,11 +1,11 @@
 <?php
 
 namespace App\Http\Controllers\Schools;
-
+use Barryvdh\DomPDF\Facade\Pdf;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\FeesClass;
-
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Validator;
 use App\Models\ClassRoom;
@@ -219,8 +219,7 @@ class FeesClassesController extends Controller
                     // $operate .= '<a href="#"class="compulsory-data dropdown-item" data-id=' . $row->id . ' title="' . trans('compulsory') . ' ' . trans('fees') . '" data-toggle="modal" data-target="#compulsoryModal"><i class="fa fa-dollar text-success mr-2"></i>'.trans('compulsory').' '.trans('fees').'</a><div class="dropdown-divider"></div>';
                     $operate .= '<a href="#" class="optional-data dropdown-item" data-id=' . $row->id . ' title="' . trans('Paid')  .'" data-toggle="modal" data-target="#optionalModal"><i class="fa fa-dollar text-success mr-2"></i>'.trans('Paid').'</a>';
                     $operate .= '</div></div>&nbsp;&nbsp;';
-                    $operate .= '<a href=  class="btn btn-xs btn-gradient-danger btn-rounded btn-icon delete-form" title="'.trans('clear').'" data-id=><i class="fa fa-remove"></i></a>&nbsp;&nbsp;';
-                    $operate .= '<a href= class="btn btn-xs btn-gradient-info btn-rounded btn-icon generate-paid-fees-pdf" target="_blank" data-id= title="' . trans('generate_pdf') . ' ' . trans('fees') . '"><i class="fa fa-file-pdf-o"></i></a>&nbsp;&nbsp;';
+                    $operate .= '<a href="'.route('school.fees.class.paid.pdf', $row->id).'" class="btn btn-xs btn-gradient-info btn-rounded btn-icon generate-paid-fees-pdf" target="_blank" data-id= title="' . trans('generate_pdf') . ' ' . trans('fees') . '"><i class="fa fa-file-pdf-o"></i></a>&nbsp;&nbsp;';
 
             $tempRow['student_id'] = $row->id;
             $tempRow['no'] = $no++;
@@ -316,6 +315,34 @@ class FeesClassesController extends Controller
                 toastr()->error( trans('genirale.error_occurred'), 'Error');
                 return  redirect()->back();
             }
+    }
+    public function feesPaidGetReceip($id){
+
+
+        try {
+          $student = Student::find($id);
+          $className=$student->section->classe->name.' '.$student->section->name;
+
+        //   return   $student->fees_paid;
+          $fees =  FeesPaid::where([
+            'student_id'=> $student->id,
+            'school_id'=> getSchool()->id,
+            'session_year_id'=> getYearNow()->id,
+          ])->get();
+          if($fees->count()>0){
+            $logo= url(Storage::url(getSchool()->setting->school_logo));
+             $pdf = Pdf::loadView('pages.schools.fees.fees_receipt',compact('fees','student','className','logo'));
+            return $pdf->stream('fees-receipt.pdf');
+
+          }else{
+
+            toastr()->success(trans('genirale.no_data_found'), 'Error');
+            return redirect()->back();
+          }
+
+        }catch (Throwable $e) {
+            return redirect()->back();
+        }
     }
 
     public function feesPaidDelete($id){

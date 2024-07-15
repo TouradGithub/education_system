@@ -61,6 +61,10 @@ return [
 "numberofteachers" => "عدد المعلمين",
 "numberofSections" => "عدد الأقسام",
 "numberofStudents" => "عدد الطلاب",
+"arrangement"=> "الترتيب",
+"inactive"=> "غير مفعل",
+"active"=> "مفعل",
+
 
 "Message"=>"إرسال رسالة",
 "title"=> "العنوان",

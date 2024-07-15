@@ -40,6 +40,90 @@
                                 </div>
                             </div>
 
+                            <div class="row">
+                                <div class="form-group col-sm-12 col-md-6">
+                                    <label>{{ trans('genirale.arrangement') }} <span class="text-danger">*</span></label>
+
+                                </div>
+
+                            </div>
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="form-inline col-md-4">
+                                        <label class="form-check-label">
+                                            <input type="radio" name="arrangement" class="fees_installment_toggle" value="0">
+                                        تحضيري
+                                        </label>
+                                    </div>
+                                </div>
+
+                                <div class="col-md-6">
+                                    <div class="form-inline col-md-4">
+                                        <label class="form-check-label">
+                                            <input type="radio" name="arrangement" class="fees_installment_toggle" value="1">
+                                        1
+                                        </label>
+                                    </div>
+                                </div>
+
+                            </div><br>
+
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="form-inline col-md-4">
+                                        <label class="form-check-label">
+                                            <input type="radio" name="arrangement" class="fees_installment_toggle" value="2">
+                                        2
+                                        </label>
+                                    </div>
+                                </div>
+
+                                <div class="col-md-6">
+                                    <div class="form-inline col-md-4">
+                                        <label class="form-check-label">
+                                            <input type="radio" name="arrangement" class="fees_installment_toggle" value="3">
+                                        3
+                                        </label>
+                                    </div>
+                                </div>
+
+                            </div><br>
+
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="form-inline col-md-4">
+                                        <label class="form-check-label">
+                                            <input type="radio" name="arrangement" class="fees_installment_toggle" value="4">
+                                        4
+                                        </label>
+                                    </div>
+                                </div>
+
+                                <div class="col-md-6">
+                                    <div class="form-inline col-md-4">
+                                        <label class="form-check-label">
+                                            <input type="radio" name="arrangement" class="fees_installment_toggle" value="5">
+                                        5
+                                        </label>
+                                    </div>
+                                </div>
+
+                            </div><br>
+
+                            <div class="row">
+
+
+                                <div class="col-md-6">
+                                    <div class="form-inline col-md-4">
+                                        <label class="form-check-label">
+                                            <input type="radio" name="arrangement" class="fees_installment_toggle" value="6">
+                                        6
+                                        </label>
+                                    </div>
+                                </div>
+
+                            </div><br>
+
                         <div class="row">
 
                             <div class="form-group col-sm-12 col-md-12">
@@ -55,6 +139,8 @@
 
                         </div>
 
+
+
                         <div class="row">
 
                             <div class="form-group col-sm-12 col-md-12">
@@ -65,6 +151,9 @@
                         </div>
                             <input class="btn btn-theme" type="submit" value={{ __('genirale.submit') }}>
                         </form>
+                    </div>
+                    <div class="row">
+
                     </div>
                 </div>
             </div>
@@ -100,6 +189,10 @@
                                                 </th>
                                                 <th scope="col" data-field="name" data-sortable="false"> {{trans('genirale.name')}}
                                                 </th>
+
+                                                <th scope="col" data-field="arrangement" data-sortable="false"  data-visible="false"> {{trans('arrangement')}}
+                                                </th>
+
                                                 <th scope="col" data-field="name_en" data-sortable="false"> {{trans('grade.name_en')}}
                                                 </th>
                                                 <th scope="col" data-field="grade" data-sortable="false"> {{trans('section.grade')}}
@@ -154,6 +247,86 @@
                                 {!! Form::text('name_en', null, ['required', 'placeholder' =>trans('grade.name_en'), 'class' => 'form-control', 'id' => 'name_en']) !!}
                             </div>
                         </div>
+
+
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-inline col-md-4">
+                                    <label class="form-check-label">
+                                        <input type="radio" name="arrangement" class="fees_installment_toggle" value="0">
+                                    تحضيري
+                                    </label>
+                                </div>
+                            </div>
+
+                            <div class="col-md-6">
+                                <div class="form-inline col-md-4">
+                                    <label class="form-check-label">
+                                        <input type="radio" name="arrangement" class="fees_installment_toggle" value="1">
+                                    1
+                                    </label>
+                                </div>
+                            </div>
+
+                        </div><br>
+
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-inline col-md-4">
+                                    <label class="form-check-label">
+                                        <input type="radio" name="arrangement" class="fees_installment_toggle" value="2">
+                                    2
+                                    </label>
+                                </div>
+                            </div>
+
+                            <div class="col-md-6">
+                                <div class="form-inline col-md-4">
+                                    <label class="form-check-label">
+                                        <input type="radio" name="arrangement" class="fees_installment_toggle" value="3">
+                                    3
+                                    </label>
+                                </div>
+                            </div>
+
+                        </div><br>
+
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-inline col-md-4">
+                                    <label class="form-check-label">
+                                        <input type="radio" name="arrangement" class="fees_installment_toggle" value="4">
+                                    4
+                                    </label>
+                                </div>
+                            </div>
+
+                            <div class="col-md-6">
+                                <div class="form-inline col-md-4">
+                                    <label class="form-check-label">
+                                        <input type="radio" name="arrangement" class="fees_installment_toggle" value="5">
+                                    5
+                                    </label>
+                                </div>
+                            </div>
+
+                        </div><br>
+
+                        <div class="row">
+
+
+                            <div class="col-md-6">
+                                <div class="form-inline col-md-4">
+                                    <label class="form-check-label">
+                                        <input type="radio" name="arrangement" class="fees_installment_toggle" value="6">
+                                    6
+                                    </label>
+                                </div>
+                            </div>
+
+                        </div><br>
+
+
                         <div class="row form-group col-sm-12 col-md-12">
                             <label>{{ trans('section.grade') }}</label>
                             <select name="grade_id" id="grade_id" class="form-control select2">
@@ -191,6 +364,7 @@
                 $('#name').val(row.name);
                 $('#name_en').val(row.name_en);
                 $('#notes').val(row.notes);
+                $('input[name="arrangement"][value="' + row.arrangement + '"]').prop('checked', true);
 
                 setTimeout(function () {
                     $('#grade_id').val(row.grade_id).trigger('change');

@@ -106,7 +106,28 @@ $(".class-create-form").validate({
         highlight(element, errorClass);
     }
 });
-
+$(".id-card-setting").validate({
+    rules: {
+        // 'country' : 'required',
+        'header_color' : 'required',
+        'footer_color' : 'required',
+        'header_text_color' : 'required',
+        'layout_type' : 'required',
+        'profile_image_style' : 'required',
+        'card_width' : 'required',
+        'card_height' : 'required',
+    },
+    success: function(label, element) {
+        $(element).parent().removeClass('has-danger')
+        $(element).removeClass('form-control-danger')
+    },
+    errorPlacement: function (label, element) {
+        errorPlacement(label, element);
+    },
+    highlight: function (element, errorClass) {
+        highlight(element, errorClass);
+    }
+});
 $(".class-edit-form").validate({
     rules: {
         'name': "required",

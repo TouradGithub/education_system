@@ -16,6 +16,7 @@ class Promotion extends Model
         'to_section',
         'academic_year',
         'academic_year_new',
+        'decision',
     ];
     public function student()
     {

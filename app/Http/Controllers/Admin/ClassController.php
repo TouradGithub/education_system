@@ -4,6 +4,8 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Requests\StoreGrades;
 use App\Models\Classes;
 use App\Models\Grade;
+use Illuminate\Validation\Rule;
+
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
@@ -38,6 +40,7 @@ class ClassController extends Controller
      */
     public function store(StoreGrades  $request)
     {
+
         if (!Auth::user()->can('classes-create')) {
             $response = array(
                 'message' => trans('genirale.no_permission_message')
@@ -45,12 +48,25 @@ class ClassController extends Controller
             return redirect()->back();
 
         }
+        $request->validate([
+            'grade_id' => 'required|exists:grades,id',
+            'arrangement' => [
+                'required',
+                'integer',
+                Rule::unique('classes')->where(function ($query) use ($request) {
+                    return $query->where('grade_id', $request->grade_id)
+                                 ->where('arrangement', $request->arrangement);
+                }),
+            ],
+        ]);
+   
         try {
-            $validated = $request->validated();
+
             $classes = new Classes();
 
             $classes->name = ['en' => $request->name_en, 'ar' => $request->name];
             $classes->grade_id = $request->grade_id;
+            $classes->arrangement = $request->arrangement;
             $classes->notes = $request->notes;
             $classes->save();
 
@@ -120,9 +136,9 @@ class ClassController extends Controller
            $tempRow['name'] =$row->getTranslation('name', 'ar');
            $tempRow['name_en'] =$row->getTranslation('name', 'en');
            $tempRow['grade'] =$row->grade->name;
+           $tempRow['arrangement'] =$row->arrangement;
            $tempRow['grade_id'] =$row->grade->id;
            $tempRow['operate'] =$operate;
-           $tempRow['notes'] = $row->notes;
 
 
             $rows[] = $tempRow;
@@ -145,6 +161,8 @@ class ClassController extends Controller
      */
     public function update(Request $request, Classes $classes)
     {
+
+
         if (!Auth::user()->can('classes-edit')) {
             $response = array(
                 'message' => trans('genirale.no_permission_message')
@@ -156,7 +174,10 @@ class ClassController extends Controller
             'name' => 'required',
             'name_en' => 'required',
             'grade_id' => 'required',
+            'arrangement' => 'required|in:0,1,2,3,4,5,6',
+
         ]);
+
 
         if ($validator->fails()) {
             $response = array(
@@ -166,11 +187,15 @@ class ClassController extends Controller
             return response()->json($response);
         }
         try {
+
             $class = Classes::find($request->id);
             $class->name = ['en' => $request->name_en, 'ar' => $request->name];
             $class->grade_id = $request->grade_id;
+            $class->arrangement = $request->arrangement;
             $class->notes = $request->notes;
             $class->save();
+
+
             $response = array(
                 'error' => false,
                 'message' => trans('genirale.data_update_successfully')

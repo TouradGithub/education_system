@@ -4,6 +4,9 @@ namespace App\Http\Controllers\Schools\Student;
 use App\Http\Controllers\Controller;
 use App\Models\Promotion;
 use App\Models\Student;
+use App\Models\Exam;
+use Illuminate\Support\Facades\Auth;
+use App\Models\Trimester;
 use App\Models\ClassRoom;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -44,9 +47,9 @@ class PromotionController extends Controller
         }
         $request->validate([
             'from_section' => 'required|exists:classrooms,id',
-            'to_section' => 'required|integer|exists:classrooms,id|gt:from_section',
+            'to_section' => 'required|integer|exists:classrooms,id',
             'academic_year' => 'required|string',
-            'academic_year_new' => 'required|string|gt:academic_year',
+            'academic_year_new' => 'required|string',
         ]);
         DB::beginTransaction();
 
@@ -62,22 +65,49 @@ class PromotionController extends Controller
 
         // update in table student
         foreach ($students as $student){
+            // return $this->is_admin($student);
+            // if($this->is_admin($student)==0){
+            //     DB::rollback();
+            //     toastr()->error(  trans('genirale.no_data_found'), 'Error');
+            //     return redirect()->back();
+            //     break;
+            // }
+         
+
+            if($this->is_admin($student)=="yes"){
+                $student->section_id=$request->to_section;
+                $student->academic_year=$request->academic_year_new;
+                $student->save();
 
 
-           $student->section_id=$request->to_section;
-           $student->academic_year=$request->academic_year_new;
-           $student->save();
+                 // insert in to promotions
+                 Promotion::create([
+                     'student_id'=>$student->id,
+                     'school_id'=>getSchool()->id,
+                     'from_section'=>$request->from_section,
+                     'to_section'=>$request->to_section,
+                     'academic_year'=>$request->academic_year,
+                     'academic_year_new'=>$request->academic_year_new,
+                     'decision'=>"admin",
+                 ]);
+            }else{
+
+                $student->academic_year=$request->academic_year_new;
+                $student->save();
 
 
-            // insert in to promotions
-            Promotion::updateOrCreate([
-                'student_id'=>$student->id,
-                'school_id'=>getSchool()->id,
-                'from_section'=>$request->from_section,
-                'to_section'=>$request->to_section,
-                'academic_year'=>$request->academic_year,
-                'academic_year_new'=>$request->academic_year_new,
-            ]);
+                 // insert in to promotions
+                 Promotion::create([
+                     'student_id'=>$student->id,
+                     'school_id'=>getSchool()->id,
+                     'from_section'=>$request->from_section,
+                     'to_section'=>$request->from_section,
+                     'academic_year'=>$request->academic_year,
+                     'academic_year_new'=>$request->academic_year_new,
+                     'decision'=>"notAdmin",
+                 ]);
+            }
+
 
         }
         DB::commit();
@@ -89,6 +119,44 @@ class PromotionController extends Controller
     //     return redirect()->back()->withErrors(['error' =>trans('genirale.error_occurred')]);
     // }
 
+    }
+    public function is_admin(Student $student){
+        $is_admin="not";
+        $sum = 0;
+        $trimesters=Trimester::all();
+        foreach ($trimesters as $trimester){
+            $exams =  Exam::where([
+                'student_id'=>$student->id,
+                'school_id'=>getSchool()->id,
+                'session_year'=>getYearNow()->id,
+                'trimester_id'=>$trimester->id,
+            ])->get();
+            // dd($this->moyentrimester( $exams));
+            // if($this->moyentrimester( $exams)==0){
+            //     return 0;
+            // }
+            $sum+=$this->moyentrimester( $exams);
+        }
+        $moyen =$sum/3;
+        if($moyen>=10){
+            $is_admin="yes";
+        }else{
+            $is_admin="not";
+        }
+        return $is_admin;
+
+    }
+    public function moyentrimester( $data){
+        $sum=0;
+        // dd(count($data));
+        // if (count($data) < 1) {
+
+        //     return 0;
+        // }
+        foreach ($data as $exam){
+                $sum+=$exam->grade * $exam->subject->code;
+        }
+     return  $moyen = $sum/count($data);
     }
 
     /**

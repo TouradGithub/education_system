@@ -7,6 +7,7 @@ use App\Models\Settings;
 use App\Models\Acadimy;
 use App\Models\SessionYear;
 use App\Models\Student;
+use App\Models\IdcardSetting;
 use App\Models\User;
 use Illuminate\Support\Facades\Auth;
 use Intervention\Image\Facades\Image;
@@ -30,6 +31,10 @@ function getSettings($type = '')
 
 function getYearNow(){
     return SessionYear::where('default',1)->first();
+}
+
+function settingIdCard(){
+    return IdcardSetting::where('school_id',getSchool()->id)->first();
 }
 
 function getMonth($id){

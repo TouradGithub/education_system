@@ -56,7 +56,7 @@ class SubjectTeacherController extends Controller
             $response = array(
                 'message' => trans('genirale.no_permission_message')
             );
-            return redirect(route('school.school.home'))->withErrors($response);
+            return redirect(route('school.school.home'))->with('error',trans('genirale.no_permission_message'));
         }
 
         $validator = Validator::make($request->all(), [
@@ -231,7 +231,7 @@ class SubjectTeacherController extends Controller
             $tempRow['class_section_id'] = $row->class_section_id;
             $tempRow['class_section_name'] = $row->section->name ;
             $tempRow['subject_id'] = $row->subject_id;
-            $tempRow['subject_name'] = $row->subject->name . ' ( ' .$row->subject->type . ' ) ';
+            $tempRow['subject_name'] = isset($row->subject) ? $row->subject->name . ' (' . $row->subject->type . ')' : '';
             $tempRow['teacher_id'] = $row->teacher_id;
             $tempRow['teacher_name'] = ($row->teacher) ? ($row->teacher->first_name . ' ' . $row->teacher->last_name) : '';
             $tempRow['operate'] = $operate;

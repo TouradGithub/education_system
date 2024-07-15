@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers\Admin;
 use Illuminate\Support\Facades\Validator;
+use App\Models\Exam;
+use Illuminate\Validation\Rule;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Trimester;
@@ -40,22 +42,27 @@ class TrimesterController extends Controller
             return  response()->json($response);
 
         }
-        $validator = Validator::make($request->all(), [
+
+        $request->validate([
             'name' => 'required',
             'name_en' => 'required',
+            'arrangement' => [
+                'required',
+                'integer',
+                Rule::unique('trimesters')->where(function ($query) use ($request) {
+                    return $query->where('name', json_encode(['en' => $request->name_en, 'ar' => $request->name]))
+                                 ->where('arrangement', $request->arrangement);
+                }),
+            ],
         ]);
-        if ($validator->fails()) {
-            $response = array(
-                'error' => true,
-                'message' => $validator->errors()->first()
-            );
-            return response()->json($response);
-        }
+
+
         try {
-            // $validated = $request->validated();
 
             $section = new Trimester();
             $section->name = ['en' => $request->name_en, 'ar' => $request->name];
+            $section->arrangement = $request->arrangement;
+
             $section->notes = $request->notes;
             $section->save();
 
@@ -122,10 +129,11 @@ class TrimesterController extends Controller
 
 
             $tempRow['id'] = $row->id;
-           $tempRow['name'] = $row->getTranslation('name', 'ar');
-           $tempRow['name_en'] = $row->getTranslation('name', 'en');
-           $tempRow['operate'] =$operate;
-           $tempRow['notes'] = $row->notes;
+            $tempRow['arrangement'] = $row->arrangement;
+            $tempRow['name'] = $row->getTranslation('name', 'ar');
+            $tempRow['name_en'] = $row->getTranslation('name', 'en');
+            $tempRow['operate'] =$operate;
+            $tempRow['notes'] = $row->notes;
 
 
             $rows[] = $tempRow;
@@ -156,21 +164,34 @@ class TrimesterController extends Controller
 
         }
         try {
-            $validator = Validator::make($request->all(), [
-                'name' => 'required',
-                'name_en' => 'required',
-            ]);
-            if ($validator->fails()) {
-                $response = array(
-                    'error' => true,
-                    'message' => $validator->errors()->first()
-                );
-                return response()->json($response);
-            }
-
             $trimester =Trimester::find($request->id);
 
+            if (!$trimester) {
+                return response()->json([
+                    'error' => true,
+                    'message' => trans('genirale.no_data_found')
+                ]);
+            }
+
+            $existingTrimester = Trimester::where('name', json_encode(['en' => $request->name_en, 'ar' => $request->name]))
+                                ->where('arrangement', $request->arrangement)
+                                ->where('id', '!=', $trimester->id)
+                                ->first();
+
+
+            if ($existingTrimester) {
+                return response()->json([
+                'error' => true,
+                'message' => trans('genirale.arrangement_already_exists')
+                ]);
+            }
+
+
+
+
+
             $trimester->name = ['en' => $request->name_en, 'ar' => $request->name];
+            $trimester->arrangement = $request->arrangement;
             $trimester->notes = $request->notes;
             $trimester->save();
 
@@ -200,11 +221,28 @@ class TrimesterController extends Controller
 
         }
         try {
+            $trimester= Trimester::find($id);
+            if(!$trimester){
+                $response = array(
+                    'error' => false,
+                    'message' => trans('genirale.no_data_found')
+                );
+                return response()->json($response);
+            }
+            $exams=  Exam::where('trimester_id',$trimester->id)->get();
+            if( $exams){
+                $response = array(
+                    'error' => false,
+                    'message' => trans('genirale.cannot_delete_beacuse_data_is_associated_with_other_data')
+                );
+                return response()->json($response);
+            }
             Trimester::find($id)->delete();
             $response = array(
                 'error' => false,
                 'message' => trans('genirale.data_delete_successfully')
             );
+
         } catch (Throwable $e) {
 
             $response = array(

@@ -37,6 +37,9 @@ return [
     "list"=> "List",
     "action"=> "Action",
     "no."=> "No.",
+    "arrangement"=> "Arrangement",
+    "inactive"=> "Not Active Session Year",
+    "active"=> "Active Session Year",
 
 
     "submit"=>  "Submit",

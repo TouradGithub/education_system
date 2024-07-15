@@ -51,6 +51,7 @@ Route::group(
         Route::post('store', [StudentController::class, 'store'])->name('student.store');
         Route::post('update/{id}', [StudentController::class, 'update'])->name('student.update');
         Route::get('Inscription/{id}', [StudentController::class, 'getPdf'])->name('inscription.pdf');
+        Route::get('IdCard/{id}', [StudentController::class, 'getIdCardPage'])->name('student.idcard');
 
     });
 
@@ -128,6 +129,8 @@ Route::group(
 
     Route::get('setting-index', [SettingController::class,'index'])->name('setting-index');
     Route::post('setting-update', [SettingController::class,'update'])->name('setting-update');
+    Route::get('student-id-card-setting', [SettingController::class,'getStudentIdCardSetting'])->name('student-id-card-setting');
+    Route::post('student-id-card-setting-update', [SettingController::class,'getStudentIdCardSettingUpdate'])->name('student-id-card-setting-update');
 
     Route::get('edit-profile', [HomeController::class, 'editProfile'])->name('edit-profile');
     Route::post('update-profile', [HomeController::class, 'updateProfile'])->name('update-profile');
@@ -139,6 +142,7 @@ Route::group(
     Route::get('get-notification/{id}', [AnnouncementController::class,'show'])->name('get-notification');
 
     Route::get('fees/classes', [FeesClassesController::class, 'index'])->name('fees.class.index');
+    Route::get('fees/classes/getPaid/{id}', [FeesClassesController::class, 'feesPaidGetReceip'])->name('fees.class.paid.pdf');
         // Route::post('fees/classes/update', [FeesTypeController::class, 'updateFeesClass'])->name('fees.class.update');
     Route::get('fees/classes/list', [FeesClassesController::class, 'feesClassList'])->name('fees.class.list');
     Route::post('class/fees-type', [FeesClassesController::class, 'updateFeesClass'])->name('class.fees.type.update');

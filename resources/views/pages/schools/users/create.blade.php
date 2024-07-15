@@ -66,7 +66,7 @@
         </div>
         <div class="col-xs-12 col-sm-12 col-md-6">
             <div class="form-group">
-                <strong>{{ __('genirale.confirm_password')}}</strong>
+                <strong>{{ __('confirm_password')}}</strong>
                 {!! Form::password('confirm-password', array('placeholder' => __('genirale.confirm_password'),'class' => 'form-control')) !!}
             </div>
         </div>

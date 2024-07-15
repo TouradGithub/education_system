@@ -1183,46 +1183,11 @@ window.sessionYearEvents = {
         $('#name').val(row.name);
         $('#start_date').val(row.start_date);
         $('#end_date').val(row.end_date);
-        $('#fees_due_date').val(row.fees_due_date);
-        $('#fees_due_charges').val(row.fees_due_charges);
-        $('#edit_include_fee_installments').val(row.include_fee_installments);
-        if(row.fee_installments.length){
-            let html = '';
-            $('.edit-installment-container').html("");
-            $('.installment-div').show();
-            $.each(row.fee_installments, function (key, value) {
-                if (!$('.edit-installment-container:last').is(':empty')) {
-                    html = $('.edit-installment-container').find('.edit-installment-content:last').clone();
-                } else {
-                    html = $('.edit-installment-content-template').clone();
-                }
-                html.addClass('edit-installment-content').removeClass('edit-installment-content-template');
-                html.css('display', 'block');
-                html.find('.error').remove();
-                html.find('.has-danger').removeClass('has-danger');
-                // This function will replace the last index value and increment in the multidimensional name attribute
-                html.find('.form-control').each(function (key, element) {
-                    this.name = this.name.replace(/\[(\d+)\]/, function (str, p1) {
-                        return '[' + (parseInt(p1, 10) + 1) + ']';
-                    });
-                    this.id = this.id.replace(/_(\d+)/, function (str, p1) {
-                        return '_' + (parseInt(p1, 10) + 1);
-                    });
-                })
-                html.find('#editInstallmentId_'+(key+1)).val(value.id);
-                html.find('#editInstallmentName_'+(key+1)).val(value.name);
-                html.find('#editInstallmentDueDate_'+(key+1)).val(value.due_date);
-                html.find('#editInstllmentDueCharges_'+(key+1)).val(value.due_charges);
+        var cleanedPrice = row.price.replace(" DZ", "");
+        $('#price_id').val(cleanedPrice);
+        $('input[name="active_session_year"][value="' + row.default + '"]').prop('checked', true);
 
-                html.find('.add-edit-fee-installment-content i').addClass('fa-times').removeClass('fa-plus');
-                html.find('.add-edit-fee-installment-content').addClass('btn-inverse-danger remove-edit-fee-installment-content').removeClass('btn-inverse-success add-edit-fee-installment-content');
-                html.find('.remove-edit-fee-installment-content').attr("data-id", value.id);
-                $('.edit-installment-container').append(html);
-            });
-        }else{
-            $('.installment-div').hide();
-            $('.edit-installment-container').html("");
-        }
+
     }
 };
 

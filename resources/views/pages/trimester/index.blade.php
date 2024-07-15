@@ -38,6 +38,44 @@
                                 </div>
                             </div>
                             <div class="row">
+                                <div class="form-group col-sm-12 col-md-6">
+                                    <label>{{ trans('genirale.arrangement') }} <span class="text-danger">*</span></label>
+
+                                </div>
+
+                            </div>
+
+
+                    <div class="row">
+
+                        <div class="col-md-4">
+                            <div class="form-inline col-md-4">
+                                <label class="form-check-label">
+                                    <input type="radio" name="arrangement" class="fees_installment_toggle" value="1">
+                                1
+                                </label>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="form-inline col-md-4">
+                                <label class="form-check-label">
+                                    <input type="radio" name="arrangement" class="fees_installment_toggle" value="2">
+                                2
+                                </label>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                        <div class="form-inline col-md-3">
+                            <label class="form-check-label">
+                                <input type="radio" name="arrangement" class="fees_installment_toggle" value="3">
+                            3
+                            </label>
+                        </div>
+                    </div>
+
+                    </div><br>
+
+                            <div class="row">
 
                                 <div class="form-group col-sm-12 col-md-12">
                                     <label>{{ trans('genirale.note') }}</label>
@@ -75,6 +113,8 @@
                                             <tr>
                                                 <th scope="col" data-field="id" data-sortable="true" data-visible="false">
                                                     {{ __('id') }}</th>
+                                                <th scope="col" data-field="arrangement" data-sortable="true" data-visible="false">
+                                                       </th>
 
 
                                                 <th scope="col" data-field="name" data-sortable="false"> {{trans('grade.name_ar')}}
@@ -125,6 +165,7 @@
                                 </span>
                             </div>
                         </div>
+
                         <div class="row form-group">
                             <div class="col-sm-12 col-md-12">
                                 <label>{{trans('grade.name_en')}} <span class="text-danger">*</span></label>
@@ -138,6 +179,38 @@
                             </div>
                         </div>
                     </div>
+
+
+                    <div class="row">
+
+                        <div class="col-md-4">
+                            <div class="form-inline col-md-4">
+                                <label class="form-check-label">
+                                    <input type="radio" name="arrangement" class="fees_installment_toggle" value="1">
+                                1
+                                </label>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="form-inline col-md-4">
+                                <label class="form-check-label">
+                                    <input type="radio" name="arrangement" class="fees_installment_toggle" value="2">
+                                2
+                                </label>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                        <div class="form-inline col-md-3">
+                            <label class="form-check-label">
+                                <input type="radio" name="arrangement" class="fees_installment_toggle" value="3">
+                            3
+                            </label>
+                        </div>
+
+                    </div>
+
+
+
                     <div class="modal-footer">
                         <input class="btn btn-theme" type="submit" value={{ __('genirale.submit') }}>
                         <button type="button" class="btn btn-light" data-dismiss="modal">{{ __('genirale.cancel') }}</button>
@@ -155,7 +228,10 @@
 
                 $('#id').val(row.id);
                 $('#name').val(row.name);
+
                 $('#name_en').val(row.name_en);
+                $('input[name="arrangement"][value="' + row.arrangement + '"]').prop('checked', true);
+
                 $('#notes').val(row.notes);
 
             }

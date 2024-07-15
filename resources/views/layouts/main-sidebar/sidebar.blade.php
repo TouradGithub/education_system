@@ -69,7 +69,7 @@
         <li class="nav-item">
             <a class="nav-link" href="{{ route('web.announcement.index') }}">
                 <span class="menu-title">  {{ __('sidebar.announcement') }}</span>
-                <i class="fa fa-bell menu-icon"></i> </a>
+                <i class="fa fa-bullhorn menu-icon"></i> </a>
         </li>
         @endcan
 
@@ -81,18 +81,18 @@
                             class="fa fa-cog menu-icon"></i> </a>
                     <div class="collapse" id="settings-menu">
                         <ul class="nav flex-column sub-menu">
-                            @can('setting-create')
+                            {{-- @can('setting-create')
                                 <li class="nav-item">
                                     <a class="nav-link" href="{{ url('app-settings') }}">
                                         {{ __('sidebar.app_settings') }}</a>
                                 </li>
-                            @endcan
-                            @can('setting-create')
+                            @endcan --}}
+                            {{-- @can('setting-create')
                                 <li class="nav-item">
                                     <a class="nav-link" href="{{ url('settings') }}">
                                         {{ __('sidebar.general_settings') }}</a>
                                 </li>
-                            @endcan
+                            @endcan --}}
 
                         @can('acadimic-create')
                             <li class="nav-item">
