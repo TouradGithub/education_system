@@ -21,7 +21,7 @@ class Schools extends Model
     protected $fillable = [
         'name', 'description','image','adress','email','type','grade_id','academy_id'
     ];
-    
+
     public function setting()
     {
         return $this->hasOne(Settings::class, 'school_id');
@@ -37,9 +37,9 @@ class Schools extends Model
         return $this->hasMany(ClassRoom::class ,'school_id');
     }
 
-    // public function student() {
-    //     return $this->hasOne(Students::class, 'user_id', 'id');
-    // }
+    public function students() {
+        return $this->hasOne(Student::class, 'school_id', 'id');
+    }
 
     // public function parent() {
     //     return $this->hasOne(Parents::class, 'user_id', 'id');

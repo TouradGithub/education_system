@@ -50,8 +50,7 @@ class TrimesterController extends Controller
                 'required',
                 'integer',
                 Rule::unique('trimesters')->where(function ($query) use ($request) {
-                    return $query->where('name', json_encode(['en' => $request->name_en, 'ar' => $request->name]))
-                                 ->where('arrangement', $request->arrangement);
+                    return $query->where('arrangement', $request->arrangement);
                 }),
             ],
         ]);
@@ -221,6 +220,7 @@ class TrimesterController extends Controller
 
         }
         try {
+            // return $id;
             $trimester= Trimester::find($id);
             if(!$trimester){
                 $response = array(
@@ -229,8 +229,11 @@ class TrimesterController extends Controller
                 );
                 return response()->json($response);
             }
-            $exams=  Exam::where('trimester_id',$trimester->id)->get();
-            if( $exams){
+
+            // return  $trimester;
+            $exams=  Exam::where('trimester_id',$trimester->id)->count();
+            if($exams>0){
+                return $exams;
                 $response = array(
                     'error' => false,
                     'message' => trans('genirale.cannot_delete_beacuse_data_is_associated_with_other_data')

@@ -164,9 +164,11 @@
                                                 </th>
                                                 <th scope="col" data-field="name" data-sortable="false"> {{trans('genirale.name')}}
                                                 </th>
+                                                <th scope="col" data-field="email" data-sortable="false"> {{trans('genirale.email')}}
+                                                </th>
                                                 </th>
                                                 <th scope="col" data-field="notes" data-sortable="false">
-                                                  {{  trans('genirale.note')}}
+                                                    {{  trans('genirale.note')}}
                                                 </th>
 
                                                 {{-- @if (Auth::user()->can('holiday-edit') || Auth::user()->can('holiday-delete')) --}}

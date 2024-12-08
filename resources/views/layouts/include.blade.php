@@ -6,9 +6,9 @@
 <link rel="stylesheet" href="{{ asset('/assets/jquery-toast-plugin/jquery.toast.min.css') }}">
 <link rel="stylesheet" href="{{ asset('/assets/color-picker/color.min.css') }}" async>
 
-        
 
-        @if (App::getLocale() == 'en')
+
+        @if (App::getLocale() == 'fr')
         <link rel="stylesheet" href="{{ asset('/assets/css/style.css') }}">
 
         @else
