@@ -20,7 +20,7 @@ use App\Http\Controllers\TeacherController;
 use App\Http\Controllers\ChargilyPayController;
 // Route::group(['middleware' => ['checkNotAuth']], function () {
 
-    Route::get('/', [HomeController::class,'getSection'])->name('section');
+    // Route::get('/', [HomeController::class,'getSection'])->name('section');
 
     Route::get('scraper', [App\Http\Controllers\ScraperController::class, 'scraper'])->name('scraper');
 
