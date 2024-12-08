@@ -21,7 +21,7 @@ class Schools extends Model
     protected $fillable = [
         'name', 'description','image','adress','email','type','grade_id','academy_id'
     ];
-
+    
     public function setting()
     {
         return $this->hasOne(Settings::class, 'school_id');

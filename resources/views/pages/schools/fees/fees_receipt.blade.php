@@ -1,17 +1,5 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <!-- Required meta tags -->
-    <meta charset="utf-8">
-    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
-        <style>
-            * { font-family: DejaVu Sans, sans-serif; }
-        </style>
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <title>Fees Receipt || {{ config('app.name') }}</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/4.6.0/css/bootstrap.min.css" integrity="sha512-P5MgMn1jBN01asBgU0z60Qk4QxiXo86+wlFahKrsQf37c9cro517WzVSPPV1tDKzhku2iJ2FVgL67wG03SGnNA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
-</head>
-<body>
+@extends('layouts.layout_pdf')
+@section('page-content')
     <div class="container">
         <div class="row mt-4">
             <div class="col-12">
@@ -53,7 +41,7 @@
         </div>
         <div class="row">
             <div class="col-12 mt-4">
-                <table class="table" style="text-align: center;border: 1px">
+                <table class="pdf-table">
                     <thead>
                         <tr>
                         <th scope="col" class="text-left">Months </th>
@@ -74,20 +62,19 @@
 
                                     <tr>
                                         <th scope="row" class="text-left">{{getMonth($data->month)}}</th>
-                                        <td colspan="2" class="text-left"><br><small>PAID ON :-{{$data->date}} </small></td>
-                                        <td class="text-right">{{$data->amount}} DZ</td>
+                                        <td colspan="2" class="text-left"><br><small>{{$data->date}} </small></td>
+                                        <td class="text-right">{{$data->amount}} {{env('CURENCY')}}</td>
                                     </tr>
                                 @endforeach
                         <tr>
                             <th scope="row"></th>
                             <td colspan="2" class="text-left"><strong>Total Amount:-</strong></td>
-                            <td class="text-right">{{ $amount}} Dz</td>
+                            <td class="text-right">{{ $amount}} {{env('CURENCY')}}</td>
                         </tr>
                     </tbody>
                 </table>
             </div>
         </div>
     </div>
-</body>
 
-</html>
+    @endsection

@@ -188,12 +188,12 @@
                         </li>
                     @endcan
 
-                    @can('school-promotion-index')
+                    {{-- @can('school-promotion-index') --}}
                     <li class="nav-item">
                         <a class="nav-link" href="{{ route('school.student.promotions.index') }}">
                             {{ __('promotion.list_promotion') }}</a>
                     </li>
-                    @endcan
+                    {{-- @endcan --}}
 
 
                 </ul>

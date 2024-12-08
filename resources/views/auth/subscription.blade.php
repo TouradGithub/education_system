@@ -42,7 +42,7 @@
                 @endif
                 <div class="mx-auto order-0">
                     <div class="alert alert-fill-danger my-2" role="alert">
-                        <i class="fa fa-exclamation"></i>  You Have to pay {{getYearNow()->price}} Dz for this Year  {{getYearNow()->name}}  to Subscribe in Our System<a href="" class="alert-link"></a>.
+                        <i class="fa fa-exclamation"></i>  You Have to pay {{getYearNow()->price}} MRU for this Year  {{getYearNow()->name}}  to Subscribe in Our System<a href="" class="alert-link"></a>.
                     </div>
                 </div>
 

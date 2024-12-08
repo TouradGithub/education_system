@@ -45,6 +45,10 @@ class ClassRoom extends Model
     {
         return $this->hasMany(SubjectTeacher::class, 'class_section_id')->with('subject');
     }
+    public function student_promotions()
+    {
+        return $this->hasMany(Promotion::class, 'from_section');
+    }
 
     public function fees_class() {
         return $this->hasOne(FeesClass::class, 'class_section_id');

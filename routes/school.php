@@ -39,7 +39,7 @@ Route::group(
         return view('pages.schools.dashborad');
     })->name('school.home');
 
-    Route::prefix('students')->group(function () {
+    Route::prefix('students')->middleware('verifySettingSchool')->group(function () {
         Route::get('announcement-student', [StudentController::class, 'getStudentAnnoucement'])->name('student.getStudentAnnoucement');
         Route::get('show/{id}', [StudentController::class, 'show'])->name('student.show');
         Route::post('sendMessage', [StudentController::class, 'sendMessage'])->name('student.sendMessage');
@@ -62,6 +62,9 @@ Route::group(
         Route::post('store', [PromotionController::class, 'store'])->name('student.promotions.store');
         Route::get('index', [PromotionController::class, 'index'])->name('student.promotions.index');
         Route::get('show', [PromotionController::class, 'show'])->name('student.promotions.show');
+        Route::get('/export-results', [PromotionController::class, 'exportResultsPDF'])->name('student.promotions.export.results.pdf');
+        Route::get('/export-inscription', [PromotionController::class, 'exportInscriptionPDF'])->name('student.promotions.export.inscription.pdf');
+
 
     });
 

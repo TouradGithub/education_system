@@ -24,24 +24,13 @@
                                     <option value="">{{ __('all') }}</option>
                                     @foreach (getSchool()->sections as $item)
                                         <option value="{{ $item->id }}">
-                                            {{ $item->classe->name  ?? ' '}}      {{ $item->name }}
+                                            {{ $item->classe->name  ?? ' '}}   -   {{ $item->name }}
                                         </option>
                                     @endforeach
                                 </select>
                             </div>
-                            <div class="col">
-                                <label for="filter_session_year_id" style="font-size: 0.89rem">
-                                    {{ __('session_years') }}
-                                </label>
-                                <select name="filter_session_year_id" id="filter_session_year_id" class="form-control">
-                                    <option value="">{{ __('all') }}</option>
-                                    {{-- @foreach ($session_year_all as $session_year)
-                                        <option value="{{ $session_year->id }}">
-                                            {{ $session_year->name }}
-                                        </option>
-                                    @endforeach --}}
-                                </select>
-                            </div>
+                     
+                            
                             <div class="col" style="font-size: 0.89rem">
                                 <label for="filter_mode">
                                     {{ __('mode') }}
@@ -54,10 +43,14 @@
                                 </select>
                             </div>
                         </div>
-                        <table aria-describedby="mydesc" class='table table-striped' id='table_list' data-toggle="table"data-url="{{ route('school.fees.paid.list', 1) }}" data-click-to-select="true"data-side-pagination="server" data-pagination="true" data-page-list="[5, 10, 20, 50, 100, 200]"data-search="true" data-toolbar="#toolbar" data-show-columns="true" data-show-refresh="true"data-fixed-columns="true" data-trim-on-search="false" data-mobile-responsive="true" data-sort-name="id"data-sort-order="desc" data-maintain-selected="true" data-export-types='["txt","excel"]'data-export-options='{ "fileName": "{{ __('fees') }}-{{ __('paid') }}-{{ __('list') }}-<?= date('d-m-y') ?>" ,"ignoreColumn":["operate"]}' data-show-export="true"data-query-params="feesPaidListQueryParams">
+                        <table aria-describedby="mydesc" class='table table-striped' id='table_list' data-toggle="table"data-url="{{ route('school.fees.paid.list', 1) }}" 
+                                data-click-to-select="true"data-side-pagination="server" data-pagination="true" data-page-list="[5, 10, 20, 50, 100, 200]"
+                                data-search="true" data-toolbar="#toolbar" data-show-columns="true" data-show-refresh="true"data-fixed-columns="true" 
+                                data-trim-on-search="false" data-mobile-responsive="true" data-sort-name="id"data-sort-order="desc" data-maintain-selected="true" 
+                                data-export-types='["txt","excel"]'data-export-options='{ "fileName": "{{ __('fees') }}-{{ __('paid') }}-{{ __('list') }}-<?= date('d-m-y') ?>" ,"ignoreColumn":["operate"]}'
+                                data-show-export="true" data-query-params="feesPaidListQueryParams">
                             <thead>
                                 <tr>
-
                                     <th scope="col" data-field="id" data-sortable="true" data-visible="false">{{ __('id') }}</th>
                                     <th scope="col" data-field="student_id" data-sortable="false" data-visible="false">{{ __('student_id') }}</th>
                                     <th scope="col" data-field="no" data-sortable="false">{{ __('no.') }}</th>
@@ -66,6 +59,7 @@
                                     <th scope="col" data-field="months" data-sortable="false" data-align="center">{{ __('months') }}</th>
                                     <th scope="col" data-field="created_at" data-sortable="true" data-visible="false">{{ __('created_at') }}</th>
                                     <th scope="col" data-field="updated_at" data-sortable="true" data-visible="false">{{ __('updated_at') }}</th>
+                                    <th scope="col" data-field="fees_paid" data-visible="false" data-sortable="false" data-align="center">{{ __('action') }}</th>
                                     <th scope="col" data-field="operate" data-sortable="false"
                                     data-events="feesPaidEvents" data-align="center">{{ __('action') }}</th>
                                 </tr>
@@ -101,7 +95,7 @@
                             <div class="modal-body">
                                 <div class="form-group">
                                     <label>{{ __('date') }} <span class="text-danger">*</span></label>
-                                    <input type="text" name="date" class="datepicker-popup paid_date form-control"
+                                    <input type="date" name="date" class="datepicker-popup paid_date form-control"
                                         placeholder="{{ __('date') }}" autocomplete="off" required>
                                 </div>
                                 <div class="compulsory_div" style="display: none">
@@ -146,8 +140,6 @@
                 </div>
             </div>
 
-
-
             <!--Optional Fees Modal -->
             <div class="modal fade" id="optionalModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
                 aria-hidden="true">
@@ -177,7 +169,17 @@
 
                                 <div class="form-group">
                                     <label>{{ __('Months') }} <span class="text-danger">*</span></label>
-                                    {!! Form::select('months[]', getMonths(),[], array('class' => 'form-control','multiple')) !!}
+                                    <div>
+                                        <div class="d-flex flex-wrap">
+                                            @foreach(getMonths() as $key => $month)
+                                                <div class="form-check" style="width: 25%;">
+                                                    <input type="checkbox" name="months[]" value="{{ $key }}" class="form-check-input" id="month_{{ $key }}">
+                                                    <label class="form-check-label" for="month_{{ $key }}">{{ $month }}</label>
+                                                </div>
+                                            @endforeach
+                                        </div>
+                                    </div>
+                                    {{-- {!! Form::select('months[]', getMonths(),[], array('class' => 'form-control multiselect', 'multiple' => 'multiple')) !!} --}}
                                 </div>
                                 <div class="optional_div" style="display: none">
                                     <hr>
@@ -196,12 +198,8 @@
                                                     {{ __('cash') }}
                                                 </label>
                                             </div>
-                                            <div class="form-check form-check-inline">
-                                                <label class="form-check-label">
-                                                    <input type="radio" name="mode" class="mode cheque_mode" value="1">
-                                                    {{ __('cheque') }}
-                                                </label>
-                                            </div>
+
+
                                         </div>
                                     </div>
                                 </div>
@@ -222,7 +220,7 @@
             </div>
 
             <!-- Modal -->
-            <div class="modal fade" id="editFeesPaidModal" tabindex="-1" role="dialog"
+            {{-- <div class="modal fade" id="editFeesPaidModal" tabindex="-1" role="dialog"
                 aria-labelledby="exampleModalLabel" aria-hidden="true">
                 <div class="modal-dialog modal-m" role="document">
                     <div class="modal-content">
@@ -298,7 +296,7 @@
                         </form>
                     </div>
                 </div>
-            </div>
+            </div> --}}
         </div>
     </div>
 @endsection

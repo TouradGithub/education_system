@@ -858,92 +858,26 @@ window.feesPaidEvents = {
         // $(document).find('.optional_fees_payment').prop('disabled', true);
 
         // Add data in Modal
-        console.log(row.class_id);
+        // console.log(row.class_id);
         $('#optional_student_id').val(row.student_id);
         $('#optional_class_id').val(row.class_id);
         $('.student_name').html(row.student_name + ' - ' + row.class_name);
         $('.current-date').val(row.current_date);
 
-        if(row.mode == 1 && (row.type_of_fee == 2 || row.type_of_fee == null)){
-            $(document).find('.mode_container').show(200);
-            $('.cash_mode').attr('checked',false)
-            $('.cheque_mode').attr('checked',true).change();
-            $(document).find('.cheque_no').val(row.cheque_no)
-        }else if(row.mode == 0 && (row.type_of_fee == 2 || row.type_of_fee == null)){
-            $(document).find('.mode_container').show(200);
-            $(document).find('.cheque_no').val(null)
-            $('.cheque_mode').attr('checked',false);
-            $('.cash_mode').attr('checked',true).change();
-        }else if(row.mode == null){
-            $(document).find('.mode_container').show(200);
-            $(document).find('#cheque_no').val(null)
-            $('.cheque_mode').attr('checked',false);
-            $('.cash_mode').attr('checked',true).change();
-        }else{
-            $(document).find('.mode_container').hide(200);
-        }
 
-        // IF Optional Fee is not Empty
-        if (row.choiceable_fees.length) {
-            // Make Optional DIV visible
-            $('.optional_div').show();
-
-            // Declare HTML
-            let html = '';
-
-            // Adding the data of Optional Fees with Paid Optional Fee
-            html = '<table class="table"><tbody>'
-            $.each(row.choiceable_fees, function (index, value) {
-                // IF is Paid then add CROSS ICON for Delete Else Add Checkbox
-                if(value.is_paid){
-                    if(value.date){
-                        html += '<tr><td scope="row" class="text-left"><span class="remove-optional-fees-paid text-left" data-id="'+value.paid_id+'"><i class="fa fa-times text-danger" style="cursor:pointer" aria-hidden="true"></i></span></td><td colspan="2" class="text-left">'+value.name+'<br><span class="text-small text-success">('+lang_paid_on+' :- '+value.date+')</span></td><td class="text-right">'+(value.amount).toFixed(2)+'</td></tr>'
-                    }else{
-                        html += '<tr><td scope="row" class="text-left"><span class="remove-optional-fees-paid text-left" data-id="'+value.paid_id+'"><i class="fa fa-times text-danger" style="cursor:pointer" aria-hidden="true"></i></span></td><td colspan="2" class="text-left">'+value.name+'</td><td class="text-right">'+(value.amount).toFixed(2)+'</td></tr>'
-                    }
-                }else{
-                    html += '<tr><td scope="row" class="text-left"><input type="checkbox" class="chkclass" name="optional_fees_type_data['+index+'][id]" value="' + value.fees_type_id + '" data-amount="' + value.amount + '"></td><td colspan="2" class="text-left">'+value.name+'</td><td class="text-right">'+(value.amount).toFixed(2)+'<input type="hidden" name="optional_fees_type_data['+index+'][amount]" value='+value.amount+'></td></tr>'
-                }
-            });
-            // Add Total Amount Section
-            html += '<tr><td></td><td colspan="2" class="text-left">'+lang_total_amount+' </td><td class="text-right"><strong><span class="optional_total_amount_label"></span></strong><input type="hidden" name="total_amount" class="optional_total_amount"></td></tr></tbody></table>';
-
-            // Add The Html to Optional DIV
-            $('.optional_fees_content').html(html);
-
-            // Make Total Amount Fixed to 2 Decimal Points
-            $('.optional_total_amount_label').html((0).toFixed(2));
-
-            // Get the Amount Of Total Amount From DIV
-            let choice_amount = parseInt($('.optional_total_amount_label').html());
-            $('.chkclass').on('click', function (e) {
-
-                // Check if Checkbox Checked or not then Update the total Amount Accordingly
-                if ($(this).is(':checked')) {
-                    $(document).find('.mode_container').show(200);
-                    $(this).addClass('added_price');
-                    $(this).removeClass('chkclass');
-                    (choice_amount += $(this).data("amount")).toFixed(2);
-                    $('.optional_total_amount_label').html((choice_amount).toFixed(2));
-                    $('.optional_total_amount').val((choice_amount).toFixed(2));
-                } else {
-                    $(this).removeClass('added_price');
-                    $(this).addClass('chkclass');
-                    (choice_amount -= $(this).data("amount")).toFixed(2);
-                    $('.optional_total_amount_label').html((choice_amount).toFixed(2));
-                    $('.optional_total_amount').val((choice_amount).toFixed(2));
-                }
-
-                // Check the Amount And Make PAY Button Clickable Or Not
-                // if(choice_amount > 1){
-                //     $(document).find('.optional_fees_payment').prop('disabled', false);
-                // }else{
-                //     $(document).find('.optional_fees_payment').prop('disabled', true);
-                // }
+        if (Array.isArray(row.fees_paid) && row.fees_paid.length > 0) {
+            $('input[name="months[]"]').each(function () {
+                const monthValue = $(this).val();
+                console.log(monthValue);
+                console.log( row.fees_paid);
+                console.log(  row.fees_paid.includes(monthValue));
+                $(this).prop('checked', row.fees_paid.includes(monthValue));
             });
         } else {
-            $('.compulsory_div').hide();
+            $('input[name="months[]"]').prop('checked', false);
         }
+        // $('.current-date').val(row.current_date);
+
     },
 
     'click .edit-data': function (e, value, row, index) {
@@ -1388,6 +1322,13 @@ function defaultYearFormatter(index, row) {
         return "<span class='badge badge-success'>Yes</span>"
     }
 }
+function decisionPromotion(index, row) {
+    if (index == 'admin') {
+        return "<span class='badge badge-success'>Admin</span>"
+    } else {
+        return "<span class='badge badge-danger'>Ajouner</span>"
+    }
+}
 function feesTypeChoiceable(index, row) {
     if (row.choiceable) {
         return "<span class='badge badge-success'>Yes</span>"
@@ -1735,8 +1676,8 @@ function feesPaidListQueryParams(p) {
         offset: p.offset,
         search: p.search,
         class_id: $('#filter_class_id').val(),
-        session_year_id: $('#filter_session_year_id').val(),
-        mode: $('#filter_mode').val(),
+        // session_year_id: $('#filter_session_year_id').val(),
+        // mode: $('#filter_mode').val(),
     };
 }
 
