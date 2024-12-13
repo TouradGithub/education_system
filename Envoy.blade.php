@@ -19,7 +19,8 @@ $server_dir=$branch;
 
 
 @story('deploy')
-clone_repository
+echo "good"
+{{-- clone_repository --}}
  {{-- run_composer
 setup_app --}}
 {{--clean
