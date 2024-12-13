@@ -19,7 +19,7 @@ $server_dir=$branch;
 
 
 @story('deploy')
-    @if ($new_release_dir)
+    @if (file_exists($new_release_dir) && count(glob($new_release_dir . '/*')) > 0)
         clone_repository
 
         run_composer
