@@ -19,12 +19,11 @@ $server_dir=$branch;
 
 
 @story('deploy')
-echo "good"
 {{-- clone_repository --}}
  {{-- run_composer
 setup_app --}}
-{{--clean
-succeed --}}
+clean
+{{-- succeed --}}
 @endstory
 
 
@@ -90,11 +89,11 @@ echo " test free -h"
 {{-- Clean old releases --}}
 @task('clean')
 echo "Clean old releases";
-cd {{ $releases_dir }};
+{{-- cd {{ $releases_dir }}; --}}
 
-echo "we will keep only last {{ $keep }} releases || and will remove >>  $(ls -t | tail -n +{{ $keep +1 }})";
+echo "we will keep only last  releases || and will remove >> ";
 
-rm -rf $(ls -t | tail -n +{{ $keep +1 }});
+{{-- rm -rf $(ls -t | tail -n +{{ $keep +1 }}); --}}
 @endtask
 
 @task('succeed')
