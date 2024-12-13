@@ -57,14 +57,14 @@ git clone --depth 1 --branch {{ $branch }} {{ $repository }} {{ $new_release_dir
 @task('run_composer')
     echo "Running Composer install."
     cd {{ $new_release_dir }}
-    composer install --no-interaction --prefer-dist --optimize-autoloader
+    composer install
 @endtask
 
 
 
 @task('setup_app')
 echo "Setting up the app"
-cd {{ $new_release_dir }}
+
 pwd
 free -g -h -t && sync && free -g -h
 echo "Run migrate"
