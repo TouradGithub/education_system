@@ -19,24 +19,25 @@ $server_dir=$branch;
 
 
 @story('deploy')
-check_and_clone_or_pull
+@if ($$new_release_dir)
+clone_repository
+
+run_composer
+
+setup_app
+@else
+pull_repository
+@endif
 succeed
 @endstory
 
 
 
-@task('check_and_clone_or_pull')
+{{-- @task('check_and_clone_or_pull')
 
     @if ($new_release_dir)
-    @clone_repository
 
-    @run_composer
-
-    @setup_app
-    @else
-    @pull_repository
-    @endif
-@endtask
+@endtask --}}
 
 @task('clone_repository')
 
