@@ -18,7 +18,7 @@ jobs:
 
     - name: Add server to known_hosts
       run: ssh-keyscan -p 65002 154.56.33.183 >> ~/.ssh/known_hosts
-
+# 
     - name: Configure SSH
       run: |
         echo "Host 154.56.33.183
