@@ -5,9 +5,9 @@ echo "Connect to server";
 $repository= 'git@github.com:TouradGithub/edication_system.git';
 $branch = isset($branch) ? $branch : "main";
 $app_dir = "u334693063";
-$releases_dir = "$app_dir/releases";
+
 $release = date('YmdHis');
-$new_release_dir ="$releases_dir/$release";
+
 $branch_path="$app_dir/$branch";
 $env_file_name =".env.$branch";
 $env_path="$branch_path/$env_file_name";
