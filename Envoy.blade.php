@@ -13,7 +13,7 @@ $env_file_name = ".env.$branch";
 $env_path = "$branch_path/$env_file_name";
 echo '{{$env_path}}';
 $keep = 1;
-$new_release_dir = "/home/u334693063/domains/edzayer.com/public_html/system_education";
+$new_release_dir = "/home/u334693063/domains/edzayer.com/public_html/test_system";
 @endsetup
 $server_dir = $branch;
 
@@ -64,7 +64,7 @@ $server_dir = $branch;
     cp .env.example .env
     php artisan key:generate --force
     php artisan optimize:clear
-    
+
     php artisan optimize
     php artisan view:clear
     php artisan storage:link
