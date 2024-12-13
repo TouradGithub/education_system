@@ -1,51 +1,37 @@
-name: Print Hello World
+name: Deploy Laravel
 
 on:
   push:
     branches:
       - main
-    pull_request:
-      branches:
-        - main
 
 jobs:
-  hello-world:
+  deploy:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Print Hello World
-        run: echo "Hello World"
+    - name: Check out code
+      uses: actions/checkout@v4
 
-      - name: Set up PHP
-        uses: shivammathur/setup-php@v2
-        with:
-          php-version: '8.1'
-          extensions: mbstring, pdo, sqlite3
-          ini-values: post_max_size=256M, upload_max_filesize=256M
-          coverage: none
-      - name: Check out code
-        uses: actions/checkout@v4
-      - name: Set up SSH directory
-        run: mkdir -p ~/.ssh
+    - name: Set up SSH directory
+      run: mkdir -p ~/.ssh
 
-      - name: Add server to known_hosts
-        run: ssh-keyscan -p 65002 154.56.33.183 >> ~/.ssh/known_hosts
+    - name: Add server to known_hosts
+      run: ssh-keyscan -p 65002 154.56.33.183 >> ~/.ssh/known_hosts
 
+    - name: Configure SSH
+      run: |
+        echo "Host 154.56.33.183
+          Port 65002
+          StrictHostKeyChecking no" >> ~/.ssh/config
 
+    - name: Set up SSH
+      uses: webfactory/ssh-agent@v0.8.1
+      with:
+        ssh-private-key: ${{ secrets.SSH_PRIVATE_KEY }}
 
-      # Copy .env file
-      - name: Copy .env
-        run: php -r "file_exists('.env') || copy('.env.example', '.env');"
+    - name: Test SSH Connection
+      run: ssh -p 65002 u334693063@154.56.33.183 "echo Connected"
 
-      - name: Install dependencies
-        run: composer update --no-ansi --no-interaction --no-scripts --no-progress --prefer-dist
-
-      # Generate application key
-      - name: Generate application key
-        run: php artisan key:generate
-
-      - name: run envoy
-        run: php vendor/bin/envoy run deploy --branch=main
-
-
-
+    - name: Run Envoy
+      run: php vendor/bin/envoy run deploy --branch=main
