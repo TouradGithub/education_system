@@ -20,16 +20,16 @@ $server_dir = $branch;
 @story('deploy')
     @task('check_directory')
         # Check if the directory is empty
-        echo "Checking if the directory is empty"
+        echo 'Checking if the directory is empty'
         if [ ! -d "$new_release_dir/.git" ]; then
-            echo "Directory is empty, cloning repository."
+            echo 'Directory is empty, cloning repository.'
             php artisan down
             @clone_repository
             @run_composer
             @setup_app
             php artisan up
         else
-            echo "Directory is not empty, pulling the latest changes."
+            echo 'Directory is not empty, pulling the latest changes.'
             @pull_repository
             @run_composer
             @setup_app
@@ -52,14 +52,14 @@ $server_dir = $branch;
 @endtask
 
 @task('run_composer')
-    echo "Starting deployment ({{ $release }})"
+    echo 'Starting deployment ({{ $release }})'
     cd {{ $new_release_dir }}
-    echo "Running composer install"
+    echo 'Running composer install'
     composer install --no-interaction --prefer-dist --optimize-autoloader
 @endtask
 
 @task('setup_app')
-    echo "Setting up the app"
+    echo 'Setting up the app'
     cd {{ $new_release_dir }}
     cp .env.example .env
     php artisan key:generate --force
@@ -71,9 +71,9 @@ $server_dir = $branch;
 @endtask
 
 @task('clean')
-    echo "Cleaning old releases"
+    echo 'Cleaning old releases'
     cd {{ $releases_dir }}
-    echo "We will keep only the last {{ $keep }} releases and will remove the rest."
+    echo 'We will keep only the last {{ $keep }} releases and will remove the rest.'
     rm -rf $(ls -t | tail -n +{{ $keep + 1 }})
 @endtask
 
