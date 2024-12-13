@@ -4,6 +4,9 @@ on:
   push:
     branches:
       - main
+    pull_request:
+      branches:
+        - main
 
 jobs:
   hello-world:
@@ -12,3 +15,15 @@ jobs:
     steps:
       - name: Print Hello World
         run: echo "Hello World"
+        
+      - name: Set up PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: '8.0'
+          extensions: mbstring, pdo, sqlite3
+          ini-values: post_max_size=256M, upload_max_filesize=256M
+          coverage: none
+
+
+
+
