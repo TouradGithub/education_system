@@ -13,6 +13,14 @@ jobs:
     - name: Check out code
       uses: actions/checkout@v4
 
+    - name: Set up PHP 8.2
+      uses: shivammathur/setup-php@v2
+      with:
+        php-version: '8.2'  # Change PHP version to 8.2
+        extensions: mbstring, pdo, sqlite3
+        ini-values: post_max_size=256M, upload_max_filesize=256M
+        coverage: none
+
     - name: Set up SSH directory
       run: mkdir -p ~/.ssh
 
@@ -30,8 +38,11 @@ jobs:
       with:
         ssh-private-key: ${{ secrets.SSH_PRIVATE_KEY }}
 
+    - name: Install Composer dependencies
+      run: composer install --no-interaction --prefer-dist --optimize-autoloader
+
     - name: Test SSH Connection
       run: ssh -p 65002 u334693063@154.56.33.183 "echo Connected"
 
-    - name: Run Envoy
+    - name: Run Envoy Deployment
       run: php vendor/bin/envoy run deploy --branch=main
