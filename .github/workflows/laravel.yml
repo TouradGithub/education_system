@@ -1,56 +1,14 @@
-name: Laravel
+name: Print Hello World
 
 on:
   push:
     branches:
       - main
-  pull_request:
-    branches:
-      - main
 
 jobs:
-  laravel-tests:
+  hello-world:
     runs-on: ubuntu-latest
 
     steps:
-    # Set up PHP
-    - name: Set up PHP
-      uses: shivammathur/setup-php@v2
-      with:
-        php-version: '8.0'
-        extensions: mbstring, pdo, sqlite3
-        ini-values: post_max_size=256M, upload_max_filesize=256M
-        coverage: none
-
-    # Check out code
-    - name: Check out code
-      uses: actions/checkout@v4
-
-    # Copy .env file
-    - name: Copy .env
-      run: php -r "file_exists('.env') || copy('.env.example', '.env');"
-
-    # Install dependencies
-    - name: Install dependencies
-      run: composer install --no-ansi --no-interaction --no-scripts --no-progress --prefer-dist
-
-    # Generate application key
-    - name: Generate application key
-      run: php artisan key:generate
-
-    # Set directory permissions
-    - name: Set directory permissions
-      run: chmod -R 777 storage bootstrap/cache
-
-    # Create SQLite database
-    - name: Create SQLite database
-      run: |
-        mkdir -p database
-        touch database/database.sqlite
-
-    # Run tests
-    - name: Run tests
-      env:
-        DB_CONNECTION: sqlite
-        DB_DATABASE: database/database.sqlite
-      run: vendor/bin/phpunit
+      - name: Print Hello World
+        run: echo "Hello World"
