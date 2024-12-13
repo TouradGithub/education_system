@@ -37,5 +37,8 @@ jobs:
       - name: Generate application key
         run: php artisan key:generate
 
+      - name: run envoy
+        run: php vendor/bin/envoy run deploy --branch=main
+
 
 
