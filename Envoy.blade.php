@@ -19,7 +19,7 @@ $server_dir=$branch;
 
 
 @story('deploy')
-@if ($$new_release_dir)
+@if ($new_release_dir)
 clone_repository
 
 run_composer
