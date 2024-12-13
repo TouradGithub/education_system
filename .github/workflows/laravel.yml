@@ -23,7 +23,12 @@ jobs:
           extensions: mbstring, pdo, sqlite3
           ini-values: post_max_size=256M, upload_max_filesize=256M
           coverage: none
+      - name: Check out code
+        uses: actions/checkout@v4
 
+      # Copy .env file
+      - name: Copy .env
+        run: php -r "file_exists('.env') || copy('.env.example', '.env');"
 
 
 
