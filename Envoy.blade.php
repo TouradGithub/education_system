@@ -19,15 +19,15 @@ $server_dir=$branch;
 
 
 @story('deploy')
-@if ($new_release_dir)
-clone_repository
+    @if ($new_release_dir)
+        clone_repository
 
-run_composer
+        run_composer
 
-setup_app
-@else
-pull_repository
-@endif
+        setup_app
+    @else
+        pull_repository
+    @endif
 succeed
 @endstory
 
@@ -38,14 +38,10 @@ succeed
     @if ($new_release_dir)
 
 @endtask --}}
-
 @task('clone_repository')
-
-echo 'Cloning repository'
-echo 'Cloning branch {{ $branch }} from repository {{ $repository }} into {{ $new_release_dir }}'
-git clone --depth 1 --branch {{ $branch }} {{ $repository }} {{ $new_release_dir }}
-
-
+    echo 'Cloning repository'
+    echo 'Cloning branch {{ $branch }} from repository {{ $repository }} into {{ $new_release_dir }}'
+    git clone --depth 1 --branch {{ $branch }} {{ $repository }} {{ $new_release_dir }}
 @endtask
 
 @task('pull_repository')
@@ -57,49 +53,31 @@ git clone --depth 1 --branch {{ $branch }} {{ $repository }} {{ $new_release_dir
 @task('run_composer')
     echo "Running Composer install."
     cd {{ $new_release_dir }}
-    composer install
+    composer install --no-interaction --prefer-dist --optimize-autoloader
 @endtask
-
-
 
 @task('setup_app')
-echo "Setting up the app"
-
-pwd
-free -g -h -t && sync && free -g -h
-echo "Run migrate"
-cp .env.example .env
-php artisan key:generate --force
-echo " test key ok"
-php artisan optimize:clear
-echo " test optimize ok"
-php artisan migrate:fresh --force --seed
-echo " test migrate ok"
-php artisan optimize
-echo " test optimize ok"
-php artisan view:clear
-php artisan storage:link
-echo " test view ok"
-
-
-free -h
-echo " test free -h"
-
-@endtask
-
-{{-- Clean old releases --}}
-@task('clean')
-echo "Clean old releases";
-cd {{ $releases_dir }};
-
-echo "we will keep only last {{ $keep }} releases || and will remove >>  $(ls -t | tail -n +{{ $keep +1 }})";
-
-rm -rf $(ls -t | tail -n +{{ $keep +1 }});
+    echo "Setting up the app"
+    cd {{ $new_release_dir }}
+    pwd
+    free -g -h -t && sync && free -g -h
+    echo "Run migrate"
+    cp .env.example .env
+    php artisan key:generate --force
+    echo "Key generated"
+    php artisan optimize:clear
+    echo "Optimized cleared"
+    php artisan migrate:fresh --force --seed
+    echo "Migration complete"
+    php artisan optimize
+    echo "Optimization complete"
+    php artisan view:clear
+    php artisan storage:link
+    echo "View cleared and storage linked"
+    free -h
 @endtask
 
 @task('succeed')
-free -g -h -t && sync && free -g -h -t
-echo 'Deployment completed successfully. the new {{$branch}} releases {{$release}} is live now : '
+    free -g -h -t && sync && free -g -h -t
+    echo 'Deployment completed successfully. The new {{$branch}} release {{$release}} is live now!'
 @endtask
-
-
