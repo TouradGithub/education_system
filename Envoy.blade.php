@@ -22,11 +22,12 @@ $server_dir = $branch;
         pull_repository
     @else
         clone_repository
+        run_composer
+        setup_app
+        succeed
     @endif
 
-    run_composer
-    setup_app
-    succeed
+
 @endstory
 
 @task('clone_repository')
