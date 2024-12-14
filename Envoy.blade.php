@@ -41,13 +41,14 @@ succeed
 @task('clone_repository')
     echo 'Cloning repository'
     echo 'Cloning branch {{ $branch }} from repository {{ $repository }} into {{ $new_release_dir }}'
-    git clone  {{ $repository }} {{ $new_release_dir }}
+    git clone  {{ $repository }}
 @endtask
 
 @task('pull_repository')
     echo 'Pulling latest changes.'
-    pwd
+
     cd {{ $new_release_dir }}
+    pwd
     git add .
     git commit -m "update"
     git pull origin {{ $branch }}
