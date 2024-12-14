@@ -19,19 +19,18 @@ $composer = "/home/u334693063/domains/edzayer.com/public_html/composer.json";
 $server_dir = $branch;
 
 @story('deploy')
+
+echo "Checking if composer.json exists at $composer"
+
 @if (file_exists($composer))
+    echo "composer.json exists, pulling repository and running composer install."
     pull_repository
     run_composer
 @else
-
-
+    echo "composer.json not found, cloning repository."
     clone_repository
-
     setup_app
     succeed
-
-
-
 @endif
 
 
