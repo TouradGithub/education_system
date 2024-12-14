@@ -24,27 +24,19 @@ echo file_exists($composer) ? 'Exists' : 'Does not exist';
 
 @story('deploy')
 
-
-    @if (file_exists($composer))
-
-
-        pull_repository
-        run_composer
-    @else
-
-
-        clone_repository
-        run_composer
-        setup_app
-
-    @endif
-
+check_composer
 
 
 @endstory
 
 @task('check_composer')
-    echo "Checking if composer.json exists at {{ $composer }}: {{ file_exists($composer) ? 'Exists' : 'Does not exist' }}"
+    if [ -f "/home/u334693063/domains/edzayer.com/public_html/test_system/composer.json" ]; then
+    echo "composer.json exists."
+
+    else
+        echo "composer.json does not exist. Skipping git operations."
+    fi
+
 @endtask
 
 @task('clone_repository')
