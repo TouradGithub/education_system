@@ -22,16 +22,17 @@ $server_dir = $branch;
 @story('deploy')
 
 
-@task('check_repository')
-if [ ! -d "{{ $new_release_dir }}" ] || [ ! -d "{{ $new_release_dir }}/.git" ]; then
+    @if (!is_dir($new_release_dir) || !is_git_repository($new_release_dir))
 
-    clone_repository
-else
+        clone_repository
+        run_composer
+        setup_app
+    @else
 
-    pull_repository
-fi
-@endtask
+        pull_repository
+        run_composer
 
+    @endif
 
 
 
@@ -105,7 +106,7 @@ echo 'Pulling latest changes Terminate.'
 @php
 // Function to check if the directory is a valid Git repository
 function is_git_repository($dir) {
-    $git_dir = $dir . '/.git';
+    $git_dir = $dir . '/.gitignore';
     return is_dir($git_dir);
 }
 @endphp
