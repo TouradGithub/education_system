@@ -14,13 +14,13 @@ $env_path = "$branch_path/$env_file_name";
 echo '{{$env_path}}';
 $keep = 1;
 $new_release_dir = "/home/u334693063/domains/edzayer.com/public_html/test_system";
-$composer = "/home/u334693063/domains/edzayer.com/public_html/composer.json";
+$composer = "/home/u334693063/domains/edzayer.com/public_html/test_system/composer.json";
 @endsetup
 
 $server_dir = $branch;
 
 @story('deploy')
-    @task('check_composer')   
+
     @if (file_exists($composer))
         echo "composer.json exists, pulling repository and running composer install."
         pull_repository
