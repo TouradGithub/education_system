@@ -104,7 +104,7 @@ echo 'Pulling latest changes Terminate.'
 @endtask
 
 @php
-// Function to check if the directory is a valid Git repository
+// Function to check if the dire
 function is_git_repository($dir) {
     $git_dir = $dir . '/.gitignore';
     return is_dir($git_dir);
