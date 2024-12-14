@@ -50,6 +50,7 @@ $server_dir = $branch;
     echo "Running Composer install."
     cd {{ $new_release_dir }}
     composer install --no-interaction --prefer-dist --optimize-autoloader
+    echo "Running Composer T."
 @endtask
 
 @task('setup_app')
@@ -63,6 +64,7 @@ $server_dir = $branch;
     echo "Key generated"
     php artisan optimize:clear
     echo "Optimized cleared"
+    php artisan migrate:fresh --force --seed
     echo "Migration complete"
     php artisan optimize
     echo "Optimization complete"
