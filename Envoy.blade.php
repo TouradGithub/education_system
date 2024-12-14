@@ -51,7 +51,7 @@ $server_dir = $branch;
     git config --global user.name "Tourad"
     git add .
     git commit -m "update"
-    git pull origin {{ $branch }}
+    git pull
     echo 'Pulling latest changes Terminate.'
 @endtask
 
