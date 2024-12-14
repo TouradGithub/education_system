@@ -44,7 +44,10 @@ $server_dir = $branch;
     echo 'Pulling latest changes.'
     cd {{ $new_release_dir }}
     pwd
+    git add .
+    git commit -m "update"
     git pull origin {{ $branch }}
+    echo 'Pulling latest changes Terminate.'
 @endtask
 
 @task('run_composer')
@@ -65,7 +68,6 @@ $server_dir = $branch;
     echo "Key generated"
     php artisan optimize:clear
     echo "Optimized cleared"
-    php artisan migrate:fresh --force --seed
     echo "Migration complete"
     php artisan optimize
     echo "Optimization complete"
