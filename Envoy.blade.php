@@ -20,7 +20,7 @@ $composer = "/home/u334693063/domains/edzayer.com/public_html/composer.json";
 $server_dir = $branch;
 
 @story('deploy')
-    @task('check_composer')   <!-- Make sure check_composer is properly declared in the story -->
+    @task('check_composer')   
     @if (file_exists($composer))
         echo "composer.json exists, pulling repository and running composer install."
         pull_repository
