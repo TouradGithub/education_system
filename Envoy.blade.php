@@ -20,7 +20,7 @@ $server_dir = $branch;
 
 @story('deploy')
 
-echo "Checking if composer.json exists at $composer"
+check_composer
 
 @if (file_exists($composer))
     echo "composer.json exists, pulling repository and running composer install."
@@ -35,6 +35,11 @@ echo "Checking if composer.json exists at $composer"
 
 
 @endstory
+
+@task('check_composer')
+echo "Checking if composer.json exists at $composer"
+
+@endtask
 
 @task('clone_repository')
     echo 'Cloning repository'
