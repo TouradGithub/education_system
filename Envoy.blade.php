@@ -37,7 +37,7 @@ check_composer
 @endstory
 
 @task('check_composer')
-echo "Checking if composer.json exists at {{ $composer}}"
+echo "Checking if composer.json exists at {{ file_exists($composer)}}"
 
 @endtask
 
