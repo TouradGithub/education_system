@@ -79,10 +79,10 @@ check_composer
         php artisan optimize:clear
         echo "Optimized cleared"
         echo "Migration complete"
-        php artisan optimize
+
         echo "Optimization complete"
+
         
-        php artisan storage:link
         echo "View cleared and storage linked"
         free -h
     fi
