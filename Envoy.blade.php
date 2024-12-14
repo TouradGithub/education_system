@@ -22,7 +22,7 @@ $server_dir = $branch;
     pull_repository
     run_composer
 @else
-    # Ensure directory is empty before cloning
+
     @if (!is_dir($new_release_dir) || count(array_diff(scandir($new_release_dir), array('.', '..'))) === 0)
         clone_repository
 
