@@ -82,7 +82,7 @@ check_composer
 
         echo "Optimization complete"
 
-        
+        echo "OK"
         echo "View cleared and storage linked"
         free -h
     fi
