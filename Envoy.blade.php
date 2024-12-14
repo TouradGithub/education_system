@@ -25,15 +25,17 @@ echo file_exists($composer) ? 'Exists' : 'Does not exist';
 @story('deploy')
 
 
-    @if (!file_exists($composer))
+    @if (file_exists($composer))
+
+
+        pull_repository
+        run_composer
+    @else
+
 
         clone_repository
         run_composer
         setup_app
-    @else
-
-        pull_repository
-        run_composer
 
     @endif
 
