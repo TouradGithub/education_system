@@ -14,13 +14,13 @@ $env_path="$branch_path/$env_file_name";
 echo '{{$env_path}}';
 $keep = 1;
 $new_release_dir = "/home/u334693063/domains/edzayer.com/public_html/test_system";
-$files = array_diff(scandir($new_release_dir), array('.', '..'));
+// $files = array_diff(scandir($new_release_dir), array('.', '..'));
 @endsetup
 $server_dir=$branch;
 
 
 @story('deploy')
-    @if (count($files) > 0)
+    @if (is_dir($new_release_dir) && is_dir($new_release_dir . '/.git'))
         clone_repository
 
         run_composer
