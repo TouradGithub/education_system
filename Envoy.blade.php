@@ -22,11 +22,11 @@ $server_dir = $branch;
 @story('deploy')
 
     @if (file_exists($composer))
-        echo "composer.json exists, pulling repository and running composer install."
+
         pull_repository
         run_composer
     @else
-        echo "composer.json not found, cloning repository."
+    
         clone_repository
         setup_app
         succeed
