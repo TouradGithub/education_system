@@ -37,7 +37,7 @@
                                     {{ session('success') }}
                                 </div>
                             @endif
-                            <h3 style="font-family: 'Cairo', sans-serif" class="mb-30">Select connection mode</h3>
+                            <h3 style="font-family: 'Cairo', sans-serif" class="mb-30">Select le mode de Connexionn</h3>
                             <div class="form-inline">
 
                                 {{-- <a class="btn btn-default col-lg-3" title="Acadimic" href="{{route('acadimic.login')}}">
