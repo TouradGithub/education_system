@@ -36,6 +36,7 @@ $server_dir = $branch;
     # Ensure directory exists before cloning
     mkdir -p {{ $new_release_dir }}
     git clone --depth 1 --branch {{ $branch }} {{ $repository }} {{ $new_release_dir }}
+    echo 'Cloning terminer'
 @endtask
 
 @task('pull_repository')
