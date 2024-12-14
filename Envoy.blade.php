@@ -25,10 +25,10 @@ $server_dir = $branch;
 @task('check_repository')
 if [ ! -d "{{ $new_release_dir }}" ] || [ ! -d "{{ $new_release_dir }}/.git" ]; then
 
-    {{ clone_repository }}
+    clone_repository
 else
 
-    {{ pull_repository }}
+    pull_repository
 fi
 @endtask
 
