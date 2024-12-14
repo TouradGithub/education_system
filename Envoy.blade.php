@@ -17,7 +17,10 @@ $new_release_dir = "/home/u334693063/domains/edzayer.com/public_html/test_system
 $composer = "/home/u334693063/domains/edzayer.com/public_html/test_system/composer.json";
 @endsetup
 
-$server_dir = $branch;
+<?php
+$composer = '/home/u334693063/domains/edzayer.com/public_html/test_system/composer.json';
+echo file_exists($composer) ? 'Exists' : 'Does not exist';
+?>
 
 @story('deploy')
 
@@ -103,10 +106,6 @@ echo 'Pulling latest changes Terminate.'
     echo 'Deployment completed successfully. The new {{$branch}} release {{$release}} is live now!'
 @endtask
 
-<?php
-$composer = '/home/u334693063/domains/edzayer.com/public_html/test_system/composer.json';
-echo file_exists($composer) ? 'Exists' : 'Does not exist';
-?>
 @php
 // Function to check if the dire
 function is_git_repository($dir) {
