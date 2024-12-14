@@ -22,17 +22,16 @@ $server_dir = $branch;
 @story('deploy')
 
 
-    @if (!is_dir($new_release_dir) || !is_git_repository($new_release_dir))
+@task('check_repository')
+if [ ! -d "{{ $new_release_dir }}" ] || [ ! -d "{{ $new_release_dir }}/.git" ]; then
 
-        clone_repository
-        run_composer
-        setup_app
-    @else
-    
-        pull_repository
-        run_composer
+    {{ clone_repository }}
+else
 
-    @endif
+    {{ pull_repository }}
+fi
+@endtask
+
 
 
 
