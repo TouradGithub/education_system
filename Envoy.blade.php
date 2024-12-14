@@ -43,16 +43,22 @@ $server_dir = $branch;
 @endtask
 
 @task('pull_repository')
-    echo 'Pulling latest changes.'
-    cd {{ $new_release_dir }}
-    pwd
-    git config --global user.email "touradmedlemin17734@gmail.com"
+echo 'Pulling latest changes.'
+cd {{ $new_release_dir }}
+pwd
+git config --global user.email "touradmedlemin17734@gmail.com"
+git config --global user.name "Tourad"
 
-    git config --global user.name "Tourad"
+if [[ `git status --porcelain` ]]; then
+    echo "Changes detected, committing and pulling latest changes."
     git add .
     git commit -m "update"
-    git pull
-    echo 'Pulling latest changes Terminate.'
+    git pull origin {{ $branch }}
+else
+    echo "No changes detected, skipping commit and pull."
+    git pull origin {{ $branch }}
+fi
+echo 'Pulling latest changes Terminate.'
 @endtask
 
 @task('run_composer')
