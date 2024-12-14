@@ -14,23 +14,23 @@ $env_path = "$branch_path/$env_file_name";
 echo '{{$env_path}}';
 $keep = 1;
 $new_release_dir = "/home/u334693063/domains/edzayer.com/public_html/test_system";
+$composer = "/home/u334693063/domains/edzayer.com/public_html/composer.json";
 @endsetup
 $server_dir = $branch;
 
 @story('deploy')
-@if (is_dir($new_release_dir) && count(array_diff(scandir($new_release_dir), array('.', '..'))) > 0 && is_git_repository($new_release_dir))
+@if (file_exists($composer))
     pull_repository
     run_composer
 @else
 
-    @if (!is_dir($new_release_dir) || count(array_diff(scandir($new_release_dir), array('.', '..'))) === 0)
-        clone_repository
 
-        setup_app
-        succeed
-    @else
-        echo "Directory not empty, skipping clone."
-    @endif
+    clone_repository
+
+    setup_app
+    succeed
+
+
 
 @endif
 
