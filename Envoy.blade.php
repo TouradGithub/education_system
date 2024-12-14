@@ -47,6 +47,8 @@ succeed
 @task('pull_repository')
     echo 'Pulling latest changes.'
     cd {{ $new_release_dir }}
+    git add .
+    git commit -m "update"
     git pull origin {{ $branch }}
 @endtask
 
