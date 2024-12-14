@@ -50,7 +50,7 @@ $server_dir = $branch;
     echo "Running Composer install."
     cd {{ $new_release_dir }}
     composer install --no-interaction --prefer-dist --optimize-autoloader
-    echo "Running Composer T."
+    echo "Running Composer T"
 @endtask
 
 @task('setup_app')
