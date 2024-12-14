@@ -16,29 +16,25 @@ $keep = 1;
 $new_release_dir = "/home/u334693063/domains/edzayer.com/public_html/test_system";
 $composer = "/home/u334693063/domains/edzayer.com/public_html/composer.json";
 @endsetup
+
 $server_dir = $branch;
 
 @story('deploy')
-
-check_composer
-
-@if (file_exists($composer))
-    echo "composer.json exists, pulling repository and running composer install."
-    pull_repository
-    run_composer
-@else
-    echo "composer.json not found, cloning repository."
-    clone_repository
-    setup_app
-    succeed
-@endif
-
-
+    @task('check_composer')   <!-- Make sure check_composer is properly declared in the story -->
+    @if (file_exists($composer))
+        echo "composer.json exists, pulling repository and running composer install."
+        pull_repository
+        run_composer
+    @else
+        echo "composer.json not found, cloning repository."
+        clone_repository
+        setup_app
+        succeed
+    @endif
 @endstory
 
 @task('check_composer')
-echo "Checking if composer.json exists at {{ file_exists($composer)}}"
-
+    echo "Checking if composer.json exists at {{ $composer }}: {{ file_exists($composer) ? 'Exists' : 'Does not exist' }}"
 @endtask
 
 @task('clone_repository')
@@ -65,7 +61,7 @@ echo "Checking if composer.json exists at {{ file_exists($composer)}}"
     echo "Running Composer install."
     cd {{ $new_release_dir }}
     composer install --no-interaction --prefer-dist --optimize-autoloader
-    echo "Running Composer T"
+    echo "Composer install finished"
 @endtask
 
 @task('setup_app')
