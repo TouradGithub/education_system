@@ -20,7 +20,7 @@ $server_dir=$branch;
 
 
 @story('deploy')
-    @if (is_dir($new_release_dir) && is_dir($new_release_dir . '/.git'))
+    @if (is_dir($new_release_dir) && count(array_diff(scandir($new_release_dir), array('.', '..'))) > 0)
         clone_repository
 
         run_composer
