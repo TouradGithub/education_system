@@ -25,7 +25,7 @@ $server_dir = $branch;
         pull_repository
         run_composer
 
-        
+
 @endstory
 
 @task('check_composer')
@@ -46,6 +46,9 @@ $server_dir = $branch;
     echo 'Pulling latest changes.'
     cd {{ $new_release_dir }}
     pwd
+    git config --global user.email "touradmedlemin17734@gmail.com"
+
+    git config --global user.name "Tourad"
     git add .
     git commit -m "update"
     git pull origin {{ $branch }}
