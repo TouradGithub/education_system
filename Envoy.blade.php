@@ -21,16 +21,11 @@ $server_dir = $branch;
 
 @story('deploy')
 
-    @if (file_exists($composer))
 
         pull_repository
         run_composer
-    @else
-    
-        clone_repository
-        setup_app
-        succeed
-    @endif
+
+        
 @endstory
 
 @task('check_composer')
