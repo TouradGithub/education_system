@@ -32,7 +32,7 @@ check_composer
 @task('check_composer')
     if [ -f "/home/u334693063/domains/edzayer.com/public_html/test_system/composer.json" ]; then
     echo "composer.json exists."
-    @pull_repository
+    pull_repository
 
     else
         echo "composer.json does not exist. Skipping git operations."
