@@ -69,25 +69,28 @@ check_composer
         echo "Composer install finished"
 
         echo "Setting up the app"
+        cd {{ $new_release_dir }}
+        pwd
+        free -g -h -t && sync && free -g -h
+        echo "Run migrate"
+        cp .env.example .env
         php artisan key:generate --force
+        echo "Key generated"
         php artisan optimize:clear
+        echo "Optimized cleared"
+        echo "Migration complete"
         php artisan optimize
+        echo "Optimization complete"
         php artisan view:clear
         php artisan storage:link
-        echo "Setup completed"
+        echo "View cleared and storage linked"
+        free -h
     fi
 @endtask
 
 
-@task('clone_repository')
-    echo 'Cloning repository'
-    echo 'Cloning branch {{ $branch }} from repository {{ $repository }} into {{ $new_release_dir }}'
 
-    # Ensure directory exists before cloning
-    mkdir -p {{ $new_release_dir }}
-    git clone --depth 1 --branch {{ $branch }} {{ $repository }} {{ $new_release_dir }}
-    echo 'Cloning terminer'
-@endtask
+
 
 @task('pull_repository')
 echo 'Pulling latest changes.'
@@ -108,32 +111,10 @@ fi
 echo 'Pulling latest changes Terminate.'
 @endtask
 
-@task('run_composer')
-    echo "Running Composer install."
-    cd {{ $new_release_dir }}
-    composer install --no-interaction --prefer-dist --optimize-autoloader
-    echo "Composer install finished"
-@endtask
 
-@task('setup_app')
-    echo "Setting up the app"
-    cd {{ $new_release_dir }}
-    pwd
-    free -g -h -t && sync && free -g -h
-    echo "Run migrate"
-    cp .env.example .env
-    php artisan key:generate --force
-    echo "Key generated"
-    php artisan optimize:clear
-    echo "Optimized cleared"
-    echo "Migration complete"
-    php artisan optimize
-    echo "Optimization complete"
-    php artisan view:clear
-    php artisan storage:link
-    echo "View cleared and storage linked"
-    free -h
-@endtask
+
+
+
 
 @task('succeed')
     free -g -h -t && sync && free -g -h -t
