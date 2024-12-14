@@ -31,63 +31,53 @@ check_composer
 
 @task('check_composer')
     if [ -f "/home/u334693063/domains/edzayer.com/public_html/test_system/composer.json" ]; then
-    echo "composer.json exists."
-    echo 'Pulling latest changes.'
-            cd {{ $new_release_dir }}
-            pwd
-            git config --global user.email "touradmedlemin17734@gmail.com"
-            git config --global user.name "Tourad"
+        echo "composer.json exists."
+        echo 'Pulling latest changes.'
+        cd {{ $new_release_dir }}
+        pwd
+        git config --global user.email "touradmedlemin17734@gmail.com"
+        git config --global user.name "Tourad"
 
-            if [[ `git status --porcelain` ]]; then
-                echo "Changes detected, committing and pulling latest changes."
-                git add .
-                git commit -m "update"
-                git pull origin {{ $branch }}
-            else
-                echo "No changes detected, skipping commit and pull."
-                git pull origin {{ $branch }}
-            fi
-            echo 'Pulling latest changes Terminate.'
+        # Configure Git to handle divergent branches
+        git config pull.rebase false  # Change this as needed (merge, rebase, ff only)
 
-            echo "Running Composer install."
-            cd {{ $new_release_dir }}
-            composer install --no-interaction --prefer-dist --optimize-autoloader
-            echo "Composer install finished"
+        if [[ `git status --porcelain` ]]; then
+            echo "Changes detected, committing and pulling latest changes."
+            git add .
+            git commit -m "update"
+            git pull origin {{ $branch }}
+        else
+            echo "No changes detected, skipping commit and pull."
+            git pull origin {{ $branch }}
+        fi
+        echo 'Pulling latest changes Terminate.'
 
+        echo "Running Composer install."
+        composer install --no-interaction --prefer-dist --optimize-autoloader
+        echo "Composer install finished"
     else
-                echo 'Cloning repository'
-                echo 'Cloning branch {{ $branch }} from repository {{ $repository }} into {{ $new_release_dir }}'
+        echo 'Cloning repository'
+        echo 'Cloning branch {{ $branch }} from repository {{ $repository }} into {{ $new_release_dir }}'
 
-                # Ensure directory exists before cloning
-                mkdir -p {{ $new_release_dir }}
-                git clone --depth 1 --branch {{ $branch }} {{ $repository }} {{ $new_release_dir }}
-                echo 'Cloning terminer'
+        mkdir -p {{ $new_release_dir }}
+        git clone --depth 1 --branch {{ $branch }} {{ $repository }} {{ $new_release_dir }}
+        echo 'Cloning completed'
 
-                echo "Running Composer install."
-                cd {{ $new_release_dir }}
-                composer install --no-interaction --prefer-dist --optimize-autoloader
-                echo "Composer install finished"
+        echo "Running Composer install."
+        cd {{ $new_release_dir }}
+        composer install --no-interaction --prefer-dist --optimize-autoloader
+        echo "Composer install finished"
 
-                echo "Setting up the app"
-                cd {{ $new_release_dir }}
-                pwd
-                free -g -h -t && sync && free -g -h
-                echo "Run migrate"
-                cp .env.example .env
-                php artisan key:generate --force
-                echo "Key generated"
-                php artisan optimize:clear
-                echo "Optimized cleared"
-                echo "Migration complete"
-                php artisan optimize
-                echo "Optimization complete"
-                php artisan view:clear
-                php artisan storage:link
-                echo "View cleared and storage linked"
-                free -h
+        echo "Setting up the app"
+        php artisan key:generate --force
+        php artisan optimize:clear
+        php artisan optimize
+        php artisan view:clear
+        php artisan storage:link
+        echo "Setup completed"
     fi
-
 @endtask
+
 
 @task('clone_repository')
     echo 'Cloning repository'
