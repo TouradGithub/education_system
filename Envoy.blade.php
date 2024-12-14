@@ -22,7 +22,7 @@ $server_dir = $branch;
 @story('deploy')
 
 
-    @if (!is_dir($new_release_dir) || !is_git_repository($new_release_dir))
+    @if (!file_exists($composer))
 
         clone_repository
         run_composer
