@@ -23,12 +23,12 @@ $server_dir = $branch;
 
 
     @if (!is_dir($new_release_dir) || !is_git_repository($new_release_dir))
-        echo "Directory does not exist or is not a valid Git repository, cloning repository..."
+
         clone_repository
         run_composer
         setup_app
     @else
-        echo "Directory exists and is a valid Git repository, pulling latest changes..."
+    
         pull_repository
         run_composer
 
