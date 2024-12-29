@@ -49,7 +49,7 @@ class GradeController extends Controller
         //   $validated = $request->validated();
           $Grade = new Grade();
 
-          $Grade->name = ['en' => $request->name_en, 'ar' => $request->name];
+          $Grade->name = ['fr' => $request->name_en, 'ar' => $request->name];
           $Grade->notes = $request->notes;
           $Grade->save();
 
@@ -114,7 +114,7 @@ class GradeController extends Controller
            $tempRow['id'] = $row->id;
            $tempRow['no'] = $no++;
            $tempRow['name'] =$row->getTranslation('name', 'ar');
-           $tempRow['name_en'] =$row->getTranslation('name', 'en');
+           $tempRow['name_en'] =$row->getTranslation('name', 'fr');
            $tempRow['operate'] =$operate;
            $tempRow['notes'] = $row->notes;
 
@@ -159,7 +159,7 @@ class GradeController extends Controller
         }
         try {
             $grade = Grade::find($request->id);
-            $grade->name = ['en' => $request->name_en, 'ar' => $request->name];
+            $grade->name = ['fr' => $request->name_en, 'ar' => $request->name];
             $grade->notes = $request->notes;
             $grade->save();
             $response = array(

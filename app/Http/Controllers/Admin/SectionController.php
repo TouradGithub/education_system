@@ -48,7 +48,7 @@ class SectionController extends Controller
             $validated = $request->validated();
 
             $section = new Section();
-            $section->name = ['en' => $request->name_en, 'ar' => $request->name];
+            $section->name = ['fr' => $request->name_en, 'ar' => $request->name];
             $section->grade_id = $request->grade_id;
             $section->class_id = $request->class_id;
             $section->school_id = "1";
@@ -110,7 +110,7 @@ class SectionController extends Controller
             $operate .= '<a class="btn btn-xs btn-gradient-danger btn-rounded btn-icon deletedata" data-id=' . $row->id . ' data-url=' . route('web.sections.destroy', $row->id) . ' title="Delete"><i class="fa fa-trash"></i></a>';
 
             $tempRow['id'] = $row->id;
-           $tempRow['name'] = $row->getTranslation('name', 'en');
+           $tempRow['name'] = $row->getTranslation('name', 'fr');
            $tempRow['name_ar'] = $row->getTranslation('name', 'ar');
            $tempRow['grade'] =$row->grade->name;
            $tempRow['class'] =$row->classe->name;
@@ -155,7 +155,7 @@ class SectionController extends Controller
 
             $section =Section::find($request->id);
 
-            $section->name = ['en' => $request->name_en, 'ar' => $request->name];
+            $section->name = ['fr' => $request->name_en, 'ar' => $request->name];
             $section->grade_id = $request->grade_id;
             $section->class_id = $request->class_id;
             $section->notes = $request->notes;

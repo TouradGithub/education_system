@@ -55,7 +55,7 @@ class TrimesterController extends Controller
             // $validated = $request->validated();
 
             $section = new Trimester();
-            $section->name = ['en' => $request->name_en, 'ar' => $request->name];
+            $section->name = ['fr' => $request->name_en, 'ar' => $request->name];
             $section->notes = $request->notes;
             $section->save();
 
@@ -123,7 +123,7 @@ class TrimesterController extends Controller
 
             $tempRow['id'] = $row->id;
            $tempRow['name'] = $row->getTranslation('name', 'ar');
-           $tempRow['name_en'] = $row->getTranslation('name', 'en');
+           $tempRow['name_en'] = $row->getTranslation('name', 'fr');
            $tempRow['operate'] =$operate;
            $tempRow['notes'] = $row->notes;
 
@@ -170,7 +170,7 @@ class TrimesterController extends Controller
 
             $trimester =Trimester::find($request->id);
 
-            $trimester->name = ['en' => $request->name_en, 'ar' => $request->name];
+            $trimester->name = ['fr' => $request->name_en, 'ar' => $request->name];
             $trimester->notes = $request->notes;
             $trimester->save();
 

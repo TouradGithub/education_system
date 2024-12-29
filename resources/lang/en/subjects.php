@@ -5,12 +5,12 @@ return [
 
     "Subjects"=> "Subjects",
     "subject"=>"Subject",
-    "code"=> " Code",
+    "code"=> " Coeficient",
     "type"=> " Type",
     "Theory"=> " Theory",
     "Practical"=> " Practical",
 
 
-    
+
 
 ];
