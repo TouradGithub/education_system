@@ -40,13 +40,13 @@
                                         <div class="d-flex">
                                             <div class="form-check form-check-inline">
                                                 <label class="form-check-label">
-                                                    {!! Form::radio('gender', 'male') !!}
+                                                    {!! Form::radio('gender', 'Homme') !!}
                                                     {{ __('genirale.male') }}
                                                 </label>
                                             </div>
                                             <div class="form-check form-check-inline">
                                                 <label class="form-check-label">
-                                                    {!! Form::radio('gender', 'female') !!}
+                                                    {!! Form::radio('gender', 'Femme') !!}
                                                     {{ __('genirale.female') }}
                                                 </label>
                                             </div>
@@ -203,13 +203,13 @@
                                 <div class="d-flex">
                                     <div class="form-check form-check-inline">
                                         <label class="form-check-label">
-                                            {!! Form::radio('gender', 'male', null, ['class' => 'form-check-input edit', 'id' => 'gender']) !!}
+                                            {!! Form::radio('gender', 'Homme', null, ['class' => 'form-check-input edit', 'id' => 'gender']) !!}
                                             {{ __('genirale.male') }}
                                         </label>
                                     </div>
                                     <div class="form-check form-check-inline">
                                         <label class="form-check-label">
-                                            {!! Form::radio('gender', 'female', null, ['class' => 'form-check-input edit', 'id' => 'gender']) !!}
+                                            {!! Form::radio('gender', 'femme', null, ['class' => 'form-check-input edit', 'id' => 'gender']) !!}
                                             {{ __('genirale.female') }}
                                         </label>
                                     </div>

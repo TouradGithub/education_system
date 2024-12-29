@@ -22,7 +22,7 @@ class TeacherFactory extends Factory
             'password' => bcrypt('password'), // You may want to use Hash::make() instead
             'current_address' => $this->faker->address,
             'permanent_address' => $this->faker->address,
-            'gender' => $this->faker->randomElement(['male', 'female']),
+            'gender' => $this->faker->randomElement(['male', 'Femme']),
             'mobile' => $this->faker->phoneNumber,
             'image' => null, // You may customize this based on your needs
             'dob' => $this->faker->date,

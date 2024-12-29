@@ -48,13 +48,13 @@
                                     <div class="d-flex">
                                         <div class="form-check form-check-inline">
                                             <label class="form-check-label">
-                                                {!! Form::radio('gender', 'male', Str::lower($admin_data->gender) == 'male' ? 'checked' : '') !!}
+                                                {!! Form::radio('gender', 'Homme', Str::lower($admin_data->gender) == 'homme' ? 'checked' : '') !!}
                                                 {{ __('genirale.male') }}
                                             </label>
                                         </div>
                                         <div class="form-check form-check-inline">
                                             <label class="form-check-label">
-                                                {!! Form::radio('gender', 'female', Str::lower($admin_data->gender) == 'female' ? 'checked' : '') !!}
+                                                {!! Form::radio('gender', 'Femme', Str::lower($admin_data->gender) == 'femme' ? 'checked' : '') !!}
                                                 {{ __('genirale.female') }}
                                             </label>
                                         </div>
