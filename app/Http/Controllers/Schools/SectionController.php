@@ -76,7 +76,7 @@ class SectionController extends Controller
         try {
             $classRoomData = [
                 [
-                    'name' => json_encode(['en' => $request->name_en, 'ar' => $request->name]),
+                    'name' => json_encode([ => $request->name_en, 'ar' => $request->name]),
                     'grade_id' => getSchool()->grade_id,
                     'class_id' => $request->class_id,
                     'school_id' => getSchool()->id,
@@ -150,7 +150,7 @@ class SectionController extends Controller
             }
 
            $tempRow['id'] = $row->id;
-           $tempRow['name'] = $row->getTranslation('name', 'en');
+           $tempRow['name'] = $row->getTranslation('name', );
            $tempRow['name_ar'] = $row->getTranslation('name', 'ar');
            $tempRow['grade'] =$row->grade->name;
            $tempRow['class'] =$row->classe->name;
@@ -213,6 +213,14 @@ class SectionController extends Controller
                     ->update($classRoomData);
 
 
+<<<<<<< HEAD
+=======
+            $section->name = ['fr' => $request->name_en, 'ar' => $request->name];
+            $section->grade_id = getSchool()->grade_id;
+            $section->class_id = $request->class_id;
+            $section->notes = $request->notes;
+            $section->save();
+>>>>>>> main
 
             $response = [
                 'error' => false,

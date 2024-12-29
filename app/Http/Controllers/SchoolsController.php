@@ -201,7 +201,7 @@ class SchoolsController extends Controller
         }
         try {
             $Schools = Schools::find($request->id);
-            $Schools->name = ['en' => $request->name_en, 'ar' => $request->name];
+            $Schools->name = ['fr' => $request->name_en, 'ar' => $request->name];
             $Schools->notes = $request->notes;
             $Schools->grade_id=$request->class_id;
             $Schools->save();
@@ -267,3 +267,4 @@ class SchoolsController extends Controller
 
     }
 }
+// hello

@@ -64,7 +64,7 @@ class ClassController extends Controller
 
             $classes = new Classes();
 
-            $classes->name = ['en' => $request->name_en, 'ar' => $request->name];
+            $classes->name = ['fr' => $request->name_en, 'ar' => $request->name];
             $classes->grade_id = $request->grade_id;
             $classes->arrangement = $request->arrangement;
             $classes->notes = $request->notes;
@@ -134,7 +134,7 @@ class ClassController extends Controller
            $tempRow['id'] = $row->id;
            $tempRow['no'] = $no++;
            $tempRow['name'] =$row->getTranslation('name', 'ar');
-           $tempRow['name_en'] =$row->getTranslation('name', 'en');
+           $tempRow['name_en'] =$row->getTranslation('name', 'fr');
            $tempRow['grade'] =$row->grade->name;
            $tempRow['arrangement'] =$row->arrangement;
            $tempRow['grade_id'] =$row->grade->id;
@@ -189,7 +189,7 @@ class ClassController extends Controller
         try {
 
             $class = Classes::find($request->id);
-            $class->name = ['en' => $request->name_en, 'ar' => $request->name];
+            $class->name = ['fr' => $request->name_en, 'ar' => $request->name];
             $class->grade_id = $request->grade_id;
             $class->arrangement = $request->arrangement;
             $class->notes = $request->notes;
