@@ -15,6 +15,7 @@ return new class extends Migration
             $table->id();
 			$table->timestamps();
 			$table->string('name');
+            $table->integer('arrangement')->nullable();
         	$table->text('notes')->nullable();
             $table->integer('status')->default('0');
         });

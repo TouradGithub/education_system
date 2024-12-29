@@ -14,7 +14,6 @@ class ClassRoom extends Model
 
     protected $table = 'classrooms';
 
-    use HasTranslations;
     protected $hidden = ['created_at','updated_at'];
     public $translatable = ['name'];
     protected $fillable = ['name','grade_id','class_id','school_id','notes'];
@@ -45,6 +44,10 @@ class ClassRoom extends Model
     public function subject()
     {
         return $this->hasMany(SubjectTeacher::class, 'class_section_id')->with('subject');
+    }
+    public function student_promotions()
+    {
+        return $this->hasMany(Promotion::class, 'from_section');
     }
 
     public function fees_class() {

@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Schools;
 // use App\Http\Requests\StoreGrades;
+use Illuminate\Support\Facades\DB;
 use App\Models\Section;
 use App\Models\Classes;
 use Illuminate\Support\Facades\Validator;
@@ -177,6 +178,7 @@ class SectionController extends Controller
      */
     public function update(Request $request)
     {
+
         try {
             if (!Auth::user()->can('school-sections-edit')) {
                 $response = array(
@@ -187,9 +189,9 @@ class SectionController extends Controller
             $validator = Validator::make($request->all(), [
                 'name' => 'required',
                 'name_en' => 'required',
-                // 'grade_id' => 'required',
                 'class_id' => 'required',
             ]);
+
             if ($validator->fails()) {
                 $response = array(
                     'error' => true,
@@ -197,19 +199,34 @@ class SectionController extends Controller
                 );
                 return response()->json($response);
             }
+            // return $request;
+          // Prepare data for updating
+        $classRoomData = [
+            'name' => json_encode(['en' => $request->name_en, 'ar' => $request->name]),
+            'class_id' => $request->class_id,
+            'notes' => $request->notes ?? '', // Ensure notes are not null
+        ];
 
-            $section =ClassRoom::find($request->id);
+        // Use the query builder to update the ClassRoom
+        $updated = DB::table('classrooms')
+                    ->where('id', $request->edit_id)
+                    ->update($classRoomData);
 
+
+<<<<<<< HEAD
+=======
             $section->name = ['fr' => $request->name_en, 'ar' => $request->name];
             $section->grade_id = getSchool()->grade_id;
             $section->class_id = $request->class_id;
             $section->notes = $request->notes;
             $section->save();
+>>>>>>> main
 
             $response = [
                 'error' => false,
                 'message' => trans('genirale.data_store_successfully')
             ];
+
           }catch (\Exception $e){
               $response = [
                   'error' => true,

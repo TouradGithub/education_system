@@ -33,6 +33,7 @@ return new class extends Migration
             $table->integer('parent_id');
             $table->string('current_address');
             $table->string('permanent_address');
+            $table->string('qr_code');
             $table->string('cratedby');
             $table->string('status');
 

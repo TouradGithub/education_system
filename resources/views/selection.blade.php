@@ -37,7 +37,7 @@
                                     {{ session('success') }}
                                 </div>
                             @endif
-                            <h3 style="font-family: 'Cairo', sans-serif" class="mb-30">Select le mode de Connexionn</h3>
+                            <h3 style="font-family: 'Cairo', sans-serif" class="mb-30">Selecter le mode de Connexionn</h3>
                             <div class="form-inline">
 
                                 {{-- <a class="btn btn-default col-lg-3" title="Acadimic" href="{{route('acadimic.login')}}">
@@ -64,7 +64,7 @@
                       <div style="border-radius: 15px; margin-top:20px; " class="col-lg-8 col-md-8 bg-white text-center">
                         <div class="login-fancy pb-40 clearfix">
 
-                            <h3 style="font-family: 'Cairo', sans-serif" class="mb-30">Dounload Apps from this Url</h3>
+                            <h3 style="font-family: 'Cairo', sans-serif" class="mb-30">Download Apps from this Url</h3>
                             <div class="form-inline">
 
                                 <a class="btn btn-default col" title="Acadimic" target="_blank" href="https://drive.google.com/file/d/1JJCuKO5TeGyyFGChxNx_8e_ph9ycZC_6/view?usp=sharing">

@@ -14,8 +14,10 @@ return new class extends Migration
         Schema::create('classes', function (Blueprint $table) {
             $table->id();
 			$table->string('name');
+			$table->integer('arrangement')->nullable();
             $table->integer('grade_id');
         	$table->text('notes')->nullable();
+
             $table->integer('status')->default('0');
             $table->timestamps();
         });

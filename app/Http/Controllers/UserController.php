@@ -183,6 +183,11 @@ class UserController extends Controller
             return redirect(route('home'))->withErrors($response);
 
         }
+        if(User::find($id)->email == "superadmin@gmail.com"){
+
+            return redirect()->back();
+
+        }
         User::find($id)->delete();
         return redirect()->route('web.users.index')
                         ->with('success',trans('genirale.data_delete_successfully'));

@@ -30,9 +30,7 @@ class lesson extends Model
 
                 $lesson->file()->delete();
             }
-            // if ($lesson->topic) {
-            //     $lesson->topic()->delete();
-            // }
+         
         });
     }
     public function scopeLessonTeachers($query) {

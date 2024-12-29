@@ -164,6 +164,12 @@
                         </div>
                     </div>
                     <div class="row">
+                        <div class="form-group col-sm-12 col-md-12">
+                            <label>{{__('genirale.price')}} <span class="text-danger">*</span></label>
+                            {!! Form::text('price', null, ['required', 'placeholder' => __('genirale.price'), 'class' => 'form-control','id'=>'price_id']) !!}
+                        </div>
+                    </div>
+                    <div class="row">
                         <div class="form-group col-md-6">
                             <label>{{ __('start_date') }} <span class="text-danger">*</span></label>
                             <input type="text" name="start_date" id="start_date" placeholder="{{__('start_date')}}" class="datepicker-popup form-control" required>
@@ -177,27 +183,19 @@
                             </span>
                         </div>
                         <div class="form-group col-md-3">
-                            <label>{{ __('fees') }} {{ __('due_date')}} <span class="text-danger">*</span></label>
-                            <input type="text" name="fees_due_date" class="datepicker-popup form-control" id="fees_due_date" placeholder="{{ __('fees') }} {{ __('due_date')}}" required>
+                            <label>{{ __('genirale.inactive')}}<span class="text-danger">*</span></label>
+                            <input type="radio" name="active_session_year" class="fees_installment_toggle" value="0">
                             </span>
                         </div>
                         <div class="form-group col-md-3">
-                            <label>{{ __('fees') }} {{ __('due_charges')}} <span class="text-danger">*</span> <span class="text-info small">( {{__('in_percentage_%')}} )</span></label>
-                            <input type="number" name="fees_due_charges" class="form-control" id="fees_due_charges" placeholder="{{ __('fees') }} {{ __('due_charges')}}" required>
-                            </span>
+                            <label>{{ __('genirale.active')}} <span class="text-danger">*</span> </label>
+                            <input type="radio" name="active_session_year" class="fees_installment_toggle" value="1">
+
+                        </span>
                         </div>
                     </div>
 
-                    <input type="hidden" name="edit_include_fee_installments" class="from-control" id="edit_include_fee_installments">
-                    <div class="row form-group installment-div" style="display:none">
-                        <hr class="edit-installment-hr" style='width:100%;margin-top: 1rem;margin-bottom: 1rem;border: 0;border-top: 1px solid rgba(0, 0, 0, 0.1);'>
-                        <h5 class="card-title edit-installment-heading ml-3">{{ __('edit').' '.__('fees').' '.__('installment') }}</h5>
-                        <div class="edit-installment-container col-md-12 mt-4"></div>
-                        <div class="form-group col-md-12 mt-4">
-                            <button type="button" class="btn btn-inverse-success add-extra-fee-installment-data">
-                                <i class="fa fa-plus"></i> {{__('add_new_data')}} </button>
-                        </div>
-                    </div>
+
                 </div>
                 <div class="modal-footer">
                     <input class="btn btn-theme" type="submit" value={{ __('submit') }}>

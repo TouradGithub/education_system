@@ -5,7 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\SessionYear;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-
+use App\Models\Student;
 class SessionYearController extends Controller
 {
     /**
@@ -39,7 +39,7 @@ class SessionYearController extends Controller
         if (!Auth::user()->can('session-year-create')) {
             $response = array(
                 'error' => true,
-                'message' => trans('no_permission_message')
+                'message' => trans('genirale.no_permission_message')
             );
             return response()->json($response);
         }
@@ -49,7 +49,7 @@ class SessionYearController extends Controller
             'start_date' => 'required|date',
             'end_date' => 'required|date|after_or_equal:start_date',
           ],[
-            'installment_data.*.name.required_if' => trans('name_is_required_at_row').' :index',
+
         ]);
 
         try {
@@ -113,8 +113,8 @@ class SessionYearController extends Controller
             $tempRow['name'] = $row->name;
             $tempRow['price'] = $row->price.' DZ';
             $tempRow['default'] = $row->default;
-            $tempRow['start_date'] = date('d/m/Y' ,strtotime($row->start_date));
-            $tempRow['end_date'] = date('d/m/Y' ,strtotime($row->end_date));
+            $tempRow['start_date'] = date('d-m-Y' ,strtotime($row->start_date));
+            $tempRow['end_date'] = date('d-m-Y' ,strtotime($row->end_date));
             $tempRow['operate'] = $operate;
             $rows[] = $tempRow;
         }
@@ -135,16 +135,117 @@ class SessionYearController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, SessionYear $sessionYear)
+    public function update(Request $request)
     {
-        //
+        $request->validate([
+            'name' => 'required',
+            'price' => 'required',
+            'start_date' => 'required|date',
+            'end_date' => 'required|date|after_or_equal:start_date',
+            'active_session_year'=>'required|in:0,1',
+          ],[
+            'name.required' => 'The name field is required.',
+            'price.required' => 'The price field is required.',
+            'start_date.required' => 'The start date field is required.',
+            'start_date.date' => 'The start date must be a valid date.',
+            'end_date.required' => 'The end date field is required.',
+            'end_date.date' => 'The end date must be a valid date.',
+            'end_date.after_or_equal' => 'The end date must be a date after or equal to the start date.',
+            'active_session_year.required' => 'The active session year field is required.',
+            'active_session_year.in' => 'The active session year must be either active  or not active.',
+        ]);
+        try {
+
+            $old_year = SessionYear::find($request->id);
+            if(!$old_year){
+                $response = array(
+                    'error' => true,
+                    'message' => trans('genirale.error_occurred')
+                );
+            }
+            if($request->active_session_year=="1"){
+                $settings_years = SessionYear::where('id','!=',$request->id)->get();
+
+                foreach ($settings_years as $row) {
+                    $row->default = 0;
+                    $row->save();
+                }
+
+                $old_year->name = $request->name;
+                $old_year->price = $request->price;
+                $old_year->start_date = date('Y-m-d',strtotime($request->start_date));
+                $old_year->end_date = date('Y-m-d',strtotime($request->end_date));
+                $old_year->default = 1;
+                $old_year->save();
+
+            }else{
+                $old_year->name = $request->name;
+                $old_year->price = $request->price;
+                $old_year->start_date = date('Y-m-d',strtotime($request->start_date));
+                $old_year->end_date = date('Y-m-d',strtotime($request->end_date));
+                $old_year->save();
+            }
+            $response = array(
+                'error' => false,
+                'message' => trans('genirale.data_store_successfully')
+            );
+            return response()->json($response);
+        } catch (\Throwable $th) {
+            $response = array(
+                'error' => true,
+                'message' => trans('genirale.error_occurred')
+            );
+            return response()->json($response);
+        }
+
+
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(SessionYear $sessionYear)
+    public function destroy( $id)
     {
-        
+
+        try {
+
+       $year= SessionYear::find($id);
+       if(!$year){
+            $response = array(
+                'error' => true,
+                'message' => trans('genirale.error_occurred')
+            );
+            return response()->json($response);
+        }
+        if($year->default=="1"){
+            $response = array(
+                'error' => true,
+                'message' => trans('This Year Is Active')
+            );
+            return response()->json($response);
+        }
+        $students = Student::where('academic_year',$year->id)->count();
+        if($students){
+            $response = array(
+                'error' => true,
+                'message' => trans('genirale.cannot_delete_beacuse_data_is_associated_with_other_data')
+            );
+            return response()->json($response);
+        }
+
+        $year->delete();
+        $response = [
+            'error' => false,
+            'message' => trans('genirale.data_delete_successfully')
+        ];
+
+    } catch (Throwable $e) {
+        $response = array(
+            'error' => true,
+            'message' => trans('genirale.error_occurred')
+        );
+    }
+    return response()->json($response);
+
     }
 }

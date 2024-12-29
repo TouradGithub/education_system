@@ -150,7 +150,7 @@
                 <form id="formdata" class="editform" action="{{url('school/update-section-list')}}" novalidate="novalidate">
                     @csrf
                     <div class="modal-body">
-                        <input type="hidden" name="id" id="id">
+                        <input type="hidden" name="edit_id" id="id">
                         <div class="row form-group">
                             <div class="col-sm-12 col-md-12">
                                 <label>{{trans('grade.name_ar')}} <span class="text-danger">*</span></label>

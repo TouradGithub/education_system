@@ -1,11 +1,11 @@
 <?php
 
 namespace App\Http\Controllers\Schools;
-
+use Barryvdh\DomPDF\Facade\Pdf;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\FeesClass;
-
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Validator;
 use App\Models\ClassRoom;
@@ -140,7 +140,7 @@ class FeesClassesController extends Controller
             $tempRow['class_id'] = $row->id;
             $tempRow['class_name'] =  $row->classe->name.' '. $row->name ;
             $tempRow['feesClass'] =  $row->fees_class->id ??'NULL' ;
-            $tempRow['base_amount'] =isset($row->fees_class) ? $row->fees_class->amount . ' DZ' : '-';
+            $tempRow['base_amount'] =isset($row->fees_class) ? $row->fees_class->amount  . ' ' . env('CURENCY') : '-';
             $tempRow['created_at'] = $row->created_at;
             $tempRow['updated_at'] = $row->updated_at;
             $tempRow['operate'] = $operate;
@@ -163,12 +163,13 @@ class FeesClassesController extends Controller
         return response(view('pages.schools.fees.fees_paid'));
     }
 
-    public function feesPaidList()
+    public function feesPaidList(Request $request)
     {
         if (!Auth::user()->can('school-fees-paid-index')) {
             toastr()->error(  trans('genirale.no_permission_message'), 'Error');
             return redirect()->back();
         }
+        // return $request;
         $offset = 0;
         $limit = 10;
         $sort = 'id';
@@ -185,16 +186,13 @@ class FeesClassesController extends Controller
         if (isset($_GET['order']))
         //     $order = $_GET['order'];
 
-
-        //Fetching Students Data on Basis of Class Section ID with Realtion fees paid
         $sql = Student::where('school_id',getSchool()->id)->with(['fees_paid','section']);
-        // $session_year = getSettings('session_year');
         $session_year_id = getYearNow()->id;
 
-        if (isset($_GET['session_year_id']) && !empty($_GET['session_year_id'])) {
-            $sql->whereHas('fees_paid', function ($q) {
-                $q->where('session_year_id', $_GET['session_year_id']);
-            });
+
+
+        if( isset($_GET['class_id']) && !empty($_GET['class_id']) ){
+            $sql->where('section_id', $_GET['class_id']);
         }
 
 
@@ -209,31 +207,31 @@ class FeesClassesController extends Controller
         $no = 1;
         foreach ($res as $row) {
 
-
             $operate = "";
-        //     // check that fees paid is not empty
-        //     if(isset($row->fees_paid) && !empty($row->fees_paid)){
-        //         // checks that fees paid's session year matches the current session year then allow to modify the fees payments or else show only clear and pdf option
-        //         if($row->fees_paid->session_year_id == $session_year_id){
                     $operate = '<div class="dropdown"><button class="btn btn-xs btn-gradient-success btn-rounded btn-icon dropdown-toggle" type="button" data-toggle="dropdown"><i class="fa fa-dollar"></i></button><div class="dropdown-menu">';
-                    // $operate .= '<a href="#"class="compulsory-data dropdown-item" data-id=' . $row->id . ' title="' . trans('compulsory') . ' ' . trans('fees') . '" data-toggle="modal" data-target="#compulsoryModal"><i class="fa fa-dollar text-success mr-2"></i>'.trans('compulsory').' '.trans('fees').'</a><div class="dropdown-divider"></div>';
                     $operate .= '<a href="#" class="optional-data dropdown-item" data-id=' . $row->id . ' title="' . trans('Paid')  .'" data-toggle="modal" data-target="#optionalModal"><i class="fa fa-dollar text-success mr-2"></i>'.trans('Paid').'</a>';
                     $operate .= '</div></div>&nbsp;&nbsp;';
-                    $operate .= '<a href=  class="btn btn-xs btn-gradient-danger btn-rounded btn-icon delete-form" title="'.trans('clear').'" data-id=><i class="fa fa-remove"></i></a>&nbsp;&nbsp;';
-                    $operate .= '<a href= class="btn btn-xs btn-gradient-info btn-rounded btn-icon generate-paid-fees-pdf" target="_blank" data-id= title="' . trans('generate_pdf') . ' ' . trans('fees') . '"><i class="fa fa-file-pdf-o"></i></a>&nbsp;&nbsp;';
+                    $operate .= '<a href="'.route('school.fees.class.paid.pdf', $row->id).'" class="btn btn-xs btn-gradient-info btn-rounded btn-icon generate-paid-fees-pdf" target="_blank" data-id= title="' . trans('generate_pdf') . ' ' . trans('fees') . '"><i class="fa fa-file-pdf-o"></i></a>&nbsp;&nbsp;';
 
             $tempRow['student_id'] = $row->id;
             $tempRow['no'] = $no++;
             $tempRow['student_name'] = $row->first_name . ' ' . $row->last_name;
             $tempRow['class_id'] = $row->section->id;
             $tempRow['class_name'] = $row->section->name . ' ' . $row->section->classe->name;
+            $tempRow['fees_paid'] = $row->fees_paid()->pluck('month');
             $tempRow['months']='';
             if($row->fees_paid){
 
-                foreach ($row->fees_paid as $key => $fees) {
+                foreach($row->fees_paid as $key => $fees) {
 
-                     $tempRow['months'] .= getMonth($fees->month) . ' - ';
+                    if ($key % 3 === 0) {
+                        if ($key > 0) {
+                            $tempRow['months'] .= '</div>';
+                        }
+                        $tempRow['months'] .= '<div class="d-flex flex-wrap mb-2">';
+                    }
 
+                    $tempRow['months'] .= '<button class="btn btn-primary btn-sm" style="margin: 2px;">' . getMonth($fees->month) . '</button>';
                 }
 
             }
@@ -261,51 +259,39 @@ class FeesClassesController extends Controller
         $validator = Validator::make($request->all(), [
             'date' => 'required|date',
             'mode' => 'required|in:0,1',
+            'months' => 'required|array',
+            'student_id' => 'required|integer',
+            'class_id' => 'required|integer',
         ]);
         try {
 
-
-
             $feesClass =FeesClass::where(['class_section_id'=>$request->class_id,
-                    'session_year_id'=>1,'school_id'=>getSchool()->id])->first();
+                    'session_year_id'=>getYearNow()->id,'school_id'=>getSchool()->id])->first();
             $date = date('Y-m-d H:i:s', strtotime($request->date));
             $session_year = getYearNow();
-            $session_year_id = getYearNow()->id;
+            $sessionYearId = getYearNow()->id;
+            $schoolId = getSchool()->id;
 
-
+            if($request->months){
+                $feesClass->fees_paid()->delete();
+            }
 
             foreach($request->months as $month){
 
-                $itExistOrNot =FeesPaid::where([
-                    'student_id' => $request->student_id,
-                    'fees_class_id' => $feesClass->id,
-                    'month' => $month,
-                    'amount' =>$feesClass->amount,
-                    'session_year_id' => $session_year_id,
-                    'is_fully_paid' => 1,
-                    'school_id' => getSchool()->id,
-                    'date' => $date,
-                    'mode' => $request->mode,
-                ])->count();
-                if($itExistOrNot==0){
 
-                    FeesPaid::create( [
+                    FeesPaid::create([
                         'student_id' => $request->student_id,
                         'fees_class_id' => $feesClass->id,
                         'month' => $month,
                         'amount' => $feesClass->amount,
-                        'session_year_id' => $session_year_id,
+                        'session_year_id' => $sessionYearId,
                         'is_fully_paid' => 1,
-                        'school_id' => getSchool()->id,
+                        'school_id' => $schoolId,
                         'date' => $date,
                         'mode' => $request->mode,
                     ]);
-                }
 
             }
-
-
-
 
             toastr()->success(trans('genirale.data_store_successfully'), 'Congrats');
             return  redirect()->back();
@@ -316,6 +302,34 @@ class FeesClassesController extends Controller
                 toastr()->error( trans('genirale.error_occurred'), 'Error');
                 return  redirect()->back();
             }
+    }
+    public function feesPaidGetReceip($id){
+
+
+        try {
+          $student = Student::find($id);
+          $className=$student->section->classe->name.' '.$student->section->name;
+
+        //   return   $student->fees_paid;
+          $fees =  FeesPaid::where([
+            'student_id'=> $student->id,
+            'school_id'=> getSchool()->id,
+            'session_year_id'=> getYearNow()->id,
+          ])->get();
+          if($fees->count()>0){
+            $logo= url(Storage::url(getSchool()->setting->school_logo));
+             $pdf = Pdf::loadView('pages.schools.fees.fees_receipt',compact('fees','student','className','logo'));
+            return $pdf->stream('fees-receipt.pdf');
+
+          }else{
+
+            toastr()->success(trans('genirale.no_data_found'), 'Error');
+            return redirect()->back();
+          }
+
+        }catch (Throwable $e) {
+            return redirect()->back();
+        }
     }
 
     public function feesPaidDelete($id){
@@ -346,7 +360,7 @@ class FeesClassesController extends Controller
                 'message' => trans('genirale.error_occurred')
             );
 
-        return response()->json($response);
+            return response()->json($response);
 
         }
     }

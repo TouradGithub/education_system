@@ -8,7 +8,26 @@
             <i class="fa fa-home menu-icon"></i> </a>
         </li>
         @can('school-subject-index')
+<<<<<<< HEAD
+        <li class="nav-item">
+            <a href="{{ route('school.subjects.index') }}" class="nav-link">
+                    <span class="menu-title">
+                        {{ __('sidebar.Subjects') }}
+                    </span>
+                    <i class="fa fa-calendar-o menu-icon"></i>
+            </a>
+        </li>
+        @endcan
+        @can('school-announcement-index')
+        <li class="nav-item">
+            <a class="nav-link" href="{{ route('school.announcement.index') }}">
+                <span class="menu-title">  {{ __('sidebar.announcement') }}</span>
+                <i class="fa fa-bullhorn menu-icon"></i> </a>
+        </li>
+        @endcan
+=======
 
+>>>>>>> main
         @can('school-sections-index')
         <li class="nav-item">
             <a href="{{ route('school.sections.index') }}" class="nav-link">
@@ -79,13 +98,85 @@
         </li>
         @endcanany
 
+<<<<<<< HEAD
+        @if (getSchool()->type=="private")
+        @canany(['school-fees-class-index','school-fees-paid-index'])
+        <li class="nav-item">
+            <a class="nav-link" data-toggle="collapse" href="#fees-menu" aria-expanded="false"
+                aria-controls="exam-menu">
+                <span class="menu-title">{{ __('fees') }}</span>
+                <i class="fa fa-money menu-icon"></i>
+            </a>
+            <div class="collapse" id="fees-menu">
+                <ul class="nav flex-column sub-menu">
+                    @can('school-fees-class-index')
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ route('school.fees.class.index') }}">{{ __('sidebar.assign') }}
+                            {{ __('classes.class') }}
+                        </a>
+                    </li>
+                    @endcan
+                    @can('school-fees-paid-index')
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ route('school.fees.paid.index') }}"> {{ __('genirale.fees') }}
+                            {{ __('paid') }}
+                        </a>
+                    </li>
+                    @endcan
+                </ul>
+            </div>
+        </li>
+        @endcanany
+        @endif
+
+
+
+
+    {{-- view attendance --}}
+        @canany(['school-attendance-index'])
+            <li class="nav-item">
+                <a class="nav-link" data-toggle="collapse" href="#attendance-menu" aria-expanded="false"
+                    aria-controls="attendance-menu"> <span class="menu-title">{{ __('sidebar.attendance') }}</span> <i
+                        class="fa fa-check menu-icon"></i> </a>
+                <div class="collapse" id="attendance-menu">
+                    <ul class="nav flex-column sub-menu">
+                        @can('school-attendance-index')
+                            <li class="nav-item">
+                                <a class="nav-link" href="{{ route('school.attendance.index') }}">
+                                    {{ __('sidebar.add_attendance') }}
+                                </a>
+                            </li>
+                        @endcan
+                    </ul>
+                </div>
+            </li>
+        @endcanany
+        @can('school-teachers-index')
+            <li class="nav-item">
+                <a href="{{ route('school.teachers.index') }}" class="nav-link"> <span
+                        class="menu-title">{{ __('sidebar.teacher') }}</span> <i class="fa fa-user menu-icon"></i> </a>
+            </li>
+        @endcan
+        @can('school-subject-teachers')
+            <li class="nav-item">
+                <a href="{{ route('school.subject-teachers.index') }}" class="nav-link">
+                        <span class="menu-title">
+                            {{ __('sidebar.assign') . ' ' . __('sidebar.Subjects') . ' ' . __('sidebar.teacher') }}
+                        </span>
+                        <i class="fa fa-calendar-o menu-icon"></i>
+                </a>
+            </li>
+        @endcan
+
+=======
         {{-- 6 --}}
+>>>>>>> main
         @canany(['school-students-create','school-tests-index',
         'school-students-index','school-tests-create'])
         <li class="nav-item" >
             <a class="nav-link" data-toggle="collapse" href="#student-menu" aria-expanded="false"
                 aria-controls="settings-menu"> <span class="menu-title">{{ __('sidebar.students') }}</span>
-                 <i  class="fa fa-cog menu-icon"></i> </a>
+                 <i  class="fa fa-graduation-cap menu-icon"></i> </a>
             <div class="collapse" id="student-menu">
                 <ul class="nav flex-column sub-menu">
                     @can('school-students-create')
@@ -203,12 +294,12 @@
                         </li>
                     @endcan
 
-                    @can('school-promotion-index')
+                    {{-- @can('school-promotion-index') --}}
                     <li class="nav-item">
                         <a class="nav-link" href="{{ route('school.student.promotions.index') }}">
                             {{ __('promotion.list_promotion') }}</a>
                     </li>
-                    @endcan
+                    {{-- @endcan --}}
 
 
                 </ul>
@@ -225,12 +316,18 @@
                         <ul class="nav flex-column sub-menu">
 
 
-                        @can('school-settings-create')
+                    @can('school-settings-create')
                             <li class="nav-item">
                                 <a class="nav-link" href="{{ route('school.setting-index') }}">
                                     {{ __('sidebar.general_settings') }}</a>
                             </li>
-                        @endcan
+                     @endcan
+                     @can('school-settings-create')
+                        <li class="nav-item">
+                            <a class="nav-link" href="{{ route('school.student-id-card-setting') }}">
+                             Student  Id Card Setting</a>
+                        </li>
+                    @endcan
 
 
                         @can('school-user-index')

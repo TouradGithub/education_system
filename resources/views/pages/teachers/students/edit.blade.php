@@ -60,13 +60,13 @@
                                     <div class="d-flex">
                                         <div class="form-check form-check-inline">
                                             <label class="form-check-label">
-                                                {!! Form::radio('gender', 'male', $student->gender == 'male') !!}
+                                                {!! Form::radio('gender', 'Homme', $student->gender == 'Homme') !!}
                                                 {{ __('genirale.male') }}
                                             </label>
                                         </div>
                                         <div class="form-check form-check-inline">
                                             <label class="form-check-label">
-                                                {!! Form::radio('gender', 'female', $student->gender == 'female') !!}
+                                                {!! Form::radio('gender', 'Femme', $student->gender == 'Femme') !!}
                                                 {{ __('genirale.female') }}
                                             </label>
                                         </div>

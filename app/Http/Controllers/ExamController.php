@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+
 use App\Models\Exam;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
@@ -148,7 +149,7 @@ class ExamController extends Controller
                             'student_id'      => $row->id
                         ])->first();
                         if($test){
-                            if (!Auth::user()->can('school-exams-edit')) {
+                             if (Auth::user()->can('school-exams-edit')) {
 
                                 $tempRow['grade'] =  '  <input type="text" oninput="validateGrade(this)" style="width: 100%;font-weight: bold;" name="grade'.$test->student_id.'" class="form-control"  value="'.$test->grade.'">';
 
@@ -159,7 +160,7 @@ class ExamController extends Controller
                             }
 
                         }else{
-                            if (!Auth::user()->can('school-exams-edit')) {
+                             if (Auth::user()->can('school-exams-edit')) {
 
                                 $tempRow['grade'] =  '  <input type="number" oninput="validateGrade(this)" style="width: 100%;font-weight: bold;" name="grade'.$row->id.'" class="form-control"  value="">';
 

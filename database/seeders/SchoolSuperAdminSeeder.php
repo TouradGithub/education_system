@@ -114,6 +114,9 @@ class SchoolSuperAdminSeeder extends Seeder
     ['id' => 174, 'name' => 'school-fees-paid-create', 'type' => '2'],
     ['id' => 175, 'name' => 'school-fees-paid-delete', 'type' => '2'],
 
+    ['id' => 176, 'name' => 'school-subject-teachers-create', 'type' => '2'],
+    ['id' => 177, 'name' => 'school-subject-teachers-list', 'type' => '2'],
+
 
         ];
         foreach ($permissions as $permission) {
@@ -138,7 +141,10 @@ class SchoolSuperAdminSeeder extends Seeder
                 'school-timetable-edit',
                 'school-class-timetable',
 
-                
+                'school-fees-create',
+                'school-fees-class-index',
+                'school-fees-store',
+                'school-fees-paid-index',
 
                 'school-attendance-create',
                 'school-attendance-index',
@@ -156,11 +162,6 @@ class SchoolSuperAdminSeeder extends Seeder
                 'school-students-edit',
                 'school-students-update',
 
-                'school-students-create',
-                'school-students-index',
-                'school-students-store',
-                'school-students-edit',
-                'school-students-update',
 
                 'school-tests-create',
                 'school-tests-index',
@@ -201,10 +202,14 @@ class SchoolSuperAdminSeeder extends Seeder
                 'school-sections-delete',
                 'school-teachers-edit',
                 'school-teachers-delete',
+                
                 'school-subject-teacher-list',
                 'school-subject-teacher-edit',
                 'school-subject-teacher-create',
                 'school-subject-teacher-delete',
+                'school-subject-teachers-create',
+                'school-subject-teachers-list',
+
                 'school-students-delete',
                 'school-students-inscription',
                 'school-students-show',

@@ -31,4 +31,7 @@ class FeesClass extends Model
     public function section() {
         return $this->belongsTo(ClassRoom::class, 'class_section_id');
     }
+    public function fees_paid() {
+        return $this->hasMany(FeesPaid::class, 'fees_class_id');
+    }
 }

@@ -8,6 +8,28 @@ use Illuminate\Notifications\Notifiable;
 class Student extends Model
 {
     protected $hidden = ['created_at','deleted_at','updated_at'];
+    protected $fillable = [
+        'first_name',
+        'last_name',
+        'grade_id',
+        'class_id',
+        'section_id', // Added for mass assignment
+        'acadimic_id',
+        'school_id',
+        'gender',
+        'image',
+        'academic_year',
+        'date_birth',
+        'roll_number',
+        'blood_group',
+        'parent_id',
+        'current_address',
+        'permanent_address',
+        'qr_code',
+        'cratedby',
+        'status',
+    ];
+
 
     use  HasFactory, Notifiable;
      public function studentAccount()

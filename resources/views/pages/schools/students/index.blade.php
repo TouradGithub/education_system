@@ -72,6 +72,8 @@ List Students
                     <th scope="col" data-field="date_birth" data-sortable="false" >{{ __('teacher.dob') }}</th>
                     <th scope="col" data-field="roll_number" data-sortable="false">
                         {{ __('student.roll_number') }}</th>
+                    {{-- <th scope="col" data-field="qr_code" data-sortable="false">
+                            {{ __('student.roll_number') }}</th> --}}
 
                     <th scope="col" data-field="blood_group" data-sortable="true" >{{ __('student.blood_group') }}</th>
 

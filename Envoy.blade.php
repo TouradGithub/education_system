@@ -23,10 +23,18 @@ echo file_exists($composer) ? 'Exists' : 'Does not exist';
 ?>
 
 @story('deploy')
+<<<<<<< HEAD
+clone_repository
+ run_composer
+setup_app
+clean
+succeed
+=======
 
 check_composer
 
 
+>>>>>>> main
 @endstory
 
 @task('check_composer')
@@ -82,10 +90,26 @@ check_composer
 
         echo "Optimization complete"
 
+<<<<<<< HEAD
+@task('run_composer')
+echo "Starting deployment ({{ $release }})"
+pwd
+echo {{ $new_release_dir }}
+cd {{ $new_release_dir }}
+echo "moved succes".{{ $new_release_dir }}
+composer update
+echo "composer installed  succefuly"
+php composer.phar update
+echo "composer.phar updated  succefuly"
+php composer.phar install --no-interaction --prefer-dist --optimize-autoloader
+php composer.phar dumpautoload
+echo "composer installed  for ({{ $release }})"
+=======
         echo "OK"
         echo "View cleared and storage linked"
         free -h
     fi
+>>>>>>> main
 @endtask
 
 

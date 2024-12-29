@@ -111,13 +111,7 @@ class AnnouncementController extends Controller
     }
 
     public function update(Request $request) {
-        if (!Auth::user()->can('announcement-edit')) {
-            $response = array(
-                'error' => true,
-                'message' => trans('no_permission_message')
-            );
-            return response()->json($response);
-        }
+      
         $request->validate([
             'title' => 'required',
             'set_data' => 'required'

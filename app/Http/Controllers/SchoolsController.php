@@ -141,10 +141,10 @@ class SchoolsController extends Controller
         $no = 1;
         foreach ($res as $row) {
             $operate = '';
-            if (Auth::user()->can('school-edit')){
-                $operate .= '<a class="btn btn-xs btn-gradient-primary btn-rounded btn-icon editdata" data-id=' . $row->id . ' title="Edit" data-toggle="modal" data-target="#editModal"><i class="fa fa-edit"></i></a>&nbsp;&nbsp;';
+            // if (Auth::user()->can('school-edit')){
+            //     $operate .= '<a class="btn btn-xs btn-gradient-primary btn-rounded btn-icon editdata" data-id=' . $row->id . ' title="Edit" data-toggle="modal" data-target="#editModal"><i class="fa fa-edit"></i></a>&nbsp;&nbsp;';
 
-            }
+            // }
             if (Auth::user()->can('school-delete')){
                 $operate .= '<a class="btn btn-xs btn-gradient-danger btn-rounded btn-icon deletedata" data-id=' . $row->id . ' data-url=' . route('web.schools.destroy', $row->id) . ' title="Delete"><i class="fa fa-trash"></i></a>';
 
@@ -154,7 +154,8 @@ class SchoolsController extends Controller
 
            $tempRow['id'] = $row->id;
            $tempRow['no'] = $no++;
-           $tempRow['name'] =$row->name;
+           $tempRow['name'] =$row->name??'';
+           $tempRow['email'] =$row->email??'';
            $tempRow['operate'] =$operate;
            $tempRow['notes'] = $row->notes;
 
@@ -229,11 +230,30 @@ class SchoolsController extends Controller
         }
 
         try {
+            $school = Schools::find($id);
+
+            if (!$school) {
+                return response()->json([
+                    'error' => true,
+                    'message' => trans('genirale.school_not_found')
+                ]);
+            }
+
+
+            if ($school->students()->exists() || $school->sections()->exists()) {
+                return response()->json([
+                    'error' => true,
+                    'message' => trans('genirale.cannot_delete_beacuse_data_is_associated_with_other_data')
+                ]);
+            }
+
+
             Schools::find($id)->delete();
-            $response = array(
+                $response = array(
                 'error' => false,
                 'message' => trans('genirale.data_delete_successfully')
             );
+
         } catch (Throwable $e) {
 
             $response = array(
