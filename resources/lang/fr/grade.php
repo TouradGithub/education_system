@@ -5,7 +5,7 @@ return [
 
     "add_grade" => "Ajouter une note",
     "name_ar" => "Nom en arabe",
-    "name_en" => "Nom en anglais",
+    "name_en" => "Nom en Francais",
 
 
 ];
