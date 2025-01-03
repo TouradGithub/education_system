@@ -11,7 +11,7 @@ $release = date('YmdHis');
 $branch_path = "$app_dir/$branch";
 $env_file_name = ".env.$branch";
 $env_path = "$branch_path/$env_file_name";
-echo '{{$env_path}}';
+
 $keep = 1;
 $new_release_dir = "/home/u334693063/domains/touradmedlemin.me/public_html/education";
 $composer = "/home/u334693063/domains/touradmedlemin.me/public_html/education/composer.json";
