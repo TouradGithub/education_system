@@ -180,6 +180,7 @@ class SectionController extends Controller
     {
 
         try {
+            // return $request;
             if (!Auth::user()->can('school-sections-edit')) {
                 $response = array(
                     'message' => trans('genirale.no_permission_message')
@@ -213,11 +214,11 @@ class SectionController extends Controller
                     ->update($classRoomData);
 
 
-            $section->name = ['fr' => $request->name_en, 'ar' => $request->name];
-            $section->grade_id = getSchool()->grade_id;
-            $section->class_id = $request->class_id;
-            $section->notes = $request->notes;
-            $section->save();
+            // $section->name = json_encode(['fr' => $request->name_en, 'ar' => $request->name]);
+            // $section->grade_id = getSchool()->grade_id;
+            // $section->class_id = $request->class_id;
+            // $section->notes = $request->notes;
+            // $section->save();
 
             $response = [
                 'error' => false,
