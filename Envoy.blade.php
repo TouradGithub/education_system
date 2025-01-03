@@ -19,7 +19,7 @@ $composer = "/home/u334693063/domains/touradmedlemin.me/public_html/education/co
 
 <?php
 $composer = '/home/u334693063/domains/touradmedlemin.me/public_html/education/composer.json';
-echo file_exists($composer) ? 'Exists' : 'Does not exist';
+// echo file_exists($composer) ? 'Exists' : 'Does not exist';
 ?>
 
 @story('deploy')
