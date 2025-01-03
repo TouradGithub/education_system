@@ -23,12 +23,7 @@ echo file_exists($composer) ? 'Exists' : 'Does not exist';
 ?>
 
 @story('deploy')
-{{-- clone_repository
- run_composer
-setup_app
-clean
-succeed
---}}
+
 check_composer
 
 
