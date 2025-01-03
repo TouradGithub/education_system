@@ -2,8 +2,8 @@
 
 @setup
 echo "Connect to server";
-$repository = 'git@github.com:TouradGithub/edication_system.git';
-$branch = isset($branch) ? $branch : "main";
+$repository = 'git@github.com:TouradGithub/education_system.git';
+$branch = isset($branch) ? $branch : "master";
 $app_dir = "u334693063";
 
 $release = date('YmdHis');
@@ -11,7 +11,7 @@ $release = date('YmdHis');
 $branch_path = "$app_dir/$branch";
 $env_file_name = ".env.$branch";
 $env_path = "$branch_path/$env_file_name";
-
+echo '{{$env_path}}';
 $keep = 1;
 $new_release_dir = "/home/u334693063/domains/touradmedlemin.me/public_html/education";
 $composer = "/home/u334693063/domains/touradmedlemin.me/public_html/education/composer.json";
@@ -19,7 +19,7 @@ $composer = "/home/u334693063/domains/touradmedlemin.me/public_html/education/co
 
 <?php
 $composer = '/home/u334693063/domains/touradmedlemin.me/public_html/education/composer.json';
-// echo file_exists($composer) ? 'Exists' : 'Does not exist';
+echo file_exists($composer) ? 'Exists' : 'Does not exist';
 ?>
 
 @story('deploy')
@@ -46,14 +46,17 @@ check_composer
             git add .
             git commit -m "update"
             git pull origin {{ $branch }}
+            composer update
+
         else
             echo "No changes detected, skipping commit and pull."
             git pull origin {{ $branch }}
+            composer update
+
         fi
         echo 'Pulling latest changes Terminate.'
 
-        echo "Running Composer install."
-        composer install --no-interaction --prefer-dist --optimize-autoloader
+
         echo "Composer install finished"
     else
         echo 'Cloning repository'
@@ -80,52 +83,19 @@ check_composer
         echo "Optimized cleared"
         echo "Migration complete"
 
+        php artisan storage:link
         echo "Optimization complete"
-
-
-@task('run_composer')
-echo "Starting deployment ({{ $release }})"
-pwd
-echo {{ $new_release_dir }}
-cd {{ $new_release_dir }}
-echo "moved succes".{{ $new_release_dir }}
-composer update
-echo "composer installed  succefuly"
-php composer.phar update
-echo "composer.phar updated  succefuly"
-php composer.phar install --no-interaction --prefer-dist --optimize-autoloader
-php composer.phar dumpautoload
-echo "composer installed  for ({{ $release }})"
 
         echo "OK"
         echo "View cleared and storage linked"
         free -h
     fi
-
 @endtask
 
 
 
 
 
-@task('pull_repository')
-echo 'Pulling latest changes.'
-cd {{ $new_release_dir }}
-pwd
-git config --global user.email "touradmedlemin17734@gmail.com"
-git config --global user.name "Tourad"
-
-if [[ `git status --porcelain` ]]; then
-    echo "Changes detected, committing and pulling latest changes."
-    git add .
-    git commit -m "update"
-    git pull origin {{ $branch }}
-else
-    echo "No changes detected, skipping commit and pull."
-    git pull origin {{ $branch }}
-fi
-echo 'Pulling latest changes Terminate.'
-@endtask
 
 
 
