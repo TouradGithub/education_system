@@ -150,7 +150,7 @@ class SectionController extends Controller
             }
 
            $tempRow['id'] = $row->id;
-           $tempRow['name'] = $row->getTranslation('name', );
+           $tempRow['name'] = $row->getTranslation('name', 'fr');
            $tempRow['name_ar'] = $row->getTranslation('name', 'ar');
            $tempRow['grade'] =$row->grade->name;
            $tempRow['class'] =$row->classe->name;

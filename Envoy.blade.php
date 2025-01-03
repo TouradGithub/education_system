@@ -83,7 +83,6 @@ check_composer
         echo "Optimized cleared"
         echo "Migration complete"
 
-        {{-- php artisan storage:link --}}
         echo "Optimization complete"
 
         echo "OK"
