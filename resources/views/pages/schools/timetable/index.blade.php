@@ -168,10 +168,12 @@
 
 
         function getSectionsByClass(gradeId) {
+            console.log(gradeId);
             var xhr = new XMLHttpRequest();
             xhr.open('GET', '/getSection-list/' + gradeId, true);
             xhr.onload = function() {
                 if (this.status === 200) {
+                    console.log( JSON.parse(this.responseText));
                     var sections = JSON.parse(this.responseText);
                     var sectionSelect = document.getElementById('s_section_id');
                     sectionSelect.innerHTML = '';
@@ -179,6 +181,7 @@
                         option.text = '{{__('genirale.select')}}';
                         sectionSelect.appendChild(option);
                     sections.forEach(function(section) {
+                    console.log(section);
                         var option = document.createElement('option');
                         option.value = section.id;
                         option.text = section.name;

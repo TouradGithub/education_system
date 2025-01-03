@@ -214,11 +214,8 @@ class SectionController extends Controller
                     ->update($classRoomData);
 
 
-            // $section->name = json_encode(['fr' => $request->name_en, 'ar' => $request->name]);
-            // $section->grade_id = getSchool()->grade_id;
-            // $section->class_id = $request->class_id;
-            // $section->notes = $request->notes;
-            // $section->save();
+
+
 
             $response = [
                 'error' => false,
@@ -281,7 +278,7 @@ class SectionController extends Controller
         $response = $class->sections->map(function ($section) {
             return [
                 'id' => $section->id,
-                'name' => $section->getTranslation('name', app()->getLocale()), // Assuming 'arabic_name' is the attribute
+                'name' => $section->getTranslation('name', 'en'), // Assuming 'arabic_name' is the attribute
             ];
         });
         } catch (Throwable $e) {
