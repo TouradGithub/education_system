@@ -116,6 +116,7 @@ class SchoolSuperAdminSeeder extends Seeder
 
     ['id' => 176, 'name' => 'school-subject-teachers-create', 'type' => '2'],
     ['id' => 177, 'name' => 'school-subject-teachers-list', 'type' => '2'],
+    ['id' => 178, 'name' => 'school-subject-teachers-delete', 'type' => '2'],
 
 
         ];
@@ -176,7 +177,6 @@ class SchoolSuperAdminSeeder extends Seeder
                 'school-exams-update',
 
                 'school-settings-create',
-
                 'school-general_settings-create',
                 'school-general_settings-update',
 
@@ -202,13 +202,14 @@ class SchoolSuperAdminSeeder extends Seeder
                 'school-sections-delete',
                 'school-teachers-edit',
                 'school-teachers-delete',
-                
+
                 'school-subject-teacher-list',
                 'school-subject-teacher-edit',
                 'school-subject-teacher-create',
                 'school-subject-teacher-delete',
                 'school-subject-teachers-create',
                 'school-subject-teachers-list',
+                'school-subject-teachers-delete',
 
                 'school-students-delete',
                 'school-students-inscription',

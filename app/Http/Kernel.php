@@ -76,6 +76,7 @@ class Kernel extends HttpKernel
         'checkNotAuth' => \App\Http\Middleware\CheckNotAuth::class,
         'teacherMiddleware' => \App\Http\Middleware\TeacherMiddleware::class,
         'verifySettingSchool' => \App\Http\Middleware\VerifySettingSchool::class,
+        'administration' => \App\Http\Middleware\AdminMiddleware::class,
 
         'localize'                => \Mcamara\LaravelLocalization\Middleware\LaravelLocalizationRoutes::class,
         'localizationRedirect'    => \Mcamara\LaravelLocalization\Middleware\LaravelLocalizationRedirectFilter::class,

@@ -13,32 +13,29 @@ $env_file_name = ".env.$branch";
 $env_path = "$branch_path/$env_file_name";
 echo '{{$env_path}}';
 $keep = 1;
-$new_release_dir = "/home/u334693063/domains/edzayer.com/public_html/test_system";
-$composer = "/home/u334693063/domains/edzayer.com/public_html/test_system/composer.json";
+$new_release_dir = "/home/u334693063/domains/touradmedlemin.me/public_html/education";
+$composer = "/home/u334693063/domains/touradmedlemin.me/public_html/education/composer.json";
 @endsetup
 
 <?php
-$composer = '/home/u334693063/domains/edzayer.com/public_html/test_system/composer.json';
+$composer = '/home/u334693063/domains/touradmedlemin.me/public_html/education/composer.json';
 echo file_exists($composer) ? 'Exists' : 'Does not exist';
 ?>
 
 @story('deploy')
-<<<<<<< HEAD
-clone_repository
+{{-- clone_repository
  run_composer
 setup_app
 clean
 succeed
-=======
-
+--}}
 check_composer
 
 
->>>>>>> main
 @endstory
 
 @task('check_composer')
-    if [ -f "/home/u334693063/domains/edzayer.com/public_html/test_system/composer.json" ]; then
+    if [ -f "/home/u334693063/domains/touradmedlemin.me/public_html/education/composer.json" ]; then
         echo "composer.json exists."
         echo 'Pulling latest changes.'
         cd {{ $new_release_dir }}
@@ -90,7 +87,7 @@ check_composer
 
         echo "Optimization complete"
 
-<<<<<<< HEAD
+
 @task('run_composer')
 echo "Starting deployment ({{ $release }})"
 pwd
@@ -104,12 +101,12 @@ echo "composer.phar updated  succefuly"
 php composer.phar install --no-interaction --prefer-dist --optimize-autoloader
 php composer.phar dumpautoload
 echo "composer installed  for ({{ $release }})"
-=======
+
         echo "OK"
         echo "View cleared and storage linked"
         free -h
     fi
->>>>>>> main
+
 @endtask
 
 

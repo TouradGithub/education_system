@@ -21,7 +21,7 @@ class GradeFactory extends Factory
 
 
             return [
-                'name' => ['en' =>  fake()->text(10), 'ar' => fake()->text(10)],
+                'name' => ['fr' =>  fake()->text(10), 'ar' => fake()->text(10)],
                 'notes' =>  fake()->text(100),
                 'status' => rand(0, 1),
             ];

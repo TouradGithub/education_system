@@ -218,14 +218,11 @@ class SubjectTeacherController extends Controller
         foreach ($res as $row) {
             $operate = '';
 
-            if (Auth::user()->can('school-subject-teachers-edit')) {
-                $operate = '<a class="btn btn-xs btn-gradient-primary btn-rounded btn-icon editdata" data-id=' . $row->id . ' data-url=' . url('subject-teachers') . ' title="Edit" data-toggle="modal" data-target="#editModal"><i class="fa fa-edit"></i></a>&nbsp;&nbsp;';
 
-            }
-            if (Auth::user()->can('school-subject-teachers-delete')) {
+            // if (Auth::user()->can('school-subject-teachers-delete')) {
                 $operate .= '<a class="btn btn-xs btn-gradient-danger btn-rounded btn-icon deletedata" data-id=' . $row->id . ' data-url=' . url('school/subject-teachers', $row->id) . ' title="Delete"><i class="fa fa-trash"></i></a>';
 
-            }
+            // }
             $tempRow['id'] = $row->id;
             $tempRow['no'] = $no++;
             $tempRow['class_section_id'] = $row->class_section_id;
@@ -255,7 +252,7 @@ class SubjectTeacherController extends Controller
             $response = array(
                 'message' => trans('genirale.no_permission_message')
             );
-            return redirect(route('school.school.home'))->withErrors($response);
+            return response()->json($response);
         }
 
         try {

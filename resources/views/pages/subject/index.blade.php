@@ -60,10 +60,10 @@
                             </div>
                             <div class="row">
                                 <div class="form-group col-sm-12 col-md-6">
-                                    <label>{{ __('genirale.image') }} <span class="text-danger">*</span></label>
+                                    <label>{{ __('genirale.image') }}</label>
                                     <input type="file" name="image" class="file-upload-default"/>
                                     <div class="input-group col-xs-12">
-                                        <input type="text" required class="form-control file-upload-info" name="image" disabled="" placeholder="{{ __('logo1') }}"/>
+                                        <input type="text"  class="form-control file-upload-info" name="image" disabled="" placeholder="{{ __('logo1') }}"/>
                                         <span class="input-group-append">
                                           <button class="file-upload-browse btn btn-theme" type="button">{{ __('upload') }}</button>
                                         </span>

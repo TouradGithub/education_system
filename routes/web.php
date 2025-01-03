@@ -33,7 +33,7 @@ use App\Http\Controllers\ChargilyPayController;
 
 // Route::get('/', [HomeController::class, 'login']);
 
-Route::group([ 'middleware' => ['auth','localeSessionRedirect', 'localizationRedirect', 'localeViewPath'],
+Route::group([ 'middleware' => ['auth','administration','localeSessionRedirect', 'localizationRedirect', 'localeViewPath'],
                 'prefix'     => LaravelLocalization::setLocale()
 ], function () {
 

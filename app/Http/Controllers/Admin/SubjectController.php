@@ -66,7 +66,11 @@ class SubjectController extends Controller
           $subject->grade_id =   getSchool()->grade_id;
           $subject->class_id =  $request->class_id;
           $subject->school_id =  getSchool()->id;
-          $subject->image =  $request->image;
+          if ($request->hasFile('image')) {
+                $image = $request->file('image');
+                $imagePath = $image->store('subjects/', 'public'); // Store image in 'storage/app/public/subjects/images'
+                $subject->image = $imagePath; // Save the file path to the database
+            }
           $subject->code =  $request->code;
           $subject->notes =  $request->notes;
           $subject->save();
@@ -180,7 +184,11 @@ class SubjectController extends Controller
             $subject = Subject::find($request->id);
             $subject->name =  $request->name;
             $subject->type =  $request->type;
-            $subject->image =  $request->image;
+            if ($request->hasFile('image')) {
+                $image = $request->file('image');
+                $imagePath = $image->store('subjects/', 'public'); // Store image in 'storage/app/public/subjects/images'
+                $subject->image = $imagePath; // Save the file path to the database
+            }
             $subject->code =  $request->code;
             $subject->notes =  $request->notes;
             $subject->save();

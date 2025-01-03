@@ -59,13 +59,10 @@ class TrimesterController extends Controller
         try {
 
             $section = new Trimester();
-<<<<<<< HEAD
-            $section->name = ['en' => $request->name_en, 'ar' => $request->name];
             $section->arrangement = $request->arrangement;
 
-=======
             $section->name = ['fr' => $request->name_en, 'ar' => $request->name];
->>>>>>> main
+
             $section->notes = $request->notes;
             $section->save();
 
@@ -132,18 +129,12 @@ class TrimesterController extends Controller
 
 
             $tempRow['id'] = $row->id;
-<<<<<<< HEAD
             $tempRow['arrangement'] = $row->arrangement;
-            $tempRow['name'] = $row->getTranslation('name', 'ar');
-            $tempRow['name_en'] = $row->getTranslation('name', 'en');
-            $tempRow['operate'] =$operate;
-            $tempRow['notes'] = $row->notes;
-=======
+
            $tempRow['name'] = $row->getTranslation('name', 'ar');
            $tempRow['name_en'] = $row->getTranslation('name', 'fr');
            $tempRow['operate'] =$operate;
            $tempRow['notes'] = $row->notes;
->>>>>>> main
 
 
             $rows[] = $tempRow;
@@ -176,7 +167,6 @@ class TrimesterController extends Controller
         try {
             $trimester =Trimester::find($request->id);
 
-<<<<<<< HEAD
             if (!$trimester) {
                 return response()->json([
                     'error' => true,
@@ -184,7 +174,7 @@ class TrimesterController extends Controller
                 ]);
             }
 
-            $existingTrimester = Trimester::where('name', json_encode(['en' => $request->name_en, 'ar' => $request->name]))
+            $existingTrimester = Trimester::where('name', json_encode(['fr' => $request->name_en, 'ar' => $request->name]))
                                 ->where('arrangement', $request->arrangement)
                                 ->where('id', '!=', $trimester->id)
                                 ->first();
@@ -201,11 +191,10 @@ class TrimesterController extends Controller
 
 
 
-            $trimester->name = ['en' => $request->name_en, 'ar' => $request->name];
             $trimester->arrangement = $request->arrangement;
-=======
+
             $trimester->name = ['fr' => $request->name_en, 'ar' => $request->name];
->>>>>>> main
+
             $trimester->notes = $request->notes;
             $trimester->save();
 

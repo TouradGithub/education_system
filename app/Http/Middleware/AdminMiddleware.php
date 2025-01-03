@@ -15,6 +15,13 @@ class AdminMiddleware
      */
     public function handle(Request $request, Closure $next): Response
     {
+        $user = auth()->user();
+        if ($user && $user->model != 'App\Models\Admin') {
+            auth()->logout();
+            $request->session()->flush();
+            $request->session()->regenerate();
+            return redirect('/');
+        }
         return $next($request);
     }
 }
