@@ -7,9 +7,9 @@
 <div class="content-wrapper">
     <div class="page-header">
         <h3 class="page-title">
-             {{__('role_management')}}
+             Willaya
         </h3>
-        <a class="btn btn-primary" href="{{ route('web.managements.create') }}"> {{ __('create_new_role') }}</a>
+        <a class="btn btn-primary" href="{{ route('web.managements.create') }}">Creer Willaya</a>
     </div>
     <div class="row grid-margin">
         <div class="col-lg-12">
@@ -19,22 +19,23 @@
                     <tr>
                        <th>{{__('no')}}</th>
                        <th>{{__('name')}}</th>
-                       <th>{{__('Admin')}}</th>
+                       <th>{{__('genirale.description')}}</th>
                        <th width="280px">{{__('action')}}</th>
                     </tr>
                       @foreach ($managements as $key => $management)
                       <tr>
                           <td>{{ ++$i }}</td>
                           <td>{{ $management->name }}</td>
-                          <td>{{ $management->email }}</td>
+                          <td>{{ $management->description }}</td>
                           <td>
                               <a class="btn btn-xs btn-gradient-info btn-rounded btn-icon" href="{{ route('web.managements.show',$management->id) }}"><i class="fa fa-eye"></i></a>
-                              @can('management-edit')
+                              {{-- @can('management-edit') --}}
                                   <a class="btn btn-xs btn-gradient-primary btn-rounded btn-icon" href="{{ route('web.admin.managements.edit',$management->id) }}"><i class="fa fa-edit"></i></a>
-                              @endcan
-                                {!! Form::open(['method' => 'DELETE','route' => ['web.managements.destroy', $management->id],'style'=>'display:inline']) !!}
+                                  <a class="btn btn-xs btn-danger btn-rounded btn-icon" href="{{ route('web.admin.managements.delete',$management->id) }}"><i class="fa fa-trash"></i></a>
+                              {{-- @endcan --}}
+                                {{-- {!! Form::open(['method' => 'DELETE','route' => ['web.managements.destroy', $management->id],'style'=>'display:inline']) !!}
                                     {!! Form::submit('Delete', ['class' => 'btn btn-danger']) !!}
-                                {!! Form::close() !!}
+                                {!! Form::close() !!} --}}
                           </td>
                       </tr>
                       @endforeach

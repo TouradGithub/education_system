@@ -77,6 +77,7 @@ Route::group([ 'middleware' => ['auth','localeSessionRedirect', 'localizationRed
     Route::resource('managements', ManagementController::class);
     Route::get('managements/edit/{id}', [ManagementController::class, 'edit'])->name('admin.managements.edit');
     Route::get('managements/show/{id}', [ManagementController::class, 'show'])->name('admin.managements.show');
+    Route::get('managements/delete/{id}', [ManagementController::class, 'delete'])->name('admin.managements.delete');
 
 
     Route::get('subjects-list', [SubjectController::class, 'show']);

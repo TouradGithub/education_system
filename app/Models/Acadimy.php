@@ -16,7 +16,13 @@ class Acadimy extends Model
     protected $hidden = ['created_at','updated_at'];
     protected $table = 'info_acadimy';
     protected $fillable = [
-        'name', 'description','image','adress','email'
+        'name', 'description'
     ];
+
+    public function schools()
+    {
+        return $this->hasMany(Schools::class, 'academy_id');
+
+    }
 
 }

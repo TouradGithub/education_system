@@ -40,8 +40,7 @@ class ManagementController extends Controller
             return redirect(route('home'))->withErrors($response);
 
         }
-        $roles = Role::where('model_id',null)->pluck('name','name');
-        return view('managements.create',compact('roles'));
+        return view('managements.create');
     }
 
     /**
@@ -64,25 +63,9 @@ class ManagementController extends Controller
             $acadimy = Acadimy::create([
                 'name' => $request->name,
                 'description' => $request->description,
-                'image' => $request->image,
-                'adress'=>$request->adress,
-                'email'=>$request->email,
-            ]);
-            $super_admin_role = Role::where('name', $request->input('roles'))->first();
-
-            $academyManegment = User::create([
-                'name' => $request->name,
-                'email' => $request->email,
-                'phone' => $request->phone,
-                'role' =>  $super_admin_role->name,
-                'password' => Hash::make($request->password),
-                'model' => "App\Models\Acadimy",
-                'model_id' => $acadimy->id,
             ]);
 
-            $super_admin_role = Role::where('name', $request->input('roles'))->first();
 
-            $academyManegment->assignRole($super_admin_role);
             DB::commit();
             $response = array(
                 'error' => false,
@@ -118,7 +101,7 @@ class ManagementController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(AcademyManegment $id)
+    public function edit(Acadimy $id)
     {
         if (!Auth::user()->can('acadimic-edit') ) {
             $response = array(
@@ -127,23 +110,53 @@ class ManagementController extends Controller
             return redirect(route('home'))->withErrors($response);
 
         }
-        $management = AcademyManegment::find($id)->first();
+        $management = Acadimy::find($id)->first();
         return view('managements.edit',compact('management'));
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, management $management)
+    public function update(Request $request, Acadimy $management)
     {
-        //
+        $request->validate([
+            'name' => 'required|string|max:255',
+            'description' => 'nullable|string',
+        ]);
+
+        try {
+            DB::beginTransaction();
+
+            // Update the management record
+            $management->update([
+                'name' => $request->name,
+                'description' => $request->description,
+            ]);
+
+            DB::commit();
+            $response = array(
+                'error' => false,
+                'message' => trans('data_updated_successfully')
+            );
+
+        } catch (Throwable $e) {
+            DB::rollback();
+            $response = array(
+                'error' => true,
+                'message' => trans('error_occurred'),
+                'data' => $e->getMessage() // Include error message for debugging
+            );
+        }
+
+        return redirect()->back()->with('success', trans('genirale.data_update_successfully'));
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(management $id)
+    public function delete(Acadimy $id)
     {
+        $acadimy=  $id;
         if (!Auth::user()->can('acadimic-delete') ) {
             $response = array(
                 'message' => trans('genirale.no_permission_message')
@@ -151,6 +164,39 @@ class ManagementController extends Controller
             return redirect(route('home'))->withErrors($response);
 
         }
-        return " ";
+        try {
+            // Check if the academy has any associated schools
+            if ($acadimy->schools()->exists()) {
+                $response = [
+                    'error' => true,
+                    'message' => trans('genirale.cannot_delete_academy_with_schools')
+                ];
+                return redirect()->back()->with('error',  trans('genirale.cannot_delete_academy_with_schools'));
+            }
+
+            DB::beginTransaction();
+
+            // Perform the delete operation
+            $acadimy->delete();
+
+            DB::commit();
+
+            $response = [
+                'error' => false,
+                'message' => trans('genirale.academy_deleted_successfully')
+            ];
+
+            return redirect()->back()->with('success', trans('genirale.data_update_successfully'));
+        } catch (Throwable $e) {
+            DB::rollback();
+
+            $response = [
+                'error' => true,
+                'message' => trans('genirale.error_occurred'),
+                'data' => $e->getMessage() // Include error message for debugging
+            ];
+        }
+
+        return redirect()->back()->withErrors($response);
     }
 }
