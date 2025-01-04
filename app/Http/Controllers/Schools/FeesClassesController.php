@@ -124,31 +124,31 @@ class FeesClassesController extends Controller
         $total = $sql->count();
 
         $sql->skip($offset)->take($limit);
-      return $res = $sql->get();
-        // $bulkData = array();
-        // $bulkData['total'] = $total;
-        // $rows = array();
-        // $tempRow = array();
-        // $no = 1;
+       $res = $sql->get();
+        $bulkData = array();
+        $bulkData['total'] = $total;
+        $rows = array();
+        $tempRow = array();
+        $no = 1;
 
-        // foreach ($res as $row) {
+        foreach ($res as $row) {
 
-        //     $row = (object)$row;
-        //     $operate = '<a href="" class="btn btn-xs btn-gradient-primary btn-rounded btn-icon edit-data" data-id=' . $row->id . ' title="'.trans('edit').'" data-toggle="modal" data-target="#editModal"><i class="fa fa-edit"></i></a>&nbsp;&nbsp;';
+            $row = (object)$row;
+            $operate = '<a href="" class="btn btn-xs btn-gradient-primary btn-rounded btn-icon edit-data" data-id=' . $row->id . ' title="'.trans('edit').'" data-toggle="modal" data-target="#editModal"><i class="fa fa-edit"></i></a>&nbsp;&nbsp;';
 
-        //     $tempRow['no'] = $no++;
-        //     $tempRow['class_id'] = $row->id;
-        //     $tempRow['class_name'] =  $row->classe->name.' '. $row->name ;
-        //     $tempRow['feesClass'] =  $row->fees_class->id ??'NULL' ;
-        //     $tempRow['base_amount'] =isset($row->fees_class) ? $row->fees_class->amount  . ' ' . env('CURENCY') : '-';
-        //     $tempRow['created_at'] = $row->created_at;
-        //     $tempRow['updated_at'] = $row->updated_at;
-        //     $tempRow['operate'] = $operate;
-        //     $rows[] = $tempRow;
-        // }
+            $tempRow['no'] = $no++;
+            $tempRow['class_id'] = $row->id;
+            $tempRow['class_name'] =  $row->classe->name.' '. $row->name ;
+            $tempRow['feesClass'] =  $row->fees_class->id ??'NULL' ;
+            $tempRow['base_amount'] =isset($row->fees_class) ? $row->fees_class->amount  . ' ' . env('CURENCY') : '-';
+            $tempRow['created_at'] = $row->created_at;
+            $tempRow['updated_at'] = $row->updated_at;
+            $tempRow['operate'] = $operate;
+            $rows[] = $tempRow;
+        }
 
-        // $bulkData['rows'] = $rows;
-        // return response()->json($bulkData);
+        $bulkData['rows'] = $rows;
+        return response()->json($bulkData);
     }
 
 
