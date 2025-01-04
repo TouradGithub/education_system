@@ -53,6 +53,7 @@ class ManagementController extends Controller
                 'message' => trans('genirale.no_permission_message')
             );
             return redirect(route('home'))->withErrors($response);
+            return redirect()->back()->with('success', trans('genirale.no_permission_message'));
 
         }
 
@@ -71,7 +72,7 @@ class ManagementController extends Controller
                 'error' => false,
                 'message' => trans('data_store_successfully')
             );
-
+            return redirect()->back()->with('success', trans('data_store_successfully'));
         }catch (Throwable $e) {
             DB::rollback();
             $response = array(
@@ -80,7 +81,7 @@ class ManagementController extends Controller
                 'data' => $e
             );
         }
-        return response()->json($response);
+        return redirect()->back()->with('success', trans('genirale.data_update_successfully'));
     }
 
     /**
