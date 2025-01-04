@@ -58,6 +58,10 @@ class ManagementController extends Controller
         }
 
         try {
+            $request->validate([
+                'name' => 'required|string|max:255',
+                'description' => 'nullable|string',
+            ]);
 
             DB::beginTransaction();
 
