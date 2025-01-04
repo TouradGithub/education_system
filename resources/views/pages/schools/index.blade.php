@@ -166,6 +166,12 @@
                                                 </th>
                                                 <th scope="col" data-field="email" data-sortable="false"> {{trans('genirale.email')}}
                                                 </th>
+
+                                                <th scope="col" data-field="grade" data-sortable="false"> Niveau
+                                                </th>
+
+                                                <th scope="col" data-field="type" data-sortable="false"> {{trans('subjects.type')}}
+                                                </th>
                                                 </th>
                                                 <th scope="col" data-field="notes" data-sortable="false">
                                                     {{  trans('genirale.note')}}

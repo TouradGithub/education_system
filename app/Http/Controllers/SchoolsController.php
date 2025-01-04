@@ -156,6 +156,8 @@ class SchoolsController extends Controller
            $tempRow['no'] = $no++;
            $tempRow['name'] =$row->name??'';
            $tempRow['email'] =$row->email??'';
+           $tempRow['grade'] =$row->grade->getTranslation('name', 'fr')??'';
+           $tempRow['type'] =$row->type??'';
            $tempRow['operate'] =$operate;
            $tempRow['notes'] = $row->notes;
 

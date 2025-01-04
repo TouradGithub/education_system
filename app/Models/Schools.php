@@ -33,6 +33,12 @@ class Schools extends Model
 
     }
 
+    public function grade()
+    {
+        return $this->belongsTo(Grade::class, 'grade_id');
+
+    }
+
     public function sections(){
         return $this->hasMany(ClassRoom::class ,'school_id');
     }
