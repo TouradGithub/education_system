@@ -124,7 +124,7 @@ class FeesClassesController extends Controller
         $total = $sql->count();
 
         $sql->skip($offset)->take($limit);
-      return  $res = $sql->get();
+       $res = $sql->get();
         $bulkData = array();
         $bulkData['total'] = $total;
         $rows = array();
