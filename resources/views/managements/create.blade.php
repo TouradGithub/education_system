@@ -1,14 +1,14 @@
 @extends('layouts.masters.master')
 
 @section('title')
-    {{ __('create_new_schools') }}
+Ajouter Willaya
 @endsection
 
 @section('content')
     <div class="content-wrapper">
         <div class="page-header">
             <h3 class="page-title">
-                {{ __('create_new_schools') }}
+                Ajouter Willaya
             </h3>
             <a class="btn btn-primary" href="{{ route('web.schools.index') }}"> {{ __('back') }}</a>
         </div>
