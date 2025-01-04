@@ -51,7 +51,7 @@ class ClassRoom extends Model
     }
 
     public function fees_class() {
-        return $this->hasOne(FeesClass::class, 'class_section_id');
+        return $this->hasOne(FeesClass::class, 'class_section_id', 'id');
     }
 
 
