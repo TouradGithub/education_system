@@ -13,6 +13,6 @@
 <div class="input-group col-sm-12 col-md-2">
     <input type="text" name="note" class="form-control" placeholder="Note">
 </div>
-<button data-repeater-delete type="button" class="row_remove btn btn-gradient-danger btn-sm icon-btn ml-2">
+<button data-repeater-delete type="button"  class="row_remove btn btn-gradient-danger btn-sm icon-btn ml-2">
     <i class="fa fa-trash"></i>
 </button>

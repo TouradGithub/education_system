@@ -247,7 +247,23 @@ class SchoolsController extends Controller
                     'error' => true,
                     'message' => trans('genirale.cannot_delete_beacuse_data_is_associated_with_other_data')
                 ]);
+
+
             }
+
+            $schoolUsers = User::where('model', 'App\Models\Schools')
+                        ->where('model_id', $school->id)
+                        ->get();
+
+                foreach ($schoolUsers as $user) {
+                    $user->removeRole($user->roles->first()->name);  // Remove the role first
+                    $user->delete();  // Delete the user
+                }
+
+                // Delete related settings (if any)
+                Settings::where('school_id', $school->id)->delete();
+
+
 
 
             Schools::find($id)->delete();

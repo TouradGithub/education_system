@@ -168,7 +168,7 @@ $(function () {
                 }).then((result) => {
                     if (result.isConfirmed) {
                         $.ajax({
-                            url: location.protocol + "//" + location.hostname + (location.port && ":" + location.port) + "/timetable/" + $(this).find('input:first').val(),
+                            url: location.protocol + "//" + location.hostname + (location.port && ":" + location.port) + "/school/timetable/" + $(this).find('input:first').val(),
                             type: "DELETE",
                             success: function (response) {
                                 if (response['error'] == false) {
@@ -2501,7 +2501,7 @@ $(document).on('click', '.remove-edit-fee-installment-content', function (e) {
     }
 });
 $('.pay_optional_fees_offline').on('submit', function (e) {
-    
+
     e.preventDefault();
     let formElement = $(this);
     let submitButtonElement = $(this).find(':submit');

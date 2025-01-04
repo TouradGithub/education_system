@@ -354,9 +354,10 @@
                         set_subject();
 
                         for (let i = 0; i < response.length; i++) {
+                            let deleteUrl = "{{ url('school/timetable/destroy') }}/" + response[i]['id'];
 
                             html += '<div data-repeater-item="" class="row mb-2 ' + day_name + '_count" id="' + day_name + '_count[' + i + ']">' +
-                                '<input required hidden type="text" value="' + response[i]['id'] + '" name="' + day_name + '_group[' + i + '][id]" id="' + day_name + '_id[' + i + ']" class="form-control" placeholder="Id">' +
+                                '<input required hidden type="text" data-url="' + deleteUrl + '" value="' + response[i]['id'] + '" name="' + day_name + '_group[' + i + '][id]" id="' + day_name + '_id[' + i + ']" class="form-control" placeholder="Id">' +
                                 '<div class="input-group col-sm-12 col-md-2">' +
                                 '<select required name="' + day_name + '_group[' + i + '][subject_id]" id="subject" class="form-control set_subject_id ' + day_name + '_group[' + i + '][subject_id]" style="width:100%;" tabindex="-1" aria-hidden="true"></select>' +
                                 '</div>' +
@@ -372,7 +373,7 @@
                                 '<div class="input-group col-sm-12 col-md-2">' +
                                 '<input type="text" value="' + response[i]['note'] + '" name="' + day_name + '_group[' + i + '][note]" class="form-control" placeholder="Note">' +
                                 '</div>' +
-                                '<button data-repeater-delete type="button" class="row_remove btn btn-gradient-danger btn-sm icon-btn ml-2"><i class="fa fa-trash"></i></button>' +
+                                '<button data-repeater-delete data-url="' + deleteUrl + '" type="button" class="row_remove btn btn-gradient-danger btn-sm icon-btn ml-2"><i class="fa fa-trash"></i></button>' +
                                 '</div>'
                         }
                         $('.set_' + day_name).html(html);

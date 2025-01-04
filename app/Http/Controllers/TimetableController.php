@@ -54,21 +54,21 @@ class TimetableController extends Controller
 
             $day_name = $request->day;
             $class_section_id = $request->class_section_id;
-            if ($day_name == 'monday') {
-                $day = 1;
-            } elseif ($day_name == 'tuesday') {
-                $day = 2;
-            } elseif ($day_name == 'wednesday') {
-                $day = 3;
-            } elseif ($day_name == 'thursday') {
-                $day = 4;
-            } elseif ($day_name == 'friday') {
-                $day = 5;
-            } elseif ($day_name == 'saturday') {
-                $day = 6;
-            } elseif ($day_name == 'sunday') {
-                $day = 7;
-            }
+                if ($day_name == 'monday') {
+                    $day = 1;
+                } elseif ($day_name == 'tuesday') {
+                    $day = 2;
+                } elseif ($day_name == 'wednesday') {
+                    $day = 3;
+                } elseif ($day_name == 'thursday') {
+                    $day = 4;
+                } elseif ($day_name == 'friday') {
+                    $day = 5;
+                } elseif ($day_name == 'saturday') {
+                    $day = 6;
+                } elseif ($day_name == 'sunday') {
+                    $day = 7;
+                }
             $a = $day_name . "_group";
             foreach ($request->$a as $data) {
 
@@ -210,6 +210,20 @@ class TimetableController extends Controller
      */
     public function destroy(Timetable $timetable)
     {
-        //
+
+        
+        if ($timetable) {
+            $timetable->delete();
+
+            return response()->json([
+                'error' => false,
+                'message' => 'Timetable deleted successfully'
+            ]);
+        }
+
+        return response()->json([
+            'error' => true,
+            'message' => 'Timetable not found'
+        ]);
     }
 }
