@@ -112,7 +112,7 @@ class FeesClassesController extends Controller
             $sort = $_GET['sort'];
 
 
-        $sql = ClassRoom::where('school_id',getSchool()->id)->with('fees_class');
+        $sql = ClassRoom::where('school_id',getSchool()->id);
         if (isset($_GET['search']) && !empty($_GET['search'])) {
             $search = $_GET['search'];
             $sql->where('id', 'LIKE', "%$search%")
