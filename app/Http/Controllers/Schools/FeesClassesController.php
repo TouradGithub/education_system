@@ -111,8 +111,8 @@ class FeesClassesController extends Controller
         if (isset($_GET['sort']))
             $sort = $_GET['sort'];
 
-        return response()->json( ClassRoom::where('school_id',getSchool()->id));
-        $sql = ClassRoom::where('school_id',getSchool()->id);
+
+        $sql = ClassRoom::where('school_id',getSchool()->id)->with('fees_class');
         if (isset($_GET['search']) && !empty($_GET['search'])) {
             $search = $_GET['search'];
             $sql->where('id', 'LIKE', "%$search%")
@@ -130,7 +130,6 @@ class FeesClassesController extends Controller
         $rows = array();
         $tempRow = array();
         $no = 1;
-        // return FeesClass::all();
 
         foreach ($res as $row) {
 
@@ -140,9 +139,8 @@ class FeesClassesController extends Controller
             $tempRow['no'] = $no++;
             $tempRow['class_id'] = $row->id;
             $tempRow['class_name'] =  $row->classe->name.' '. $row->name ;
-            $tempRow['feesClass'] =FeesClass::all();
-            //  $row->fees_class->id ??'NULL' ;
-            // $tempRow['base_amount'] =isset($row->fees_class) ? $row->fees_class->amount  . ' ' . env('CURENCY') : '-';
+            $tempRow['feesClass'] =  $row->fees_class->id ??'NULL' ;
+            $tempRow['base_amount'] =isset($row->fees_class) ? $row->fees_class->amount  . ' ' . env('CURENCY') : '-';
             $tempRow['created_at'] = $row->created_at;
             $tempRow['updated_at'] = $row->updated_at;
             $tempRow['operate'] = $operate;

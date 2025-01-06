@@ -10,7 +10,7 @@ class FeesClass extends Model
 {
     use HasFactory;
     use SoftDeletes;
-    protected $table = 'feesClasses';
+    protected $table = 'fees_classes';
     protected $hidden = ["deleted_at", "created_at", "updated_at"];
 
     protected $fillable=[
@@ -19,6 +19,8 @@ class FeesClass extends Model
         "school_id"       ,
         "session_year_id" ,
     ];
+
+
 
     // public function fees_type(){
     //     return $this->belongsTo(FeesType::class ,'fees_type_id');

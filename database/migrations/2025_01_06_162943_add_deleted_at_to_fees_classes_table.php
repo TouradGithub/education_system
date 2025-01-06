@@ -6,11 +6,12 @@ use Illuminate\Support\Facades\Schema;
 
 return new class extends Migration
 {
-   
-    
+    /**
+     * Run the migrations.
+     */
     public function up(): void
     {
-        Schema::create('feesClasses', function (Blueprint $table) {
+        Schema::create('fees_classes', function (Blueprint $table) {
             $table->id();
             $table->integer('class_section_id');
             $table->float('amount');
@@ -21,8 +22,13 @@ return new class extends Migration
         });
     }
 
+    /**
+     * Reverse the migrations.
+     */
     public function down(): void
     {
-        Schema::dropIfExists('feesClasses');
+        Schema::table('fees_classes', function (Blueprint $table) {
+            Schema::dropIfExists('fees_classes');
+        });
     }
 };
