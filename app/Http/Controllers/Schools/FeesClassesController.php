@@ -111,7 +111,7 @@ class FeesClassesController extends Controller
         if (isset($_GET['sort']))
             $sort = $_GET['sort'];
 
-
+        return response()->json( ClassRoom::where('school_id',getSchool()->id));
         $sql = ClassRoom::where('school_id',getSchool()->id);
         if (isset($_GET['search']) && !empty($_GET['search'])) {
             $search = $_GET['search'];
