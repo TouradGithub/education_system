@@ -138,11 +138,10 @@ class FeesClassesController extends Controller
 
             $tempRow['no'] = $no++;
             $tempRow['class_id'] = $row->id;
-            $tempRow['class_name'] =  $row->classe->name.' '. $row->name ;
-            // $tempRow['feesClass'] =  $row->fees_class->id ??'NULL' ;
-            $tempRow['feesClass'] = '-' ;
+            $tempRow['class_name'] =   $row->classe->name.' '. $row->name ;
+            $tempRow['feesClass'] =  isset($row->fees_class->id) ?$row->fees_class->id :'NULL' ;
             $tempRow['base_amount'] =
-            // isset($row->fees_class) ? $row->fees_class->amount  . ' ' . env('CURENCY') :
+            isset($row->fees_class) ? $row->fees_class->amount  . ' ' . env('CURENCY') :
              '-';
             $tempRow['created_at'] = $row->created_at;
             $tempRow['updated_at'] = $row->updated_at;
