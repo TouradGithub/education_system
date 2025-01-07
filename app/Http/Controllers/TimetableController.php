@@ -176,8 +176,9 @@ class TimetableController extends Controller
     {
         // Session::put('class_timetable', $request->class_section_id);
 
-        $timetable = Timetable::select('id','start_time','end_time')->where('section_id', $request->section_id)
-        ->where('day', $request->day)->get();
+        $timetable = Timetable::with('subject_teacher')->where('section_id', $request->section_id)
+                                ->where('day', $request->day)
+                                ->get();
 
         return response($timetable);
     }

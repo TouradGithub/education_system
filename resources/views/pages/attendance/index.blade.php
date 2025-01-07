@@ -57,6 +57,11 @@
 
                                     </select>
                                 </div>
+
+                                <div class="form-group col-sm-12 col-md-4">
+                                    <input readonly type="button" id="timetable_teacher_section" value=""  class="form-control select2">
+
+                                </div>
                             </div>
 
                             <div class="show_student_list">
@@ -171,8 +176,10 @@
 
 
                     var sections = this.response;
+                    console.log(response);
                     var sectionSelect = document.getElementById("timetable_class_section");
                     sectionSelect.innerHTML = '';
+
                     var option = document.createElement('option');
                         option.text = '{{__('genirale.select')}}';
                         sectionSelect.appendChild(option);
@@ -184,7 +191,10 @@
                         var option = document.createElement('option');
                         option.value =response[i]['id'];
                         option.text = startTime+' --- '+endTime;
+                        option.setAttribute('data-teacher', response[i]['subject_teacher']['teacher']['first_name'] + ' ' + response[i]['subject_teacher']['teacher']['last_name']);
+                        option.setAttribute('data-subject', response[i]['subject_teacher']['subject']['name'] );
                         sectionSelect.appendChild(option);
+
 
                     }
                 }
@@ -219,6 +229,17 @@
             });
         }
         $('#timetable_class_section').on('change', function() {
+
+            var selectedOption = $(this).find(':selected');
+
+
+            var dataTeacher = selectedOption.data('teacher'); // jQuery's .data() automatically handles `data-*` attributes
+            var dataSubject = selectedOption.data('subject'); // jQuery's .data() automatically handles `data-*` attributes
+
+
+            $('#timetable_teacher_section').val('');
+            $('#timetable_teacher_section').val(dataTeacher+' - '+dataSubject);
+
 
             set_data();
         });
