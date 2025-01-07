@@ -146,6 +146,7 @@
 
         var daysOfWeek = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
         var dayName = daysOfWeek[formattedDate.getDay()];
+        console.log(dayName);
         return dayNum=getNumday(dayName);
     }
 
@@ -154,6 +155,8 @@
         date = $('#date').val();
 
         dayNum=getDateForDate(date);
+        console.log(date );
+        console.log(dayNum );
 
         if(section_id != '' && dayNum != ''){
             $.ajax({

@@ -168,12 +168,12 @@
 
 
         function getSectionsByClass(gradeId) {
-            console.log(gradeId);
+            // console.log(gradeId);
             var xhr = new XMLHttpRequest();
             xhr.open('GET', '/getSection-list/' + gradeId, true);
             xhr.onload = function() {
                 if (this.status === 200) {
-                    console.log( JSON.parse(this.responseText));
+                    // console.log( JSON.parse(this.responseText));
                     var sections = JSON.parse(this.responseText);
                     var sectionSelect = document.getElementById('s_section_id');
                     sectionSelect.innerHTML = '';
@@ -181,7 +181,7 @@
                         option.text = '{{__('genirale.select')}}';
                         sectionSelect.appendChild(option);
                     sections.forEach(function(section) {
-                    console.log(section);
+                    // console.log(section);
                         var option = document.createElement('option');
                         option.value = section.id;
                         option.text = section.name;
@@ -260,6 +260,7 @@
             tab = $(e.target).attr("data-id");
             total_row = $('.' + tab + '_count').length;
             $('#' + tab + ' input[name="day"').val(tab);
+            console.log($('#' + tab + ' input[name="day"').val(tab));
             $('#' + tab + ' input[name="class_section_id"').val($('#timetable_class_section').val());
             $('#' + tab + ' input[name="section_id"').val($('#s_section_id').val());
             $('#active_tab').val(tab);
@@ -320,21 +321,22 @@
         }
 
         function checktimetable(day_name) {
+            console.log(day_name);
             var day = '';
             if (day_name == 'monday') {
-                day = 1;
-            } else if (day_name == 'tuesday') {
-                day = 2;
-            } else if (day_name == 'wednesday') {
-                day = 3;
-            } else if (day_name == 'thursday') {
-                day = 4;
-            } else if (day_name == 'friday') {
-                day = 5;
-            } else if (day_name == 'saturday') {
-                day = 6;
-            } else if (day_name == 'sunday') {
                 day = 7;
+            } else if (day_name == 'tuesday') {
+                day = 1;
+            } else if (day_name == 'wednesday') {
+                day = 2;
+            } else if (day_name == 'thursday') {
+                day = 3;
+            } else if (day_name == 'friday') {
+                day = 4;
+            } else if (day_name == 'saturday') {
+                day = 5;
+            } else if (day_name == 'sunday') {
+                day = 6;
             }
             var class_section_id = $('#timetable_class_section').val();
             var section_id = $('#s_section_id').val();
