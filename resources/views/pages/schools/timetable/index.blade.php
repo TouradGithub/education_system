@@ -324,19 +324,19 @@
             console.log(day_name);
             var day = '';
             if (day_name == 'monday') {
-                day = 7;
-            } else if (day_name == 'tuesday') {
                 day = 1;
-            } else if (day_name == 'wednesday') {
+            } else if (day_name == 'tuesday') {
                 day = 2;
-            } else if (day_name == 'thursday') {
+            } else if (day_name == 'wednesday') {
                 day = 3;
-            } else if (day_name == 'friday') {
+            } else if (day_name == 'thursday') {
                 day = 4;
-            } else if (day_name == 'saturday') {
+            } else if (day_name == 'friday') {
                 day = 5;
-            } else if (day_name == 'sunday') {
+            } else if (day_name == 'saturday') {
                 day = 6;
+            } else if (day_name == 'sunday') {
+                day = 7;
             }
             var class_section_id = $('#timetable_class_section').val();
             var section_id = $('#s_section_id').val();

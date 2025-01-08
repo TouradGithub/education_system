@@ -51,23 +51,23 @@ class TimetableController extends Controller
             'section_id' => 'required',
         ]);
         try {
-
+            
             $day_name = $request->day;
             $class_section_id = $request->class_section_id;
                 if ($day_name == 'monday') {
-                    $day = 7;
-                } elseif ($day_name == 'tuesday') {
                     $day = 1;
-                } elseif ($day_name == 'wednesday') {
+                } elseif ($day_name == 'tuesday') {
                     $day = 2;
-                } elseif ($day_name == 'thursday') {
+                } elseif ($day_name == 'wednesday') {
                     $day = 3;
-                } elseif ($day_name == 'friday') {
+                } elseif ($day_name == 'thursday') {
                     $day = 4;
-                } elseif ($day_name == 'saturday') {
+                } elseif ($day_name == 'friday') {
                     $day = 5;
-                } elseif ($day_name == 'sunday') {
+                } elseif ($day_name == 'saturday') {
                     $day = 6;
+                } elseif ($day_name == 'sunday') {
+                    $day = 7;
                 }
             $a = $day_name . "_group";
             foreach ($request->$a as $data) {
@@ -175,9 +175,13 @@ class TimetableController extends Controller
     public function getTimetable(Request $request)
     {
         // Session::put('class_timetable', $request->class_section_id);
+        $date = $request->date; // Get the date from the request
+
+        // Ensure the date is in a proper format
+        $day = date('N', strtotime($date));
 
         $timetable = Timetable::with('subject_teacher')->where('section_id', $request->section_id)
-                                ->where('day', $request->day)
+                                ->where('day', $day)
                                 ->get();
 
         return response($timetable);

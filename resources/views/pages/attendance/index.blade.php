@@ -117,6 +117,8 @@
                 'date':$('#date').val(),
             };
         }
+        $('#timetable_teacher_section').val('');
+        $('#timetable_teacher_section').hide();
 
     document.getElementById('class_id').addEventListener('change', function() {
             var gradeId = this.value;
@@ -147,28 +149,45 @@
 
     }
     function getDateForDate(date){
-        var formattedDate = new Date(date ); // Set the time to midnight
+        // var formattedDate = new Date(date); // Convert the input to a Date object
+        // var dayNum = formattedDate.getDay(); // Get the day number (0 for Sunday, 1 for Monday, etc.)
+        // console.log("Formatted Date:", formattedDate);
+        // console.log("Day Number:", dayNum);
+        // return dayNum;
 
+        var formattedDate = new Date(date); // Convert the input to a Date object
+
+        // Get the day number (0 for Sunday, 1 for Monday, etc.)
+        var dayNum = formattedDate.getDay();
+
+        // Adjust dayNum to match Monday = 1, Sunday = 7
+        var adjustedDayNum = (dayNum === 0) ? 7 : dayNum;
+
+        // Get the day name
         var daysOfWeek = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
-        var dayName = daysOfWeek[formattedDate.getDay()];
-        console.log(dayName);
-        return dayNum=getNumday(dayName);
+        var dayName = daysOfWeek[dayNum];
+
+        console.log("Formatted Date:", formattedDate);
+        console.log("Day Number (Monday=1, Sunday=7):", adjustedDayNum);
+        console.log("Day Name:", dayName);
+
+        return adjustedDayNum;
     }
 
     function getTimeTable() {
         section_id = $('#class_section_id_attendance').val();
         date = $('#date').val();
 
-        dayNum=getDateForDate(date);
-        console.log(date );
-        console.log(dayNum );
+        // dayNum=getDateForDate(date);
+        // console.log(date );
+        // console.log(dayNum );
 
-        if(section_id != '' && dayNum != ''){
+        if(section_id != '' && date != ''){
             $.ajax({
                 url: "{{ url('school/getTimetable-list') }}",
                 type: "GET",
                 data: {
-                    day: dayNum,
+                    date: date,
                     section_id: section_id
                 },
                 success: function (response) {
@@ -208,6 +227,9 @@
 
     <script>
         $('#date').on('input change', function () {
+            console.log("changed");
+            $('#timetable_teacher_section').val('');
+            $('#timetable_teacher_section').hide();
             getTimeTable();
 
         });
@@ -233,10 +255,11 @@
             var selectedOption = $(this).find(':selected');
 
 
-            var dataTeacher = selectedOption.data('teacher'); // jQuery's .data() automatically handles `data-*` attributes
-            var dataSubject = selectedOption.data('subject'); // jQuery's .data() automatically handles `data-*` attributes
+            var dataTeacher = selectedOption.data('teacher');
+            var dataSubject = selectedOption.data('subject');
 
 
+            $('#timetable_teacher_section').show();
             $('#timetable_teacher_section').val('');
             $('#timetable_teacher_section').val(dataTeacher+' - '+dataSubject);
 
