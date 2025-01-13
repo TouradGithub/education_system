@@ -18,7 +18,7 @@ class UserSchoolController extends Controller
             return redirect()->back();
         }
 
-        $roles = Role::where('model',"App\Models\Schools")->where('model_id',getSchool()->id)->pluck('name','name');
+        $roles = Role::where('model',"App\Models\Schools")->where('model_id',getSchool()->id)->pluck('name');
         return view('pages.schools.users.create',compact('roles'));
     }
 
@@ -44,17 +44,19 @@ class UserSchoolController extends Controller
             'roles' => 'required'
         ]);
 
+        $role = Role::where('name',$request->roles[0])->first();
+
         $schoolUser = User::create([
             'name' => $request->name,
             'email' => $request->email,
             'phone' => $request->phone,
-            'role' =>  $request->roles[0],
+            'role' =>  $role->name,
             'password' => Hash::make($request->password),
             'model' => "App\Models\Schools",
             'model_id' => getSchool()->id,
         ]);
 
-        $schoolUser->assignRole($request->input('roles'));
+        $schoolUser->assignRole($role->id);
         return redirect()->route('school.user.index')
                         ->with('success',trans('genirale.data_store_successfully'));
     }
