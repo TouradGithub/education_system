@@ -75,7 +75,7 @@ class TeacherController extends Controller
 
                     $teacher->image = "";
                 }
-                $teacher_plain_text_password = str_replace('-', '', date('d-m-Y', strtotime($request->dob)));
+                $teacher_plain_text_password = str_replace('-', '', date('Y-m-d', strtotime($request->dob)));
                 $teacher->password = Hash::make($teacher_plain_text_password);
                 $teacher->first_name = $request->first_name;
                 $teacher->last_name = $request->last_name;
