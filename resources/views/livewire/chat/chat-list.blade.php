@@ -1,4 +1,4 @@
-<div>
+{{-- <div>
     <div id="plist" class="people-list">
         <div class="input-group">
             <div class="input-group-prepend">
@@ -17,24 +17,24 @@
             <div class="about">
                 {{-- <div class="name">Test name </div> --}}
                 <div class="name">
-                @if ($conversation->getReceiver()->id==Auth::guard('teacher')->user()->id)
+                {{-- @if ($conversation->getReceiver()->id==Auth::guard('teacher')->user()->id)
 
                 {{  $conversation->getSender()->first_name  }} {{$conversation->getSender()->last_name}}</div>
 
                 @else
                 {{  $conversation->getReceiver()->first_name  }} {{$conversation->getReceiver()->last_name}}</div>
 
-                @endif
+                @endif --}}
                <div class="status">
-                    {{$conversation->isLastMessageReadByUser()}}
+                    {{-- {{$conversation->isLastMessageReadByUser()}} --}}
                     {{-- @if($conversation->isLastMessageReadByUser())
                         <i class="fa fa-check-circle text-success"></i>
                     @else
                         <i class="fa fa-check-circle text-muted"></i>
                     @endif --}}
-                    @if ($conversation->unreadMessagesCount()>0)
+                    {{-- @if ($conversation->unreadMessagesCount()>0)
                         {{$conversation->unreadMessagesCount()}}
-                    @endif
+                    @endif --}}
                 </div>
             </div>
         </li>
@@ -73,4 +73,4 @@
         </div>
     </div>
 </div>
-
+ --}}

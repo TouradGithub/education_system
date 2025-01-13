@@ -37,15 +37,15 @@
             <li class="nav-item dropdown">
                 <a class="nav-link count-indicator dropdown-toggle" id="notificationDropdown" href="#" data-toggle="dropdown" aria-expanded="false">
                     <i class="fa fa-bell"></i> <!-- Bell icon for notifications -->
-                    @if (Auth::guard('teacher')->user()->unreadMessagesCount()>0)
+                    {{-- @if (Auth::guard('teacher')->user()->unreadMessagesCount()>0)
                     <span class="badge badge-danger"> {{Auth::guard('teacher')->user()->unreadMessagesCount()}}</span>
 
-                @endif
+                @endif --}}
                     <!-- Notification badge -->
                 </a>
                 <div class="dropdown-menu dropdown-menu-right navbar-dropdown preview-list" aria-labelledby="notificationDropdown">
                     <!-- Example notification items -->
-                 @forelse(Auth::guard('teacher')->user()->unreadMessages() as $item)
+                 {{-- @forelse(Auth::guard('teacher')->user()->unreadMessages() as $item)
                  <a class="dropdown-item preview-item" href="{{route('web.chat.system',$item->sender->id)}}">
                     <div class="preview-thumbnail">
                     </div>
@@ -60,7 +60,7 @@
                     <h6 class="preview-subject ellipsis mb-1 font-weight-normal">No Notification</h6>
                     <p class="text-gray mb-0"></p>
                 </div>
-                 @endforelse
+                 @endforelse --}}
 
                 </div>
             </li>
