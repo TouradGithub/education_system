@@ -66,9 +66,6 @@ class TeacherController extends Controller
                     $file_name = time() . '-' . $image->getClientOriginalName();
                     //made file path to store in database
                     $file_path = 'teachers/' . $file_name;
-                    //resized image
-                    // resizeImage($image);
-                    //stored image to storage/public/teachers folder
                     $destinationPath = storage_path('app/public/teachers');
                     $image->move($destinationPath, $file_name);
 
@@ -89,7 +86,7 @@ class TeacherController extends Controller
                 $teacher->school_id = getSchool()->id;
                 $teacher->qualification = $request->qualification;
                 $teacher->mobile = $request->mobile;
-                $teacher->dob = date('Y-m-d', strtotime($request->dob));
+                $teacher->dob = date("Y-m-d", strtotime($request->dob));
                 $teacher->save();
 
 
@@ -184,7 +181,7 @@ class TeacherController extends Controller
             $tempRow['current_address'] = $row->current_address;
             $tempRow['permanent_address'] = $row->permanent_address;
             $tempRow['email'] = $row->email;
-            $tempRow['dob'] = date("d-m-y", strtotime($row->dob));
+            $tempRow['dob'] = date("Y-m-d", strtotime($row->dob));
             $tempRow['mobile'] = $row->mobile;
             $tempRow['image'] = $row->image==null? asset('section/assets/images/team/01.jpg'): url(Storage::url($row->image));
             $tempRow['qualification'] = $row->qualification;
