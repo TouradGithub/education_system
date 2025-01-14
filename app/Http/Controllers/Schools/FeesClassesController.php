@@ -218,7 +218,7 @@ class FeesClassesController extends Controller
             $tempRow['student_name'] = $row->first_name . ' ' . $row->last_name;
             $tempRow['class_id'] = $row->section->id;
             $tempRow['class_name'] = $row->section->name . ' ' . $row->section->classe->name;
-            $tempRow['fees_paid'] = $row->fees_paid()->pluck('month');
+            $tempRow['fees_paid'] = $row->fees_paid()->pluck('month').' '.env('CURENCY');
             $tempRow['months']='';
             if($row->fees_paid){
 
