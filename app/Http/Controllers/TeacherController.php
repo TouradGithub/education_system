@@ -240,17 +240,15 @@ class TeacherController extends Controller
                     Storage::delete($teacher->image);
                 }
                 $image = $request->file('image');
-                // made file name with combination of current time
                 $file_name = time() . '-' . $image->getClientOriginalName();
-                //made file path to store in database
                 $file_path = 'teachers/' . $file_name;
-                //resized image
-                //stored image to storage/public/teachers folder
                 $destinationPath = storage_path('app/public/teachers');
                 $image->move($destinationPath, $file_name);
 
                 $teacher->image = $file_path;
             }
+            $teacher_plain_text_password = str_replace('-', '', date('Y-m-d', strtotime($request->dob)));
+            $teacher->password = Hash::make($teacher_plain_text_password);
             $teacher->first_name = $request->first_name;
             $teacher->last_name = $request->last_name;
             $teacher->gender = $request->gender;
