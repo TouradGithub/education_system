@@ -163,7 +163,7 @@
                             <div class="modal-body">
                                 <div class="form-group">
                                     <label>{{ __('date') }} <span class="text-danger">*</span></label>
-                                    <input type="date" name="date"  class="datepicker-popup form-control current-date" value="{{ now()->format('d-m-Y') }}"
+                                    <input type="date" name="date"  class="form-control current-date"
                                         placeholder="{{ __('date') }}" autocomplete="off" required>
                                 </div>
 
