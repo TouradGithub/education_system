@@ -252,56 +252,69 @@ class FeesClassesController extends Controller
 
     public function optionalFeesPaidStore(Request $request)
     {
-        if (!Auth::user()->can('school-fees-paid-create')) {
-            toastr()->error(  trans('genirale.no_permission_message'), 'Error');
-            return redirect()->back();
-        }
-        $validator = Validator::make($request->all(), [
-            'date' => 'required|date',
-            'mode' => 'required|in:0,1',
-            'months' => 'required|array',
-            'student_id' => 'required|integer',
-            'class_id' => 'required|integer',
-        ]);
-        try {
+         // Check if the user has permission
+    if (!Auth::user()->can('school-fees-paid-create')) {
+        toastr()->error(trans('genirale.no_permission_message'), 'Error');
+        return redirect()->back();
+    }
+
+    // Validate incoming request
+    $validator = Validator::make($request->all(), [
+        'date' => 'required|date',
+        'mode' => 'required',
+        'months' => 'required|array|min:1',
+        'student_id' => 'required|integer',
+        'class_id' => 'required|integer',
+    ]);
+
+    // If validation fails, return with errors
+    if ($validator->fails()) {
+        toastr()->error($validator->errors()->first(), 'Error');
+        return redirect()->back()->withErrors($validator)->withInput();
+    }
+        // try {
 
             $feesClass =FeesClass::where(['class_section_id'=>$request->class_id,
                     'session_year_id'=>getYearNow()->id,'school_id'=>getSchool()->id])->first();
+
             $date = date('Y-m-d H:i:s', strtotime($request->date));
             $session_year = getYearNow();
             $sessionYearId = getYearNow()->id;
             $schoolId = getSchool()->id;
 
-            if($request->months){
-                $feesClass->fees_paid()->delete();
+            if( !$feesClass){
+                     toastr()->error( "Ajputer balance a votre class", 'Error');
+                return  redirect()->back();
             }
 
-            foreach($request->months as $month){
-
-
-                    FeesPaid::create([
+            foreach ($request->months as $month) {
+                FeesPaid::updateOrCreate(
+                    [
                         'student_id' => $request->student_id,
                         'fees_class_id' => $feesClass->id,
                         'month' => $month,
-                        'amount' => $feesClass->amount,
                         'session_year_id' => $sessionYearId,
+                    ],
+                    [
+                        'amount' => $feesClass->amount,
                         'is_fully_paid' => 1,
-                        'school_id' => $schoolId,
+                        'school_id' => getSchool()->id,
                         'date' => $date,
                         'mode' => $request->mode,
-                    ]);
-
+                        'cheque_no' => $request->cheque_no,
+                    ]
+                );
             }
 
             toastr()->success(trans('genirale.data_store_successfully'), 'Congrats');
             return  redirect()->back();
 
 
-            } catch (\Throwable $th) {
+            // } catch (\Throwable $th) {
 
-                toastr()->error( trans('genirale.error_occurred'), 'Error');
-                return  redirect()->back();
-            }
+            //     toastr()->error( trans('genirale.error_occurred'), 'Error');
+            //     return  redirect()->back();
+            // }
     }
     public function feesPaidGetReceip($id){
 
