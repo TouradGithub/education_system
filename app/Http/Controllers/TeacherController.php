@@ -270,7 +270,7 @@ class TeacherController extends Controller
             $response = array(
                 'error' => true,
                 'message' => trans('genirale.error_occurred'),
-                'data' => $e
+                'data' => $e->getMessage()
             );
         }
         return response()->json($response);

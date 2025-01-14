@@ -111,7 +111,7 @@ class SessionYearController extends Controller
             $tempRow['id'] = $row->id;
             $tempRow['no'] = $no++;
             $tempRow['name'] = $row->name;
-            $tempRow['price'] = $row->price.' DZ';
+            $tempRow['price'] = $row->price.'' .env('CURENCY');
             $tempRow['default'] = $row->default;
             $tempRow['start_date'] = date('d-m-Y' ,strtotime($row->start_date));
             $tempRow['end_date'] = date('d-m-Y' ,strtotime($row->end_date));
