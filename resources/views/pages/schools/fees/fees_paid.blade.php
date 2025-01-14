@@ -147,7 +147,7 @@
                     <div class="modal-content">
                         <div class="modal-header">
                             <h4 class="modal-title" id="exampleModalLabel">
-                                {{ __('pay') . ' ' . __('optional'). ' ' . __('fees') }}
+                              Le paiment pour L'eleve
                             </h4>
                             <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                                 <span aria-hidden="true">&times;</span>
