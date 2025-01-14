@@ -21,8 +21,7 @@
         <div class="row mt-4 justify-content-between">
             <div class="col-md-6 col-sm-12 col-12">
                 <div class="text-grey-m2">
-                    <p><strong><u>[Facture]</u></strong><br>
-                        <strong>Date de Paiement : {{ now()->format('d-m-Y') }}</strong>
+                        <strong>Date  : {{ now()->format('d-m-Y') }}</strong>
                     </p>
                 </div>
             </div>
