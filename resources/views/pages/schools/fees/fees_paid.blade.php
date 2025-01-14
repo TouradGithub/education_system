@@ -29,8 +29,8 @@
                                     @endforeach
                                 </select>
                             </div>
-                     
-                            
+
+
                             <div class="col" style="font-size: 0.89rem">
                                 <label for="filter_mode">
                                     {{ __('mode') }}
@@ -43,10 +43,10 @@
                                 </select>
                             </div>
                         </div>
-                        <table aria-describedby="mydesc" class='table table-striped' id='table_list' data-toggle="table"data-url="{{ route('school.fees.paid.list', 1) }}" 
+                        <table aria-describedby="mydesc" class='table table-striped' id='table_list' data-toggle="table"data-url="{{ route('school.fees.paid.list', 1) }}"
                                 data-click-to-select="true"data-side-pagination="server" data-pagination="true" data-page-list="[5, 10, 20, 50, 100, 200]"
-                                data-search="true" data-toolbar="#toolbar" data-show-columns="true" data-show-refresh="true"data-fixed-columns="true" 
-                                data-trim-on-search="false" data-mobile-responsive="true" data-sort-name="id"data-sort-order="desc" data-maintain-selected="true" 
+                                data-search="true" data-toolbar="#toolbar" data-show-columns="true" data-show-refresh="true"data-fixed-columns="true"
+                                data-trim-on-search="false" data-mobile-responsive="true" data-sort-name="id"data-sort-order="desc" data-maintain-selected="true"
                                 data-export-types='["txt","excel"]'data-export-options='{ "fileName": "{{ __('fees') }}-{{ __('paid') }}-{{ __('list') }}-<?= date('d-m-y') ?>" ,"ignoreColumn":["operate"]}'
                                 data-show-export="true" data-query-params="feesPaidListQueryParams">
                             <thead>
@@ -95,7 +95,7 @@
                             <div class="modal-body">
                                 <div class="form-group">
                                     <label>{{ __('date') }} <span class="text-danger">*</span></label>
-                                    <input type="date" name="date" class="datepicker-popup paid_date form-control"
+                                    <input type="date" name="date" class="datepicker-popup paid_date form-control" value="{{ now()->format('Y-m-d') }}"
                                         placeholder="{{ __('date') }}" autocomplete="off" required>
                                 </div>
                                 <div class="compulsory_div" style="display: none">
@@ -163,7 +163,7 @@
                             <div class="modal-body">
                                 <div class="form-group">
                                     <label>{{ __('date') }} <span class="text-danger">*</span></label>
-                                    <input type="text" name="date"  class="datepicker-popup form-control current-date"
+                                    <input type="date" name="date"  class="datepicker-popup form-control current-date" value="{{ now()->format('d-m-Y') }}"
                                         placeholder="{{ __('date') }}" autocomplete="off" required>
                                 </div>
 
