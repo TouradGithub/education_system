@@ -30,7 +30,7 @@
                                 </select>
                             </div>
 
-
+{{----}}
 
                         </div>
                         <table aria-describedby="mydesc" class='table table-striped' id='table_list' data-toggle="table"data-url="{{ route('school.fees.paid.list', 1) }}"
