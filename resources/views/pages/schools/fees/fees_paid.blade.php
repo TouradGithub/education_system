@@ -17,10 +17,10 @@
                     <div class="card-body">
                         <div id="toolbar" class="row">
                             <div class="col">
-                                <label for="filter_class_id" style="font-size: 0.89rem">
+                                <label for="class_name" style="font-size: 0.89rem">
                                     {{ __('classes.classes') }}
                                 </label>
-                                <select name="filter_class_id" id="filter_class_id" class="form-control">
+                                <select name="class_name" id="class_name" class="form-control">
                                     <option value="">{{ __('all') }}</option>
                                     @foreach (getSchool()->sections as $item)
                                         <option value="{{ $item->id }}">
@@ -31,24 +31,17 @@
                             </div>
 
 
-                            <div class="col" style="font-size: 0.89rem">
-                                <label for="filter_mode">
-                                    {{ __('mode') }}
-                                </label>
-                                <select name="filter_mode" id="filter_mode" class="form-control">
-                                    <option value="">{{ __('all') }}</option>
-                                    <option value="0">{{ __('cash') }}</option>
-                                    <option value="1">{{ __('cheque') }}</option>
-                                    <option value="2">{{ __('online') }}</option>
-                                </select>
-                            </div>
+
                         </div>
                         <table aria-describedby="mydesc" class='table table-striped' id='table_list' data-toggle="table"data-url="{{ route('school.fees.paid.list', 1) }}"
                                 data-click-to-select="true"data-side-pagination="server" data-pagination="true" data-page-list="[5, 10, 20, 50, 100, 200]"
                                 data-search="true" data-toolbar="#toolbar" data-show-columns="true" data-show-refresh="true"data-fixed-columns="true"
                                 data-trim-on-search="false" data-mobile-responsive="true" data-sort-name="id"data-sort-order="desc" data-maintain-selected="true"
                                 data-export-types='["txt","excel"]'data-export-options='{ "fileName": "{{ __('fees') }}-{{ __('paid') }}-{{ __('list') }}-<?= date('d-m-y') ?>" ,"ignoreColumn":["operate"]}'
-                                data-show-export="true" data-query-params="feesPaidListQueryParams">
+                                data-show-export="true" data-query-params="feesPaidListQueryParams"
+
+                        >
+
                             <thead>
                                 <tr>
                                     <th scope="col" data-field="id" data-sortable="true" data-visible="false">{{ __('id') }}</th>

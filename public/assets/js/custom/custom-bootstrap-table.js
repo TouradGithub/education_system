@@ -1675,7 +1675,7 @@ function feesPaidListQueryParams(p) {
         order: p.order,
         offset: p.offset,
         search: p.search,
-        class_id: $('#filter_class_id').val(),
+        class_id: $('#class_name').val(),
         // session_year_id: $('#filter_session_year_id').val(),
         // mode: $('#filter_mode').val(),
     };
