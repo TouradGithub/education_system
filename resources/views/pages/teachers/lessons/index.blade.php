@@ -78,8 +78,6 @@
                                             <option value="">--{{ __('genirale.select') }}--</option>
                                             <option value="file_upload">{{ __('lesson.file_upload') }}</option>
                                             <option value="youtube_link">{{ __('lesson.youtube_link') }}</option>
-                                            <option value="video_upload">{{ __('lesson.video_upload') }}</option>
-                                            {{-- <option value="other_link">{{ __('other_link') }}</option> --}}
                                         </select>
                                     </div>
                                     <div class="form-group col-md-3" id="file_name_div" style="display: none">
