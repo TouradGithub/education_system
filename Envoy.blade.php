@@ -55,7 +55,7 @@ check_composer
 
         fi
         echo 'Pulling latest changes Terminate.'
-
+        php artisan storage:link
 
         echo "Composer install finished"
     else
