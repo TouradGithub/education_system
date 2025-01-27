@@ -73,11 +73,11 @@
                 <span class="menu-title">  {{ __('exam.exams') }}</span>
                 <i class="fa fa-file-text menu-icon"></i></a>
         </li>
-        <li class="nav-item">
+        {{-- <li class="nav-item">
             <a class="nav-link" href="{{ route('teacher.announcement.index') }}">
                 <span class="menu-title">  {{ __('sidebar.announcement') }}</span>
                 <i class="fa fa-bell menu-icon"></i> </a>
-        </li>
+        </li> --}}
 
         </ul>
     </nav>
