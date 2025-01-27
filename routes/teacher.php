@@ -15,7 +15,7 @@ use App\Http\Controllers\Teacher\LessonController;
 
 Route::group(['middleware' => ['checkNotAuth']], function () {
 
-    Route::post('teacher/login',[App\Http\Controllers\Teacher\LoginController::class,'login'])->name('teacher.login');
+    Route::post('teacher/login',[App\Http\Controllers\Teacher\LoginController::class,'login'])->name('teacher.getlogin');
     Route::get('teacher/login',[App\Http\Controllers\Teacher\LoginController::class,'getLogin'])->name('teacher.login');
 
 });

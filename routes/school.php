@@ -21,7 +21,7 @@ use App\Http\Controllers\Schools\SchoolAnnoucementController;
 
 Route::group(['middleware' => ['checkNotAuth']], function () {
 
-    Route::post('loginSchool',[App\Http\Controllers\Schools\LoginController::class,'login'])->name('login.school');
+    Route::post('loginSchoolPage',[App\Http\Controllers\Schools\LoginController::class,'login'])->name('login.school.post');
     Route::get('loginSchool',[App\Http\Controllers\Schools\LoginController::class,'getLogin'])->name('login.school');
     Route::get('subscribe',[App\Http\Controllers\Schools\LoginController::class,'subscription'])->name('login.subscribe');
 

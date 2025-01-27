@@ -52,7 +52,7 @@
                                     <img alt="user-img" width="100px;" src="{{URL::asset('section/assets/images/admin.png')}}">
                                     <div>Administration</div>
                                 </a>
-                                <a class="btn btn-default col-lg-4" title="Administrator" href="{{route('teacher.teacher.login')}}">
+                                <a class="btn btn-default col-lg-4" title="Administrator" href="{{route('teacher.teacher.getlogin')}}">
                                     <img alt="user-img" width="100px;" src="{{URL::asset('section/assets/images/admin.png')}}">
                                     <div>Proffesseur</div>
                                 </a>

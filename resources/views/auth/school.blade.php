@@ -27,7 +27,7 @@
                         <div class="brand-logo text-center">
                             <img src="{{ env('LOGO2') ? url(Storage::url(env('LOGO2'))) :url('assets/logo.svg') }}" alt="logo">
                         </div>
-                        <form action="{{ route('school.login.school') }}" id="frmLogin" method="POST" class="pt-3">
+                        <form action="{{ route('school.login.school.post') }}" id="frmLogin" method="POST" class="pt-3">
                             @csrf
                             <div class="form-group">
                                 <label>{{ __('email') }}</label>
@@ -70,7 +70,7 @@
                         <hr>
                         <br>
 
-                     
+
 
                         {{-- @endif --}}
                     </div>
