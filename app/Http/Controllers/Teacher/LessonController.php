@@ -158,7 +158,9 @@ class LessonController extends Controller
         if (isset($_GET['order']))
             $order = $_GET['order'];
 
+        // $sql = Lesson::lessonteachers()->with('subject', 'class_section', 'topic');
         $teacherId = auth('teacher')->user()->id;
+        // $teacher->sectionTeachers
         $sql = Lesson::lessonteachers()->with('subject','section');
 
         if (isset($_GET['search']) && !empty($_GET['search'])) {
@@ -177,6 +179,7 @@ class LessonController extends Controller
                     $q->where('name', 'LIKE', "%$search%");
                 });
         }
+        // return $_GET['filter_trimester_id'];
         if (isset($_GET['filter_subject_id']) && !empty($_GET['filter_subject_id'])){
 
             $sql->where('subject_id', $_GET['filter_subject_id']);
