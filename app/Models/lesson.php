@@ -36,8 +36,6 @@ class Lesson extends Model
     }
     public function scopeLessonTeachers($query) {
         $teacherId = auth('teacher')->user()->id;
-        // if ($user->hasRole('Teacher')) {
-            // $teacher_id = $user->teacher()->select('id')->pluck('id')->first();
             $subject_teacher = SubjectTeacher::select('class_section_id', 'subject_id')->where('teacher_id', $teacherId)
             ->where('school_id', getSchool()->id)->get();
             if ($subject_teacher) {

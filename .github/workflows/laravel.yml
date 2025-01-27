@@ -16,7 +16,7 @@ jobs:
     - name: Set up PHP 8.2
       uses: shivammathur/setup-php@v2
       with:
-        php-version: '8.2' 
+        php-version: '8.2'
         extensions: mbstring, pdo, sqlite3
         ini-values: post_max_size=256M, upload_max_filesize=256M
         coverage: none
@@ -40,6 +40,8 @@ jobs:
 
     - name: Install Composer dependencies
       run: composer install --no-interaction --prefer-dist --optimize-autoloader
+    - name: Storage link
+      run: php artisan storage:link
 
     - name: Test SSH Connection
       run: ssh -p 65002 u334693063@154.56.33.183 "echo Connected"

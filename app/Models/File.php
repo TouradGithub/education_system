@@ -27,10 +27,8 @@ class File extends Model
     //Getter Attributes
     public function getFileUrlAttribute($value) {
         if ($this->type == 1 || $this->type == 3) {
-            // IF type is File Upload or Video Upload then add Full URL.
             return url(Storage::url($value));
         } else {
-            // ELSE return the value as it is.
             return $value;
         }
     }
