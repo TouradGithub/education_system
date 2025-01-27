@@ -8,7 +8,7 @@
 <div class="content-wrapper">
   <div class="page-header">
     <h3 class="page-title">
-      {{__('terms_condition')}}
+      Annoucement
     </h3>
   </div>
   <div class="row grid-margin">
@@ -26,7 +26,7 @@
                     <option value="Students">{{__('sidebar.students') }}</option>
                     <option value="Teachers">{{  __('teacher.teacher') }}</option>
                     <option value="Schools">{{  __('sidebar.schools') }}</option>
-                    <option value="Acadimy">{{ __('sidebar.acadimic') }}</option>
+                    <option value="Acadimy">Willaya</option>
 
                 </select>
             </div>

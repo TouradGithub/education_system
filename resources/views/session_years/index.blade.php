@@ -61,13 +61,13 @@
                                     <div class="form-check form-check-inline">
                                         <label class="form-check-label">
                                             <input type="radio" name="fees_installment" class="fees_installment_toggle" value="1">
-                                            {{ __('enable') }}
+                                            {{ __('Activer') }}
                                         </label>
                                     </div>
                                     <div class="form-check form-check-inline">
                                         <label class="form-check-label">
                                             <input type="radio" name="fees_installment" class="fees_installment_toggle" value="0" checked>
-                                            {{ __('disable') }}
+                                            {{ __('Desactiver') }}
                                         </label>
                                     </div>
                                 </div>

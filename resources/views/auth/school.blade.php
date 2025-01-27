@@ -70,11 +70,7 @@
                         <hr>
                         <br>
 
-                        <div class="">
-                            <div class="col-md-12">
-                                <a href="{{route('school.login.subscribe')}}" class="btn btn-block btn-primary mt-2" id="superadmin_btn">Subscribtion </a>
-                            </div>
-                        </div>
+                     
 
                         {{-- @endif --}}
                     </div>
