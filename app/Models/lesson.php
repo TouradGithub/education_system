@@ -8,6 +8,7 @@ use Illuminate\Support\Facades\Storage;
 class Lesson extends Model
 {
     use HasFactory;
+    protected $table = 'lessons';
     protected $hidden = ["deleted_at", "updated_at"];
 
     public function subject() {

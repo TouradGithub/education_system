@@ -18,7 +18,6 @@ class LessonController extends Controller
     public function store(Request $request)
     {
 
-        return $request;
         $validator = Validator::make(
             $request->all(),
             [
