@@ -135,20 +135,14 @@ $sections = $teacher->sectionTeachers;
         xhr.send();
 
     }
-    function getDateForDate(date){
-        var formattedDate = new Date(date ); // Set the time to midnight
 
-        var daysOfWeek = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
-        var dayName = daysOfWeek[formattedDate.getDay()];
-        return dayNum=getNumday(dayName);
-    }
 
     function getTimeTable() {
         section_id = $('#class_section_id_attendance').val();
         date = $('#date').val();
 
 
-        if(section_id != '' && dayNum != ''){
+        if(section_id != '' && date != ''){
             $.ajax({
                 url: "{{ url('school/getTimetable-list') }}",
                 type: "GET",
