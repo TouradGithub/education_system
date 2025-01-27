@@ -80,7 +80,7 @@ $sections = $teacher->sectionTeachers;
                                         </th>
                                     </tr>
                                     </thead>
-                                    
+
                                 </table>
                             </div>
                             <input class="btn btn-theme btn_attendance mt-4" id="create-btn" type="submit" value={{ __('genirale.submit') }}>
@@ -147,14 +147,13 @@ $sections = $teacher->sectionTeachers;
         section_id = $('#class_section_id_attendance').val();
         date = $('#date').val();
 
-        dayNum=getDateForDate(date);
 
         if(section_id != '' && dayNum != ''){
             $.ajax({
                 url: "{{ url('school/getTimetable-list') }}",
                 type: "GET",
                 data: {
-                    day: dayNum,
+                    day: date,
                     section_id: section_id
                 },
                 success: function (response) {
