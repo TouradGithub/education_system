@@ -122,9 +122,6 @@ class StudentController extends Controller
 
                 DB::commit();
                 toastr()->success( trans('genirale.data_store_successfully'), 'Congrats');
-                // $pdf = Pdf::loadView('pages.schools.students.inscription');
-                // return $pdf->stream('inscription.pdf');
-                // return  redirect()->route('school.student.create');
                 return back();
         } catch (\Exception $e) {
             // If an exception occurs, rollback the transaction

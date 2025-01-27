@@ -5,7 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Storage;
-class lesson extends Model
+class Lesson extends Model
 {
     use HasFactory;
     protected $hidden = ["deleted_at", "updated_at"];
@@ -30,7 +30,7 @@ class lesson extends Model
 
                 $lesson->file()->delete();
             }
-         
+
         });
     }
     public function scopeLessonTeachers($query) {

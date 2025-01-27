@@ -18,7 +18,7 @@ class LessonController extends Controller
     public function store(Request $request)
     {
 
-
+        // return $request;
         $validator = Validator::make(
             $request->all(),
             [
@@ -32,11 +32,6 @@ class LessonController extends Controller
                 'file.*.name' => 'required_with:file.*.type',
                 'file.*.thumbnail' => 'required_if:file.*.type,youtube_link,video_upload,other_link',
                 'file.*.file' => 'required_if:file.*.type,file_upload,video_upload',
-                // 'file.*.link' => 'required_if:file.*.type,youtube_link,other_link',
-                //Regex for Youtube Link
-                // 'file.*.link' => ['required_if:file.*.type,youtube_link',new YouTubeUrl, 'nullable'],
-                //Regex for Other Link
-                // 'file.*.link'=>'required_if:file.*.type,other_link|url'
             ],
             [
                 'name.unique' => trans('lesson.lesson_alredy_exists')
@@ -187,7 +182,7 @@ class LessonController extends Controller
         }
         // return $_GET['filter_trimester_id'];
         if (isset($_GET['filter_subject_id']) && !empty($_GET['filter_subject_id'])){
-           
+
             $sql->where('subject_id', $_GET['filter_subject_id']);
         }
         if (isset($_GET['filter_section_id']) && !empty($_GET['filter_section_id'])){
