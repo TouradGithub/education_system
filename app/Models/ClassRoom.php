@@ -39,7 +39,7 @@ class ClassRoom extends Model
     }
     public function lessons()
     {
-        return $this->hasMany(lesson::class, 'section_id')->with('file');
+        return $this->hasMany(Lesson::class, 'section_id')->with('file');
     }
     public function subject()
     {

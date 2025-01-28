@@ -289,7 +289,6 @@ class ParentApiController extends Controller
          $trimester=   Trimester::all();
 
             $response = array(
-
                 'code'    => 100,
                 'data'=>[
 

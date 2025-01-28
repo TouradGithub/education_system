@@ -58,13 +58,13 @@ Route::group(
     Route::get('getList', [StudentController::class, 'getList'])->name('student.getList');
     Route::resource('studentts', StudentController::class);
     Route::prefix('student/promotions')->group(function () {
+
         Route::get('create', [PromotionController::class, 'create'])->name('student.promotions.create');
         Route::post('store', [PromotionController::class, 'store'])->name('student.promotions.store');
         Route::get('index', [PromotionController::class, 'index'])->name('student.promotions.index');
         Route::get('show', [PromotionController::class, 'show'])->name('student.promotions.show');
         Route::get('/export-results', [PromotionController::class, 'exportResultsPDF'])->name('student.promotions.export.results.pdf');
         Route::get('/export-inscription', [PromotionController::class, 'exportInscriptionPDF'])->name('student.promotions.export.inscription.pdf');
-
 
     });
 
@@ -157,8 +157,6 @@ Route::group(
     Route::delete('fees/paid/delete/{id}', [FeesClassesController::class, 'feesPaidDelete'])->name('fees.paid.delete');
 
     Route::post('fees/optional-paid/store', [FeesClassesController::class, 'optionalFeesPaidStore'])->name('fees.optional-paid.store');
-
-
 
     //Announcement
 
