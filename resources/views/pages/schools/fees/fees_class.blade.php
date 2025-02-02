@@ -10,8 +10,9 @@
         <div class="page-header">
             <h3 class="page-title">
                 {{ __('genirale.manage') }}
+                {{ __('genirale.paid') }}
                 {{-- {{ __('fees') }} --}}
-                {{ __('classes.classes') }}
+                {{-- {{ __('classes.classes') }} --}}
             </h3>
         </div>
         <div class="row">
