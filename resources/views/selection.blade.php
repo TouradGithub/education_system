@@ -61,26 +61,7 @@
                         </div>
                     </div><br><br><br>
 
-                      <div style="border-radius: 15px; margin-top:20px; " class="col-lg-8 col-md-8 bg-white text-center">
-                        <div class="login-fancy pb-40 clearfix">
-
-                            <h3 style="font-family: 'Cairo', sans-serif" class="mb-30">
-                                Téléchargez les applications depuis cette URL</h3>
-                            <div class="form-inline">
-
-                                <a class="btn btn-default col" title="Acadimic" target="_blank" href="https://drive.google.com/file/d/1JJCuKO5TeGyyFGChxNx_8e_ph9ycZC_6/view?usp=sharing">
-                                    <img alt="user-img" width="100px;" src="{{URL::asset('images/logo.png')}}">
-                                    <div style="font-weight: bold;">Eleve App</div>
-                                </a>
-                                <a class="btn btn-default col" title="School" target="_blank" href="https://drive.google.com/file/d/1zZrpJmTtj2win7Dgc1e9TJ9BvyCTvgkB/view?usp=sharing">
-                                    <img alt="user-img" width="100px;" src="{{URL::asset('images/logo.png')}}">
-                                    <div style="font-weight: bold;">Parent App</div>
-                                </a>
-
-                            </div>
-
-                        </div>
-                    </div>
+                    
                 </div>
             </div>
         </section>
