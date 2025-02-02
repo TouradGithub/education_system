@@ -26,16 +26,6 @@ class FeesClassesController extends Controller
     }
     public function feesClassListIndex()
     {
-        // if (!Auth::user()->can('fees-classes')) {
-        //     $response = array(
-        //         'message' => trans('no_permission_message')
-        //     );
-        //     return redirect(route('home'))->withErrors($response);
-        // }
-        // $classes = ClassSchool::orderByRaw('CONVERT(name, SIGNED) asc')->with('medium', 'sections','streams')->get();
-        // $fees_type = FeesType::orderBy('id', 'ASC')->pluck('name', 'id');
-        // $fees_type_data = FeesType::get();
-        // $mediums = Mediums::orderBy('id', 'ASC')->get();
 
         return response(view('fees.fees_class'));
     }
