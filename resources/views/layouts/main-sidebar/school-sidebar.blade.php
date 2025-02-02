@@ -133,7 +133,7 @@
             </div>
         </li>
         @endcanany
-        
+
         @can('school-announcement-index')
             <li class="nav-item">
                 <a class="nav-link" href="{{ route('school.announcement.index') }}">
@@ -149,7 +149,7 @@
         <li class="nav-item">
             <a class="nav-link" data-toggle="collapse" href="#fees-menu" aria-expanded="false"
                 aria-controls="exam-menu">
-                <span class="menu-title">{{ __('fees') }}</span>
+                <span class="menu-title">{{ __('genirale.fees') }}</span>
                 <i class="fa fa-dollar menu-icon"></i>
             </a>
             <div class="collapse" id="fees-menu">

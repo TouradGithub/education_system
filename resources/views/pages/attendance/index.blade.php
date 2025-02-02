@@ -178,10 +178,6 @@
         section_id = $('#class_section_id_attendance').val();
         date = $('#date').val();
 
-        // dayNum=getDateForDate(date);
-        // console.log(date );
-        // console.log(dayNum );
-
         if(section_id != '' && date != ''){
             $.ajax({
                 url: "{{ url('school/getTimetable-list') }}",
