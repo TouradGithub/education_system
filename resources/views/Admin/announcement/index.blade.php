@@ -23,10 +23,10 @@
                 <label>&nbsp;</label>
                 <select name="type" id="type" class="type form-control" style="width:100%;" tabindex="-1" aria-hidden="true">
                     <option value="">{{ __('genirale.select') }}</option>
-                    <option value="Students">{{__('sidebar.students') }}</option>
-                    <option value="Teachers">{{  __('teacher.teacher') }}</option>
+                    {{-- <option value="Students">{{__('sidebar.students') }}</option> --}}
+                    {{-- <option value="Teachers">{{  __('teacher.teacher') }}</option> --}}
                     <option value="Schools">{{  __('sidebar.schools') }}</option>
-                    <option value="Acadimy">Willaya</option>
+                    {{-- <option value="Acadimy">Willaya</option> --}}
 
                 </select>
             </div>
