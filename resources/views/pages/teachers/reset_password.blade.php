@@ -16,7 +16,7 @@
         <div class="col-lg-12">
             <div class="card">
                 <div class="card-body">
-                    <form id="formdata" class="create-form password_form" action="{{ route('school.changePassword') }}"
+                    <form id="formdata" class="create-form password_form" action="{{ route('teacher.changePassword') }}"
                     method="POST" novalidate="novalidate">
                     @csrf
                     <div class="row">
