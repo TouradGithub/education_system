@@ -105,16 +105,16 @@ class HomeController extends Controller
                 ]);
             }
 
-            if (!Hash::check($request->old_password, $teacher->password)) {
-                return response()->json([
-                    'error' => true,
-                    'message' => trans('genirale.error_occurred')
-                ]);
-            }
+            // if (!Hash::check($request->old_password, $teacher->password)) {
+            //     return response()->json([
+            //         'error' => true,
+            //         'message' => trans('genirale.error_occurred')
+            //     ]);
+            // }
 
             $teacher->password = Hash::make($request->new_password);
             $teacher->save();
-
+          
             $response = [
                 'error' => false,
                 'message' => trans('genirale.data_update_successfully')
