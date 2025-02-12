@@ -162,11 +162,11 @@ class ExamController extends Controller
                         }else{
                              if (Auth::user()->can('school-exams-edit')) {
 
-                                $tempRow['grade'] =  '  <input type="number" oninput="validateGrade(this)" style="width: 100%;font-weight: bold;" name="grade'.$row->id.'" class="form-control"  value="">';
+                                $tempRow['grade'] =  '  <input type="text" oninput="validateGrade(this)" style="width: 100%;font-weight: bold;" name="grade'.$row->id.'" class="form-control"  value="">';
 
                             }else{
 
-                                $tempRow['grade'] =  '  <input type="number" readonly oninput="validateGrade(this)" style="width: 100%;font-weight: bold;" name="grade'.$row->id.'" class="form-control"  value="">';
+                                $tempRow['grade'] =  '  <input type="text" readonly oninput="validateGrade(this)" style="width: 100%;font-weight: bold;" name="grade'.$row->id.'" class="form-control"  value="">';
 
                             }
 

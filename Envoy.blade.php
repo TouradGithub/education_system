@@ -1,4 +1,4 @@
-@servers(['web' => 'u334693063@154.56.33.183 -p65002'])
+{{-- @servers(['web' => 'u334693063@154.56.33.183 -p65002'])
 
 @setup
 echo "Connect to server";
@@ -111,4 +111,4 @@ function is_git_repository($dir) {
     $git_dir = $dir . '/.gitignore';
     return is_dir($git_dir);
 }
-@endphp
+@endphp --}}
