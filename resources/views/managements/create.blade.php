@@ -20,7 +20,7 @@ Ajouter Willaya
                             <div class="row">
                                 <div class="col-xs-12 col-sm-12 col-md-12">
                                     <div class="form-group">
-                                        <label><strong>{{ __('name') }}:</strong></label>
+                                        <label><strong>Nom:</strong></label>
                                         {!! Form::text('name', null, ['placeholder' => 'Name', 'class' => 'form-control']) !!}
                                     </div>
                                 </div>

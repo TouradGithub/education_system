@@ -78,7 +78,7 @@
             <div class="col-md-12 grid-margin stretch-card search-container">
                 <div class="card">
                     <div class="card-body">
-                        <h4 class="card-title">{{__('Class Teachers')}}</h4>
+                        <h4 class="card-title">Les classes</h4>
                         <div class="d-flex flex-wrap">
                             @php
                             $colors = ['bg-gradient-danger', 'bg-gradient-success', 'bg-gradient-primary', 'bg-gradient-info', 'bg-gradient-secondary','bg-gradient-warning'];

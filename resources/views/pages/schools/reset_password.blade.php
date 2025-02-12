@@ -34,7 +34,7 @@
                         </div>
                         <div class="col-sm-2 col-md-2">
                             <br><br>
-                            <label id="old_status"></label>
+                            {{-- <label id="old_status"></label> --}}
                         </div>
                     </div>
                     <div class="row">

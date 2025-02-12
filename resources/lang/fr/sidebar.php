@@ -39,7 +39,7 @@ return [
 
     "schools" => "Écoles",
     "users" => "Utilisateurs",
-    "acadimic" => "Académique",
+    "acadimic" => "Wilaya",
     "announcement" => "Annonce",
 
 ];

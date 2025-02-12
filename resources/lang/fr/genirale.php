@@ -10,7 +10,7 @@ return [
     "total_parents" => "Total des parents",
     "total_schools" => "Total des écoles",
     "add_schools" => "Ajouter une école",
-    "total_acadimic" => "Total académique",
+    "total_acadimic" => "Total Wilaya",
 
     "Boys" => "Garçons",
     "Girls" => "Filles",
