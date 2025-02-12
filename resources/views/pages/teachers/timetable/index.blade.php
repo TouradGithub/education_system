@@ -79,7 +79,7 @@ $(document).ready(function () {
                                     html += '<p class="timetable-body p-3">'
                                         // + response['timetable'][j]['subject_teacher']['subject']['name'] + ' - ' + response['timetable'][j]['subject_id']
                                         + response['timetable'][j]['subject_teacher']['subject']['name'] + ' - ' + response['timetable'][j]['subject_teacher']['subject']['type']
-                                        + '<br>' + response['timetable'][j]['section']['classe']['name'].ar+' - '+ response['timetable'][j]['section']['name'].ar
+                                        + '<br>' + response['timetable'][j]['section']['classe']['name'].fr+' - '+ response['timetable'][j]['section']['name'].fr
                                         + '<br> ' + response['timetable'][j]['start_time'].slice(0, 5) + '-- '+ response['timetable'][j]['end_time'].slice(0, 5) + '</p><hr>';
 
                                 }
