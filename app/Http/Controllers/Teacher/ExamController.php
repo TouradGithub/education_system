@@ -124,14 +124,6 @@ class ExamController extends Controller
                 $request->has('trimester_id') && $request->trimester_id != null
 
             ){
-
-
-
-
-
-
-
-
                 $section = ClassRoom::find($request->section_id);
                 $sql =  $section->students;
 

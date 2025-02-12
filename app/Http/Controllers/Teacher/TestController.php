@@ -63,6 +63,7 @@ class TestController extends Controller
             $test = $tests->firstWhere('student_id', $studentId);
 
             if (!$test) {
+                dd("OK");
                 // Create a new Test record
                 $test = new Test();
                 $test->student_id = $studentId;
@@ -73,11 +74,12 @@ class TestController extends Controller
                 $test->trimester_id = $request->trimester_id;
                 // $test->grade = $request->$a;
             }
+
             if($request->input('grade'.$studentId)){
                 $test->grade = $request->input('grade'.$studentId);
 
-                // Save the Test record
                 $test->save();
+                dd($test);
             }
         }
             $response = [
@@ -97,7 +99,6 @@ class TestController extends Controller
 
     public function show(Request $request)
     {
-        // return $request;
 
         $offset = 0;
         $limit = 10;
@@ -158,8 +159,11 @@ class TestController extends Controller
             //     }
             // } else {
 
+
                 $section = ClassRoom::find($request->section_id);
-                $sql =  $section->students;
+                return   $sql =  $section->students;
+                // dd( $section->students);
+        return $sql;
 
                 $res = $sql;
                 $bulkData = array();
@@ -175,7 +179,7 @@ class TestController extends Controller
                             'student_id'      => $row->id
                         ])->first();
                         if($test){
-                            $tempRow['grade'] =  '  <input type="text" oninput="validateGrade(this)" style="width: 100%;font-weight: bold;" name="grade'.$test->student_id.'" class="form-control"  value="'.$test->grade.'">';
+                            $tempRow['grade'] =  '  <input type="text" oninput="validateGrade(this)" style="width: 100%;font-weight: bold;color:black;" name="grade'.$test->student_id.'" class="form-control"  value="'.$test->grade.'">';
 
                         }else{
                             $tempRow['grade'] =  '  <input type="number" oninput="validateGrade(this)" style="width: 100%;font-weight: bold;" name="grade'.$row->id.'" class="form-control"  value="">';

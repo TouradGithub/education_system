@@ -63,7 +63,7 @@
 
                             <div class="show_student_list">
                                 <table aria-describedby="mydesc" class='table student_table' id='table_list'
-                                       data-toggle="table" data-url="{{ url('school/exam-student-list') }}" data-click-to-select="true"
+                                       data-toggle="table" data-url="{{ url('teacher/exam-student-list') }}" data-click-to-select="true"
                                        data-side-pagination="server" data-pagination="false"
                                        data-page-list="[5, 10, 20, 50, 100, 200]" data-search="true"
                                        data-toolbar="#toolbar" data-show-columns="true" data-show-refresh="true"

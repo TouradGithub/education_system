@@ -22,7 +22,7 @@
                         <h4 class="card-title">
                             {{  __('test.add_test') }}
                         </h4>
-                        <form action="{{ route('school.tests.store') }}" class="create-form" id="formdata">
+                        <form action="{{ route('teacher.tests.store') }}" class="create-form" id="formdata">
                             @csrf
                             <div class="row" id="toolbar">
 

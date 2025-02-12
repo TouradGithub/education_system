@@ -163,43 +163,57 @@ class TestController extends Controller
             //     }
             // } else {
 
-                $section = ClassRoom::find($request->section_id);
-                $sql =  $section->students;
+            $section = ClassRoom::find($request->section_id);
+            $sql =  $section->students;
 
 
-                $res = $sql;
-                $bulkData = array();
-                $rows = array();
-                $tempRow = array();
-                $no = 1;
-                foreach ($res as $row) {
+            $res = $sql;
+            $bulkData = array();
+            $rows = array();
+            $tempRow = array();
+            $no = 1;
+            foreach ($res as $row) {
+                $test = Test::InTest()->where(
+                    [
+                        'subject_id'              =>   $request->subject_id,
+                        'section_id'  => $request->section_id,
+                        'trimester_id'      => $request->trimester_id,
+                        'student_id'      => $row->id
+                    ])->first();
+                    if($test){
+                         if (Auth::user()->can('school-exams-edit')) {
 
-                    $test = Test::InTest()->with('student')->where(
-                        [
-                            'subject_id'              =>   $request->subject_id,
-                            'section_id'  => $request->section_id,
-                            'trimester_id'      => $request->trimester_id,
-                            'student_id'      => $row->id
-                        ])->first();
-
-                        if($test){
                             $tempRow['grade'] =  '  <input type="text" oninput="validateGrade(this)" style="width: 100%;font-weight: bold;" name="grade'.$test->student_id.'" class="form-control"  value="'.$test->grade.'">';
 
                         }else{
-                            $tempRow['grade'] =  '  <input type="number" oninput="validateGrade(this)" style="width: 100%;font-weight: bold;" name="grade'.$row->id.'" class="form-control"  value="">';
+
+                            $tempRow['grade'] =  '  <input type="text" readonly oninput="validateGrade(this)" style="width: 100%;font-weight: bold;" name="grade'.$test->student_id.'" class="form-control"  value="'.$test->grade.'">';
 
                         }
 
-                    $tempRow['id'] = $row->id;
-                    $tempRow['student_id'] = "<input type='text' name='student_id[]' class='form-control' readonly value=" . $row->id. ">";
-                    $tempRow['roll_number'] = $row->roll_number;
-                    $tempRow['name'] = $row->first_name . ' ' . $row->last_name;
-                    $rows[] = $tempRow;
+                    }else{
+                         if (Auth::user()->can('school-exams-edit')) {
 
-                }
-            // }
+                            $tempRow['grade'] =  '  <input type="number" oninput="validateGrade(this)" style="width: 100%;font-weight: bold;" name="grade'.$row->id.'" class="form-control"  value="">';
 
-            $bulkData['rows'] = $rows;
+                        }else{
+
+                            $tempRow['grade'] =  '  <input type="number" readonly oninput="validateGrade(this)" style="width: 100%;font-weight: bold;" name="grade'.$row->id.'" class="form-control"  value="">';
+
+                        }
+
+                    }
+
+                $tempRow['id'] = $row->id;
+                $tempRow['student_id'] = "<input type='text' name='student_id[]' class='form-control' readonly value=" . $row->id. ">";
+                $tempRow['roll_number'] = $row->roll_number;
+                $tempRow['name'] = $row->first_name . ' ' . $row->last_name;
+                $rows[] = $tempRow;
+
+            }
+
+
+        $bulkData['rows'] = $rows;
             }else{
                 $bulkData['rows']=[];
             }
