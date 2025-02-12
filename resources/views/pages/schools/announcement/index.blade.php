@@ -24,7 +24,7 @@
                 <select name="type" id="type" class="type form-control" style="width:100%;" tabindex="-1" aria-hidden="true">
                     <option value="">{{ __('genirale.select') }}</option>
                     <option value="Students">{{__('sidebar.students') }}</option>
-                    <option value="Teachers">{{  __('teacher.teacher') }}</option>
+                    {{-- <option value="Teachers">{{  __('teacher.teacher') }}</option> --}}
                 </select>
             </div>
             <div class="form-group col-sm-12 col-md-12">
