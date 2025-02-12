@@ -81,7 +81,7 @@
                                     <thead>
                                     <tr>
 
-                                        <th scope="col" data-field="student_id" data-visible="false">
+                                        <th scope="col" data-field="student_id">
                                             {{ __('student.student_id') }}</th>
 
 

@@ -54,16 +54,18 @@ class ExamController extends Controller
         }
         try {
 
-            $exams = Exam::where([
-                'subject_id' =>  $request->subject_id,
-                'section_id' => $request->section_id,
-                'trimester_id' => $request->trimester_id,
-                ])->get();
+
 
 
         foreach ($request->student_id as $studentId) {
-            $exam = $exams->firstWhere('student_id', $studentId);
+          
 
+            $exam = Exam::where([
+                'subject_id' =>  $request->subject_id,
+                'section_id' => $request->section_id,
+                'trimester_id' => $request->trimester_id,
+                'student_id' => $studentId,
+                ])->first();
             if (!$exam) {
                 // Create a new Test record
                 $exam = new Exam();

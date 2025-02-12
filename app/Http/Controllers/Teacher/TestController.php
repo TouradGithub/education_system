@@ -52,18 +52,19 @@ class TestController extends Controller
         }
         try {
 
-            $tests = Test::where([
-                'subject_id' =>  $request->subject_id,
-                'section_id' => $request->section_id,
-                'trimester_id' => $request->trimester_id,
-                ])->get();
+
 
 
         foreach ($request->student_id as $studentId) {
-            $test = $tests->firstWhere('student_id', $studentId);
+
+            $test = Test::where([
+                'subject_id' =>  $request->subject_id,
+                'section_id' => $request->section_id,
+                'trimester_id' => $request->trimester_id,
+                'student_id' => $studentId,
+                ])->first();
 
             if (!$test) {
-                dd("OK");
                 // Create a new Test record
                 $test = new Test();
                 $test->student_id = $studentId;
@@ -72,14 +73,13 @@ class TestController extends Controller
                 $test->section_id = $request->section_id;
                 $test->subject_id = $request->subject_id;
                 $test->trimester_id = $request->trimester_id;
-                // $test->grade = $request->$a;
             }
 
             if($request->input('grade'.$studentId)){
                 $test->grade = $request->input('grade'.$studentId);
 
                 $test->save();
-                dd($test);
+
             }
         }
             $response = [
@@ -161,9 +161,9 @@ class TestController extends Controller
 
 
                 $section = ClassRoom::find($request->section_id);
-                return   $sql =  $section->students;
+                   $sql =  $section->students;
                 // dd( $section->students);
-        return $sql;
+
 
                 $res = $sql;
                 $bulkData = array();
